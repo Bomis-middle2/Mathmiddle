@@ -1,1 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Innovine Interactive Quiz</title>
 
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  min-height:100vh;
+  background:linear-gradient(135deg,#f7fbff,#fff4d6);
+  overflow-x:hidden;
+  color:#1f2937;
+}
+
+.splash{
+  position:fixed;
+  inset:0;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+  flex-direction:column;
+}
+
+.splash img{
+  width:180px;
+  max-width:70%;
+  animation:pop 1s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(0.7);opacity:0;}
+  to{transform:scale(1);opacity:1;}
+}
+
+.bg-star{
+  position:fixed;
+  color:#ffd166;
+  opacity:0.35;
+  animation:float 8s linear infinite;
+  z-index:-1;
+}
+
+@keyframes float{
+  from{transform:translateY(100vh) rotate(0deg);}
+  to{transform:translateY(-20vh) rotate(360deg);}
+}
+
+.container{
+  max-width:850px;
+  margin:auto;
+  padding:20px;
+}
+
+.card{
+  background:rgba(255,255,255,0.92);
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 12px 35px rgba(0,0,0,0.12);
+  margin-top:25px;
+}
+
+.logo-small{
+  width:90px;
+  display:block;
+  margin:0 auto 12px;
+}
+
+h1,h2{
+  text-align:center;
+  margin-bottom:15px;
+  color:#243b6b;
+}
+
+p{
+  line-height:1.5;
+}
+
+button{
+  border:none;
+  padding:14px 18px;
+  border-radius:14px;
+  cursor:pointer;
+  font-size:16px;
+  margin-top:12px;
+  background:#2563eb;
+  color:white;
+  width:100%;
+}
+
+button:hover{
+  background:#1d4ed8;
+}
+
+.option{
+  background:#f1f5f9;
+  color:#111827;
+  text-align:left;
+  border:2px solid transparent;
+}
+
+.option:hover{
+  background:#e0ecff;
+}
+
+.option.correct{
+  background:#dcfce7;
+  border-color:#22c55e;
+}
+
+.option.wrong{
+  background:#fee2e2;
+  border-color:#ef4444;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+  font-weight:bold;
+}
+
+.badge{
+  background:#eef2ff;
+  padding:10px 14px;
+  border-radius:14px;
+}
+
+.feedback{
+  margin-top:14px;
+  font-weight:bold;
+  text-align:center;
+}
+
+.correct-text{
+  color:#16a34a;
+}
+
+.wrong-text{
+  color:#dc2626;
+}
+
+.hidden{
+  display:none;
+}
+
+.cross{
+  font-size:42px;
+  color:#ef4444;
+  text-align:center;
+  animation:shake 0.3s ease;
+}
+
+@keyframes shake{
+  0%,100%{transform:translateX(0);}
+  25%{transform:translateX(-6px);}
+  75%{transform:translateX(6px);}
+}
+
+.confetti{
+  position:fixed;
+  top:-20px;
+  font-size:22px;
+  animation:fall 1.8s linear forwards;
+  pointer-events:none;
+  z-index:1000;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(100vh) rotate(360deg);
+    opacity:0;
+  }
+}
+
+.explanation{
+  background:#fff7ed;
+  padding:12px;
+  border-radius:14px;
+  margin-top:12px;
+}
+
+@media(max-width:600px){
+  .card{
+    padding:18px;
+  }
+  h1{
+    font-size:24px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="splash" id="splash">
+  <img src="assets/innovine-logo.png" alt="Innovine Logo">
+  <h2>Innovine Interactive Quiz</h2>
+</div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+
+<div class="container">
+
+  <div class="card" id="intro">
+    <img src="assets/innovine-logo.png" class="logo-small" alt="Innovine Logo">
+    <h1>Rational Numbers Quiz</h1>
+    <p>
+      Welcome! Answer each question carefully. You will get one retry after your first wrong attempt.
+      After the second wrong attempt, the correct answer will be shown.
+    </p>
+    <button onclick="startQuiz()">Start Quiz</button>
+  </div>
+
+  <div class="card hidden" id="quiz">
+    <div class="topbar">
+      <div class="badge">Score: <span id="score">0</span></div>
+      <div class="badge">Question: <span id="qno">1</span>/<span id="total"></span></div>
+      <div class="badge">Time: <span id="timer">45</span>s</div>
+    </div>
+
+    <h2 id="question"></h2>
+    <div id="options"></div>
+    <div id="indicator"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="explanation hidden" id="explanation"></div>
+    <button class="hidden" id="nextBtn" onclick="nextQuestion()">Next</button>
+  </div>
+
+  <div class="card hidden" id="result">
+    <img src="assets/innovine-logo.png" class="logo-small" alt="Innovine Logo">
+    <h1>Quiz Completed!</h1>
+    <h2>Your Score: <span id="finalScore"></span></h2>
+    <button onclick="restartQuiz()">Play Again</button>
+  </div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    q:"Riya spent 3/8 of her pocket money on snacks and 1/4 on stationery. What fraction did she spend in total?",
+    options:["4/12","5/8","1/2","7/8"],
+    answer:1,
+    explanation:"1/4 = 2/8, so 3/8 + 2/8 = 5/8."
+  },
+  {
+    q:"A boy walks 5/6 km in the morning and 2/3 km in the evening. What is the total distance walked?",
+    options:["7/9","3/2","5/9","7/6"],
+    answer:1,
+    explanation:"2/3 = 4/6, so 5/6 + 4/6 = 9/6 = 3/2 km."
+  },
+  {
+    q:"A shopkeeper has 7 1/2 kg rice. He sells 2 3/4 kg. How much rice is left?",
+    options:["4 3/4","5 1/4","4 1/2","3 3/4"],
+    answer:0,
+    explanation:"7 1/2 - 2 3/4 = 7 2/4 - 2 3/4 = 4 3/4 kg."
+  },
+  {
+    q:"Recipe needs 3/4 cup milk for 12 pancakes. How much milk is needed for 24 pancakes?",
+    options:["3/8","3/4","1 1/2","2"],
+    answer:2,
+    explanation:"24 pancakes are double of 12, so milk needed is 2 × 3/4 = 3/2 = 1 1/2 cups."
+  },
+  {
+    q:"Which operation is used to find milk needed for 24 pancakes if 12 pancakes need 3/4 cup?",
+    options:["Addition","Subtraction","Multiplication","Comparison"],
+    answer:2,
+    explanation:"Since the number of pancakes doubles, we multiply the quantity by 2."
+  },
+  {
+    q:"Assertion: (-4)/(-9) is positive. Reason: Same signs give positive rational number.",
+    options:["Both true, Reason explains","Both true, Reason not explanation","Assertion true, Reason false","Assertion false, Reason true"],
+    answer:0,
+    explanation:"Both numerator and denominator are negative, so the rational number is positive."
+  },
+  {
+    q:"Assertion: 6/(-8) = -3/4 in standard form. Reason: Denominator must be positive and there should be no common factors.",
+    options:["Both true, Reason explains","Both true, Reason not explanation","Assertion true, Reason false","Assertion false, Reason true"],
+    answer:0,
+    explanation:"6/(-8) simplifies to -3/4, and standard form has positive denominator with no common factors."
+  },
+  {
+    q:"Assertion: Rational numbers are closed under subtraction. Reason: Difference of two rational numbers is rational.",
+    options:["Both true, Reason explains","Both true, Reason not explanation","Assertion true, Reason false","Assertion false, Reason true"],
+    answer:0,
+    explanation:"Subtracting any two rational numbers always gives a rational number."
+  },
+  {
+    q:"Assertion: Division of rational numbers is commutative. Reason: (3/5) ÷ (1/5) ≠ (1/5) ÷ (3/5).",
+    options:["Both true, Reason explains","Both true, Reason not explanation","Assertion true, Reason false","Assertion false, Reason true"],
+    answer:3,
+    explanation:"The assertion is false because division is not commutative. The reason is true."
+  },
+  {
+    q:"Simplify 18/(-24). Step 1: HCF = 6. Step 2: 3/(-4). Step 3: 3/4. Which step has the error?",
+    options:["Step 1","Step 2","Step 3","No error"],
+    answer:2,
+    explanation:"3/(-4) should become -3/4, not positive 3/4."
+  },
+  {
+    q:"2/3 + 1/6. Step 1: LCM = 6. Step 2: 2/3 = 4/6. Step 3: 4/6 + 1/6 = 5/12. Which step has the error?",
+    options:["Step 1","Step 2","Step 3","No error"],
+    answer:2,
+    explanation:"4/6 + 1/6 = 5/6, not 5/12."
+  },
+  {
+    q:"Find the incorrect statement.",
+    options:["0 has no reciprocal","1 is multiplicative identity","0 is additive identity","Every rational number is an integer"],
+    answer:3,
+    explanation:"Every integer is rational, but every rational number is not an integer."
+  },
+  {
+    q:"3/4 ÷ 2/5. Step 1: 3/4 × 5/2. Step 2: 15/8. Step 3: 1 7/8. Which step has the error?",
+    options:["Step 1","Step 2","Step 3","No error"],
+    answer:3,
+    explanation:"All steps are correct. 15/8 = 1 7/8."
+  }
+];
+
+let current = 0;
+let score = 0;
+let attempts = 0;
+let timeLeft = 45;
+let timerInterval;
+
+const correctSound = document.getElementById("correctSound");
+const wrongSound = document.getElementById("wrongSound");
+
+document.getElementById("total").innerText = questions.length;
+
+setTimeout(() => {
+  document.getElementById("splash").style.display = "none";
+}, 5000);
+
+function createBackgroundStars(){
+  for(let i=0;i<25;i++){
+    const star=document.createElement("div");
+    star.className="bg-star";
+    star.innerHTML="★";
+    star.style.left=Math.random()*100+"vw";
+    star.style.animationDuration=(6+Math.random()*8)+"s";
+    star.style.fontSize=(14+Math.random()*18)+"px";
+    document.body.appendChild(star);
+  }
+}
+
+createBackgroundStars();
+
+function startQuiz(){
+  document.getElementById("intro").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  loadQuestion();
+}
+
+function loadQuestion(){
+  attempts = 0;
+  timeLeft = 45;
+  document.getElementById("timer").innerText = timeLeft;
+  document.getElementById("qno").innerText = current + 1;
+  document.getElementById("question").innerText = questions[current].q;
+  document.getElementById("feedback").innerText = "";
+  document.getElementById("indicator").innerHTML = "";
+  document.getElementById("explanation").classList.add("hidden");
+  document.getElementById("nextBtn").classList.add("hidden");
+
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+
+  questions[current].options.forEach((opt,index)=>{
+    const btn=document.createElement("button");
+    btn.className="option";
+    btn.innerText = String.fromCharCode(65+index) + ". " + opt;
+    btn.onclick=()=>checkAnswer(index,btn);
+    optionsDiv.appendChild(btn);
+  });
+
+  startTimer();
+}
+
+function startTimer(){
+  clearInterval(timerInterval);
+  timerInterval=setInterval(()=>{
+    timeLeft--;
+    document.getElementById("timer").innerText=timeLeft;
+
+    if(timeLeft<=0){
+      clearInterval(timerInterval);
+      showAnswer("Time is up!");
+    }
+  },1000);
+}
+
+function checkAnswer(selected,btn){
+  const correct = questions[current].answer;
+
+  if(selected === correct){
+    clearInterval(timerInterval);
+    score++;
+    document.getElementById("score").innerText = score;
+    btn.classList.add("correct");
+    document.getElementById("feedback").innerHTML = "<span class='correct-text'>Correct! Well done.</span>";
+    correctSound.play();
+    starConfetti();
+    disableOptions();
+    document.getElementById("nextBtn").classList.remove("hidden");
+  } else {
+    attempts++;
+    btn.classList.add("wrong");
+    wrongSound.play();
+    document.getElementById("indicator").innerHTML = "<div class='cross'>✖</div>";
+
+    if(attempts === 1){
+      document.getElementById("feedback").innerHTML = "<span class='wrong-text'>Try once more!</span>";
+      btn.disabled = true;
+    } else {
+      clearInterval(timerInterval);
+      showAnswer("Second attempt is wrong.");
+    }
+  }
+}
+
+function showAnswer(message){
+  const correct = questions[current].answer;
+  const optionButtons = document.querySelectorAll(".option");
+
+  optionButtons.forEach((btn,index)=>{
+    btn.disabled = true;
+    if(index === correct){
+      btn.classList.add("correct");
+    }
+  });
+
+  document.getElementById("feedback").innerHTML = "<span class='wrong-text'>" + message + "</span>";
+  document.getElementById("explanation").innerText =
+    "Correct Answer: " + String.fromCharCode(65+correct) + ". " +
+    questions[current].options[correct] + " — " +
+    questions[current].explanation;
+
+  document.getElementById("explanation").classList.remove("hidden");
+  document.getElementById("nextBtn").classList.remove("hidden");
+}
+
+function disableOptions(){
+  document.querySelectorAll(".option").forEach(btn=>btn.disabled=true);
+}
+
+function nextQuestion(){
+  current++;
+  if(current < questions.length){
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult(){
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+  document.getElementById("finalScore").innerText = score + " / " + questions.length;
+}
+
+function restartQuiz(){
+  current = 0;
+  score = 0;
+  attempts = 0;
+  document.getElementById("score").innerText = 0;
+  document.getElementById("result").classList.add("hidden");
+  document.getElementById("intro").classList.remove("hidden");
+}
+
+function starConfetti(){
+  for(let i=0;i<25;i++){
+    const confetti=document.createElement("div");
+    confetti.className="confetti";
+    confetti.innerHTML="★";
+    confetti.style.left=Math.random()*100+"vw";
+    confetti.style.animationDuration=(1+Math.random()*1.5)+"s";
+    document.body.appendChild(confetti);
+
+    setTimeout(()=>{
+      confetti.remove();
+    },2000);
+  }
+}
+</script>
+
+</body>
+</html>
