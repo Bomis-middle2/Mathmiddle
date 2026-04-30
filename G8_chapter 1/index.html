@@ -3,454 +3,262 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Innovine Interactive Quiz</title>
-
+<title>Rational Numbers Quiz</title>
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial, sans-serif;
-}
-
+*{box-sizing:border-box}
 body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(135deg,#eef8ff,#fff7e6);
   min-height:100vh;
-  background:linear-gradient(135deg,#f7fbff,#fff4d6);
   overflow-x:hidden;
-  color:#1f2937;
 }
-
-.splash{
-  position:fixed;
-  inset:0;
-  background:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
-  flex-direction:column;
+.logo-screen{
+  position:fixed;inset:0;background:white;z-index:9999;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
 }
-
-.splash img{
-  width:180px;
-  max-width:70%;
-  animation:pop 1s ease;
-}
-
-@keyframes pop{
-  from{transform:scale(0.7);opacity:0;}
-  to{transform:scale(1);opacity:1;}
-}
+.logo-screen img{max-width:220px;animation:pop 1s ease}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
 
 .bg-star{
-  position:fixed;
-  color:#ffd166;
-  opacity:0.35;
-  animation:float 8s linear infinite;
-  z-index:-1;
+  position:fixed;color:#ffd86b;font-size:22px;opacity:.45;
+  animation:float 8s linear infinite;z-index:0;
 }
-
 @keyframes float{
-  from{transform:translateY(100vh) rotate(0deg);}
-  to{transform:translateY(-20vh) rotate(360deg);}
+  from{transform:translateY(100vh) rotate(0deg)}
+  to{transform:translateY(-10vh) rotate(360deg)}
 }
 
 .container{
-  max-width:850px;
-  margin:auto;
-  padding:20px;
+  position:relative;z-index:1;
+  max-width:850px;margin:auto;padding:18px;
 }
-
 .card{
-  background:rgba(255,255,255,0.92);
-  border-radius:24px;
-  padding:24px;
-  box-shadow:0 12px 35px rgba(0,0,0,0.12);
-  margin-top:25px;
+  background:rgba(255,255,255,.94);
+  border-radius:22px;padding:22px;
+  box-shadow:0 10px 28px rgba(0,0,0,.12);
 }
-
-.logo-small{
-  width:90px;
-  display:block;
-  margin:0 auto 12px;
-}
-
-h1,h2{
-  text-align:center;
-  margin-bottom:15px;
-  color:#243b6b;
-}
-
-p{
-  line-height:1.5;
-}
-
+h1,h2{margin-top:0;color:#21466b}
 button{
-  border:none;
-  padding:14px 18px;
-  border-radius:14px;
-  cursor:pointer;
-  font-size:16px;
-  margin-top:12px;
-  background:#2563eb;
-  color:white;
-  width:100%;
+  border:0;border-radius:14px;padding:13px 18px;
+  font-size:16px;cursor:pointer;background:#3478f6;color:white;
 }
-
-button:hover{
-  background:#1d4ed8;
-}
-
+button:hover{opacity:.9}
 .option{
-  background:#f1f5f9;
-  color:#111827;
-  text-align:left;
-  border:2px solid transparent;
+  display:block;width:100%;margin:10px 0;text-align:left;
+  background:#f3f7ff;color:#222;border:2px solid #dbe7ff;
 }
-
-.option:hover{
-  background:#e0ecff;
-}
-
-.option.correct{
-  background:#dcfce7;
-  border-color:#22c55e;
-}
-
-.option.wrong{
-  background:#fee2e2;
-  border-color:#ef4444;
-}
-
+.option:hover{background:#e8f0ff}
 .topbar{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:18px;
-  font-weight:bold;
+  display:flex;justify-content:space-between;gap:10px;
+  margin-bottom:14px;font-weight:bold;flex-wrap:wrap;
 }
-
-.badge{
-  background:#eef2ff;
-  padding:10px 14px;
-  border-radius:14px;
+.timer{color:#d35400}
+.score{color:#187b37}
+.question-img{
+  width:100%;max-width:520px;display:block;margin:12px auto;
+  border-radius:16px;border:2px solid #ddd;
 }
-
 .feedback{
-  margin-top:14px;
-  font-weight:bold;
-  text-align:center;
+  min-height:35px;font-weight:bold;margin-top:12px;
 }
-
-.correct-text{
-  color:#16a34a;
+.correct{color:#148a38}
+.wrong{color:#c0392b}
+.explain{
+  background:#fff4d6;border-left:5px solid #f4b400;
+  padding:10px;border-radius:10px;margin-top:8px;
 }
-
-.wrong-text{
-  color:#dc2626;
-}
-
-.hidden{
-  display:none;
-}
-
-.cross{
-  font-size:42px;
-  color:#ef4444;
-  text-align:center;
-  animation:shake 0.3s ease;
-}
-
-@keyframes shake{
-  0%,100%{transform:translateX(0);}
-  25%{transform:translateX(-6px);}
-  75%{transform:translateX(6px);}
-}
-
 .confetti{
-  position:fixed;
-  top:-20px;
-  font-size:22px;
-  animation:fall 1.8s linear forwards;
-  pointer-events:none;
-  z-index:1000;
+  position:fixed;top:-20px;font-size:22px;z-index:999;
+  animation:fall 1.2s linear forwards;
 }
-
-@keyframes fall{
-  to{
-    transform:translateY(100vh) rotate(360deg);
-    opacity:0;
-  }
+@keyframes fall{to{transform:translateY(100vh) rotate(360deg);opacity:0}}
+.cross{
+  position:fixed;top:45%;left:50%;transform:translate(-50%,-50%);
+  font-size:70px;color:#e74c3c;z-index:999;animation:fade .7s forwards;
 }
-
-.explanation{
-  background:#fff7ed;
-  padding:12px;
-  border-radius:14px;
-  margin-top:12px;
-}
-
-@media(max-width:600px){
-  .card{
-    padding:18px;
-  }
-  h1{
-    font-size:24px;
-  }
-}
+@keyframes fade{to{opacity:0;transform:translate(-50%,-50%) scale(1.5)}}
+.small{font-size:14px;color:#555}
 </style>
 </head>
-
 <body>
 
-<div class="splash" id="splash">
+<div class="logo-screen" id="logoScreen">
   <img src="assets/innovine-logo.png" alt="Innovine Logo">
-  <h2>Innovine Interactive Quiz</h2>
+  <p>Loading your quiz...</p>
 </div>
 
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 
 <div class="container">
-
-  <div class="card" id="intro">
-    <img src="assets/innovine-logo.png" class="logo-small" alt="Innovine Logo">
-    <h1>Rational Numbers Quiz</h1>
-    <p>
-      Welcome! Answer each question carefully. You will get one retry after your first wrong attempt.
-      After the second wrong attempt, the correct answer will be shown.
-    </p>
-    <button onclick="startQuiz()">Start Quiz</button>
-  </div>
-
-  <div class="card hidden" id="quiz">
-    <div class="topbar">
-      <div class="badge">Score: <span id="score">0</span></div>
-      <div class="badge">Question: <span id="qno">1</span>/<span id="total"></span></div>
-      <div class="badge">Time: <span id="timer">45</span>s</div>
-    </div>
-
-    <h2 id="question"></h2>
-    <div id="options"></div>
-    <div id="indicator"></div>
-    <div class="feedback" id="feedback"></div>
-    <div class="explanation hidden" id="explanation"></div>
-    <button class="hidden" id="nextBtn" onclick="nextQuestion()">Next</button>
-  </div>
-
-  <div class="card hidden" id="result">
-    <img src="assets/innovine-logo.png" class="logo-small" alt="Innovine Logo">
-    <h1>Quiz Completed!</h1>
-    <h2>Your Score: <span id="finalScore"></span></h2>
-    <button onclick="restartQuiz()">Play Again</button>
-  </div>
-
+  <div class="card" id="app"></div>
 </div>
 
 <script>
 const questions = [
   {
-    q:"Riya spent 3/8 of her pocket money on snacks and 1/4 on stationery. What fraction did she spend in total?",
-    options:["4/12","5/8","1/2","7/8"],
+    type:"picture",
+    situation:"Three friends Aarav, Meera, and Kabir went to GREEN BITE STORE to buy healthy snacks. Observe the price list carefully and answer the question.",
+    image:"assets/g8_ch1_im_4.png",
+    q:"Aarav buys 1/2 kg dates, 1/4 kg dry figs, and 1/4 kg almond barfi. What is the total cost?",
+    options:["Rs 350","Rs 365","Rs 370","Rs 390"],
     answer:1,
-    explanation:"1/4 = 2/8, so 3/8 + 2/8 = 5/8."
+    explanation:"Using the given rates from the picture, the total cost is Rs 365."
   },
   {
-    q:"A boy walks 5/6 km in the morning and 2/3 km in the evening. What is the total distance walked?",
-    options:["7/9","3/2","5/9","7/6"],
+    type:"picture",
+    situation:"Use the same GREEN BITE STORE price list and answer the question.",
+    image:"assets/g8_ch1_im_4.png",
+    q:"If Aarav had Rs 500 and spent Rs 370, what fraction of his money is left?",
+    options:["1/4","13/50","2/5","3/10"],
     answer:1,
-    explanation:"2/3 = 4/6, so 5/6 + 4/6 = 9/6 = 3/2 km."
+    explanation:"Money left = 500 - 370 = 130. Fraction left = 130/500 = 13/50."
   },
   {
-    q:"A shopkeeper has 7 1/2 kg rice. He sells 2 3/4 kg. How much rice is left?",
-    options:["4 3/4","5 1/4","4 1/2","3 3/4"],
-    answer:0,
-    explanation:"7 1/2 - 2 3/4 = 7 2/4 - 2 3/4 = 4 3/4 kg."
+    type:"picture",
+    situation:"Use the GREEN BITE STORE price list and calculate the total cost.",
+    image:"assets/g8_ch1_im_4.png",
+    q:"What is the total cost of 1/2 kg mixed seeds and 1/2 kg dates?",
+    options:["Rs 200","Rs 220","Rs 240","Rs 250"],
+    answer:3,
+    explanation:"Adding the costs of 1/2 kg mixed seeds and 1/2 kg dates gives Rs 250."
   },
   {
-    q:"Recipe needs 3/4 cup milk for 12 pancakes. How much milk is needed for 24 pancakes?",
-    options:["3/8","3/4","1 1/2","2"],
+    type:"picture",
+    situation:"Use the GREEN BITE STORE price list and apply multiplication of rational numbers.",
+    image:"assets/g8_ch1_im_4.png",
+    q:"What is the cost of 5/2 kg mixed seeds?",
+    options:["Rs 200","Rs 225","Rs 250","Rs 300"],
     answer:2,
-    explanation:"24 pancakes are double of 12, so milk needed is 2 × 3/4 = 3/2 = 1 1/2 cups."
+    explanation:"Cost of 5/2 kg mixed seeds is Rs 250."
   },
   {
-    q:"Which operation is used to find milk needed for 24 pancakes if 12 pancakes need 3/4 cup?",
-    options:["Addition","Subtraction","Multiplication","Comparison"],
+    type:"picture",
+    situation:"Compare the two quantities using the GREEN BITE STORE price list.",
+    image:"assets/g8_ch1_im_4.png",
+    q:"Which is greater in cost?",
+    options:["1/2 kg dates","3/4 kg almond barfi","Both equal","Cannot be determined"],
     answer:2,
-    explanation:"Since the number of pancakes doubles, we multiply the quantity by 2."
+    explanation:"Both quantities have equal cost."
   },
   {
+    type:"ar",
     q:"Assertion: (-4)/(-9) is positive. Reason: Same signs give positive rational number.",
     options:["Both true, Reason explains","Both true, Reason not explanation","Assertion true, Reason false","Assertion false, Reason true"],
     answer:0,
-    explanation:"Both numerator and denominator are negative, so the rational number is positive."
+    explanation:"Both numerator and denominator have the same sign, so the rational number is positive."
   },
   {
-    q:"Assertion: 6/(-8) = -3/4 in standard form. Reason: Denominator must be positive and there should be no common factors.",
+    type:"ar",
+    q:"Assertion: 6/(-8) = -3/4 in standard form. Reason: Denominator must be positive and no common factors.",
     options:["Both true, Reason explains","Both true, Reason not explanation","Assertion true, Reason false","Assertion false, Reason true"],
     answer:0,
-    explanation:"6/(-8) simplifies to -3/4, and standard form has positive denominator with no common factors."
+    explanation:"6/(-8) becomes -6/8 = -3/4, with positive denominator and no common factor."
   },
   {
+    type:"ar",
     q:"Assertion: Rational numbers are closed under subtraction. Reason: Difference of two rational numbers is rational.",
     options:["Both true, Reason explains","Both true, Reason not explanation","Assertion true, Reason false","Assertion false, Reason true"],
     answer:0,
-    explanation:"Subtracting any two rational numbers always gives a rational number."
+    explanation:"Subtracting one rational number from another always gives a rational number."
   },
   {
+    type:"ar",
     q:"Assertion: Division of rational numbers is commutative. Reason: (3/5) ÷ (1/5) ≠ (1/5) ÷ (3/5).",
     options:["Both true, Reason explains","Both true, Reason not explanation","Assertion true, Reason false","Assertion false, Reason true"],
     answer:3,
-    explanation:"The assertion is false because division is not commutative. The reason is true."
-  },
-  {
-    q:"Simplify 18/(-24). Step 1: HCF = 6. Step 2: 3/(-4). Step 3: 3/4. Which step has the error?",
-    options:["Step 1","Step 2","Step 3","No error"],
-    answer:2,
-    explanation:"3/(-4) should become -3/4, not positive 3/4."
-  },
-  {
-    q:"2/3 + 1/6. Step 1: LCM = 6. Step 2: 2/3 = 4/6. Step 3: 4/6 + 1/6 = 5/12. Which step has the error?",
-    options:["Step 1","Step 2","Step 3","No error"],
-    answer:2,
-    explanation:"4/6 + 1/6 = 5/6, not 5/12."
-  },
-  {
-    q:"Find the incorrect statement.",
-    options:["0 has no reciprocal","1 is multiplicative identity","0 is additive identity","Every rational number is an integer"],
-    answer:3,
-    explanation:"Every integer is rational, but every rational number is not an integer."
-  },
-  {
-    q:"3/4 ÷ 2/5. Step 1: 3/4 × 5/2. Step 2: 15/8. Step 3: 1 7/8. Which step has the error?",
-    options:["Step 1","Step 2","Step 3","No error"],
-    answer:3,
-    explanation:"All steps are correct. 15/8 = 1 7/8."
+    explanation:"Division is not commutative. The reason is true, but the assertion is false."
   }
 ];
 
-let current = 0;
-let score = 0;
-let attempts = 0;
-let timeLeft = 45;
-let timerInterval;
-
+let index = 0, score = 0, attempts = 0, timeLeft = 45, timer;
+const app = document.getElementById("app");
 const correctSound = document.getElementById("correctSound");
 const wrongSound = document.getElementById("wrongSound");
 
-document.getElementById("total").innerText = questions.length;
+setTimeout(()=>{
+  document.getElementById("logoScreen").style.display="none";
+  showIntro();
+},5000);
 
-setTimeout(() => {
-  document.getElementById("splash").style.display = "none";
-}, 5000);
-
-function createBackgroundStars(){
-  for(let i=0;i<25;i++){
-    const star=document.createElement("div");
-    star.className="bg-star";
-    star.innerHTML="★";
-    star.style.left=Math.random()*100+"vw";
-    star.style.animationDuration=(6+Math.random()*8)+"s";
-    star.style.fontSize=(14+Math.random()*18)+"px";
-    document.body.appendChild(star);
-  }
+function showIntro(){
+  app.innerHTML = `
+    <h1>Rational Numbers Quiz</h1>
+    <p>Welcome! Read each question carefully.</p>
+    <p class="small">You get 45 seconds per question and one retry after the first wrong attempt.</p>
+    <button onclick="startQuiz()">Start Quiz</button>
+  `;
 }
-
-createBackgroundStars();
 
 function startQuiz(){
-  document.getElementById("intro").classList.add("hidden");
-  document.getElementById("quiz").classList.remove("hidden");
-  loadQuestion();
+  index=0; score=0;
+  showQuestion();
 }
 
-function loadQuestion(){
-  attempts = 0;
-  timeLeft = 45;
-  document.getElementById("timer").innerText = timeLeft;
-  document.getElementById("qno").innerText = current + 1;
-  document.getElementById("question").innerText = questions[current].q;
-  document.getElementById("feedback").innerText = "";
-  document.getElementById("indicator").innerHTML = "";
-  document.getElementById("explanation").classList.add("hidden");
-  document.getElementById("nextBtn").classList.add("hidden");
+function showQuestion(){
+  clearInterval(timer);
+  attempts=0; timeLeft=45;
+  const item = questions[index];
 
-  const optionsDiv = document.getElementById("options");
-  optionsDiv.innerHTML = "";
+  app.innerHTML = `
+    <div class="topbar">
+      <div>Question ${index+1} of ${questions.length}</div>
+      <div class="score">Score: ${score}</div>
+      <div class="timer">Time: <span id="time">45</span>s</div>
+    </div>
+    ${item.situation ? `<p><b>Situation:</b> ${item.situation}</p>` : ""}
+    ${item.image ? `<img class="question-img" src="${item.image}" alt="Question Image">` : ""}
+    <h2>${item.q}</h2>
+    <div id="options">
+      ${item.options.map((op,i)=>`<button class="option" onclick="checkAnswer(${i})">${String.fromCharCode(65+i)}. ${op}</button>`).join("")}
+    </div>
+    <div class="feedback" id="feedback"></div>
+  `;
 
-  questions[current].options.forEach((opt,index)=>{
-    const btn=document.createElement("button");
-    btn.className="option";
-    btn.innerText = String.fromCharCode(65+index) + ". " + opt;
-    btn.onclick=()=>checkAnswer(index,btn);
-    optionsDiv.appendChild(btn);
-  });
-
-  startTimer();
-}
-
-function startTimer(){
-  clearInterval(timerInterval);
-  timerInterval=setInterval(()=>{
+  timer = setInterval(()=>{
     timeLeft--;
-    document.getElementById("timer").innerText=timeLeft;
-
+    document.getElementById("time").textContent = timeLeft;
     if(timeLeft<=0){
-      clearInterval(timerInterval);
-      showAnswer("Time is up!");
+      clearInterval(timer);
+      document.getElementById("feedback").innerHTML = `<span class="wrong">Time up! Moving to next question...</span>`;
+      setTimeout(nextQuestion,1000);
     }
   },1000);
 }
 
-function checkAnswer(selected,btn){
-  const correct = questions[current].answer;
+function checkAnswer(selected){
+  const item = questions[index];
+  const feedback = document.getElementById("feedback");
 
-  if(selected === correct){
-    clearInterval(timerInterval);
+  if(selected === item.answer){
+    clearInterval(timer);
     score++;
-    document.getElementById("score").innerText = score;
-    btn.classList.add("correct");
-    document.getElementById("feedback").innerHTML = "<span class='correct-text'>Correct! Well done.</span>";
     correctSound.play();
     starConfetti();
+    feedback.innerHTML = `<span class="correct">Correct! Great work.</span>`;
     disableOptions();
-    document.getElementById("nextBtn").classList.remove("hidden");
+    setTimeout(nextQuestion,1000);
   } else {
     attempts++;
-    btn.classList.add("wrong");
     wrongSound.play();
-    document.getElementById("indicator").innerHTML = "<div class='cross'>✖</div>";
+    redCross();
 
     if(attempts === 1){
-      document.getElementById("feedback").innerHTML = "<span class='wrong-text'>Try once more!</span>";
-      btn.disabled = true;
+      feedback.innerHTML = `<span class="wrong">Oops! Try once more.</span>`;
     } else {
-      clearInterval(timerInterval);
-      showAnswer("Second attempt is wrong.");
+      clearInterval(timer);
+      disableOptions();
+      feedback.innerHTML = `
+        <span class="wrong">Incorrect.</span>
+        <div class="explain">
+          Correct Answer: ${String.fromCharCode(65+item.answer)}. ${item.options[item.answer]}<br>
+          ${item.explanation}
+        </div>
+      `;
+      setTimeout(nextQuestion,3500);
     }
   }
-}
-
-function showAnswer(message){
-  const correct = questions[current].answer;
-  const optionButtons = document.querySelectorAll(".option");
-
-  optionButtons.forEach((btn,index)=>{
-    btn.disabled = true;
-    if(index === correct){
-      btn.classList.add("correct");
-    }
-  });
-
-  document.getElementById("feedback").innerHTML = "<span class='wrong-text'>" + message + "</span>";
-  document.getElementById("explanation").innerText =
-    "Correct Answer: " + String.fromCharCode(65+correct) + ". " +
-    questions[current].options[correct] + " — " +
-    questions[current].explanation;
-
-  document.getElementById("explanation").classList.remove("hidden");
-  document.getElementById("nextBtn").classList.remove("hidden");
 }
 
 function disableOptions(){
@@ -458,44 +266,49 @@ function disableOptions(){
 }
 
 function nextQuestion(){
-  current++;
-  if(current < questions.length){
-    loadQuestion();
-  } else {
-    showResult();
-  }
+  index++;
+  if(index < questions.length) showQuestion();
+  else showResult();
 }
 
 function showResult(){
-  document.getElementById("quiz").classList.add("hidden");
-  document.getElementById("result").classList.remove("hidden");
-  document.getElementById("finalScore").innerText = score + " / " + questions.length;
-}
-
-function restartQuiz(){
-  current = 0;
-  score = 0;
-  attempts = 0;
-  document.getElementById("score").innerText = 0;
-  document.getElementById("result").classList.add("hidden");
-  document.getElementById("intro").classList.remove("hidden");
+  clearInterval(timer);
+  app.innerHTML = `
+    <h1>Quiz Completed!</h1>
+    <h2>Your Score: ${score} / ${questions.length}</h2>
+    <p>${score >= 7 ? "Excellent work!" : score >= 4 ? "Good effort! Keep practising." : "Revise rational numbers and try again."}</p>
+    <button onclick="startQuiz()">Play Again</button>
+  `;
 }
 
 function starConfetti(){
-  for(let i=0;i<25;i++){
-    const confetti=document.createElement("div");
-    confetti.className="confetti";
-    confetti.innerHTML="★";
-    confetti.style.left=Math.random()*100+"vw";
-    confetti.style.animationDuration=(1+Math.random()*1.5)+"s";
-    document.body.appendChild(confetti);
-
-    setTimeout(()=>{
-      confetti.remove();
-    },2000);
+  for(let i=0;i<20;i++){
+    const s=document.createElement("div");
+    s.className="confetti";
+    s.textContent="★";
+    s.style.left=Math.random()*100+"vw";
+    s.style.animationDuration=(.8+Math.random()*1)+"s";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1500);
   }
 }
-</script>
 
+function redCross(){
+  const x=document.createElement("div");
+  x.className="cross";
+  x.textContent="✖";
+  document.body.appendChild(x);
+  setTimeout(()=>x.remove(),800);
+}
+
+for(let i=0;i<18;i++){
+  const b=document.createElement("div");
+  b.className="bg-star";
+  b.textContent = i%2===0 ? "★" : "✦";
+  b.style.left=Math.random()*100+"vw";
+  b.style.animationDelay=Math.random()*8+"s";
+  document.body.appendChild(b);
+}
+</script>
 </body>
 </html>
