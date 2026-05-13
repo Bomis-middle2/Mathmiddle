@@ -1,1 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 7 Symmetry MCQ Challenge</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(135deg,#f0f7ff,#fff5fb);
+  color:#1f2937;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+.bg-stars span{
+  position:fixed;
+  width:8px;height:8px;
+  background:#ffd166;
+  clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  opacity:.35;
+  animation:float 8s infinite linear;
+  z-index:0;
+}
+@keyframes float{
+  from{transform:translateY(100vh) rotate(0deg)}
+  to{transform:translateY(-10vh) rotate(360deg)}
+}
+.logo-screen{
+  position:fixed;
+  inset:0;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:99;
+  animation:hideLogo 5s forwards;
+}
+.logo-screen img{max-width:240px}
+@keyframes hideLogo{
+  0%,85%{opacity:1;visibility:visible}
+  100%{opacity:0;visibility:hidden}
+}
+.container{
+  position:relative;
+  z-index:1;
+  max-width:760px;
+  margin:auto;
+  padding:18px;
+}
+.card{
+  background:rgba(255,255,255,.92);
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 10px 30px rgba(0,0,0,.12);
+  margin-top:24px;
+}
+.header{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.brand img{height:44px}
+.badge{
+  background:#e0f2fe;
+  padding:9px 14px;
+  border-radius:999px;
+  font-weight:bold;
+}
+h1,h2{text-align:center}
+button{
+  border:0;
+  border-radius:16px;
+  padding:14px 18px;
+  margin:8px 0;
+  font-size:16px;
+  cursor:pointer;
+  background:#2563eb;
+  color:white;
+  font-weight:bold;
+  width:100%;
+}
+button:hover{filter:brightness(.95)}
+.option{
+  background:#f8fafc;
+  color:#111827;
+  border:2px solid #dbeafe;
+  text-align:left;
+}
+.option:hover{background:#e0f2fe}
+.correct{background:#dcfce7!important;border-color:#22c55e!important}
+.wrong{background:#fee2e2!important;border-color:#ef4444!important}
+.hidden{display:none}
+.feedback{
+  min-height:42px;
+  font-weight:bold;
+  text-align:center;
+  margin-top:10px;
+}
+.timer{
+  height:12px;
+  background:#e5e7eb;
+  border-radius:20px;
+  overflow:hidden;
+  margin:14px 0;
+}
+.timer-fill{
+  height:100%;
+  width:100%;
+  background:#22c55e;
+  transition:width 1s linear;
+}
+.cross{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:90px;
+  color:#ef4444;
+  opacity:0;
+  pointer-events:none;
+  z-index:50;
+}
+.cross.show{animation:crossPop .6s}
+@keyframes crossPop{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}
+  40%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1)}
+}
+.confetti{
+  position:fixed;
+  top:-20px;
+  width:14px;height:14px;
+  background:#facc15;
+  clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  animation:fall 1.4s linear forwards;
+  z-index:40;
+}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(360deg);opacity:0}
+}
+.small{text-align:center;color:#64748b}
+.final-box{
+  background:#fff7ed;
+  border:2px dashed #fb923c;
+  border-radius:18px;
+  padding:16px;
+}
+</style>
+</head>
+<body>
 
+<div class="logo-screen">
+  <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<div class="bg-stars">
+  <span style="left:8%;animation-delay:0s"></span>
+  <span style="left:22%;animation-delay:2s"></span>
+  <span style="left:45%;animation-delay:1s"></span>
+  <span style="left:67%;animation-delay:3s"></span>
+  <span style="left:88%;animation-delay:.8s"></span>
+</div>
+
+<div class="cross" id="cross">✖</div>
+
+<audio id="correctSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+
+<div class="container">
+  <div class="header">
+    <div class="brand"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
+    <div class="badge">Score: <span id="score">0</span></div>
+  </div>
+
+  <div id="intro" class="card">
+    <h1>🌟 Symmetry Challenge</h1>
+    <p class="small">Grade 7 Mathematics • Chapter 12</p>
+    <p>Test your understanding of line symmetry, rotational symmetry, and regular polygons.</p>
+    <button onclick="startGame()">Start Quiz</button>
+  </div>
+
+  <div id="quiz" class="card hidden">
+    <div class="header">
+      <div class="badge">Question <span id="qNo">1</span>/<span id="total"></span></div>
+      <div class="badge">Time: <span id="time">45</span>s</div>
+    </div>
+    <div class="timer"><div class="timer-fill" id="timerFill"></div></div>
+    <h2 id="question"></h2>
+    <div id="options"></div>
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <div id="finalChallenge" class="card hidden">
+    <h1>🏆 Final Challenge</h1>
+    <div class="final-box">
+      <p><b>Think and answer:</b> Which shape in this quiz had infinite lines of symmetry?</p>
+    </div>
+    <button onclick="checkFinal('circle')">Circle</button>
+    <button onclick="checkFinal('square')">Square</button>
+    <button onclick="checkFinal('pentagon')">Regular Pentagon</button>
+    <p class="feedback" id="finalFeedback"></p>
+  </div>
+
+  <div id="result" class="card hidden">
+    <h1>🎉 Quiz Complete!</h1>
+    <h2>Your Score: <span id="finalScore"></span></h2>
+    <p id="message" class="small"></p>
+    <button onclick="restartGame()">Play Again</button>
+  </div>
+</div>
+
+<script>
+const questions = [
+ {
+  q:"A butterfly can be folded into two equal matching halves. This shows:",
+  options:["Rotational symmetry","Line symmetry","No symmetry","Angle symmetry"],
+  ans:1,
+  exp:"A butterfly shows line symmetry because one half matches the other half."
+ },
+ {
+  q:"A mirror is placed on the centre line of a leaf. One half looks exactly like the other half. The centre line is called:",
+  options:["Edge","Axis of symmetry","Radius","Diameter"],
+  ans:1,
+  exp:"The centre line that divides a figure into matching halves is called the axis of symmetry."
+ },
+ {
+  q:"A square paper is folded along its vertical centre line. Both parts match exactly. This line is:",
+  options:["Vertical line of symmetry","Horizontal line of symmetry","Diagonal only","No line of symmetry"],
+  ans:0,
+  exp:"The vertical centre line divides the square into two equal matching parts."
+ },
+ {
+  q:"A circle can be folded through its centre in many ways. How many lines of symmetry does it have?",
+  options:["1","2","4","Infinite"],
+  ans:3,
+  exp:"A circle has infinite lines of symmetry because it can be folded through its centre in countless ways."
+ },
+ {
+  q:"A regular pentagon has how many lines of symmetry?",
+  options:["3","4","5","6"],
+  ans:2,
+  exp:"A regular pentagon has 5 equal sides and 5 lines of symmetry."
+ },
+ {
+  q:"A square is rotated and matches itself after every 90° turn. Its order of rotational symmetry is:",
+  options:["1","2","3","4"],
+  ans:3,
+  exp:"A square matches itself 4 times in one complete turn."
+ },
+ {
+  q:"A half turn means rotation through:",
+  options:["90°","180°","270°","360°"],
+  ans:1,
+  exp:"A half turn is equal to 180°."
+ },
+ {
+  q:"The letter H has:",
+  options:["Only line symmetry","Only rotational symmetry","Both line and rotational symmetry","No symmetry"],
+  ans:2,
+  exp:"The letter H has line symmetry and also rotational symmetry of order 2."
+ },
+ {
+  q:"How many lines of symmetry does an equilateral triangle have?",
+  options:["1","2","3","4"],
+  ans:2,
+  exp:"An equilateral triangle has 3 equal sides and 3 lines of symmetry."
+ },
+ {
+  q:"How many lines of symmetry does a regular hexagon have?",
+  options:["4","5","6","Infinite"],
+  ans:2,
+  exp:"A regular hexagon has 6 equal sides and 6 lines of symmetry."
+ }
+];
+
+let current = 0;
+let score = 0;
+let attempts = 0;
+let timeLeft = 45;
+let timer;
+
+document.getElementById("total").textContent = questions.length;
+
+function startGame(){
+  document.getElementById("intro").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  loadQuestion();
+}
+
+function loadQuestion(){
+  clearInterval(timer);
+  attempts = 0;
+  timeLeft = 45;
+  document.getElementById("time").textContent = timeLeft;
+  document.getElementById("timerFill").style.width = "100%";
+  document.getElementById("feedback").textContent = "";
+
+  const item = questions[current];
+  document.getElementById("qNo").textContent = current + 1;
+  document.getElementById("question").textContent = item.q;
+
+  const optionsBox = document.getElementById("options");
+  optionsBox.innerHTML = "";
+
+  item.options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.textContent = String.fromCharCode(65+i) + ". " + opt;
+    btn.onclick = () => checkAnswer(i, btn);
+    optionsBox.appendChild(btn);
+  });
+
+  timer = setInterval(() => {
+    timeLeft--;
+    document.getElementById("time").textContent = timeLeft;
+    document.getElementById("timerFill").style.width = (timeLeft/45*100) + "%";
+    if(timeLeft <= 0){
+      clearInterval(timer);
+      showCorrect("Time up!");
+    }
+  }, 1000);
+}
+
+function checkAnswer(choice, btn){
+  const item = questions[current];
+
+  if(choice === item.ans){
+    clearInterval(timer);
+    btn.classList.add("correct");
+    score++;
+    document.getElementById("score").textContent = score;
+    document.getElementById("feedback").textContent = "Correct! Great job!";
+    playSound("correctSound");
+    starConfetti();
+    setTimeout(nextQuestion, 1300);
+  } else {
+    attempts++;
+    btn.classList.add("wrong");
+    playSound("wrongSound");
+    showCross();
+
+    if(attempts === 1){
+      document.getElementById("feedback").textContent = "Try once more!";
+      btn.disabled = true;
+    } else {
+      clearInterval(timer);
+      showCorrect("Incorrect.");
+    }
+  }
+}
+
+function showCorrect(prefix){
+  const item = questions[current];
+  const allBtns = document.querySelectorAll(".option");
+  allBtns.forEach((b,i)=>{
+    b.disabled = true;
+    if(i === item.ans) b.classList.add("correct");
+  });
+  document.getElementById("feedback").textContent =
+    prefix + " Correct answer: " + item.options[item.ans] + ". " + item.exp;
+  setTimeout(nextQuestion, 3000);
+}
+
+function nextQuestion(){
+  current++;
+  if(current < questions.length){
+    loadQuestion();
+  } else {
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("finalChallenge").classList.remove("hidden");
+  }
+}
+
+function checkFinal(ans){
+  if(ans === "circle"){
+    score++;
+    document.getElementById("score").textContent = score;
+    document.getElementById("finalFeedback").textContent = "Correct! A circle has infinite lines of symmetry.";
+    playSound("correctSound");
+    starConfetti();
+  } else {
+    document.getElementById("finalFeedback").textContent = "Not quite. The correct answer is Circle.";
+    playSound("wrongSound");
+    showCross();
+  }
+  setTimeout(showResult, 1600);
+}
+
+function showResult(){
+  document.getElementById("finalChallenge").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+  document.getElementById("finalScore").textContent = score + " / 11";
+
+  let msg = "Good effort! Keep practising symmetry.";
+  if(score >= 9) msg = "Excellent! You are a symmetry star!";
+  else if(score >= 6) msg = "Well done! A little more practice will make it perfect.";
+  document.getElementById("message").textContent = msg;
+}
+
+function restartGame(){
+  current = 0;
+  score = 0;
+  document.getElementById("score").textContent = score;
+  document.getElementById("result").classList.add("hidden");
+  document.getElementById("intro").classList.remove("hidden");
+}
+
+function starConfetti(){
+  for(let i=0;i<25;i++){
+    const s = document.createElement("div");
+    s.className = "confetti";
+    s.style.left = Math.random()*100 + "vw";
+    s.style.animationDelay = Math.random()*0.3 + "s";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1500);
+  }
+}
+
+function showCross(){
+  const c = document.getElementById("cross");
+  c.classList.remove("show");
+  void c.offsetWidth;
+  c.classList.add("show");
+}
+
+function playSound(id){
+  const audio = document.getElementById(id);
+  audio.currentTime = 0;
+  audio.play().catch(()=>{});
+}
+</script>
+</body>
+</html>
