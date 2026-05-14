@@ -1,1 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Algebra MCQ Challenge</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial, sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#eef7ff,#fff7d6);
+  overflow-x:hidden;
+  color:#203040;
+}
+.logo-screen{
+  position:fixed;inset:0;background:white;z-index:99;
+  display:flex;align-items:center;justify-content:center;
+}
+.logo-screen img{max-width:220px;animation:pop 1s ease}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
 
+.bg span{
+  position:fixed;
+  color:rgba(255,174,0,.35);
+  animation:float 10s linear infinite;
+  z-index:-1;
+}
+@keyframes float{
+  from{transform:translateY(100vh) rotate(0)}
+  to{transform:translateY(-10vh) rotate(360deg)}
+}
+.container{
+  width:min(92%,760px);
+  margin:30px auto;
+  background:rgba(255,255,255,.9);
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 10px 30px rgba(0,0,0,.12);
+}
+.header{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-bottom:18px;
+}
+.header img{height:46px}
+.badge{
+  background:#e7f1ff;
+  padding:8px 12px;
+  border-radius:20px;
+  font-weight:bold;
+}
+h1,h2{text-align:center;margin-bottom:15px}
+p{line-height:1.5}
+button{
+  border:0;
+  background:#3478f6;
+  color:white;
+  padding:13px 18px;
+  border-radius:14px;
+  font-size:16px;
+  cursor:pointer;
+  margin-top:14px;
+}
+button:hover{background:#245ed0}
+.options button{
+  width:100%;
+  display:block;
+  background:white;
+  color:#203040;
+  border:2px solid #dbe7ff;
+  margin:10px 0;
+  text-align:left;
+}
+.options button:hover{background:#edf5ff}
+.correct{background:#dff8df!important;border-color:#36b24a!important}
+.wrong{background:#ffe2e2!important;border-color:#e23b3b!important}
+.info{
+  display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.message{
+  min-height:48px;
+  font-weight:bold;
+  text-align:center;
+  margin-top:10px;
+}
+.hidden{display:none}
+.cross{
+  font-size:42px;color:#e23b3b;animation:shake .3s;
+}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  75%{transform:translateX(6px)}
+}
+.confetti{
+  position:fixed;
+  top:-20px;
+  font-size:22px;
+  animation:fall 1.4s linear forwards;
+  pointer-events:none;
+}
+@keyframes fall{
+  to{transform:translateY(100vh) rotate(360deg);opacity:0}
+}
+.final-box{
+  background:#fff4cb;
+  border:2px dashed #f0b400;
+  padding:18px;
+  border-radius:18px;
+  margin-top:10px;
+}
+@media(max-width:520px){
+  .container{padding:18px;margin:16px auto}
+  h1{font-size:24px}
+  .header{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="logo-screen" id="logoScreen">
+  <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<div class="bg" id="bg"></div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<div class="container">
+  <div class="header">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+    <div class="badge">Score: <span id="score">0</span></div>
+    <div class="badge">Time: <span id="timer">45</span>s</div>
+  </div>
+
+  <section id="intro">
+    <h1>Algebra Adventure</h1>
+    <p>Welcome, young algebra explorer! Solve MCQs on variables, expressions, coefficients, like terms and degree of expressions.</p>
+    <p>You get <b>45 seconds</b> for each question and <b>one retry</b> after the first wrong attempt.</p>
+    <button onclick="startGame()">Start Challenge</button>
+  </section>
+
+  <section id="quiz" class="hidden">
+    <h2 id="qTitle"></h2>
+    <p id="question"></p>
+    <div class="options" id="options"></div>
+    <div class="message" id="message"></div>
+  </section>
+
+  <section id="finalChallenge" class="hidden">
+    <h2>Final Challenge</h2>
+    <div class="final-box">
+      Rohan buys 5 pens of ₹x each and 3 pencils of ₹y each. Which expression shows the total cost?
+    </div>
+    <div class="options" id="finalOptions"></div>
+    <div class="message" id="finalMessage"></div>
+  </section>
+
+  <section id="result" class="hidden">
+    <h1>Challenge Complete!</h1>
+    <h2>Your Final Score: <span id="finalScore"></span></h2>
+    <p id="resultText"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </section>
+</div>
+
+<script>
+setTimeout(()=>document.getElementById("logoScreen").style.display="none",5000);
+
+const questions=[
+{q:"Riya has x stickers. Her friend gives her 8 more stickers. Total stickers can be written as:",o:["8x","x + 8","x − 8","8 − x"],a:1,e:"Adding 8 more means x + 8."},
+{q:"A notebook costs ₹p. Cost of 6 notebooks is:",o:["p + 6","p − 6","6p","p/6"],a:2,e:"Cost of 6 notebooks = 6 × p = 6p."},
+{q:"In the expression 7x + 12, the constant is:",o:["7","x","7x","12"],a:3,e:"A constant has no variable. So, 12 is the constant."},
+{q:"The coefficient of y in −9y is:",o:["9","−9","y","−y"],a:1,e:"The number multiplied with y is −9."},
+{q:"Which pair has like terms?",o:["4x and 7y","6ab and −3ab","5x² and 5x","8m and 8n"],a:1,e:"Like terms have the same variables with the same powers."},
+{q:"The expression 3a + 5b − 2 is a:",o:["Monomial","Binomial","Trinomial","Constant"],a:2,e:"It has three terms: 3a, 5b and −2."},
+{q:"The degree of 5x³ + 2x² − 7 is:",o:["1","2","3","7"],a:2,e:"The highest power of x is 3."},
+{q:"If x = 4, then 3x + 5 =",o:["12","17","20","35"],a:1,e:"3 × 4 + 5 = 12 + 5 = 17."},
+{q:"Expression for cost of 5 pens is:",o:["5 + x","5x","x/5","x − 5"],a:1,e:"Cost of 5 pens = 5 × x = 5x."}
+];
+
+let index=0,score=0,time=45,timer,attempt=0;
+
+function startGame(){
+  intro.classList.add("hidden");
+  quiz.classList.remove("hidden");
+  loadQuestion();
+}
+
+function loadQuestion(){
+  attempt=0;
+  time=45;
+  timerEl();
+  clearInterval(timer);
+  timer=setInterval(()=>{
+    time--;
+    timerEl();
+    if(time<=0) secondWrong();
+  },1000);
+
+  const item=questions[index];
+  qTitle.textContent="Question "+(index+1)+" of "+questions.length;
+  question.textContent=item.q;
+  message.textContent="";
+  options.innerHTML="";
+  item.o.forEach((opt,i)=>{
+    const btn=document.createElement("button");
+    btn.textContent=String.fromCharCode(65+i)+". "+opt;
+    btn.onclick=()=>checkAnswer(i,btn);
+    options.appendChild(btn);
+  });
+}
+
+function timerEl(){document.getElementById("timer").textContent=time;}
+
+function checkAnswer(choice,btn){
+  const item=questions[index];
+  if(choice===item.a){
+    score++;
+    document.getElementById("score").textContent=score;
+    btn.classList.add("correct");
+    message.textContent="Great job!";
+    play("correctSound");
+    confetti();
+    next();
+  }else{
+    attempt++;
+    btn.classList.add("wrong");
+    play("wrongSound");
+    message.innerHTML='<div class="cross">✖</div>';
+    if(attempt===1){
+      setTimeout(()=>message.textContent="Try once more!",600);
+      btn.disabled=true;
+    }else secondWrong();
+  }
+}
+
+function secondWrong(){
+  clearInterval(timer);
+  const item=questions[index];
+  message.textContent="Correct answer: "+item.o[item.a]+". "+item.e;
+  [...options.children].forEach((b,i)=>{
+    b.disabled=true;
+    if(i===item.a)b.classList.add("correct");
+  });
+  next();
+}
+
+function next(){
+  clearInterval(timer);
+  setTimeout(()=>{
+    index++;
+    if(index<questions.length) loadQuestion();
+    else showFinal();
+  },2200);
+}
+
+function showFinal(){
+  quiz.classList.add("hidden");
+  finalChallenge.classList.remove("hidden");
+  timer.textContent="";
+  const opts=["5x + 3y","3x + 5y","8xy","x + y + 8"];
+  finalOptions.innerHTML="";
+  opts.forEach((op,i)=>{
+    const b=document.createElement("button");
+    b.textContent=String.fromCharCode(65+i)+". "+op;
+    b.onclick=()=>{
+      if(i===0){
+        score+=2;
+        document.getElementById("score").textContent=score;
+        b.classList.add("correct");
+        finalMessage.textContent="Excellent! You earned 2 bonus points.";
+        confetti();
+        play("clapSound");
+      }else{
+        b.classList.add("wrong");
+        finalMessage.textContent="Correct answer: 5x + 3y. Pens cost 5x and pencils cost 3y.";
+        play("wrongSound");
+      }
+      setTimeout(showResult,2500);
+    };
+    finalOptions.appendChild(b);
+  });
+}
+
+function showResult(){
+  finalChallenge.classList.add("hidden");
+  result.classList.remove("hidden");
+  finalScore.textContent=score+" / 11";
+  resultText.textContent=score>=9?"Algebra Star!":"Good effort! Revise expressions and try again.";
+}
+
+function play(id){
+  const audio=document.getElementById(id);
+  audio.currentTime=0;
+  audio.play().catch(()=>{});
+}
+
+function confetti(){
+  for(let i=0;i<18;i++){
+    const s=document.createElement("div");
+    s.className="confetti";
+    s.textContent="★";
+    s.style.left=Math.random()*100+"vw";
+    s.style.color=["#ffbf00","#58c7ff","#ff6b9a","#72d572"][Math.floor(Math.random()*4)];
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1500);
+  }
+}
+
+for(let i=0;i<25;i++){
+  const star=document.createElement("span");
+  star.textContent=i%2?"★":"✦";
+  star.style.left=Math.random()*100+"vw";
+  star.style.animationDelay=Math.random()*8+"s";
+  star.style.fontSize=(14+Math.random()*20)+"px";
+  bg.appendChild(star);
+}
+</script>
+</body>
+</html>
