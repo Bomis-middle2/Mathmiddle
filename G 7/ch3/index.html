@@ -1,1 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Handling MCQ Challenge</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#eef7ff,#fff3dc);
+  color:#203040;
+  overflow-x:hidden;
+}
+.logo-screen{
+  position:fixed;inset:0;background:#fff;z-index:99;
+  display:flex;align-items:center;justify-content:center;
+}
+.logo-screen img{max-width:220px;animation:pop 1s ease}
+@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+.bg span{
+  position:fixed;color:rgba(255,180,0,.35);z-index:-1;
+  animation:float 10s linear infinite;
+}
+@keyframes float{
+  from{transform:translateY(100vh) rotate(0)}
+  to{transform:translateY(-10vh) rotate(360deg)}
+}
+.container{
+  width:min(92%,820px);
+  margin:28px auto;
+  background:rgba(255,255,255,.94);
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 10px 28px rgba(0,0,0,.12);
+}
+.header{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-bottom:18px;
+}
+.header img{height:46px}
+.badge{
+  background:#e8f2ff;
+  padding:8px 12px;
+  border-radius:18px;
+  font-weight:bold;
+}
+h1,h2{text-align:center;margin-bottom:14px}
+p{line-height:1.5}
+.data-table{
+  width:100%;
+  border-collapse:collapse;
+  margin:12px 0;
+  background:white;
+  border-radius:12px;
+  overflow:hidden;
+}
+.data-table th,.data-table td{
+  border:1px solid #d9e4f5;
+  padding:9px;
+  text-align:center;
+}
+.data-table th{background:#e8f2ff}
+.case-box{
+  background:#fff6d9;
+  border-left:5px solid #f0b400;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:12px;
+  font-weight:bold;
+}
+.assertion-box{
+  background:#eef7ff;
+  border-left:5px solid #3478f6;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:12px;
+}
+button{
+  border:0;background:#3478f6;color:white;
+  padding:13px 18px;border-radius:14px;
+  font-size:16px;cursor:pointer;margin-top:14px;
+}
+button:hover{background:#245ed0}
+.options button{
+  width:100%;display:block;background:#fff;color:#203040;
+  border:2px solid #dbe7ff;margin:10px 0;text-align:left;
+}
+.options button:hover{background:#edf5ff}
+.correct{background:#dcf8dc!important;border-color:#36b24a!important}
+.wrong{background:#ffe1e1!important;border-color:#e23b3b!important}
+.message{
+  min-height:50px;text-align:center;font-weight:bold;margin-top:10px;
+}
+.cross{font-size:42px;color:#e23b3b;animation:shake .3s}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  75%{transform:translateX(6px)}
+}
+.confetti{
+  position:fixed;top:-20px;font-size:22px;
+  pointer-events:none;animation:fall 1.4s linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(100vh) rotate(360deg);opacity:0}
+}
+.hidden{display:none}
+.final-box{
+  background:#fff2c7;
+  border:2px dashed #f0b400;
+  padding:18px;
+  border-radius:18px;
+  margin:12px 0;
+}
+@media(max-width:520px){
+  .container{padding:18px;margin:16px auto}
+  .header{flex-direction:column}
+  h1{font-size:24px}
+  .data-table th,.data-table td{font-size:14px;padding:7px}
+}
+</style>
+</head>
+<body>
 
+<div class="logo-screen" id="logoScreen">
+  <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<div class="bg" id="bg"></div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<div class="container">
+  <div class="header">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+    <div class="badge">Score: <span id="score">0</span></div>
+    <div class="badge">Time: <span id="timer">45</span>s</div>
+  </div>
+
+  <section id="intro">
+    <h1>Data Handling Quest</h1>
+    <p>Welcome, data detective! Solve questions on frequency, bar graphs, pictographs, tally marks and data tables.</p>
+    <p>You get <b>45 seconds</b> for every question and <b>one retry</b> after the first wrong attempt.</p>
+    <button onclick="startGame()">Start Challenge</button>
+  </section>
+
+  <section id="quiz" class="hidden">
+    <h2 id="qTitle"></h2>
+    <div id="caseBox" class="case-box hidden"></div>
+    <div id="assertionBox" class="assertion-box hidden"></div>
+    <div id="tableBox"></div>
+    <p id="question"></p>
+    <div class="options" id="options"></div>
+    <div class="message" id="message"></div>
+  </section>
+
+  <section id="finalChallenge" class="hidden">
+    <h2>Final Challenge</h2>
+    <div class="final-box">
+      Data: 4, 5, 4, 6, 5, 4. What is the frequency of 4?
+    </div>
+    <div class="options" id="finalOptions"></div>
+    <div class="message" id="finalMessage"></div>
+  </section>
+
+  <section id="result" class="hidden">
+    <h1>Challenge Complete!</h1>
+    <h2>Your Final Score: <span id="finalScore"></span></h2>
+    <p id="resultText"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </section>
+</div>
+
+<script>
+setTimeout(()=>document.getElementById("logoScreen").style.display="none",5000);
+
+const arOptions=[
+"Both true and Reason explains Assertion",
+"Both true but Reason does not explain",
+"Assertion true, Reason false",
+"Assertion false, Reason true"
+];
+
+const questions=[
+{
+q:"Which number occurred the most?",
+table:"<table class='data-table'><tr><th>Day</th><th>Students Present</th></tr><tr><td>Monday</td><td>28</td></tr><tr><td>Tuesday</td><td>30</td></tr><tr><td>Wednesday</td><td>27</td></tr><tr><td>Thursday</td><td>30</td></tr><tr><td>Friday</td><td>25</td></tr></table>",
+o:["25","27","28","30"],a:3,e:"30 occurs two times, which is the highest frequency."
+},
+{
+q:"What is the frequency of ₹750?",
+table:"<table class='data-table'><tr><th>Day</th><th>Sales (₹)</th></tr><tr><td>Day 1</td><td>500</td></tr><tr><td>Day 2</td><td>750</td></tr><tr><td>Day 3</td><td>500</td></tr><tr><td>Day 4</td><td>1000</td></tr><tr><td>Day 5</td><td>750</td></tr></table>",
+o:["1","2","3","4"],a:1,e:"₹750 appears on Day 2 and Day 5, so its frequency is 2."
+},
+{
+assertion:"Assertion: The total frequency of a dataset is equal to the number of observations.",
+reason:"Reason: Frequency shows how many times each observation occurs.",
+q:"Choose the correct option.",
+o:arOptions,a:0,e:"The reason correctly explains that total frequency counts all observations."
+},
+{
+caseText:"Case Study 1: Favourite Fruits Survey",
+table:"<table class='data-table'><tr><th>Fruit</th><th>Number of Students</th></tr><tr><td>Apple</td><td>6</td></tr><tr><td>Banana</td><td>4</td></tr><tr><td>Mango</td><td>5</td></tr><tr><td>Orange</td><td>5</td></tr><tr><th>Total</th><th>20</th></tr></table>",
+q:"Which fruit is liked the most?",
+o:["Apple","Banana","Mango","Orange"],a:0,e:"Apple is liked by 6 students, which is the highest."
+},
+{
+caseText:"Case Study 1: Favourite Fruits Survey",
+table:"<table class='data-table'><tr><th>Fruit</th><th>Number of Students</th></tr><tr><td>Apple</td><td>6</td></tr><tr><td>Banana</td><td>4</td></tr><tr><td>Mango</td><td>5</td></tr><tr><td>Orange</td><td>5</td></tr><tr><th>Total</th><th>20</th></tr></table>",
+q:"How many students like Mango and Orange together?",
+o:["9","10","11","12"],a:1,e:"Mango = 5 and Orange = 5, so total = 10."
+},
+{
+assertion:"Assertion: A bar graph is used to compare quantities.",
+reason:"Reason: The height of bars represents values.",
+q:"Choose the correct option.",
+o:arOptions,a:0,e:"Bar graphs compare values using the height or length of bars."
+},
+{
+assertion:"Assertion: Tally marks help in counting data easily.",
+reason:"Reason: Tally marks are grouped in sets of five.",
+q:"Choose the correct option.",
+o:arOptions,a:0,e:"Grouping tally marks in fives makes counting easier."
+},
+{
+q:"Identify the incorrect statement:",
+o:["Bar graphs use rectangular bars","Pictographs use symbols","Frequency means total data","Tally marks help counting"],a:2,e:"Frequency means how many times an observation occurs, not total data."
+},
+{
+assertion:"Assertion: A pictograph always uses symbols.",
+reason:"Reason: Each symbol represents a fixed number.",
+q:"Choose the correct option.",
+o:arOptions,a:0,e:"A pictograph uses symbols, and each symbol has a fixed value."
+},
+{
+q:"Identify the incorrect step:<br><br>Data: 5, 6, 5, 7, 6<br>Step 1: Count frequency of 5 = 2<br>Step 2: Count frequency of 6 = 3<br>Step 3: Count frequency of 7 = 1",
+o:["Step 1","Step 2","Step 3","No error"],a:1,e:"6 occurs two times, not three times. So Step 2 is incorrect."
+}
+];
+
+let index=0,score=0,time=45,timer,attempt=0;
+
+function startGame(){
+  intro.classList.add("hidden");
+  quiz.classList.remove("hidden");
+  loadQuestion();
+}
+
+function loadQuestion(){
+  attempt=0;
+  time=45;
+  updateTimer();
+  clearInterval(timer);
+  timer=setInterval(()=>{
+    time--;
+    updateTimer();
+    if(time<=0) showCorrectAnswer();
+  },1000);
+
+  const item=questions[index];
+  qTitle.textContent="Question "+(index+1)+" of "+questions.length;
+  question.innerHTML=item.q;
+  message.textContent="";
+  options.innerHTML="";
+  tableBox.innerHTML=item.table || "";
+
+  if(item.caseText){
+    caseBox.textContent=item.caseText;
+    caseBox.classList.remove("hidden");
+  }else{
+    caseBox.classList.add("hidden");
+  }
+
+  if(item.assertion){
+    assertionBox.innerHTML=item.assertion+"<br>"+item.reason;
+    assertionBox.classList.remove("hidden");
+  }else{
+    assertionBox.classList.add("hidden");
+  }
+
+  item.o.forEach((opt,i)=>{
+    const btn=document.createElement("button");
+    btn.textContent=String.fromCharCode(65+i)+". "+opt;
+    btn.onclick=()=>checkAnswer(i,btn);
+    options.appendChild(btn);
+  });
+}
+
+function updateTimer(){
+  document.getElementById("timer").textContent=time;
+}
+
+function checkAnswer(choice,btn){
+  const item=questions[index];
+
+  if(choice===item.a){
+    score++;
+    document.getElementById("score").textContent=score;
+    btn.classList.add("correct");
+    message.textContent="Correct! Great work!";
+    playSound("correctSound");
+    makeConfetti();
+    goNext();
+  }else{
+    attempt++;
+    btn.classList.add("wrong");
+    playSound("wrongSound");
+    message.innerHTML='<div class="cross">✖</div>';
+
+    if(attempt===1){
+      setTimeout(()=>message.textContent="Try once more!",600);
+      btn.disabled=true;
+    }else{
+      showCorrectAnswer();
+    }
+  }
+}
+
+function showCorrectAnswer(){
+  clearInterval(timer);
+  const item=questions[index];
+  message.textContent="Correct answer: "+item.o[item.a]+". "+item.e;
+
+  [...options.children].forEach((b,i)=>{
+    b.disabled=true;
+    if(i===item.a)b.classList.add("correct");
+  });
+
+  goNext();
+}
+
+function goNext(){
+  clearInterval(timer);
+  setTimeout(()=>{
+    index++;
+    if(index<questions.length){
+      loadQuestion();
+    }else{
+      showFinalChallenge();
+    }
+  },2400);
+}
+
+function showFinalChallenge(){
+  quiz.classList.add("hidden");
+  finalChallenge.classList.remove("hidden");
+  document.getElementById("timer").textContent="--";
+
+  const opts=["1","2","3","4"];
+  finalOptions.innerHTML="";
+
+  opts.forEach((op,i)=>{
+    const b=document.createElement("button");
+    b.textContent=String.fromCharCode(65+i)+". "+op;
+    b.onclick=()=>{
+      [...finalOptions.children].forEach(x=>x.disabled=true);
+
+      if(i===2){
+        score+=2;
+        document.getElementById("score").textContent=score;
+        b.classList.add("correct");
+        finalMessage.textContent="Excellent! 4 occurs three times.";
+        playSound("clapSound");
+        makeConfetti();
+      }else{
+        b.classList.add("wrong");
+        finalMessage.textContent="Correct answer: 3. Frequency means the number of times a value occurs.";
+        playSound("wrongSound");
+      }
+
+      setTimeout(showResult,2600);
+    };
+    finalOptions.appendChild(b);
+  });
+}
+
+function showResult(){
+  finalChallenge.classList.add("hidden");
+  result.classList.remove("hidden");
+  finalScore.textContent=score+" / 12";
+  resultText.textContent=score>=9
+    ? "Amazing! You are a Data Handling Star!"
+    : "Good effort! Revise frequency, tables and graphs.";
+}
+
+function playSound(id){
+  const audio=document.getElementById(id);
+  audio.currentTime=0;
+  audio.play().catch(()=>{});
+}
+
+function makeConfetti(){
+  for(let i=0;i<18;i++){
+    const s=document.createElement("div");
+    s.className="confetti";
+    s.textContent="★";
+    s.style.left=Math.random()*100+"vw";
+    s.style.color=["#ffbf00","#58c7ff","#ff6b9a","#72d572"][Math.floor(Math.random()*4)];
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1500);
+  }
+}
+
+for(let i=0;i<26;i++){
+  const star=document.createElement("span");
+  star.textContent=i%2?"★":"✦";
+  star.style.left=Math.random()*100+"vw";
+  star.style.fontSize=(14+Math.random()*20)+"px";
+  star.style.animationDelay=Math.random()*8+"s";
+  bg.appendChild(star);
+}
+</script>
+</body>
+</html>
