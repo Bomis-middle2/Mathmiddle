@@ -1,1 +1,336 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linear Equations MCQ Challenge</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#eef7ff,#fff3dc);
+  color:#203040;
+  overflow-x:hidden;
+}
+.logo-screen{
+  position:fixed;inset:0;background:#fff;z-index:99;
+  display:flex;align-items:center;justify-content:center;
+}
+.logo-screen img{max-width:220px;animation:pop 1s ease}
+@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+.bg span{
+  position:fixed;color:rgba(255,180,0,.35);z-index:-1;
+  animation:float 10s linear infinite;
+}
+@keyframes float{
+  from{transform:translateY(100vh) rotate(0)}
+  to{transform:translateY(-10vh) rotate(360deg)}
+}
+.container{
+  width:min(92%,800px);
+  margin:28px auto;
+  background:rgba(255,255,255,.94);
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 10px 28px rgba(0,0,0,.12);
+}
+.header{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-bottom:18px;
+}
+.header img{height:46px}
+.badge{
+  background:#e8f2ff;
+  padding:8px 12px;
+  border-radius:18px;
+  font-weight:bold;
+}
+h1,h2{text-align:center;margin-bottom:14px}
+p{line-height:1.5}
+.assertion-box{
+  background:#eef7ff;
+  border-left:5px solid #3478f6;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:12px;
+}
+button{
+  border:0;background:#3478f6;color:white;
+  padding:13px 18px;border-radius:14px;
+  font-size:16px;cursor:pointer;margin-top:14px;
+}
+button:hover{background:#245ed0}
+.options button{
+  width:100%;display:block;background:#fff;color:#203040;
+  border:2px solid #dbe7ff;margin:10px 0;text-align:left;
+}
+.options button:hover{background:#edf5ff}
+.correct{background:#dcf8dc!important;border-color:#36b24a!important}
+.wrong{background:#ffe1e1!important;border-color:#e23b3b!important}
+.message{
+  min-height:50px;text-align:center;font-weight:bold;margin-top:10px;
+}
+.cross{font-size:42px;color:#e23b3b;animation:shake .3s}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  75%{transform:translateX(6px)}
+}
+.confetti{
+  position:fixed;top:-20px;font-size:22px;
+  pointer-events:none;animation:fall 1.4s linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(100vh) rotate(360deg);opacity:0}
+}
+.hidden{display:none}
+.final-box{
+  background:#fff2c7;
+  border:2px dashed #f0b400;
+  padding:18px;
+  border-radius:18px;
+  margin:12px 0;
+}
+@media(max-width:520px){
+  .container{padding:18px;margin:16px auto}
+  .header{flex-direction:column}
+  h1{font-size:24px}
+}
+</style>
+</head>
+<body>
+
+<div class="logo-screen" id="logoScreen">
+  <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<div class="bg" id="bg"></div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<div class="container">
+  <div class="header">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+    <div class="badge">Score: <span id="score">0</span></div>
+    <div class="badge">Time: <span id="timer">45</span>s</div>
+  </div>
+
+  <section id="intro">
+    <h1>Linear Equations Quest</h1>
+    <p>Welcome, equation explorer! Solve questions on forming equations, solving equations and balancing both sides.</p>
+    <p>You get <b>45 seconds</b> for every question and <b>one retry</b> after the first wrong attempt.</p>
+    <button onclick="startGame()">Start Challenge</button>
+  </section>
+
+  <section id="quiz" class="hidden">
+    <h2 id="qTitle"></h2>
+    <div id="assertionBox" class="assertion-box hidden"></div>
+    <p id="question"></p>
+    <div class="options" id="options"></div>
+    <div class="message" id="message"></div>
+  </section>
+
+  <section id="finalChallenge" class="hidden">
+    <h2>Final Challenge</h2>
+    <div class="final-box">
+      A number is multiplied by 5 and the result is 45. What is the number?
+    </div>
+    <div class="options" id="finalOptions"></div>
+    <div class="message" id="finalMessage"></div>
+  </section>
+
+  <section id="result" class="hidden">
+    <h1>Challenge Complete!</h1>
+    <h2>Your Final Score: <span id="finalScore"></span></h2>
+    <p id="resultText"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </section>
+</div>
+
+<script>
+setTimeout(()=>document.getElementById("logoScreen").style.display="none",5000);
+
+const questions=[
+{q:"A shopkeeper sells notebooks for ₹35 each. Riya buys some notebooks and pays ₹210. If the number of notebooks is x, which equation represents this situation?",o:["x + 35 = 210","35x = 210","x − 35 = 210","210x = 35"],a:1,e:"Each notebook costs ₹35, so total cost = 35x. Hence, 35x = 210."},
+{q:"A number is increased by 12 and the result is 30. What is the number?",o:["12","18","30","42"],a:1,e:"Let the number be x. x + 12 = 30, so x = 18."},
+{q:"The cost of one pen is ₹8. If Rohan buys x pens and pays ₹64, find x.",o:["6","7","8","9"],a:2,e:"8x = 64, so x = 64 ÷ 8 = 8."},
+{q:"Anu’s age is x years. Her brother is 5 years older than her. If her brother is 17 years old, which equation is correct?",o:["x + 5 = 17","x − 5 = 17","5x = 17","x + 17 = 5"],a:0,e:"Brother’s age is 5 more than Anu’s age, so x + 5 = 17."},
+{q:"A taxi charges ₹50 fixed charge and ₹12 per kilometre. If the total fare is ₹170, how many kilometres were travelled?",o:["8 km","10 km","12 km","15 km"],a:1,e:"50 + 12x = 170. So 12x = 120 and x = 10 km."},
+{q:"A teacher gives 3 marks for each correct answer in a quiz. Meena scores 45 marks. If she answered x questions correctly, find x.",o:["12","14","15","18"],a:2,e:"3x = 45, so x = 15."},
+{assertion:"Assertion: The solution of x + 7 = 15 is x = 8.",reason:"Reason: To solve x + 7 = 15, we subtract 7 from both sides.",q:"Choose the correct option.",o:["Both Assertion and Reason are true, and Reason is the correct explanation.","Both Assertion and Reason are true, but Reason is not the correct explanation.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:0,e:"Subtracting 7 from both sides gives x = 8."},
+{assertion:"Assertion: The equation 4x = 28 has solution x = 6.",reason:"Reason: To solve 4x = 28, we divide both sides by 4.",q:"Choose the correct option.",o:["Both Assertion and Reason are true, and Reason is the correct explanation.","Both Assertion and Reason are true, but Reason is not the correct explanation.","Assertion is false, but Reason is true.","Both Assertion and Reason are false."],a:2,e:"4x = 28 gives x = 7, not 6. The reason is true."},
+{assertion:"Assertion: 2x + 5 = 17 gives x = 6.",reason:"Reason: First subtract 5 from both sides, then divide by 2.",q:"Choose the correct option.",o:["Both Assertion and Reason are true, and Reason is the correct explanation.","Both Assertion and Reason are true, but Reason is not the correct explanation.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:0,e:"2x + 5 = 17 gives 2x = 12, so x = 6."},
+{assertion:"Assertion: If the same number is added to both sides of an equation, the solution remains unchanged.",reason:"Reason: An equation stays balanced when the same operation is performed on both sides.",q:"Choose the correct option.",o:["Both Assertion and Reason are true, and Reason is the correct explanation.","Both Assertion and Reason are true, but Reason is not the correct explanation.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:0,e:"The same operation on both sides keeps an equation balanced."},
+{q:"A fruit seller has some apples. After selling 18 apples, he is left with 27 apples. If he had x apples in the beginning, which equation and solution are correct?",o:["x + 18 = 27, x = 9","x − 18 = 27, x = 45","18x = 27, x = 45","x − 27 = 18, x = 9"],a:1,e:"He sold 18 apples and had 27 left, so x − 18 = 27 and x = 45."}
+];
+
+let index=0,score=0,time=45,timer,attempt=0;
+
+function startGame(){
+  intro.classList.add("hidden");
+  quiz.classList.remove("hidden");
+  loadQuestion();
+}
+
+function loadQuestion(){
+  attempt=0;
+  time=45;
+  updateTimer();
+  clearInterval(timer);
+  timer=setInterval(()=>{
+    time--;
+    updateTimer();
+    if(time<=0) showCorrectAnswer();
+  },1000);
+
+  const item=questions[index];
+  qTitle.textContent="Question "+(index+1)+" of "+questions.length;
+  question.textContent=item.q;
+  message.textContent="";
+  options.innerHTML="";
+
+  if(item.assertion){
+    assertionBox.innerHTML=item.assertion+"<br>"+item.reason;
+    assertionBox.classList.remove("hidden");
+  }else{
+    assertionBox.classList.add("hidden");
+  }
+
+  item.o.forEach((opt,i)=>{
+    const btn=document.createElement("button");
+    btn.textContent=String.fromCharCode(65+i)+". "+opt;
+    btn.onclick=()=>checkAnswer(i,btn);
+    options.appendChild(btn);
+  });
+}
+
+function updateTimer(){
+  document.getElementById("timer").textContent=time;
+}
+
+function checkAnswer(choice,btn){
+  const item=questions[index];
+
+  if(choice===item.a){
+    score++;
+    document.getElementById("score").textContent=score;
+    btn.classList.add("correct");
+    message.textContent="Correct! Great work!";
+    playSound("correctSound");
+    makeConfetti();
+    goNext();
+  }else{
+    attempt++;
+    btn.classList.add("wrong");
+    playSound("wrongSound");
+    message.innerHTML='<div class="cross">✖</div>';
+
+    if(attempt===1){
+      setTimeout(()=>message.textContent="Try once more!",600);
+      btn.disabled=true;
+    }else{
+      showCorrectAnswer();
+    }
+  }
+}
+
+function showCorrectAnswer(){
+  clearInterval(timer);
+  const item=questions[index];
+  message.textContent="Correct answer: "+item.o[item.a]+". "+item.e;
+
+  [...options.children].forEach((b,i)=>{
+    b.disabled=true;
+    if(i===item.a)b.classList.add("correct");
+  });
+
+  goNext();
+}
+
+function goNext(){
+  clearInterval(timer);
+  setTimeout(()=>{
+    index++;
+    if(index<questions.length){
+      loadQuestion();
+    }else{
+      showFinalChallenge();
+    }
+  },2400);
+}
+
+function showFinalChallenge(){
+  quiz.classList.add("hidden");
+  finalChallenge.classList.remove("hidden");
+  document.getElementById("timer").textContent="--";
+
+  const opts=["5","8","9","15"];
+  finalOptions.innerHTML="";
+
+  opts.forEach((op,i)=>{
+    const b=document.createElement("button");
+    b.textContent=String.fromCharCode(65+i)+". "+op;
+    b.onclick=()=>{
+      [...finalOptions.children].forEach(x=>x.disabled=true);
+
+      if(i===2){
+        score+=2;
+        document.getElementById("score").textContent=score;
+        b.classList.add("correct");
+        finalMessage.textContent="Excellent! 5x = 45, so x = 9.";
+        playSound("clapSound");
+        makeConfetti();
+      }else{
+        b.classList.add("wrong");
+        finalMessage.textContent="Correct answer: 9. Divide 45 by 5.";
+        playSound("wrongSound");
+      }
+
+      setTimeout(showResult,2600);
+    };
+    finalOptions.appendChild(b);
+  });
+}
+
+function showResult(){
+  finalChallenge.classList.add("hidden");
+  result.classList.remove("hidden");
+  finalScore.textContent=score+" / 13";
+  resultText.textContent=score>=10
+    ? "Amazing! You are a Linear Equations Star!"
+    : "Good effort! Revise equation solving and try again.";
+}
+
+function playSound(id){
+  const audio=document.getElementById(id);
+  audio.currentTime=0;
+  audio.play().catch(()=>{});
+}
+
+function makeConfetti(){
+  for(let i=0;i<18;i++){
+    const s=document.createElement("div");
+    s.className="confetti";
+    s.textContent="★";
+    s.style.left=Math.random()*100+"vw";
+    s.style.color=["#ffbf00","#58c7ff","#ff6b9a","#72d572"][Math.floor(Math.random()*4)];
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1500);
+  }
+}
+
+for(let i=0;i<26;i++){
+  const star=document.createElement("span");
+  star.textContent=i%2?"★":"✦";
+  star.style.left=Math.random()*100+"vw";
+  star.style.fontSize=(14+Math.random()*20)+"px";
+  star.style.animationDelay=Math.random()*8+"s";
+  bg.appendChild(star);
+}
+</script>
+</body>
+</html>
