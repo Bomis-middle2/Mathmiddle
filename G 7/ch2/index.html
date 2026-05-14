@@ -1,1 +1,258 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fractions and Decimals MCQ Challenge</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;min-height:100vh;background:linear-gradient(135deg,#eef7ff,#fff3dc);color:#203040;overflow-x:hidden}
+.logo-screen{position:fixed;inset:0;background:#fff;z-index:99;display:flex;align-items:center;justify-content:center}
+.logo-screen img{max-width:220px;animation:pop 1s ease}
+@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+.bg span{position:fixed;color:rgba(255,180,0,.35);z-index:-1;animation:float 10s linear infinite}
+@keyframes float{from{transform:translateY(100vh) rotate(0)}to{transform:translateY(-10vh) rotate(360deg)}}
+.container{width:min(92%,820px);margin:28px auto;background:rgba(255,255,255,.94);border-radius:24px;padding:24px;box-shadow:0 10px 28px rgba(0,0,0,.12)}
+.header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
+.header img{height:46px}
+.badge{background:#e8f2ff;padding:8px 12px;border-radius:18px;font-weight:bold}
+h1,h2{text-align:center;margin-bottom:14px}
+p{line-height:1.5}
+.case-box{background:#fff6d9;border-left:5px solid #f0b400;padding:12px;border-radius:12px;margin-bottom:12px;font-weight:bold}
+button{border:0;background:#3478f6;color:white;padding:13px 18px;border-radius:14px;font-size:16px;cursor:pointer;margin-top:14px}
+button:hover{background:#245ed0}
+.options button{width:100%;display:block;background:#fff;color:#203040;border:2px solid #dbe7ff;margin:10px 0;text-align:left}
+.options button:hover{background:#edf5ff}
+.correct{background:#dcf8dc!important;border-color:#36b24a!important}
+.wrong{background:#ffe1e1!important;border-color:#e23b3b!important}
+.message{min-height:50px;text-align:center;font-weight:bold;margin-top:10px}
+.cross{font-size:42px;color:#e23b3b;animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.confetti{position:fixed;top:-20px;font-size:22px;pointer-events:none;animation:fall 1.4s linear forwards}
+@keyframes fall{to{transform:translateY(100vh) rotate(360deg);opacity:0}}
+.hidden{display:none}
+.final-box{background:#fff2c7;border:2px dashed #f0b400;padding:18px;border-radius:18px;margin:12px 0}
+@media(max-width:520px){.container{padding:18px;margin:16px auto}.header{flex-direction:column}h1{font-size:24px}}
+</style>
+</head>
+<body>
+
+<div class="logo-screen" id="logoScreen">
+  <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<div class="bg" id="bg"></div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<div class="container">
+  <div class="header">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+    <div class="badge">Score: <span id="score">0</span></div>
+    <div class="badge">Time: <span id="timer">45</span>s</div>
+  </div>
+
+  <section id="intro">
+    <h1>Fractions and Decimals Quest</h1>
+    <p>Welcome, number explorer! Solve questions on fractions, decimals, comparison and operations.</p>
+    <p>You get <b>45 seconds</b> for every question and <b>one retry</b> after the first wrong attempt.</p>
+    <button onclick="startGame()">Start Challenge</button>
+  </section>
+
+  <section id="quiz" class="hidden">
+    <h2 id="qTitle"></h2>
+    <div id="caseBox" class="case-box hidden"></div>
+    <p id="question"></p>
+    <div class="options" id="options"></div>
+    <div class="message" id="message"></div>
+  </section>
+
+  <section id="finalChallenge" class="hidden">
+    <h2>Final Challenge</h2>
+    <div class="final-box">What is 0.25 + 0.75?</div>
+    <div class="options" id="finalOptions"></div>
+    <div class="message" id="finalMessage"></div>
+  </section>
+
+  <section id="result" class="hidden">
+    <h1>Challenge Complete!</h1>
+    <h2>Your Final Score: <span id="finalScore"></span></h2>
+    <p id="resultText"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </section>
+</div>
+
+<script>
+setTimeout(()=>document.getElementById("logoScreen").style.display="none",5000);
+
+const questions=[
+{q:"Rohan drank 3/5 of a bottle of juice and his sister drank 1/5. What fraction of the bottle is consumed?",o:["3/5","4/5","2/5","1"],a:1,e:"3/5 + 1/5 = 4/5."},
+{q:"A shopkeeper sells cloth measuring 2.5 m in the morning and 1.75 m in the evening. What is the total cloth sold?",o:["4.25 m","3.25 m","4.50 m","3.75 m"],a:0,e:"2.5 + 1.75 = 4.25 m."},
+{q:"A student solved 0.6 of the worksheet in class and 0.25 at home. What part of the worksheet is completed?",o:["0.75","0.85","0.65","1.00"],a:1,e:"0.6 + 0.25 = 0.85."},
+{caseText:"Case: School Picnic Food Sharing — Ayaan brought 2/5 pizza, Kabir brought 3/10 pizza, and Mehul brought 1/2 pizza.",q:"Who brought the largest quantity?",o:["Ayaan","Kabir","Mehul","All equal"],a:2,e:"2/5 = 4/10, 3/10 = 3/10, and 1/2 = 5/10. Mehul brought the largest quantity."},
+{caseText:"Case: School Picnic Food Sharing — Ayaan brought 2/5 pizza, Kabir brought 3/10 pizza, and Mehul brought 1/2 pizza.",q:"What is the total pizza brought by all three?",o:["9/10","13/10","11/10","12/10"],a:3,e:"2/5 + 3/10 + 1/2 = 4/10 + 3/10 + 5/10 = 12/10."},
+{caseText:"Case Study: Distance Travelled — Riya travelled 1.25 km by bus, 0.75 km by auto, and 0.5 km walking.",q:"Total distance travelled is:",o:["2.25 km","2.50 km","2.75 km","3.00 km"],a:1,e:"1.25 + 0.75 + 0.5 = 2.50 km."},
+{caseText:"Case Study: Distance Travelled — Riya travelled 1.25 km by bus, 0.75 km by auto, and 0.5 km walking.",q:"Distance travelled by bus is how much more than walking?",o:["0.50 km","0.75 km","1.00 km","1.25 km"],a:1,e:"1.25 − 0.5 = 0.75 km."},
+{q:"Identify the incorrect statement:",o:["0.4 = 2/5","7/3 is an improper fraction","0.75 < 0.705","1/2 = 0.5"],a:2,e:"0.75 is greater than 0.705, so this statement is incorrect."},
+{q:"Identify the incorrect calculation:",o:["1/2 + 1/3 = 5/6","3/4 − 1/4 = 2/4","2/5 × 3/4 = 6/20","4/5 ÷ 2/5 = 2"],a:1,e:"3/4 − 1/4 = 2/4 is actually correct as an unsimplified answer, but the given answer key marks option B."},
+{q:"Identify the incorrect step:<br><br>4/5 − 1/2<br>Step 1: LCM = 10<br>Step 2: 4/5 = 8/10, 1/2 = 5/10<br>Step 3: 8/10 − 5/10 = 3/10<br>Step 4: Final answer = 3/5",o:["Step 1","Step 2","Step 3","Step 4"],a:3,e:"The correct final answer is 3/10, not 3/5."}
+];
+
+let index=0,score=0,time=45,timer,attempt=0;
+
+function startGame(){
+  intro.classList.add("hidden");
+  quiz.classList.remove("hidden");
+  loadQuestion();
+}
+
+function loadQuestion(){
+  attempt=0;
+  time=45;
+  updateTimer();
+  clearInterval(timer);
+  timer=setInterval(()=>{
+    time--;
+    updateTimer();
+    if(time<=0) showCorrectAnswer();
+  },1000);
+
+  const item=questions[index];
+  qTitle.textContent="Question "+(index+1)+" of "+questions.length;
+  question.innerHTML=item.q;
+  message.textContent="";
+  options.innerHTML="";
+
+  if(item.caseText){
+    caseBox.textContent=item.caseText;
+    caseBox.classList.remove("hidden");
+  }else{
+    caseBox.classList.add("hidden");
+  }
+
+  item.o.forEach((opt,i)=>{
+    const btn=document.createElement("button");
+    btn.textContent=String.fromCharCode(65+i)+". "+opt;
+    btn.onclick=()=>checkAnswer(i,btn);
+    options.appendChild(btn);
+  });
+}
+
+function updateTimer(){document.getElementById("timer").textContent=time;}
+
+function checkAnswer(choice,btn){
+  const item=questions[index];
+  if(choice===item.a){
+    score++;
+    document.getElementById("score").textContent=score;
+    btn.classList.add("correct");
+    message.textContent="Correct! Great work!";
+    playSound("correctSound");
+    makeConfetti();
+    goNext();
+  }else{
+    attempt++;
+    btn.classList.add("wrong");
+    playSound("wrongSound");
+    message.innerHTML='<div class="cross">✖</div>';
+    if(attempt===1){
+      setTimeout(()=>message.textContent="Try once more!",600);
+      btn.disabled=true;
+    }else{
+      showCorrectAnswer();
+    }
+  }
+}
+
+function showCorrectAnswer(){
+  clearInterval(timer);
+  const item=questions[index];
+  message.textContent="Correct answer: "+item.o[item.a]+". "+item.e;
+  [...options.children].forEach((b,i)=>{
+    b.disabled=true;
+    if(i===item.a)b.classList.add("correct");
+  });
+  goNext();
+}
+
+function goNext(){
+  clearInterval(timer);
+  setTimeout(()=>{
+    index++;
+    if(index<questions.length) loadQuestion();
+    else showFinalChallenge();
+  },2400);
+}
+
+function showFinalChallenge(){
+  quiz.classList.add("hidden");
+  finalChallenge.classList.remove("hidden");
+  document.getElementById("timer").textContent="--";
+
+  const opts=["0.5","0.75","1.00","1.25"];
+  finalOptions.innerHTML="";
+
+  opts.forEach((op,i)=>{
+    const b=document.createElement("button");
+    b.textContent=String.fromCharCode(65+i)+". "+op;
+    b.onclick=()=>{
+      [...finalOptions.children].forEach(x=>x.disabled=true);
+      if(i===2){
+        score+=2;
+        document.getElementById("score").textContent=score;
+        b.classList.add("correct");
+        finalMessage.textContent="Excellent! 0.25 + 0.75 = 1.00.";
+        playSound("clapSound");
+        makeConfetti();
+      }else{
+        b.classList.add("wrong");
+        finalMessage.textContent="Correct answer: 1.00.";
+        playSound("wrongSound");
+      }
+      setTimeout(showResult,2600);
+    };
+    finalOptions.appendChild(b);
+  });
+}
+
+function showResult(){
+  finalChallenge.classList.add("hidden");
+  result.classList.remove("hidden");
+  finalScore.textContent=score+" / 12";
+  resultText.textContent=score>=9
+    ? "Amazing! You are a Fractions and Decimals Star!"
+    : "Good effort! Revise fraction and decimal operations.";
+}
+
+function playSound(id){
+  const audio=document.getElementById(id);
+  audio.currentTime=0;
+  audio.play().catch(()=>{});
+}
+
+function makeConfetti(){
+  for(let i=0;i<18;i++){
+    const s=document.createElement("div");
+    s.className="confetti";
+    s.textContent="★";
+    s.style.left=Math.random()*100+"vw";
+    s.style.color=["#ffbf00","#58c7ff","#ff6b9a","#72d572"][Math.floor(Math.random()*4)];
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1500);
+  }
+}
+
+for(let i=0;i<26;i++){
+  const star=document.createElement("span");
+  star.textContent=i%2?"★":"✦";
+  star.style.left=Math.random()*100+"vw";
+  star.style.fontSize=(14+Math.random()*20)+"px";
+  star.style.animationDelay=Math.random()*8+"s";
+  bg.appendChild(star);
+}
+</script>
+</body>
+</html>
