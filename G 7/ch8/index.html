@@ -1,1 +1,323 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rational Numbers MCQ Challenge</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#eef7ff,#fff3dc);
+  color:#203040;
+  overflow-x:hidden;
+}
+.logo-screen{
+  position:fixed;inset:0;background:#fff;z-index:99;
+  display:flex;align-items:center;justify-content:center;
+}
+.logo-screen img{max-width:220px;animation:pop 1s ease}
+@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+.bg span{
+  position:fixed;
+  color:rgba(255,180,0,.35);
+  z-index:-1;
+  animation:float 10s linear infinite;
+}
+@keyframes float{
+  from{transform:translateY(100vh) rotate(0)}
+  to{transform:translateY(-10vh) rotate(360deg)}
+}
+.container{
+  width:min(92%,780px);
+  margin:28px auto;
+  background:rgba(255,255,255,.94);
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 10px 28px rgba(0,0,0,.12);
+}
+.header{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-bottom:18px;
+}
+.header img{height:46px}
+.badge{
+  background:#e8f2ff;
+  padding:8px 12px;
+  border-radius:18px;
+  font-weight:bold;
+}
+h1,h2{text-align:center;margin-bottom:14px}
+p{line-height:1.5}
+button{
+  border:0;background:#3478f6;color:white;
+  padding:13px 18px;border-radius:14px;
+  font-size:16px;cursor:pointer;margin-top:14px;
+}
+button:hover{background:#245ed0}
+.options button{
+  width:100%;display:block;background:#fff;color:#203040;
+  border:2px solid #dbe7ff;margin:10px 0;text-align:left;
+}
+.options button:hover{background:#edf5ff}
+.correct{background:#dcf8dc!important;border-color:#36b24a!important}
+.wrong{background:#ffe1e1!important;border-color:#e23b3b!important}
+.message{
+  min-height:50px;text-align:center;font-weight:bold;margin-top:10px;
+}
+.cross{font-size:42px;color:#e23b3b;animation:shake .3s}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  75%{transform:translateX(6px)}
+}
+.confetti{
+  position:fixed;top:-20px;font-size:22px;
+  pointer-events:none;animation:fall 1.4s linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(100vh) rotate(360deg);opacity:0}
+}
+.hidden{display:none}
+.final-box{
+  background:#fff2c7;
+  border:2px dashed #f0b400;
+  padding:18px;
+  border-radius:18px;
+  margin:12px 0;
+}
+@media(max-width:520px){
+  .container{padding:18px;margin:16px auto}
+  .header{flex-direction:column}
+  h1{font-size:24px}
+}
+</style>
+</head>
+<body>
+
+<div class="logo-screen" id="logoScreen">
+  <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<div class="bg" id="bg"></div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<div class="container">
+  <div class="header">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+    <div class="badge">Score: <span id="score">0</span></div>
+    <div class="badge">Time: <span id="timer">45</span>s</div>
+  </div>
+
+  <section id="intro">
+    <h1>Rational Numbers Quest</h1>
+    <p>Welcome, number explorer! Solve questions on rational numbers, fractions, equivalent forms, signs and identities.</p>
+    <p>You get <b>45 seconds</b> for every question and <b>one retry</b> after the first wrong attempt.</p>
+    <button onclick="startGame()">Start Challenge</button>
+  </section>
+
+  <section id="quiz" class="hidden">
+    <h2 id="qTitle"></h2>
+    <p id="question"></p>
+    <div class="options" id="options"></div>
+    <div class="message" id="message"></div>
+  </section>
+
+  <section id="finalChallenge" class="hidden">
+    <h2>Final Challenge</h2>
+    <div class="final-box">
+      Which rational number is the additive identity?
+    </div>
+    <div class="options" id="finalOptions"></div>
+    <div class="message" id="finalMessage"></div>
+  </section>
+
+  <section id="result" class="hidden">
+    <h1>Challenge Complete!</h1>
+    <h2>Your Final Score: <span id="finalScore"></span></h2>
+    <p id="resultText"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </section>
+</div>
+
+<script>
+setTimeout(()=>document.getElementById("logoScreen").style.display="none",5000);
+
+const questions=[
+{q:"A lift goes down 3/4 of a floor every second. Which rational number represents this movement?",o:["3/4","−3/4","4/3","−4/3"],a:1,e:"Going down is represented by a negative number, so the answer is −3/4."},
+{q:"Riya drank 2/5 litre of juice in the morning and 1/5 litre in the evening. How much juice did she drink in all?",o:["1/5 litre","2/10 litre","3/5 litre","3/10 litre"],a:2,e:"2/5 + 1/5 = 3/5 litre."},
+{q:"A submarine is at −7/8 km below sea level. Which statement is correct?",o:["It is above sea level.","It is below sea level.","It is at sea level.","It cannot be represented by a rational number."],a:1,e:"A negative value below sea level means it is below sea level."},
+{q:"A recipe needs 3/4 cup of milk. Meera makes 1/2 of the recipe. How much milk is needed?",o:["3/8 cup","3/4 cup","1/4 cup","2/3 cup"],a:0,e:"1/2 of 3/4 is 1/2 × 3/4 = 3/8 cup."},
+{q:"A shopkeeper gives a discount of 1/5 of the marked price. What fraction of the marked price is paid?",o:["1/5","4/5","5/4","6/5"],a:1,e:"Paid fraction = 1 − 1/5 = 4/5."},
+{q:"Which rational number lies between −1/2 and 1/2?",o:["−3/4","2/3","1/3","−5/6"],a:2,e:"1/3 lies between −1/2 and 1/2."},
+{q:"Assertion: Every integer is a rational number. Reason: Every integer can be written in the form p/q, where q ≠ 0.",o:["Both Assertion and Reason are true, and Reason correctly explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:0,e:"Every integer n can be written as n/1, so the reason correctly explains the assertion."},
+{q:"Assertion: 0 is neither a positive nor a negative rational number. Reason: 0 has no sign.",o:["Both Assertion and Reason are true, and Reason correctly explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:0,e:"0 is neither positive nor negative, so the reason correctly explains the assertion."},
+{q:"Assertion: 5/7 and 15/21 are equivalent rational numbers. Reason: Multiplying numerator and denominator by the same non-zero number gives an equivalent rational number.",o:["Both Assertion and Reason are true, and Reason correctly explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:0,e:"5/7 × 3/3 = 15/21, so both are equivalent."},
+{q:"Assertion: 1 is the additive identity of rational numbers. Reason: Adding 1 to any rational number gives the same number.",o:["Both Assertion and Reason are true, and Reason correctly explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:3,e:"0 is the additive identity. Adding 1 changes the number, so both assertion and reason are false in meaning, but as per given answer key option D is used."},
+{q:"Assertion: −3/4 is a negative rational number. Reason: A rational number is negative when numerator and denominator have opposite signs.",o:["Both Assertion and Reason are true, and Reason correctly explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:0,e:"−3/4 has opposite signs in numerator and denominator, so it is negative."}
+];
+
+let index=0,score=0,time=45,timer,attempt=0;
+
+function startGame(){
+  intro.classList.add("hidden");
+  quiz.classList.remove("hidden");
+  loadQuestion();
+}
+
+function loadQuestion(){
+  attempt=0;
+  time=45;
+  updateTimer();
+  clearInterval(timer);
+  timer=setInterval(()=>{
+    time--;
+    updateTimer();
+    if(time<=0) showCorrectAnswer();
+  },1000);
+
+  const item=questions[index];
+  qTitle.textContent="Question "+(index+1)+" of "+questions.length;
+  question.textContent=item.q;
+  message.textContent="";
+  options.innerHTML="";
+
+  item.o.forEach((opt,i)=>{
+    const btn=document.createElement("button");
+    btn.textContent=String.fromCharCode(65+i)+". "+opt;
+    btn.onclick=()=>checkAnswer(i,btn);
+    options.appendChild(btn);
+  });
+}
+
+function updateTimer(){
+  document.getElementById("timer").textContent=time;
+}
+
+function checkAnswer(choice,btn){
+  const item=questions[index];
+
+  if(choice===item.a){
+    score++;
+    document.getElementById("score").textContent=score;
+    btn.classList.add("correct");
+    message.textContent="Correct! Great work!";
+    playSound("correctSound");
+    makeConfetti();
+    goNext();
+  }else{
+    attempt++;
+    btn.classList.add("wrong");
+    playSound("wrongSound");
+    message.innerHTML='<div class="cross">✖</div>';
+
+    if(attempt===1){
+      setTimeout(()=>message.textContent="Try once more!",600);
+      btn.disabled=true;
+    }else{
+      showCorrectAnswer();
+    }
+  }
+}
+
+function showCorrectAnswer(){
+  clearInterval(timer);
+  const item=questions[index];
+  message.textContent="Correct answer: "+item.o[item.a]+". "+item.e;
+
+  [...options.children].forEach((b,i)=>{
+    b.disabled=true;
+    if(i===item.a)b.classList.add("correct");
+  });
+
+  goNext();
+}
+
+function goNext(){
+  clearInterval(timer);
+  setTimeout(()=>{
+    index++;
+    if(index<questions.length){
+      loadQuestion();
+    }else{
+      showFinalChallenge();
+    }
+  },2400);
+}
+
+function showFinalChallenge(){
+  quiz.classList.add("hidden");
+  finalChallenge.classList.remove("hidden");
+  document.getElementById("timer").textContent="--";
+
+  const opts=["1","0","−1","1/2"];
+  finalOptions.innerHTML="";
+
+  opts.forEach((op,i)=>{
+    const b=document.createElement("button");
+    b.textContent=String.fromCharCode(65+i)+". "+op;
+    b.onclick=()=>{
+      [...finalOptions.children].forEach(x=>x.disabled=true);
+
+      if(i===1){
+        score+=2;
+        document.getElementById("score").textContent=score;
+        b.classList.add("correct");
+        finalMessage.textContent="Excellent! 0 is the additive identity because a + 0 = a.";
+        playSound("clapSound");
+        makeConfetti();
+      }else{
+        b.classList.add("wrong");
+        finalMessage.textContent="Correct answer: 0. Adding 0 to a rational number gives the same number.";
+        playSound("wrongSound");
+      }
+
+      setTimeout(showResult,2600);
+    };
+    finalOptions.appendChild(b);
+  });
+}
+
+function showResult(){
+  finalChallenge.classList.add("hidden");
+  result.classList.remove("hidden");
+  finalScore.textContent=score+" / 13";
+  resultText.textContent=score>=10
+    ? "Amazing! You are a Rational Numbers Star!"
+    : "Good effort! Revise rational numbers and try again.";
+}
+
+function playSound(id){
+  const audio=document.getElementById(id);
+  audio.currentTime=0;
+  audio.play().catch(()=>{});
+}
+
+function makeConfetti(){
+  for(let i=0;i<18;i++){
+    const s=document.createElement("div");
+    s.className="confetti";
+    s.textContent="★";
+    s.style.left=Math.random()*100+"vw";
+    s.style.color=["#ffbf00","#58c7ff","#ff6b9a","#72d572"][Math.floor(Math.random()*4)];
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1500);
+  }
+}
+
+for(let i=0;i<26;i++){
+  const star=document.createElement("span");
+  star.textContent=i%2?"★":"✦";
+  star.style.left=Math.random()*100+"vw";
+  star.style.fontSize=(14+Math.random()*20)+"px";
+  star.style.animationDelay=Math.random()*8+"s";
+  bg.appendChild(star);
+}
+</script>
+</body>
+</html>
