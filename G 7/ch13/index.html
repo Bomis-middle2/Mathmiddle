@@ -1,1 +1,265 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visualising Solid Shapes MCQ Challenge</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;min-height:100vh;background:linear-gradient(135deg,#eef7ff,#fff3dc);color:#203040;overflow-x:hidden}
+.logo-screen{position:fixed;inset:0;background:#fff;z-index:99;display:flex;align-items:center;justify-content:center}
+.logo-screen img{max-width:220px;animation:pop 1s ease}
+@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+.bg span{position:fixed;color:rgba(255,180,0,.35);z-index:-1;animation:float 10s linear infinite}
+@keyframes float{from{transform:translateY(100vh) rotate(0)}to{transform:translateY(-10vh) rotate(360deg)}}
+.container{width:min(92%,820px);margin:28px auto;background:rgba(255,255,255,.94);border-radius:24px;padding:24px;box-shadow:0 10px 28px rgba(0,0,0,.12)}
+.header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
+.header img{height:46px}
+.badge{background:#e8f2ff;padding:8px 12px;border-radius:18px;font-weight:bold}
+h1,h2{text-align:center;margin-bottom:14px}
+p{line-height:1.5}
+.case-box{background:#fff6d9;border-left:5px solid #f0b400;padding:12px;border-radius:12px;margin-bottom:12px;font-weight:bold}
+button{border:0;background:#3478f6;color:white;padding:13px 18px;border-radius:14px;font-size:16px;cursor:pointer;margin-top:14px}
+button:hover{background:#245ed0}
+.options button{width:100%;display:block;background:#fff;color:#203040;border:2px solid #dbe7ff;margin:10px 0;text-align:left}
+.options button:hover{background:#edf5ff}
+.correct{background:#dcf8dc!important;border-color:#36b24a!important}
+.wrong{background:#ffe1e1!important;border-color:#e23b3b!important}
+.message{min-height:50px;text-align:center;font-weight:bold;margin-top:10px}
+.cross{font-size:42px;color:#e23b3b;animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.confetti{position:fixed;top:-20px;font-size:22px;pointer-events:none;animation:fall 1.4s linear forwards}
+@keyframes fall{to{transform:translateY(100vh) rotate(360deg);opacity:0}}
+.hidden{display:none}
+.final-box{background:#fff2c7;border:2px dashed #f0b400;padding:18px;border-radius:18px;margin:12px 0}
+@media(max-width:520px){.container{padding:18px;margin:16px auto}.header{flex-direction:column}h1{font-size:24px}}
+</style>
+</head>
+<body>
+
+<div class="logo-screen" id="logoScreen">
+  <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<div class="bg" id="bg"></div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<div class="container">
+  <div class="header">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+    <div class="badge">Score: <span id="score">0</span></div>
+    <div class="badge">Time: <span id="timer">45</span>s</div>
+  </div>
+
+  <section id="intro">
+    <h1>Solid Shapes Quest</h1>
+    <p>Welcome, shape explorer! Solve questions on cubes, cuboids, cylinders, cones, faces, edges, vertices, nets and isometric sketches.</p>
+    <p>You get <b>45 seconds</b> for every question and <b>one retry</b> after the first wrong attempt.</p>
+    <button onclick="startGame()">Start Challenge</button>
+  </section>
+
+  <section id="quiz" class="hidden">
+    <h2 id="qTitle"></h2>
+    <div id="caseBox" class="case-box hidden"></div>
+    <p id="question"></p>
+    <div class="options" id="options"></div>
+    <div class="message" id="message"></div>
+  </section>
+
+  <section id="finalChallenge" class="hidden">
+    <h2>Final Challenge</h2>
+    <div class="final-box">Which solid has one circular base, one curved surface and one vertex?</div>
+    <div class="options" id="finalOptions"></div>
+    <div class="message" id="finalMessage"></div>
+  </section>
+
+  <section id="result" class="hidden">
+    <h1>Challenge Complete!</h1>
+    <h2>Your Final Score: <span id="finalScore"></span></h2>
+    <p id="resultText"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </section>
+</div>
+
+<script>
+setTimeout(()=>document.getElementById("logoScreen").style.display="none",5000);
+
+const questions=[
+{q:"A dice is used in a board game. What shape is a dice?",o:["Cuboid","Cube","Cylinder","Cone"],a:1,e:"A dice has 6 equal square faces, so it is a cube."},
+{q:"A matchbox has 6 rectangular faces. It is an example of:",o:["Cube","Cuboid","Sphere","Cone"],a:1,e:"A matchbox has rectangular faces, so it is a cuboid."},
+{q:"A water bottle has circular top and bottom with one curved surface. It resembles a:",o:["Cube","Cylinder","Cone","Pyramid"],a:1,e:"A cylinder has two circular faces and one curved surface."},
+{q:"A birthday cap has one circular base and one curved surface. It resembles a:",o:["Cone","Cylinder","Cube","Prism"],a:0,e:"A birthday cap is shaped like a cone."},
+{q:"The corner of a solid shape is called:",o:["Face","Edge","Vertex","Net"],a:2,e:"A corner of a solid shape is called a vertex."},
+{q:"The flat surface of a solid shape is called:",o:["Edge","Face","Vertex","Shadow"],a:1,e:"A flat surface of a solid shape is called a face."},
+{q:"A box is opened and spread flat on paper. The flat pattern obtained is called:",o:["Shadow","Net","Face","View"],a:1,e:"The flat pattern of a solid is called its net."},
+{q:"To draw a 3D object with exact measurements on dot paper, we use:",o:["Isometric sketch","Rough sketch","Bar graph","Number line"],a:0,e:"An isometric sketch is used to draw 3D objects with exact measurements."},
+{caseText:"Case 1: A teacher shows a solid with 6 square faces, 12 edges and 8 vertices.",q:"The solid is a:",o:["Cube","Cylinder","Cone","Sphere"],a:0,e:"A cube has 6 square faces, 12 edges and 8 vertices."},
+{caseText:"Case 1: A teacher shows a solid with 6 square faces, 12 edges and 8 vertices.",q:"Each face of this solid is a:",o:["Triangle","Square","Circle","Pentagon"],a:1,e:"Each face of a cube is a square."},
+{caseText:"Case 2: A triangular pyramid has 4 faces, 6 edges and 4 vertices.",q:"Another name for a triangular pyramid is:",o:["Cuboid","Tetrahedron","Cylinder","Prism"],a:1,e:"A triangular pyramid is also called a tetrahedron."},
+{caseText:"Case 2: A triangular pyramid has 4 faces, 6 edges and 4 vertices.",q:"The faces of a triangular pyramid are:",o:["Rectangles","Circles","Triangles","Squares"],a:2,e:"A triangular pyramid has triangular faces."}
+];
+
+let index=0,score=0,time=45,timer,attempt=0;
+
+function startGame(){
+  intro.classList.add("hidden");
+  quiz.classList.remove("hidden");
+  loadQuestion();
+}
+
+function loadQuestion(){
+  attempt=0;
+  time=45;
+  updateTimer();
+  clearInterval(timer);
+  timer=setInterval(()=>{
+    time--;
+    updateTimer();
+    if(time<=0) showCorrectAnswer();
+  },1000);
+
+  const item=questions[index];
+  qTitle.textContent="Question "+(index+1)+" of "+questions.length;
+  question.textContent=item.q;
+  message.textContent="";
+  options.innerHTML="";
+
+  if(item.caseText){
+    caseBox.textContent=item.caseText;
+    caseBox.classList.remove("hidden");
+  }else{
+    caseBox.classList.add("hidden");
+  }
+
+  item.o.forEach((opt,i)=>{
+    const btn=document.createElement("button");
+    btn.textContent=String.fromCharCode(65+i)+". "+opt;
+    btn.onclick=()=>checkAnswer(i,btn);
+    options.appendChild(btn);
+  });
+}
+
+function updateTimer(){document.getElementById("timer").textContent=time;}
+
+function checkAnswer(choice,btn){
+  const item=questions[index];
+
+  if(choice===item.a){
+    score++;
+    document.getElementById("score").textContent=score;
+    btn.classList.add("correct");
+    message.textContent="Correct! Great work!";
+    playSound("correctSound");
+    makeConfetti();
+    goNext();
+  }else{
+    attempt++;
+    btn.classList.add("wrong");
+    playSound("wrongSound");
+    message.innerHTML='<div class="cross">✖</div>';
+    if(attempt===1){
+      setTimeout(()=>message.textContent="Try once more!",600);
+      btn.disabled=true;
+    }else{
+      showCorrectAnswer();
+    }
+  }
+}
+
+function showCorrectAnswer(){
+  clearInterval(timer);
+  const item=questions[index];
+  message.textContent="Correct answer: "+item.o[item.a]+". "+item.e;
+
+  [...options.children].forEach((b,i)=>{
+    b.disabled=true;
+    if(i===item.a)b.classList.add("correct");
+  });
+
+  goNext();
+}
+
+function goNext(){
+  clearInterval(timer);
+  setTimeout(()=>{
+    index++;
+    if(index<questions.length) loadQuestion();
+    else showFinalChallenge();
+  },2400);
+}
+
+function showFinalChallenge(){
+  quiz.classList.add("hidden");
+  finalChallenge.classList.remove("hidden");
+  document.getElementById("timer").textContent="--";
+
+  const opts=["Cylinder","Cone","Cube","Sphere"];
+  finalOptions.innerHTML="";
+
+  opts.forEach((op,i)=>{
+    const b=document.createElement("button");
+    b.textContent=String.fromCharCode(65+i)+". "+op;
+    b.onclick=()=>{
+      [...finalOptions.children].forEach(x=>x.disabled=true);
+
+      if(i===1){
+        score+=2;
+        document.getElementById("score").textContent=score;
+        b.classList.add("correct");
+        finalMessage.textContent="Excellent! A cone has one circular base, one curved surface and one vertex.";
+        playSound("clapSound");
+        makeConfetti();
+      }else{
+        b.classList.add("wrong");
+        finalMessage.textContent="Correct answer: Cone.";
+        playSound("wrongSound");
+      }
+
+      setTimeout(showResult,2600);
+    };
+    finalOptions.appendChild(b);
+  });
+}
+
+function showResult(){
+  finalChallenge.classList.add("hidden");
+  result.classList.remove("hidden");
+  finalScore.textContent=score+" / 14";
+  resultText.textContent=score>=11
+    ? "Amazing! You are a Solid Shapes Star!"
+    : "Good effort! Revise faces, edges, vertices and nets.";
+}
+
+function playSound(id){
+  const audio=document.getElementById(id);
+  audio.currentTime=0;
+  audio.play().catch(()=>{});
+}
+
+function makeConfetti(){
+  for(let i=0;i<18;i++){
+    const s=document.createElement("div");
+    s.className="confetti";
+    s.textContent="★";
+    s.style.left=Math.random()*100+"vw";
+    s.style.color=["#ffbf00","#58c7ff","#ff6b9a","#72d572"][Math.floor(Math.random()*4)];
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1500);
+  }
+}
+
+for(let i=0;i<26;i++){
+  const star=document.createElement("span");
+  star.textContent=i%2?"★":"✦";
+  star.style.left=Math.random()*100+"vw";
+  star.style.fontSize=(14+Math.random()*20)+"px";
+  star.style.animationDelay=Math.random()*8+"s";
+  bg.appendChild(star);
+}
+</script>
+</body>
+</html>
