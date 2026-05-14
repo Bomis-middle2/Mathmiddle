@@ -1,1 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lines and Angles MCQ Challenge</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#eef7ff,#fff3dc);
+  color:#203040;
+  overflow-x:hidden;
+}
+.logo-screen{
+  position:fixed;inset:0;background:#fff;z-index:99;
+  display:flex;align-items:center;justify-content:center;
+}
+.logo-screen img{max-width:220px;animation:pop 1s ease}
+@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+.bg span{
+  position:fixed;color:rgba(255,180,0,.35);z-index:-1;
+  animation:float 10s linear infinite;
+}
+@keyframes float{
+  from{transform:translateY(100vh) rotate(0)}
+  to{transform:translateY(-10vh) rotate(360deg)}
+}
+.container{
+  width:min(92%,800px);
+  margin:28px auto;
+  background:rgba(255,255,255,.94);
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 10px 28px rgba(0,0,0,.12);
+}
+.header{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-bottom:18px;
+}
+.header img{height:46px}
+.badge{
+  background:#e8f2ff;
+  padding:8px 12px;
+  border-radius:18px;
+  font-weight:bold;
+}
+h1,h2{text-align:center;margin-bottom:14px}
+p{line-height:1.5}
+.case-box{
+  background:#fff6d9;
+  border-left:5px solid #f0b400;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:12px;
+  font-weight:bold;
+}
+.assertion-box{
+  background:#eef7ff;
+  border-left:5px solid #3478f6;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:12px;
+}
+button{
+  border:0;background:#3478f6;color:white;
+  padding:13px 18px;border-radius:14px;
+  font-size:16px;cursor:pointer;margin-top:14px;
+}
+button:hover{background:#245ed0}
+.options button{
+  width:100%;display:block;background:#fff;color:#203040;
+  border:2px solid #dbe7ff;margin:10px 0;text-align:left;
+}
+.options button:hover{background:#edf5ff}
+.correct{background:#dcf8dc!important;border-color:#36b24a!important}
+.wrong{background:#ffe1e1!important;border-color:#e23b3b!important}
+.message{
+  min-height:50px;text-align:center;font-weight:bold;margin-top:10px;
+}
+.cross{font-size:42px;color:#e23b3b;animation:shake .3s}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  75%{transform:translateX(6px)}
+}
+.confetti{
+  position:fixed;top:-20px;font-size:22px;
+  pointer-events:none;animation:fall 1.4s linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(100vh) rotate(360deg);opacity:0}
+}
+.hidden{display:none}
+.final-box{
+  background:#fff2c7;
+  border:2px dashed #f0b400;
+  padding:18px;
+  border-radius:18px;
+  margin:12px 0;
+}
+@media(max-width:520px){
+  .container{padding:18px;margin:16px auto}
+  .header{flex-direction:column}
+  h1{font-size:24px}
+}
+</style>
+</head>
+<body>
 
+<div class="logo-screen" id="logoScreen">
+  <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<div class="bg" id="bg"></div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<div class="container">
+  <div class="header">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+    <div class="badge">Score: <span id="score">0</span></div>
+    <div class="badge">Time: <span id="timer">45</span>s</div>
+  </div>
+
+  <section id="intro">
+    <h1>Lines and Angles Quest</h1>
+    <p>Welcome, angle explorer! Solve questions on angle types, complementary and supplementary angles, vertically opposite angles, parallel lines and transversals.</p>
+    <p>You get <b>45 seconds</b> for every question and <b>one retry</b> after the first wrong attempt.</p>
+    <button onclick="startGame()">Start Challenge</button>
+  </section>
+
+  <section id="quiz" class="hidden">
+    <h2 id="qTitle"></h2>
+    <div id="caseBox" class="case-box hidden"></div>
+    <div id="assertionBox" class="assertion-box hidden"></div>
+    <p id="question"></p>
+    <div class="options" id="options"></div>
+    <div class="message" id="message"></div>
+  </section>
+
+  <section id="finalChallenge" class="hidden">
+    <h2>Final Challenge</h2>
+    <div class="final-box">
+      Two angles form a linear pair. If one angle is 125°, what is the other angle?
+    </div>
+    <div class="options" id="finalOptions"></div>
+    <div class="message" id="finalMessage"></div>
+  </section>
+
+  <section id="result" class="hidden">
+    <h1>Challenge Complete!</h1>
+    <h2>Your Final Score: <span id="finalScore"></span></h2>
+    <p id="resultText"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </section>
+</div>
+
+<script>
+setTimeout(()=>document.getElementById("logoScreen").style.display="none",5000);
+
+const arOptions=[
+"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
+"Both Assertion and Reason are true, but Reason does not explain Assertion.",
+"Assertion is true, but Reason is false.",
+"Assertion is false, but Reason is true."
+];
+
+const questions=[
+{q:"Two roads meet at a crossing and form four angles. One angle is 105°. What is the vertically opposite angle?",o:["75°","85°","105°","180°"],a:2,e:"Vertically opposite angles are equal. So the angle is 105°."},
+{q:"A door is opened such that it makes an angle of 90° with the wall. What type of angle is formed?",o:["Acute angle","Right angle","Obtuse angle","Straight angle"],a:1,e:"An angle of 90° is called a right angle."},
+{q:"Two angles on a straight line are 65° and x. What is x?",o:["25°","65°","115°","180°"],a:2,e:"Angles on a straight line add to 180°. So x = 180° − 65° = 115°."},
+{q:"A ladder and a wall form an angle of 35°. What is the complement of this angle?",o:["35°","55°","145°","180°"],a:1,e:"Complementary angles add to 90°. So 90° − 35° = 55°."},
+{q:"Railway tracks never meet each other. Which type of lines do they represent?",o:["Intersecting lines","Perpendicular lines","Parallel lines","Transversal lines"],a:2,e:"Lines that never meet are called parallel lines."},
+{q:"A road cuts across two parallel streets. The road acts as a:",o:["Ray","Line segment","Transversal","Vertex"],a:2,e:"A line that cuts two or more lines is called a transversal."},
+{caseText:"Case: In an art design, two straight lines intersect each other. One angle formed is 70°.",q:"What is the angle vertically opposite to 70°?",o:["20°","70°","110°","180°"],a:1,e:"Vertically opposite angles are equal, so the angle is 70°."},
+{caseText:"Case: In an art design, two straight lines intersect each other. One angle formed is 70°.",q:"What is the adjacent angle forming a linear pair with 70°?",o:["20°","70°","110°","180°"],a:2,e:"Linear pair angles add to 180°. So 180° − 70° = 110°."},
+{assertion:"Assertion: Two angles measuring 35° and 55° are complementary.",reason:"Reason: Two angles are complementary if their sum is 90°.",q:"Choose the correct option.",o:arOptions,a:0,e:"35° + 55° = 90°, so the reason correctly explains the assertion."},
+{assertion:"Assertion: Two angles forming a linear pair have a sum of 180°.",reason:"Reason: A linear pair is formed when adjacent angles have non-common arms as opposite rays.",q:"Choose the correct option.",o:arOptions,a:0,e:"The definition of a linear pair explains why the angles form a straight line and add to 180°."},
+{assertion:"Assertion: Vertically opposite angles are always equal.",reason:"Reason: They are formed when two lines intersect.",q:"Choose the correct option.",o:arOptions,a:0,e:"When two lines intersect, vertically opposite angles are formed and they are equal."},
+{assertion:"Assertion: Corresponding angles are equal when a transversal cuts any two lines.",reason:"Reason: Corresponding angles are equal only when the two lines are parallel.",q:"Choose the correct option.",o:arOptions,a:3,e:"The assertion is false because corresponding angles are equal only for parallel lines. The reason is true."},
+{assertion:"Assertion: 120° and 60° are supplementary angles.",reason:"Reason: Supplementary angles have a sum of 90°.",q:"Choose the correct option.",o:arOptions,a:2,e:"120° + 60° = 180°, so the assertion is true. The reason is false because supplementary angles add to 180°."}
+];
+
+let index=0,score=0,time=45,timer,attempt=0;
+
+function startGame(){
+  intro.classList.add("hidden");
+  quiz.classList.remove("hidden");
+  loadQuestion();
+}
+
+function loadQuestion(){
+  attempt=0;
+  time=45;
+  updateTimer();
+  clearInterval(timer);
+  timer=setInterval(()=>{
+    time--;
+    updateTimer();
+    if(time<=0) showCorrectAnswer();
+  },1000);
+
+  const item=questions[index];
+  qTitle.textContent="Question "+(index+1)+" of "+questions.length;
+  question.textContent=item.q;
+  message.textContent="";
+  options.innerHTML="";
+
+  if(item.caseText){
+    caseBox.textContent=item.caseText;
+    caseBox.classList.remove("hidden");
+  }else{
+    caseBox.classList.add("hidden");
+  }
+
+  if(item.assertion){
+    assertionBox.innerHTML=item.assertion+"<br>"+item.reason;
+    assertionBox.classList.remove("hidden");
+  }else{
+    assertionBox.classList.add("hidden");
+  }
+
+  item.o.forEach((opt,i)=>{
+    const btn=document.createElement("button");
+    btn.textContent=String.fromCharCode(65+i)+". "+opt;
+    btn.onclick=()=>checkAnswer(i,btn);
+    options.appendChild(btn);
+  });
+}
+
+function updateTimer(){
+  document.getElementById("timer").textContent=time;
+}
+
+function checkAnswer(choice,btn){
+  const item=questions[index];
+
+  if(choice===item.a){
+    score++;
+    document.getElementById("score").textContent=score;
+    btn.classList.add("correct");
+    message.textContent="Correct! Great work!";
+    playSound("correctSound");
+    makeConfetti();
+    goNext();
+  }else{
+    attempt++;
+    btn.classList.add("wrong");
+    playSound("wrongSound");
+    message.innerHTML='<div class="cross">✖</div>';
+
+    if(attempt===1){
+      setTimeout(()=>message.textContent="Try once more!",600);
+      btn.disabled=true;
+    }else{
+      showCorrectAnswer();
+    }
+  }
+}
+
+function showCorrectAnswer(){
+  clearInterval(timer);
+  const item=questions[index];
+  message.textContent="Correct answer: "+item.o[item.a]+". "+item.e;
+
+  [...options.children].forEach((b,i)=>{
+    b.disabled=true;
+    if(i===item.a)b.classList.add("correct");
+  });
+
+  goNext();
+}
+
+function goNext(){
+  clearInterval(timer);
+  setTimeout(()=>{
+    index++;
+    if(index<questions.length){
+      loadQuestion();
+    }else{
+      showFinalChallenge();
+    }
+  },2400);
+}
+
+function showFinalChallenge(){
+  quiz.classList.add("hidden");
+  finalChallenge.classList.remove("hidden");
+  document.getElementById("timer").textContent="--";
+
+  const opts=["45°","55°","65°","125°"];
+  finalOptions.innerHTML="";
+
+  opts.forEach((op,i)=>{
+    const b=document.createElement("button");
+    b.textContent=String.fromCharCode(65+i)+". "+op;
+    b.onclick=()=>{
+      [...finalOptions.children].forEach(x=>x.disabled=true);
+
+      if(i===1){
+        score+=2;
+        document.getElementById("score").textContent=score;
+        b.classList.add("correct");
+        finalMessage.textContent="Excellent! Linear pair angles add to 180°. So 180° − 125° = 55°.";
+        playSound("clapSound");
+        makeConfetti();
+      }else{
+        b.classList.add("wrong");
+        finalMessage.textContent="Correct answer: 55°. Linear pair angles add to 180°.";
+        playSound("wrongSound");
+      }
+
+      setTimeout(showResult,2600);
+    };
+    finalOptions.appendChild(b);
+  });
+}
+
+function showResult(){
+  finalChallenge.classList.add("hidden");
+  result.classList.remove("hidden");
+  finalScore.textContent=score+" / 15";
+  resultText.textContent=score>=12
+    ? "Amazing! You are a Lines and Angles Star!"
+    : "Good effort! Revise angle pairs and line properties.";
+}
+
+function playSound(id){
+  const audio=document.getElementById(id);
+  audio.currentTime=0;
+  audio.play().catch(()=>{});
+}
+
+function makeConfetti(){
+  for(let i=0;i<18;i++){
+    const s=document.createElement("div");
+    s.className="confetti";
+    s.textContent="★";
+    s.style.left=Math.random()*100+"vw";
+    s.style.color=["#ffbf00","#58c7ff","#ff6b9a","#72d572"][Math.floor(Math.random()*4)];
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1500);
+  }
+}
+
+for(let i=0;i<26;i++){
+  const star=document.createElement("span");
+  star.textContent=i%2?"★":"✦";
+  star.style.left=Math.random()*100+"vw";
+  star.style.fontSize=(14+Math.random()*20)+"px";
+  star.style.animationDelay=Math.random()*8+"s";
+  bg.appendChild(star);
+}
+</script>
+</body>
+</html>
