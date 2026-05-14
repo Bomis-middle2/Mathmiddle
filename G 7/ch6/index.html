@@ -1,1 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Triangles MCQ Challenge</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#eef7ff,#fff3dc);
+  color:#203040;
+  overflow-x:hidden;
+}
+.logo-screen{
+  position:fixed;inset:0;background:#fff;z-index:99;
+  display:flex;align-items:center;justify-content:center;
+}
+.logo-screen img{max-width:220px;animation:pop 1s ease}
+@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+.bg span{
+  position:fixed;color:rgba(255,180,0,.35);z-index:-1;
+  animation:float 10s linear infinite;
+}
+@keyframes float{
+  from{transform:translateY(100vh) rotate(0)}
+  to{transform:translateY(-10vh) rotate(360deg)}
+}
+.container{
+  width:min(92%,800px);
+  margin:28px auto;
+  background:rgba(255,255,255,.94);
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 10px 28px rgba(0,0,0,.12);
+}
+.header{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-bottom:18px;
+}
+.header img{height:46px}
+.badge{
+  background:#e8f2ff;
+  padding:8px 12px;
+  border-radius:18px;
+  font-weight:bold;
+}
+h1,h2{text-align:center;margin-bottom:14px}
+p{line-height:1.5}
+.case-box{
+  background:#fff6d9;
+  border-left:5px solid #f0b400;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:12px;
+  font-weight:bold;
+}
+.assertion-box{
+  background:#eef7ff;
+  border-left:5px solid #3478f6;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:12px;
+}
+button{
+  border:0;background:#3478f6;color:white;
+  padding:13px 18px;border-radius:14px;
+  font-size:16px;cursor:pointer;margin-top:14px;
+}
+button:hover{background:#245ed0}
+.options button{
+  width:100%;display:block;background:#fff;color:#203040;
+  border:2px solid #dbe7ff;margin:10px 0;text-align:left;
+}
+.options button:hover{background:#edf5ff}
+.correct{background:#dcf8dc!important;border-color:#36b24a!important}
+.wrong{background:#ffe1e1!important;border-color:#e23b3b!important}
+.message{
+  min-height:50px;text-align:center;font-weight:bold;margin-top:10px;
+}
+.cross{font-size:42px;color:#e23b3b;animation:shake .3s}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  75%{transform:translateX(6px)}
+}
+.confetti{
+  position:fixed;top:-20px;font-size:22px;
+  pointer-events:none;animation:fall 1.4s linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(100vh) rotate(360deg);opacity:0}
+}
+.hidden{display:none}
+.final-box{
+  background:#fff2c7;
+  border:2px dashed #f0b400;
+  padding:18px;
+  border-radius:18px;
+  margin:12px 0;
+}
+@media(max-width:520px){
+  .container{padding:18px;margin:16px auto}
+  .header{flex-direction:column}
+  h1{font-size:24px}
+}
+</style>
+</head>
+<body>
 
+<div class="logo-screen" id="logoScreen">
+  <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<div class="bg" id="bg"></div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<div class="container">
+  <div class="header">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+    <div class="badge">Score: <span id="score">0</span></div>
+    <div class="badge">Time: <span id="timer">45</span>s</div>
+  </div>
+
+  <section id="intro">
+    <h1>Triangles Quest</h1>
+    <p>Welcome, geometry explorer! Solve questions on types of triangles, triangle inequality, median, altitude, Pythagoras theorem and congruence.</p>
+    <p>You get <b>45 seconds</b> for every question and <b>one retry</b> after the first wrong attempt.</p>
+    <button onclick="startGame()">Start Challenge</button>
+  </section>
+
+  <section id="quiz" class="hidden">
+    <h2 id="qTitle"></h2>
+    <div id="caseBox" class="case-box hidden"></div>
+    <div id="assertionBox" class="assertion-box hidden"></div>
+    <p id="question"></p>
+    <div class="options" id="options"></div>
+    <div class="message" id="message"></div>
+  </section>
+
+  <section id="finalChallenge" class="hidden">
+    <h2>Final Challenge</h2>
+    <div class="final-box">
+      A triangle has sides 5 cm, 12 cm and 13 cm. What type of triangle is it?
+    </div>
+    <div class="options" id="finalOptions"></div>
+    <div class="message" id="finalMessage"></div>
+  </section>
+
+  <section id="result" class="hidden">
+    <h1>Challenge Complete!</h1>
+    <h2>Your Final Score: <span id="finalScore"></span></h2>
+    <p id="resultText"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </section>
+</div>
+
+<script>
+setTimeout(()=>document.getElementById("logoScreen").style.display="none",5000);
+
+const arOptions=[
+"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
+"Both Assertion and Reason are true, but Reason does not explain Assertion.",
+"Assertion is true, but Reason is false.",
+"Assertion is false, but Reason is true."
+];
+
+const questions=[
+{q:"A carpenter makes a triangular wooden frame with sides 6 cm, 8 cm and 10 cm. What type of triangle is it?",o:["Acute triangle","Right triangle","Obtuse triangle","Equilateral triangle"],a:1,e:"6² + 8² = 36 + 64 = 100 = 10², so it is a right triangle."},
+{q:"A ladder forms a triangle with the wall and the ground. If the wall and ground meet at 90°, which property can be used to find the ladder length?",o:["Exterior angle property","Pythagoras theorem","Triangle inequality","Median property"],a:1,e:"A 90° triangle uses Pythagoras theorem to find the hypotenuse."},
+{q:"Three sticks of lengths 4 cm, 6 cm and 12 cm are given to make a triangle. Can a triangle be formed?",o:["Yes, because all sides are different","Yes, because 4 + 6 > 12","No, because 4 + 6 < 12","No, because 12 is the largest side"],a:2,e:"For a triangle, sum of any two sides must be greater than the third side. Here 4 + 6 < 12."},
+{q:"A triangular road sign has all three sides equal. What type of triangle is it?",o:["Scalene triangle","Isosceles triangle","Equilateral triangle","Right triangle"],a:2,e:"A triangle with all three sides equal is an equilateral triangle."},
+{q:"A student draws a line from one vertex of a triangle to the midpoint of the opposite side. What is this line called?",o:["Altitude","Median","Hypotenuse","Exterior angle"],a:1,e:"A median joins a vertex to the midpoint of the opposite side."},
+{q:"A triangle has angles 45°, 55° and 80°. Which type of triangle is it?",o:["Right-angled triangle","Obtuse-angled triangle","Acute-angled triangle","Isosceles triangle"],a:2,e:"All angles are less than 90°, so it is an acute-angled triangle."},
+{caseText:"Case: A triangular park has side lengths 7 m, 9 m and 15 m.",q:"Can these sides form a triangle?",o:["Yes","No","Only if one angle is 90°","Only if two sides are equal"],a:0,e:"Yes, because the sum of any two sides is greater than the third side."},
+{caseText:"Case: A triangular park has side lengths 7 m, 9 m and 15 m.",q:"Which condition supports the answer?",o:["7 + 9 > 15","7 + 9 < 15","7 + 15 = 9","9 + 15 < 7"],a:0,e:"7 + 9 = 16, which is greater than 15, so the triangle can be formed."},
+{assertion:"Assertion: The sum of the three angles of a triangle is 180°.",reason:"Reason: A triangle has three sides and three vertices.",q:"Choose the correct option.",o:arOptions,a:1,e:"Both statements are true, but the reason does not explain why the angle sum is 180°."},
+{assertion:"Assertion: A triangle with sides 3 cm, 4 cm and 5 cm is a right triangle.",reason:"Reason: In a right triangle, square of hypotenuse = sum of squares of other two sides.",q:"Choose the correct option.",o:arOptions,a:0,e:"3² + 4² = 5², so the reason correctly explains the assertion."},
+{assertion:"Assertion: Every equilateral triangle is also an isosceles triangle.",reason:"Reason: An isosceles triangle has at least two equal sides.",q:"Choose the correct option.",o:arOptions,a:0,e:"An equilateral triangle has three equal sides, so it also has at least two equal sides."},
+{assertion:"Assertion: An altitude of a triangle always bisects the opposite side.",reason:"Reason: A median joins a vertex to the midpoint of the opposite side.",q:"Choose the correct option.",o:arOptions,a:3,e:"The assertion is false. The reason is true because it defines a median."},
+{assertion:"Assertion: Two triangles are congruent if their corresponding parts are equal.",reason:"Reason: CPCT means Corresponding Parts of Congruent Triangles.",q:"Choose the correct option.",o:arOptions,a:0,e:"Both statements are true, and CPCT supports equality of corresponding parts in congruent triangles."}
+];
+
+let index=0,score=0,time=45,timer,attempt=0;
+
+function startGame(){
+  intro.classList.add("hidden");
+  quiz.classList.remove("hidden");
+  loadQuestion();
+}
+
+function loadQuestion(){
+  attempt=0;
+  time=45;
+  updateTimer();
+  clearInterval(timer);
+  timer=setInterval(()=>{
+    time--;
+    updateTimer();
+    if(time<=0) showCorrectAnswer();
+  },1000);
+
+  const item=questions[index];
+  qTitle.textContent="Question "+(index+1)+" of "+questions.length;
+  question.textContent=item.q;
+  message.textContent="";
+  options.innerHTML="";
+
+  if(item.caseText){
+    caseBox.textContent=item.caseText;
+    caseBox.classList.remove("hidden");
+  }else{
+    caseBox.classList.add("hidden");
+  }
+
+  if(item.assertion){
+    assertionBox.innerHTML=item.assertion+"<br>"+item.reason;
+    assertionBox.classList.remove("hidden");
+  }else{
+    assertionBox.classList.add("hidden");
+  }
+
+  item.o.forEach((opt,i)=>{
+    const btn=document.createElement("button");
+    btn.textContent=String.fromCharCode(65+i)+". "+opt;
+    btn.onclick=()=>checkAnswer(i,btn);
+    options.appendChild(btn);
+  });
+}
+
+function updateTimer(){
+  document.getElementById("timer").textContent=time;
+}
+
+function checkAnswer(choice,btn){
+  const item=questions[index];
+
+  if(choice===item.a){
+    score++;
+    document.getElementById("score").textContent=score;
+    btn.classList.add("correct");
+    message.textContent="Correct! Great work!";
+    playSound("correctSound");
+    makeConfetti();
+    goNext();
+  }else{
+    attempt++;
+    btn.classList.add("wrong");
+    playSound("wrongSound");
+    message.innerHTML='<div class="cross">✖</div>';
+
+    if(attempt===1){
+      setTimeout(()=>message.textContent="Try once more!",600);
+      btn.disabled=true;
+    }else{
+      showCorrectAnswer();
+    }
+  }
+}
+
+function showCorrectAnswer(){
+  clearInterval(timer);
+  const item=questions[index];
+  message.textContent="Correct answer: "+item.o[item.a]+". "+item.e;
+
+  [...options.children].forEach((b,i)=>{
+    b.disabled=true;
+    if(i===item.a)b.classList.add("correct");
+  });
+
+  goNext();
+}
+
+function goNext(){
+  clearInterval(timer);
+  setTimeout(()=>{
+    index++;
+    if(index<questions.length){
+      loadQuestion();
+    }else{
+      showFinalChallenge();
+    }
+  },2400);
+}
+
+function showFinalChallenge(){
+  quiz.classList.add("hidden");
+  finalChallenge.classList.remove("hidden");
+  document.getElementById("timer").textContent="--";
+
+  const opts=["Acute triangle","Right triangle","Obtuse triangle","Equilateral triangle"];
+  finalOptions.innerHTML="";
+
+  opts.forEach((op,i)=>{
+    const b=document.createElement("button");
+    b.textContent=String.fromCharCode(65+i)+". "+op;
+    b.onclick=()=>{
+      [...finalOptions.children].forEach(x=>x.disabled=true);
+
+      if(i===1){
+        score+=2;
+        document.getElementById("score").textContent=score;
+        b.classList.add("correct");
+        finalMessage.textContent="Excellent! 5² + 12² = 13², so it is a right triangle.";
+        playSound("clapSound");
+        makeConfetti();
+      }else{
+        b.classList.add("wrong");
+        finalMessage.textContent="Correct answer: Right triangle. It satisfies Pythagoras theorem.";
+        playSound("wrongSound");
+      }
+
+      setTimeout(showResult,2600);
+    };
+    finalOptions.appendChild(b);
+  });
+}
+
+function showResult(){
+  finalChallenge.classList.add("hidden");
+  result.classList.remove("hidden");
+  finalScore.textContent=score+" / 15";
+  resultText.textContent=score>=12
+    ? "Amazing! You are a Triangles Star!"
+    : "Good effort! Revise triangle properties and try again.";
+}
+
+function playSound(id){
+  const audio=document.getElementById(id);
+  audio.currentTime=0;
+  audio.play().catch(()=>{});
+}
+
+function makeConfetti(){
+  for(let i=0;i<18;i++){
+    const s=document.createElement("div");
+    s.className="confetti";
+    s.textContent="★";
+    s.style.left=Math.random()*100+"vw";
+    s.style.color=["#ffbf00","#58c7ff","#ff6b9a","#72d572"][Math.floor(Math.random()*4)];
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1500);
+  }
+}
+
+for(let i=0;i<26;i++){
+  const star=document.createElement("span");
+  star.textContent=i%2?"★":"✦";
+  star.style.left=Math.random()*100+"vw";
+  star.style.fontSize=(14+Math.random()*20)+"px";
+  star.style.animationDelay=Math.random()*8+"s";
+  bg.appendChild(star);
+}
+</script>
+</body>
+</html>
