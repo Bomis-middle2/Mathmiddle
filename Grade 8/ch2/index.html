@@ -1,1 +1,744 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Linear Equations in One Variable</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#1e3c72,#2a5298);
+overflow-x:hidden;
+color:white;
+min-height:100vh;
+}
+
+body::before{
+content:"";
+position:fixed;
+width:200%;
+height:200%;
+background:
+radial-gradient(circle, rgba(255,255,255,0.15) 2px, transparent 2px);
+background-size:60px 60px;
+animation:moveBg 35s linear infinite;
+z-index:-1;
+}
+
+@keyframes moveBg{
+0%{transform:translate(0,0);}
+100%{transform:translate(-200px,-200px);}
+}
+
+.screen{
+display:none;
+min-height:100vh;
+padding:20px;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+text-align:center;
+}
+
+.active{
+display:flex;
+}
+
+.logo-screen{
+background:#ffffff;
+color:#000;
+}
+
+.logo-screen img{
+width:180px;
+margin-bottom:20px;
+animation:pop 1s ease;
+}
+
+@keyframes pop{
+0%{transform:scale(0);}
+100%{transform:scale(1);}
+}
+
+.card{
+background:rgba(255,255,255,0.12);
+backdrop-filter:blur(8px);
+padding:25px;
+border-radius:20px;
+max-width:850px;
+width:100%;
+box-shadow:0 8px 25px rgba(0,0,0,0.3);
+}
+
+h1,h2{
+margin-bottom:15px;
+}
+
+p{
+line-height:1.6;
+}
+
+button{
+padding:12px 20px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+margin:10px;
+font-size:16px;
+font-weight:bold;
+transition:0.3s;
+}
+
+.start-btn{
+background:#00d084;
+color:white;
+}
+
+.option-btn{
+display:block;
+width:100%;
+margin:12px 0;
+background:white;
+color:#222;
+text-align:left;
+}
+
+.option-btn:hover{
+transform:scale(1.02);
+}
+
+.correct{
+background:#00c853 !important;
+color:white !important;
+}
+
+.wrong{
+background:#ff1744 !important;
+color:white !important;
+}
+
+.info-bar{
+display:flex;
+justify-content:space-between;
+margin-bottom:15px;
+font-weight:bold;
+flex-wrap:wrap;
+gap:10px;
+}
+
+.timer{
+background:#ff9800;
+padding:8px 15px;
+border-radius:10px;
+}
+
+.score{
+background:#00c853;
+padding:8px 15px;
+border-radius:10px;
+}
+
+.retry{
+color:#ffd54f;
+font-weight:bold;
+margin-top:10px;
+}
+
+.explanation{
+background:rgba(255,255,255,0.15);
+padding:15px;
+border-radius:12px;
+margin-top:15px;
+line-height:1.6;
+}
+
+.case-box{
+background:rgba(255,255,255,0.12);
+padding:15px;
+border-left:5px solid #ffd54f;
+margin-bottom:15px;
+border-radius:10px;
+text-align:left;
+}
+
+.final-badge{
+font-size:28px;
+margin-bottom:15px;
+}
+
+.cross{
+font-size:60px;
+color:#ff1744;
+animation:shake 0.5s;
+}
+
+@keyframes shake{
+0%,100%{transform:translateX(0);}
+25%{transform:translateX(-8px);}
+75%{transform:translateX(8px);}
+}
+
+.confetti{
+position:fixed;
+width:12px;
+height:12px;
+background:gold;
+clip-path:polygon(
+50% 0%,
+61% 35%,
+98% 35%,
+68% 57%,
+79% 91%,
+50% 70%,
+21% 91%,
+32% 57%,
+2% 35%,
+39% 35%
+);
+animation:fall 2s linear forwards;
+z-index:999;
+}
+
+@keyframes fall{
+0%{
+transform:translateY(-100px) rotate(0deg);
+opacity:1;
+}
+100%{
+transform:translateY(100vh) rotate(720deg);
+opacity:0;
+}
+}
+
+@media(max-width:700px){
+.card{
+padding:18px;
+}
+button{
+font-size:15px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGO SCREEN -->
+<div class="screen active logo-screen" id="logoScreen">
+<img src="assets/innovine-logo.png" alt="Innovine Logo">
+<h2>Innovine Learning</h2>
+<p>Loading Interactive Challenge...</p>
+</div>
+
+<!-- INTRO -->
+<div class="screen" id="introScreen">
+<div class="card">
+<h1>📘 Linear Equations in One Variable</h1>
+<p>
+Welcome to the interactive MCQ challenge!<br><br>
+
+✅ 45 seconds per question<br>
+✅ One retry allowed<br>
+✅ Explanations after second wrong attempt<br>
+✅ Final challenge included<br><br>
+
+Get ready to test your skills!
+</p>
+
+<button class="start-btn" onclick="startQuiz()">Start Challenge 🚀</button>
+</div>
+</div>
+
+<!-- QUIZ -->
+<div class="screen" id="quizScreen">
+<div class="card">
+
+<div class="info-bar">
+<div class="score">Score: <span id="score">0</span></div>
+<div class="timer">⏳ <span id="timer">45</span>s</div>
+</div>
+
+<h2 id="questionNumber"></h2>
+
+<div id="caseBox"></div>
+
+<h3 id="questionText"></h3>
+
+<div id="optionsContainer"></div>
+
+<div id="feedback"></div>
+
+</div>
+</div>
+
+<!-- FINAL CHALLENGE -->
+<div class="screen" id="finalScreen">
+<div class="card">
+<div class="final-badge">🏆 Final Challenge</div>
+
+<h2>
+Solve:
+<br><br>
+If 3x + 9 = 30, find x
+</h2>
+
+<div id="finalOptions"></div>
+</div>
+</div>
+
+<!-- RESULT -->
+<div class="screen" id="resultScreen">
+<div class="card">
+<h1>🎉 Quiz Complete!</h1>
+<h2>Your Score:</h2>
+
+<h1 id="finalScore"></h1>
+
+<p id="performanceText"></p>
+
+<button class="start-btn" onclick="restartQuiz()">Play Again 🔄</button>
+</div>
+</div>
+
+<!-- AUDIO -->
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<script>
+
+const questions = [
+
+{
+q:"If total fare for 10 km is ₹120, what is fixed charge?",
+options:["₹10","₹15","₹20","₹25"],
+answer:"₹20",
+explanation:"Taxi fare = Fixed charge + ₹10 per km. 120 = Fixed + 100 → Fixed charge = ₹20."
+},
+
+{
+q:"If fixed charge is ₹24 and total fare is ₹240 for 18 km, what is rate per km?",
+options:["₹10","₹12","₹15","₹18"],
+answer:"₹12",
+explanation:"240 - 24 = 216. 216 ÷ 18 = ₹12 per km."
+},
+
+{
+q:"Let first number = x. Which equation is correct?",
+options:[
+"x/(60 − x) = 2/3",
+"x/(60 + x) = 2/3",
+"(60 − x)/x = 2/3",
+"x = 2/3"
+],
+answer:"x/(60 − x) = 2/3",
+explanation:"Second number = 60 - x. Ratio = x : (60-x) = 2 : 3."
+},
+
+{
+q:"What are the numbers?",
+options:["20, 40","24, 36","30, 30","18, 42"],
+answer:"24, 36",
+explanation:"Ratio 2:3 means total 5 parts. 60 ÷ 5 = 12. Numbers = 24 and 36."
+},
+
+{
+caseStudy:"A rectangle has length twice its breadth. The perimeter is 66 m.",
+q:"Let breadth = x. Which equation is correct?",
+options:[
+"2x + x = 66",
+"2(x + 2x) = 66",
+"x + 2x = 66",
+"4x = 66"
+],
+answer:"2(x + 2x) = 66",
+explanation:"Perimeter = 2(length + breadth). Length = 2x."
+},
+
+{
+caseStudy:"A rectangle has length twice its breadth. The perimeter is 66 m.",
+q:"What is the breadth?",
+options:["10 m","11 m","12 m","13 m"],
+answer:"11 m",
+explanation:"2(x+2x)=66 → 6x=66 → x=11."
+},
+
+{
+caseStudy:"A car leaves a city at 4 PM at 80 km/h. Another car starts 1 hour later at 90 km/h to catch up.",
+q:"If the second car takes x hours to catch up, which equation is correct?",
+options:[
+"80x = 90x",
+"80(x + 1) = 90x",
+"80(x − 1) = 90x",
+"90(x + 1) = 80x"
+],
+answer:"80(x + 1) = 90x",
+explanation:"First car travels one extra hour."
+},
+
+{
+caseStudy:"A car leaves a city at 4 PM at 80 km/h. Another car starts 1 hour later at 90 km/h to catch up.",
+q:"How long does the second car take to catch up?",
+options:["6 hours","7 hours","8 hours","9 hours"],
+answer:"8 hours",
+explanation:"80(x+1)=90x → 80x+80=90x → x=8."
+},
+
+{
+caseStudy:"Ashish is 24 years older than Sagar. 10 years ago, Ashish was 5 times Sagar’s age.",
+q:"Let present age of Ashish be x. Which equation is correct?",
+options:[
+"x − 10 = 5(x − 24)",
+"x − 10 = 5(x − 34)",
+"x = 5(x − 34)",
+"x − 24 = 5(x − 10)"
+],
+answer:"x − 10 = 5(x − 34)",
+explanation:"Sagar’s age = x-24. Ten years ago = x-34."
+},
+
+{
+caseStudy:"Ashish is 24 years older than Sagar. 10 years ago, Ashish was 5 times Sagar’s age.",
+q:"What is Sagar’s present age?",
+options:["14","16","18","20"],
+answer:"16",
+explanation:"Ashish = 40, Sagar = 16."
+},
+
+{
+q:"Assertion (A): 3x + 2 = 11 has only one solution.<br><br>Reason (R): A linear equation in one variable has a unique solution.",
+options:[
+"Both A and R are true, R explains A",
+"Both A and R are true, but R does not explain A",
+"A true, R false",
+"A false, R true"
+],
+answer:"Both A and R are true, R explains A",
+explanation:"Linear equations in one variable have exactly one solution."
+},
+
+{
+q:"Assertion (A): x² + 2x = 5 is a linear equation.<br><br>Reason (R): Linear equations have highest power 1.",
+options:[
+"Both true",
+"Both false",
+"A false, R true",
+"A true, R false"
+],
+answer:"A false, R true",
+explanation:"x² makes it a quadratic equation."
+},
+
+{
+q:"Where is the error?<br><br>1. 2x + 3 = 10<br>2. 2x = 7<br>3. x = 3.5",
+options:["Step 1","Step 2","Step 3","No error"],
+answer:"Step 1",
+explanation:"2(x+3)=10 should become 2x+6=10."
+},
+
+{
+q:"Find the mistake:<br><br>5x − 3x = 6 − 2<br>2x = 4<br>x = 2",
+options:[
+"Sign error",
+"Transposition error",
+"No mistake",
+"Division error"
+],
+answer:"No mistake",
+explanation:"All steps are correct."
+}
+
+];
+
+let currentQuestion = 0;
+let score = 0;
+let retryUsed = false;
+let timer;
+let timeLeft = 45;
+
+const logoScreen = document.getElementById("logoScreen");
+const introScreen = document.getElementById("introScreen");
+const quizScreen = document.getElementById("quizScreen");
+const finalScreen = document.getElementById("finalScreen");
+const resultScreen = document.getElementById("resultScreen");
+
+setTimeout(()=>{
+logoScreen.classList.remove("active");
+introScreen.classList.add("active");
+},5000);
+
+function startQuiz(){
+introScreen.classList.remove("active");
+quizScreen.classList.add("active");
+loadQuestion();
+}
+
+function loadQuestion(){
+
+clearInterval(timer);
+timeLeft = 45;
+document.getElementById("timer").innerText = timeLeft;
+
+timer = setInterval(()=>{
+timeLeft--;
+document.getElementById("timer").innerText = timeLeft;
+
+if(timeLeft <= 0){
+clearInterval(timer);
+showAnswer(false,true);
+}
+},1000);
+
+retryUsed = false;
+
+const q = questions[currentQuestion];
+
+document.getElementById("questionNumber").innerHTML =
+`Question ${currentQuestion+1} of ${questions.length}`;
+
+document.getElementById("questionText").innerHTML = q.q;
+
+const caseBox = document.getElementById("caseBox");
+
+if(q.caseStudy){
+caseBox.innerHTML = `
+<div class="case-box">
+<strong>📘 Case Study:</strong><br><br>
+${q.caseStudy}
+</div>
+`;
+}else{
+caseBox.innerHTML = "";
+}
+
+const optionsContainer = document.getElementById("optionsContainer");
+optionsContainer.innerHTML = "";
+
+q.options.forEach(option=>{
+const btn = document.createElement("button");
+btn.classList.add("option-btn");
+btn.innerHTML = option;
+
+btn.onclick = ()=>{
+checkAnswer(option,btn);
+};
+
+optionsContainer.appendChild(btn);
+});
+
+document.getElementById("feedback").innerHTML = "";
+}
+
+function checkAnswer(selected,button){
+
+const q = questions[currentQuestion];
+
+if(selected === q.answer){
+
+button.classList.add("correct");
+
+document.getElementById("correctSound").play();
+
+createConfetti();
+
+score++;
+document.getElementById("score").innerText = score;
+
+clearInterval(timer);
+
+setTimeout(()=>{
+nextQuestion();
+},1500);
+
+}else{
+
+document.getElementById("wrongSound").play();
+
+button.classList.add("wrong");
+
+if(!retryUsed){
+
+retryUsed = true;
+
+document.getElementById("feedback").innerHTML =
+`<div class="retry">❌ Wrong attempt. Try once more!</div>`;
+
+}else{
+
+showAnswer(true,false);
+
+}
+
+}
+}
+
+function showAnswer(wrong,timeup){
+
+clearInterval(timer);
+
+const q = questions[currentQuestion];
+
+if(wrong){
+document.getElementById("feedback").innerHTML += `
+<div class="cross">✖</div>
+`;
+}
+
+if(timeup){
+document.getElementById("feedback").innerHTML += `
+<div class="cross">⏰</div>
+`;
+}
+
+document.getElementById("feedback").innerHTML += `
+<div class="explanation">
+✅ Correct Answer: <strong>${q.answer}</strong>
+<br><br>
+💡 ${q.explanation}
+</div>
+`;
+
+setTimeout(()=>{
+nextQuestion();
+},4500);
+}
+
+function nextQuestion(){
+
+currentQuestion++;
+
+if(currentQuestion < questions.length){
+
+loadQuestion();
+
+}else{
+
+showFinalChallenge();
+
+}
+}
+
+function showFinalChallenge(){
+
+quizScreen.classList.remove("active");
+finalScreen.classList.add("active");
+
+const options = ["5","6","7","8"];
+
+const container = document.getElementById("finalOptions");
+container.innerHTML = "";
+
+options.forEach(opt=>{
+
+const btn = document.createElement("button");
+btn.classList.add("option-btn");
+btn.innerHTML = opt;
+
+btn.onclick = ()=>{
+
+if(opt === "7"){
+
+btn.classList.add("correct");
+
+document.getElementById("clapSound").play();
+
+score += 2;
+
+createConfetti();
+
+setTimeout(()=>{
+showResult();
+},1500);
+
+}else{
+
+btn.classList.add("wrong");
+
+document.getElementById("wrongSound").play();
+
+setTimeout(()=>{
+showResult();
+},1500);
+
+}
+
+};
+
+container.appendChild(btn);
+
+});
+}
+
+function showResult(){
+
+finalScreen.classList.remove("active");
+resultScreen.classList.add("active");
+
+document.getElementById("finalScore").innerHTML =
+`${score} / ${questions.length + 2}`;
+
+let text = "";
+
+if(score >= 14){
+text = "🌟 Outstanding Performance!";
+}
+else if(score >= 10){
+text = "👏 Great Job!";
+}
+else if(score >= 6){
+text = "👍 Good Effort!";
+}
+else{
+text = "📘 Keep Practicing!";
+}
+
+document.getElementById("performanceText").innerHTML = text;
+}
+
+function restartQuiz(){
+
+currentQuestion = 0;
+score = 0;
+
+document.getElementById("score").innerText = 0;
+
+resultScreen.classList.remove("active");
+introScreen.classList.add("active");
+}
+
+function createConfetti(){
+
+for(let i=0;i<25;i++){
+
+const confetti = document.createElement("div");
+confetti.classList.add("confetti");
+
+confetti.style.left = Math.random()*100 + "vw";
+
+confetti.style.background =
+`hsl(${Math.random()*360},100%,50%)`;
+
+confetti.style.animationDuration =
+(Math.random()*2 + 1) + "s";
+
+document.body.appendChild(confetti);
+
+setTimeout(()=>{
+confetti.remove();
+},3000);
+
+}
+}
+
+</script>
+
+</body>
+</html>
