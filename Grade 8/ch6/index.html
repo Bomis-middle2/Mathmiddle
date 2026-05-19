@@ -1,1 +1,399 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 8 Factorisation MCQ Challenge</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial, sans-serif}
+body{
+  min-height:100vh;
+  background:linear-gradient(135deg,#eaf6ff,#fff4df);
+  color:#243447;
+  overflow-x:hidden;
+}
+#splash{
+  position:fixed;inset:0;background:white;
+  display:flex;justify-content:center;align-items:center;
+  z-index:9999;
+}
+#splash img{width:220px;max-width:70%;animation:zoom .9s ease}
+@keyframes zoom{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+.bg span{
+  position:fixed;
+  z-index:0;
+  opacity:.22;
+  font-size:24px;
+  animation:float 9s linear infinite;
+}
+@keyframes float{
+  from{transform:translateY(105vh) rotate(0deg)}
+  to{transform:translateY(-15vh) rotate(360deg)}
+}
+.container{
+  position:relative;
+  z-index:1;
+  max-width:900px;
+  margin:auto;
+  padding:18px;
+}
+.card{
+  background:rgba(255,255,255,.96);
+  margin-top:25px;
+  padding:24px;
+  border-radius:22px;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+.logo{width:95px;margin-bottom:10px}
+h1,h2{text-align:center;color:#1d4e89;margin-bottom:14px}
+p{line-height:1.6;margin-bottom:10px}
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+  font-weight:bold;
+  margin-bottom:14px;
+}
+.timer{color:#d84315}
+button{
+  width:100%;
+  padding:13px 16px;
+  border:0;
+  border-radius:14px;
+  margin:7px 0;
+  font-size:16px;
+  cursor:pointer;
+  background:#1d4e89;
+  color:white;
+}
+.option{
+  background:#f3f8ff;
+  color:#243447;
+  border:2px solid transparent;
+  text-align:left;
+}
+.option:hover{border-color:#1d4e89}
+.question-table{
+  width:100%;
+  border-collapse:collapse;
+  margin:12px 0 16px;
+  overflow:hidden;
+  border-radius:12px;
+  background:#ffffff;
+}
+.question-table th{
+  background:#1d4e89;
+  color:white;
+  padding:10px;
+  font-size:15px;
+}
+.question-table td{
+  border:1px solid #d7e3f4;
+  padding:10px;
+  text-align:center;
+  font-size:15px;
+}
+.feedback{
+  text-align:center;
+  font-weight:bold;
+  font-size:18px;
+  margin-top:12px;
+}
+.correct{color:#2e7d32}
+.wrong{color:#c62828}
+.explanation{
+  background:#fff3df;
+  padding:12px;
+  border-radius:12px;
+  margin-top:12px;
+}
+.hidden{display:none}
+.final{border:2px dashed #f9a825;background:#fffdf0}
+.confetti{
+  position:fixed;
+  pointer-events:none;
+  font-size:24px;
+  z-index:50;
+  animation:fall 1.4s linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(230px) rotate(360deg);opacity:0}
+}
+.cross{
+  position:fixed;
+  top:48%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:80px;
+  color:rgba(198,40,40,.65);
+  z-index:50;
+  animation:fade .8s forwards;
+}
+@keyframes fade{
+  to{opacity:0;transform:translate(-50%,-50%) scale(1.5)}
+}
+@media(max-width:600px){
+  .card{padding:18px}
+  h1{font-size:24px}
+  h2{font-size:20px}
+  .question-table th,.question-table td{font-size:14px;padding:8px}
+}
+</style>
+</head>
+<body>
+
+<div id="splash">
+  <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<div class="bg">
+  <span style="left:8%;animation-delay:0s">⭐</span>
+  <span style="left:24%;animation-delay:2s">🎗️</span>
+  <span style="left:42%;animation-delay:4s">✨</span>
+  <span style="left:66%;animation-delay:1s">🎉</span>
+  <span style="left:84%;animation-delay:3s">⭐</span>
+</div>
+
+<div class="container">
+
+<div id="intro" class="card">
+  <center><img class="logo" src="assets/innovine-logo.png" alt="Innovine Logo"></center>
+  <h1>Factorisation Challenge</h1>
+  <p>Welcome, Math Explorer! Solve competency-based MCQs on Factorisation.</p>
+  <p>You will get <b>45 seconds</b> for each question and <b>one retry</b> after the first wrong attempt.</p>
+  <button onclick="startGame()">Start Challenge</button>
+</div>
+
+<div id="quiz" class="card hidden">
+  <div class="topbar">
+    <div>Score: <span id="score">0</span></div>
+    <div>Question: <span id="qno">1</span>/<span id="total"></span></div>
+    <div class="timer">Time: <span id="time">45</span>s</div>
+  </div>
+  <h2 id="question"></h2>
+  <div id="questionVisual"></div>
+  <div id="options"></div>
+  <div id="feedback" class="feedback"></div>
+  <div id="explanation" class="explanation hidden"></div>
+</div>
+
+<div id="final" class="card final hidden">
+  <h1>Final Challenge</h1>
+  <p>This question carries 2 points. Think carefully before choosing!</p>
+  <h2 id="finalQ"></h2>
+  <div id="finalOptions"></div>
+  <div id="finalFeedback" class="feedback"></div>
+</div>
+
+<div id="result" class="card hidden">
+  <center><img class="logo" src="assets/innovine-logo.png" alt="Innovine Logo"></center>
+  <h1>Challenge Complete!</h1>
+  <h2>Your Score: <span id="finalScore"></span></h2>
+  <p id="remark"></p>
+  <button onclick="location.reload()">Play Again</button>
+</div>
+
+</div>
+
+<script>
+const questions=[
+{q:"A rectangular garden has an area of x² + 7x square metres. Which expression shows its possible dimensions?",visual:"",o:["x(x + 7)","7(x + 7)","x(x - 7)","x²(x + 7)"],a:0,e:"The common factor is x, so x² + 7x = x(x + 7)."},
+{q:"A teacher gives students expression cards. One card has 6a + 12. Which factor pair will help arrange it into equal groups?",visual:"",o:["6(a + 2)","6(a + 12)","a(6 + 12)","12(a + 6)"],a:0,e:"6 is common in both terms, so 6a + 12 = 6(a + 2)."},
+{q:"Observe the table and choose the factorised form that correctly completes it.",visual:`<table class="question-table">
+<tr><th>Expression</th><th>Common Factor</th><th>Factorised Form</th></tr>
+<tr><td>4x + 8</td><td>4</td><td>4(x + 2)</td></tr>
+<tr><td>5y + 15</td><td>5</td><td>?</td></tr>
+</table>`,o:["5(y + 3)","5(y + 15)","y(5 + 15)","15(y + 5)"],a:0,e:"Taking 5 common gives 5y + 15 = 5(y + 3)."},
+{q:"A square park has an area of x² + 10x + 25. Which expression could represent the side of the park?",visual:"",o:["x + 5","x - 5","x + 10","x - 25"],a:0,e:"x² + 10x + 25 = (x + 5)², so side = x + 5."},
+{q:"A student factorises 9m² - 16 to find two possible side expressions of a rectangle. Which is correct?",visual:"",o:["(3m + 4)(3m - 4)","(9m + 4)(m - 4)","(3m - 16)(3m + 1)","(9m - 16)(m + 1)"],a:0,e:"9m² - 16 is a difference of squares: (3m)² - 4²."},
+{q:"Assertion: 8x + 20 can be factorised as 4(2x + 5). Reason: 4 is the highest common factor of 8 and 20.",visual:"",o:["Both are true and Reason explains Assertion","Both are true but Reason does not explain Assertion","Assertion is true, Reason is false","Assertion is false, Reason is true"],a:0,e:"4 is the HCF, so 8x + 20 = 4(2x + 5)."},
+{q:"A class is arranging 12p + 18q counters into equal groups. What is the greatest common factor they can take out?",visual:"",o:["2","3","6","12"],a:2,e:"The HCF of 12 and 18 is 6."},
+{q:"In the pattern, x² - 9 = (x + 3)(x - 3). What is the factorised form of x² - 49?",visual:"",o:["(x + 7)(x - 7)","(x + 49)(x - 49)","(x - 7)²","(x + 7)²"],a:0,e:"x² - 49 = x² - 7² = (x + 7)(x - 7)."},
+{q:"A student factorises x² + 12x + 36 as (x + 6)(x + 6). Which idea has the student used?",visual:"",o:["Common factor","Perfect square trinomial","Difference of squares","Splitting into unlike terms"],a:1,e:"x² + 12x + 36 is a perfect square trinomial."},
+{q:"The area of a rectangular notice board is ab + ac. Which expression shows its possible length and breadth?",visual:"",o:["a(b + c)","b(a + c)","c(a + b)","abc"],a:0,e:"a is common in both terms, so ab + ac = a(b + c)."},
+{q:"Assertion: x² - 36 can be factorised as (x + 6)(x - 6). Reason: x² - 36 is a difference of two squares.",visual:"",o:["Both are true and Reason explains Assertion","Both are true but Reason does not explain Assertion","Assertion is true, Reason is false","Assertion is false, Reason is true"],a:0,e:"x² - 36 = x² - 6² = (x + 6)(x - 6)."},
+{q:"A student writes 15x + 25 = 5(3x + 5). How can the answer be checked?",visual:"",o:["By adding 15 and 25","By multiplying 5 with both terms inside the bracket","By subtracting 25 from 15","By dividing only 15x by 5"],a:1,e:"To check, expand 5(3x + 5) = 15x + 25."},
+{q:"In the table, x² + 5x has possible sides x and x + 5. For y² + 8y, what is the missing side?",visual:`<table class="question-table">
+<tr><th>Area Expression</th><th>Possible Side 1</th><th>Possible Side 2</th></tr>
+<tr><td>x² + 5x</td><td>x</td><td>x + 5</td></tr>
+<tr><td>y² + 8y</td><td>y</td><td>?</td></tr>
+</table>`,o:["y + 8","8y","y - 8","y² + 8"],a:0,e:"y² + 8y = y(y + 8), so the missing side is y + 8."},
+{q:"A student factorises x² + 9x + 20 by splitting the middle term. Which pair of numbers should be chosen?",visual:"",o:["4 and 5","2 and 10","1 and 20","3 and 6"],a:0,e:"4 × 5 = 20 and 4 + 5 = 9."},
+{q:"Assertion: x² + 7x + 12 = (x + 3)(x + 4). Reason: 3 and 4 have product 12 and sum 7.",visual:"",o:["Both are true and Reason explains Assertion","Both are true but Reason does not explain Assertion","Assertion is true, Reason is false","Assertion is false, Reason is true"],a:0,e:"The pair 3 and 4 correctly splits the middle term."}
+];
+
+const finalQuestion={
+q:"A rectangular art board has area 4x² - 25. Which pair of expressions can represent its length and breadth?",
+o:["(2x + 5)(2x - 5)","(4x + 5)(x - 5)","(2x + 25)(2x - 1)","(4x - 25)(x + 1)"],
+a:0,
+e:"4x² - 25 = (2x)² - 5² = (2x + 5)(2x - 5)."
+};
+
+let index=0,score=0,time=45,timer,attempt=0;
+
+window.onload=()=>{
+  setTimeout(()=>document.getElementById("splash").style.display="none",5000);
+  document.getElementById("total").innerText=questions.length;
+};
+
+function startGame(){
+  document.getElementById("intro").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  loadQuestion();
+}
+
+function loadQuestion(){
+  attempt=0;
+  clearInterval(timer);
+  time=45;
+  document.getElementById("time").innerText=time;
+  document.getElementById("qno").innerText=index+1;
+  document.getElementById("score").innerText=score;
+  document.getElementById("feedback").innerText="";
+  document.getElementById("explanation").classList.add("hidden");
+
+  const q=questions[index];
+  document.getElementById("question").innerText=q.q;
+  document.getElementById("questionVisual").innerHTML=q.visual || "";
+  const box=document.getElementById("options");
+  box.innerHTML="";
+
+  q.o.forEach((opt,i)=>{
+    const btn=document.createElement("button");
+    btn.className="option";
+    btn.innerText=String.fromCharCode(65+i)+". "+opt;
+    btn.onclick=()=>checkAnswer(i);
+    box.appendChild(btn);
+  });
+
+  timer=setInterval(()=>{
+    time--;
+    document.getElementById("time").innerText=time;
+    if(time<=0) showCorrect();
+  },1000);
+}
+
+function checkAnswer(choice){
+  const q=questions[index];
+
+  if(choice===q.a){
+    score++;
+    document.getElementById("score").innerText=score;
+    playSound("correctSound");
+    starConfetti();
+    clearInterval(timer);
+    document.getElementById("feedback").innerHTML="<span class='correct'>Correct! Great factorisation.</span>";
+    setTimeout(nextQuestion,1200);
+  }else{
+    attempt++;
+    playSound("wrongSound");
+    showCross();
+
+    if(attempt===1){
+      document.getElementById("feedback").innerHTML="<span class='wrong'>Try once more!</span>";
+    }else{
+      showCorrect();
+    }
+  }
+}
+
+function showCorrect(){
+  clearInterval(timer);
+  const q=questions[index];
+  document.getElementById("feedback").innerHTML="<span class='wrong'>Correct answer: "+q.o[q.a]+"</span>";
+  const ex=document.getElementById("explanation");
+  ex.innerText=q.e;
+  ex.classList.remove("hidden");
+  setTimeout(nextQuestion,3000);
+}
+
+function nextQuestion(){
+  index++;
+  if(index<questions.length){
+    loadQuestion();
+  }else{
+    showFinalChallenge();
+  }
+}
+
+function showFinalChallenge(){
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("final").classList.remove("hidden");
+  document.getElementById("finalQ").innerText=finalQuestion.q;
+
+  const box=document.getElementById("finalOptions");
+  box.innerHTML="";
+
+  finalQuestion.o.forEach((opt,i)=>{
+    const btn=document.createElement("button");
+    btn.className="option";
+    btn.innerText=String.fromCharCode(65+i)+". "+opt;
+    btn.onclick=()=>checkFinal(i);
+    box.appendChild(btn);
+  });
+}
+
+function checkFinal(choice){
+  if(choice===finalQuestion.a){
+    score+=2;
+    playSound("clapSound");
+    starConfetti();
+    document.getElementById("finalFeedback").innerHTML="<span class='correct'>Excellent! You earned 2 points.</span>";
+  }else{
+    playSound("wrongSound");
+    showCross();
+    document.getElementById("finalFeedback").innerHTML="<span class='wrong'>Correct answer: "+finalQuestion.o[finalQuestion.a]+"<br>"+finalQuestion.e+"</span>";
+  }
+  setTimeout(showResult,2800);
+}
+
+function showResult(){
+  document.getElementById("final").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+  document.getElementById("finalScore").innerText=score+" / 17";
+
+  let remark="";
+  if(score>=14) remark="Outstanding! You are a Factorisation Star.";
+  else if(score>=10) remark="Good work! Revise a few factorisation patterns.";
+  else remark="Keep practising common factors, identities, and splitting the middle term.";
+
+  document.getElementById("remark").innerText=remark;
+}
+
+function starConfetti(){
+  for(let i=0;i<18;i++){
+    const s=document.createElement("div");
+    s.className="confetti";
+    s.innerText="⭐";
+    s.style.left=Math.random()*100+"vw";
+    s.style.top=Math.random()*40+"vh";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1500);
+  }
+}
+
+function showCross(){
+  const x=document.createElement("div");
+  x.className="cross";
+  x.innerText="✖";
+  document.body.appendChild(x);
+  setTimeout(()=>x.remove(),800);
+}
+
+function playSound(id){
+  const audio=document.getElementById(id);
+  if(audio){
+    audio.currentTime=0;
+    audio.play().catch(()=>{});
+  }
+}
+</script>
+
+</body>
+</html>
