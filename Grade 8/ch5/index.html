@@ -1,1 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Algebraic Identities MCQ Challenge</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial, sans-serif}
+body{
+  min-height:100vh;
+  background:linear-gradient(135deg,#eef6ff,#fff7e8);
+  overflow-x:hidden;
+  color:#263238;
+}
+.bg span{
+  position:fixed;
+  font-size:22px;
+  opacity:.25;
+  animation:float 8s linear infinite;
+  z-index:0;
+}
+@keyframes float{
+  from{transform:translateY(100vh) rotate(0deg)}
+  to{transform:translateY(-10vh) rotate(360deg)}
+}
+#splash{
+  position:fixed;inset:0;background:white;
+  display:flex;align-items:center;justify-content:center;
+  z-index:9999;
+}
+#splash img{max-width:220px;animation:pop 1s ease}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+.container{
+  position:relative;z-index:1;
+  max-width:850px;margin:auto;padding:20px;
+}
+.card{
+  background:rgba(255,255,255,.95);
+  border-radius:22px;
+  padding:24px;
+  box-shadow:0 8px 25px rgba(0,0,0,.12);
+  margin-top:25px;
+}
+.logo{width:100px;margin-bottom:10px}
+h1,h2{text-align:center;margin-bottom:15px;color:#1d4e89}
+p{line-height:1.6;margin-bottom:12px}
+button{
+  border:0;border-radius:14px;padding:13px 18px;
+  background:#1d4e89;color:white;font-size:16px;
+  cursor:pointer;margin:8px 0;width:100%;
+}
+button:hover{filter:brightness(1.08)}
+.option{
+  background:#f2f7ff;color:#263238;text-align:left;
+  border:2px solid transparent;
+}
+.option:hover{border-color:#1d4e89}
+.topbar{
+  display:flex;justify-content:space-between;gap:10px;
+  flex-wrap:wrap;margin-bottom:15px;font-weight:bold;
+}
+.timer{color:#d84315}
+.feedback{text-align:center;font-weight:bold;margin-top:12px;font-size:18px}
+.correct{color:#2e7d32}
+.wrong{color:#c62828}
+.hidden{display:none}
+.confetti{
+  position:fixed;font-size:24px;pointer-events:none;
+  animation:fall 1.4s linear forwards;z-index:50;
+}
+@keyframes fall{
+  to{transform:translateY(220px) rotate(360deg);opacity:0}
+}
+.cross{
+  position:fixed;top:48%;left:50%;transform:translate(-50%,-50%);
+  font-size:80px;color:rgba(198,40,40,.65);
+  animation:fade .8s forwards;z-index:50;
+}
+@keyframes fade{to{opacity:0;transform:translate(-50%,-50%) scale(1.5)}}
+.explanation{
+  background:#fff3e0;padding:12px;border-radius:12px;margin-top:12px;
+}
+.final{
+  background:#fff8e1;border:2px dashed #f9a825;
+}
+@media(max-width:600px){
+  .card{padding:18px}
+  h1{font-size:24px}
+}
+</style>
+</head>
+<body>
 
+<div id="splash">
+  <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<div class="bg">
+  <span style="left:8%;animation-delay:0s">⭐</span>
+  <span style="left:25%;animation-delay:2s">🎗️</span>
+  <span style="left:45%;animation-delay:4s">⭐</span>
+  <span style="left:68%;animation-delay:1s">🎉</span>
+  <span style="left:85%;animation-delay:3s">⭐</span>
+</div>
+
+<div class="container">
+
+  <div id="intro" class="card">
+    <center><img class="logo" src="assets/innovine-logo.png" alt="Innovine Logo"></center>
+    <h1>Algebraic Identities Challenge</h1>
+    <p>Welcome, Math Explorer! Solve competency-based MCQs on algebraic identities.</p>
+    <p>You get <b>45 seconds</b> for each question and <b>one retry</b> after the first wrong attempt.</p>
+    <button onclick="startGame()">Start Challenge</button>
+  </div>
+
+  <div id="quiz" class="card hidden">
+    <div class="topbar">
+      <div>Score: <span id="score">0</span></div>
+      <div>Question: <span id="qno">1</span>/<span id="total"></span></div>
+      <div class="timer">Time: <span id="time">45</span>s</div>
+    </div>
+    <h2 id="question"></h2>
+    <div id="options"></div>
+    <div id="feedback" class="feedback"></div>
+    <div id="explanation" class="explanation hidden"></div>
+  </div>
+
+  <div id="final" class="card final hidden">
+    <h1>Final Challenge</h1>
+    <p>Use your identity skills carefully. This question carries 2 points!</p>
+    <h2 id="finalQ"></h2>
+    <div id="finalOptions"></div>
+    <div id="finalFeedback" class="feedback"></div>
+  </div>
+
+  <div id="result" class="card hidden">
+    <center><img class="logo" src="assets/innovine-logo.png" alt="Innovine Logo"></center>
+    <h1>Challenge Complete!</h1>
+    <h2>Your Score: <span id="finalScore"></span></h2>
+    <p id="remark"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </div>
+
+</div>
+
+<script>
+const questions=[
+{q:"A school is designing a square stage using tiles. The side is increased from x metres to (x + 2) metres. Which expression represents the new area?",o:["x² + 2x + 4","x² + 4x + 4","x² - 4x + 4","x² + 4"],a:1,e:"Area of a square = side², so (x + 2)² = x² + 4x + 4."},
+{q:"Aarav calculates 49 × 51 mentally using an algebraic identity. Which identity helps him?",o:["(a + b)²","(a - b)²","(a + b)(a - b)","a² + b²"],a:2,e:"49 × 51 = (50 - 1)(50 + 1), which uses difference of squares."},
+{q:"A student writes (2x + 5)² = 4x² + 25. What mistake did the student make?",o:["Forgot to square 5","Forgot the middle term","Squared incorrectly","Used wrong signs"],a:1,e:"The correct expansion includes 2ab: 4x² + 20x + 25."},
+{q:"A garden has dimensions (x + 4) m and (x - 4) m. What will be the area?",o:["x² + 16","x² - 16","x² - 8x + 16","x² + 8x + 16"],a:1,e:"(x + 4)(x - 4) = x² - 16."},
+{q:"For finding 104² quickly, which expression should be used?",o:["(100 - 4)²","(100 + 4)²","(10 + 4)²","(104 + 4)²"],a:1,e:"104 is close to 100, so write it as 100 + 4."},
+{q:"Assertion: (x + 3)(x - 3) removes the middle term after expansion. Reason: Positive and negative terms cancel each other.",o:["Both are true and Reason explains Assertion","Both are true but Reason does not explain Assertion","Assertion true, Reason false","Assertion false, Reason true"],a:0,e:"x² - 3x + 3x - 9 leaves no middle term."},
+{q:"A carpenter increases both length and breadth of a square table by 6 cm. Which identity helps find the new area?",o:["(a + b)²","(a - b)²","a² - b²","a² + b²"],a:0,e:"Increasing both sides gives (a + 6)²."},
+{q:"Which step verifies (7x - 2)² = 49x² - 28x + 4?",o:["Squaring only first term","Multiplying terms directly","Using (a - b)² = a² - 2ab + b²","Adding all terms first"],a:2,e:"Here a = 7x and b = 2."},
+{q:"One student simplifies (x + 8)(x - 8) as x² - 64. Another says x² + 64. Who is correct?",o:["First student only","Second student only","Both students","Neither student"],a:0,e:"(x + 8)(x - 8) = x² - 64."},
+{q:"A logo is designed inside a square of side (a + b). Which regions appear when divided visually?",o:["Only two squares","One square and one rectangle","Two squares and two rectangles","Four equal squares"],a:2,e:"The area model shows a², ab, ab and b²."},
+{q:"The area of a square playground is y² + 18y + 81. What could be the side length?",o:["y + 9","y - 9","y + 81","y - 18"],a:0,e:"y² + 18y + 81 = (y + 9)²."},
+{q:"A teacher compares (50 + 1)² and 50² + 1². What is being checked?",o:["Squares are always equal","Identities include middle terms","Addition and multiplication are same","Squaring removes addition"],a:1,e:"(a + b)² includes a middle term, 2ab."},
+{q:"Assertion: (m - 5)² and (5 - m)² have the same value. Reason: Squaring removes the effect of negative sign.",o:["Both are true and Reason explains Assertion","Both are true but Reason does not explain Assertion","Assertion true, Reason false","Assertion false, Reason true"],a:0,e:"5 - m = -(m - 5), and the square is same."},
+{q:"A student expands (3p + 2q)² as 9p² + 12pq + 4q². Which skill is mainly used?",o:["Estimation","Pattern recognition through identities","Measurement","Data handling"],a:1,e:"The student recognizes and applies (a + b)²."},
+{q:"A shopkeeper calculates 198 × 202 using (a - b)(a + b). What value should he get?",o:["39600","39996","40004","39204"],a:1,e:"198 × 202 = (200 - 2)(200 + 2) = 40000 - 4 = 39996."}
+];
+
+const finalQuestion={
+q:"A rectangular banner has length (3x + 5) and breadth (3x - 5). Which expression represents its area?",
+o:["9x² + 25","9x² - 25","6x² - 25","9x² - 30x + 25"],
+a:1,
+e:"(3x + 5)(3x - 5) = (3x)² - 5² = 9x² - 25."
+};
+
+let index=0,score=0,time=45,timer,attempt=0;
+
+window.onload=()=>{
+  setTimeout(()=>document.getElementById("splash").style.display="none",5000);
+  document.getElementById("total").innerText=questions.length;
+};
+
+function startGame(){
+  document.getElementById("intro").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  loadQuestion();
+}
+
+function loadQuestion(){
+  attempt=0;
+  clearInterval(timer);
+  time=45;
+  document.getElementById("time").innerText=time;
+  document.getElementById("qno").innerText=index+1;
+  document.getElementById("score").innerText=score;
+  document.getElementById("feedback").innerText="";
+  document.getElementById("explanation").classList.add("hidden");
+
+  const q=questions[index];
+  document.getElementById("question").innerText=q.q;
+  const box=document.getElementById("options");
+  box.innerHTML="";
+  q.o.forEach((opt,i)=>{
+    const btn=document.createElement("button");
+    btn.className="option";
+    btn.innerText=String.fromCharCode(65+i)+". "+opt;
+    btn.onclick=()=>checkAnswer(i);
+    box.appendChild(btn);
+  });
+  timer=setInterval(()=>{
+    time--;
+    document.getElementById("time").innerText=time;
+    if(time<=0) secondWrong();
+  },1000);
+}
+
+function checkAnswer(choice){
+  const q=questions[index];
+  if(choice===q.a){
+    score++;
+    document.getElementById("score").innerText=score;
+    play("correctSound");
+    starConfetti();
+    nextSoon("Correct! Great thinking.");
+  }else{
+    attempt++;
+    play("wrongSound");
+    showCross();
+    if(attempt===1){
+      document.getElementById("feedback").innerHTML="<span class='wrong'>Try once more!</span>";
+    }else{
+      secondWrong();
+    }
+  }
+}
+
+function secondWrong(){
+  clearInterval(timer);
+  const q=questions[index];
+  document.getElementById("feedback").innerHTML="<span class='wrong'>Correct answer: "+q.o[q.a]+"</span>";
+  const ex=document.getElementById("explanation");
+  ex.innerText=q.e;
+  ex.classList.remove("hidden");
+  setTimeout(nextQuestion,2800);
+}
+
+function nextSoon(msg){
+  clearInterval(timer);
+  document.getElementById("feedback").innerHTML="<span class='correct'>"+msg+"</span>";
+  setTimeout(nextQuestion,1200);
+}
+
+function nextQuestion(){
+  index++;
+  if(index<questions.length) loadQuestion();
+  else showFinalChallenge();
+}
+
+function showFinalChallenge(){
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("final").classList.remove("hidden");
+  document.getElementById("finalQ").innerText=finalQuestion.q;
+  const box=document.getElementById("finalOptions");
+  box.innerHTML="";
+  finalQuestion.o.forEach((opt,i)=>{
+    const btn=document.createElement("button");
+    btn.className="option";
+    btn.innerText=String.fromCharCode(65+i)+". "+opt;
+    btn.onclick=()=>checkFinal(i);
+    box.appendChild(btn);
+  });
+}
+
+function checkFinal(choice){
+  if(choice===finalQuestion.a){
+    score+=2;
+    play("clapSound");
+    starConfetti();
+    document.getElementById("finalFeedback").innerHTML="<span class='correct'>Excellent! +2 points</span>";
+  }else{
+    play("wrongSound");
+    showCross();
+    document.getElementById("finalFeedback").innerHTML="<span class='wrong'>Correct answer: "+finalQuestion.o[finalQuestion.a]+"<br>"+finalQuestion.e+"</span>";
+  }
+  setTimeout(showResult,2500);
+}
+
+function showResult(){
+  document.getElementById("final").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+  document.getElementById("finalScore").innerText=score+" / 17";
+  let remark=score>=14?"Outstanding work!":score>=10?"Good effort! Keep practising identities.":"Revise the identities and try again.";
+  document.getElementById("remark").innerText=remark;
+}
+
+function starConfetti(){
+  for(let i=0;i<18;i++){
+    const s=document.createElement("div");
+    s.className="confetti";
+    s.innerText="⭐";
+    s.style.left=Math.random()*100+"vw";
+    s.style.top=Math.random()*40+"vh";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1500);
+  }
+}
+
+function showCross(){
+  const x=document.createElement("div");
+  x.className="cross";
+  x.innerText="✖";
+  document.body.appendChild(x);
+  setTimeout(()=>x.remove(),800);
+}
+
+function play(id){
+  const audio=document.getElementById(id);
+  if(audio){
+    audio.currentTime=0;
+    audio.play().catch(()=>{});
+  }
+}
+</script>
+</body>
+</html>
