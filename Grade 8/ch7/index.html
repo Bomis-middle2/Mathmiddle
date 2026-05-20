@@ -1,3 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Understanding Quadrilaterals MCQ Quest</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(135deg,#eaf7ff,#fff4d9);
+  min-height:100vh;
+  overflow-x:hidden;
+  color:#1f2937;
+}
+#splash{
+  position:fixed;inset:0;background:white;z-index:9999;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+}
+#splash img{max-width:180px}
+.bg span{
+  position:fixed;
+  color:rgba(255,183,3,.35);
+  animation:float 8s infinite linear;
+  font-size:24px;
+}
+@keyframes float{
+  from{transform:translateY(100vh) rotate(0)}
+  to{transform:translateY(-10vh) rotate(360deg)}
+}
+.container{
+  width:min(920px,94%);
+  margin:auto;
+  padding:20px;
+}
+.card{
+  background:rgba(255,255,255,.92);
+  border-radius:22px;
+  padding:24px;
+  box-shadow:0 8px 25px rgba(0,0,0,.12);
+  margin-top:24px;
+}
+.logo{width:90px;display:block;margin:auto}
+h1,h2{text-align:center;color:#2563eb}
+button{
+  border:0;
+  padding:13px 18px;
+  border-radius:14px;
+  background:#2563eb;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  margin:8px 0;
+}
+button:hover{background:#1d4ed8}
+.option{
+  display:block;
+  width:100%;
+  text-align:left;
+  background:#f3f4f6;
+  color:#111827;
+  margin:10px 0;
+}
+.option:hover{background:#dbeafe}
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  font-weight:bold;
+}
+.timer{color:#dc2626}
+.feedback{
+  font-weight:bold;
+  margin-top:12px;
+  min-height:28px;
+}
+.correct{color:#15803d}
+.wrong{color:#dc2626}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin:15px 0;
+  background:#fff;
+}
+th,td{
+  border:1px solid #cbd5e1;
+  padding:10px;
+  text-align:center;
+}
+th{background:#dbeafe}
+.hidden{display:none}
+.cross{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  font-size:90px;
+  color:rgba(220,38,38,.65);
+  z-index:50;
+}
+.confetti{
+  position:fixed;
+  pointer-events:none;
+  z-index:60;
+  font-size:24px;
+  animation:fall 1s linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(160px) rotate(180deg);opacity:0}
+}
+.final{
+  border:3px dashed #f59e0b;
+  background:#fffbeb;
+}
+</style>
+</head>
+<body>
 
+<div id="splash">
+  <img src="assets/innovine-logo.png" alt="Innovine Logo">
+  <p>Loading Quadrilateral Quest...</p>
+</div>
 
- 
+<div class="bg">
+  <span style="left:8%;animation-delay:0s">★</span>
+  <span style="left:25%;animation-delay:2s">✦</span>
+  <span style="left:45%;animation-delay:4s">★</span>
+  <span style="left:70%;animation-delay:1s">✧</span>
+  <span style="left:88%;animation-delay:3s">★</span>
+</div>
+
+<div class="cross" id="cross">✖</div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<div class="container">
+
+  <div class="card" id="intro">
+    <img class="logo" src="assets/innovine-logo.png" alt="Innovine Logo">
+    <h1>Understanding Quadrilaterals</h1>
+    <p><b>Grade 8 Mathematics MCQ Quest</b></p>
+    <p>Answer competency-based questions. You get one retry after the first wrong attempt. After the second wrong attempt, the correct answer and explanation will appear.</p>
+    <button onclick="startGame()">Start Quiz</button>
+  </div>
+
+  <div class="card hidden" id="quiz">
+    <div class="topbar">
+      <div>Score: <span id="score">0</span></div>
+      <div>Question: <span id="qNum">1</span>/<span id="total"></span></div>
+      <div class="timer">Time: <span id="time">45</span>s</div>
+    </div>
+    <h2 id="question"></h2>
+    <div id="tableBox"></div>
+    <div id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <button id="nextBtn" class="hidden" onclick="nextQuestion()">Next</button>
+  </div>
+
+  <div class="card hidden final" id="challenge">
+    <h2>Final Challenge</h2>
+    <p>A quadrilateral has both pairs of opposite sides parallel. Its all sides are equal, but its angles are not 90°. Which quadrilateral is it?</p>
+    <button onclick="checkFinal('A')">A. Square</button>
+    <button onclick="checkFinal('B')">B. Rhombus</button>
+    <button onclick="checkFinal('C')">C. Rectangle</button>
+    <button onclick="checkFinal('D')">D. Trapezium</button>
+    <div class="feedback" id="finalFeedback"></div>
+  </div>
+
+  <div class="card hidden" id="result">
+    <h1>Result</h1>
+    <h2 id="finalScore"></h2>
+    <p id="message"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </div>
+
+</div>
+
+<script>
+const questions = [
+{
+q:"A park has a walking track shaped like a quadrilateral. The opposite sides of the track are parallel and equal, but the angles are not 90°. Which shape is the track most likely to be?",
+o:["Square","Rectangle","Parallelogram","Kite"],
+a:2,
+e:"A parallelogram has opposite sides parallel and equal, but angles need not be 90°."
+},
+{
+q:"Riya draws a quadrilateral with all sides equal. She says it must be a square. Which observation will confirm whether she is correct?",
+o:["Opposite sides are equal","All angles are 90°","Diagonals are unequal","Only one pair of sides is parallel"],
+a:1,
+e:"A square has all sides equal and all angles equal to 90°."
+},
+{
+q:"A window frame has opposite sides parallel and all angles equal. Which quadrilateral is it?",
+o:["Rhombus","Rectangle","Trapezium","Kite"],
+a:1,
+e:"A rectangle has opposite sides parallel and four right angles."
+},
+{
+q:"A kite-making activity uses a shape with two pairs of adjacent equal sides. Which quadrilateral best represents the shape?",
+o:["Kite","Rhombus","Rectangle","Parallelogram"],
+a:0,
+e:"A kite has two pairs of adjacent equal sides."
+},
+{
+q:"A student makes a quadrilateral using sticks of lengths 6 cm, 6 cm, 9 cm, and 9 cm. The equal sides are placed next to each other. Which shape can be formed?",
+o:["Rectangle","Kite","Square","Trapezium"],
+a:1,
+e:"A kite has two pairs of adjacent equal sides."
+},
+{
+q:"Study the table and identify shape Q.",
+table:"<table><tr><th>Shape</th><th>Side Property</th><th>Angle Property</th></tr><tr><td>P</td><td>Opposite sides equal</td><td>Opposite angles equal</td></tr><tr><td>Q</td><td>All sides equal</td><td>All angles 90°</td></tr><tr><td>R</td><td>One pair of opposite sides parallel</td><td>Angles not all equal</td></tr></table>",
+o:["Rectangle","Square","Trapezium","Kite"],
+a:1,
+e:"A square has all sides equal and all angles 90°."
+},
+{
+q:"Study the data table. If B has only one pair of parallel sides, it is most likely a:",
+table:"<table><tr><th>Quadrilateral</th><th>Pair of Parallel Sides</th></tr><tr><td>A</td><td>2 pairs</td></tr><tr><td>B</td><td>1 pair</td></tr><tr><td>C</td><td>0 pairs</td></tr><tr><td>D</td><td>2 pairs</td></tr></table>",
+o:["Square","Rectangle","Trapezium","Rhombus"],
+a:2,
+e:"A trapezium has exactly one pair of parallel sides."
+},
+{
+q:"A quadrilateral has angles 70°, 110°, 70°, and 110°. What can be concluded?",
+o:["It cannot be a quadrilateral","It may be a parallelogram","It must be a square","It must be a kite"],
+a:1,
+e:"Opposite angles are equal, so it may be a parallelogram."
+},
+{
+q:"A designer wants to make a tile where all sides are equal, but the corners need not be right angles. Which shape should be selected?",
+o:["Rectangle","Rhombus","Trapezium","Kite"],
+a:1,
+e:"A rhombus has all sides equal, but its angles need not be 90°."
+},
+{
+q:"Aarav says, “Every square is also a rectangle.” Why is he correct?",
+o:["A square has four equal sides","A square has two diagonals","A square has four right angles and opposite sides equal","A square has no parallel sides"],
+a:2,
+e:"A rectangle has four right angles and opposite sides equal; a square satisfies these properties."
+},
+{
+q:"A teacher shows a quadrilateral with one pair of opposite sides parallel. The other pair is not parallel. Which statement is correct?",
+o:["It is a parallelogram","It is a trapezium","It is a rectangle","It is a rhombus"],
+a:1,
+e:"A trapezium has one pair of opposite sides parallel."
+},
+{
+q:"Assertion: A rectangle is a parallelogram.<br><br>Reason: A rectangle has both pairs of opposite sides parallel.",
+o:["Both are true and the reason explains the assertion","Both are true but the reason does not explain the assertion","Assertion is true but reason is false","Assertion is false but reason is true"],
+a:0,
+e:"A rectangle is a parallelogram because both pairs of opposite sides are parallel."
+},
+{
+q:"Assertion: Every rhombus is a square.<br><br>Reason: A rhombus has all sides equal.",
+o:["Both are true and the reason explains the assertion","Both are true but the reason does not explain the assertion","Assertion is false but reason is true","Both are false"],
+a:2,
+e:"A rhombus has all sides equal, but its angles need not be 90°, so every rhombus is not always a square."
+}
+];
+
+let index=0, score=0, attempts=0, timer, timeLeft=45;
+const totalScore = questions.length + 1;
+
+setTimeout(()=>{
+  document.getElementById("splash").style.display="none";
+},5000);
+
+document.getElementById("total").textContent=questions.length;
+
+function startGame(){
+  document.getElementById("intro").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  loadQuestion();
+}
+
+function loadQuestion(){
+  clearInterval(timer);
+  attempts=0;
+  timeLeft=45;
+
+  document.getElementById("time").textContent=timeLeft;
+  document.getElementById("feedback").textContent="";
+  document.getElementById("nextBtn").classList.add("hidden");
+
+  const q=questions[index];
+
+  document.getElementById("qNum").textContent=index+1;
+  document.getElementById("question").innerHTML=q.q;
+  document.getElementById("tableBox").innerHTML=q.table || "";
+
+  const box=document.getElementById("options");
+  box.innerHTML="";
+
+  q.o.forEach((opt,i)=>{
+    const btn=document.createElement("button");
+    btn.className="option";
+    btn.textContent=String.fromCharCode(65+i)+". "+opt;
+    btn.onclick=()=>checkAnswer(i);
+    box.appendChild(btn);
+  });
+
+  timer=setInterval(()=>{
+    timeLeft--;
+    document.getElementById("time").textContent=timeLeft;
+
+    if(timeLeft<=0){
+      clearInterval(timer);
+      showAnswer("Time up!");
+    }
+  },1000);
+}
+
+function checkAnswer(choice){
+  const q=questions[index];
+
+  if(choice===q.a){
+    score++;
+    document.getElementById("score").textContent=score;
+    document.getElementById("feedback").innerHTML="<span class='correct'>Correct! Great thinking.</span>";
+    play("correctSound");
+    confetti();
+    disableOptions();
+    clearInterval(timer);
+    document.getElementById("nextBtn").classList.remove("hidden");
+  }else{
+    attempts++;
+    play("wrongSound");
+    showCross();
+
+    if(attempts===1){
+      document.getElementById("feedback").innerHTML="<span class='wrong'>Try once more. Read the properties carefully.</span>";
+    }else{
+      showAnswer("Incorrect.");
+    }
+  }
+}
+
+function showAnswer(msg){
+  const q=questions[index];
+  disableOptions();
+  clearInterval(timer);
+
+  document.getElementById("feedback").innerHTML =
+  "<span class='wrong'>"+msg+"</span><br>Correct Answer: <b>"+
+  String.fromCharCode(65+q.a)+". "+q.o[q.a]+"</b><br>"+q.e;
+
+  document.getElementById("nextBtn").classList.remove("hidden");
+}
+
+function nextQuestion(){
+  index++;
+
+  if(index<questions.length){
+    loadQuestion();
+  }else{
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("challenge").classList.remove("hidden");
+  }
+}
+
+function checkFinal(ans){
+  if(ans==="B"){
+    score++;
+    play("clapSound");
+    confetti();
+    document.getElementById("finalFeedback").innerHTML="<span class='correct'>Correct! A rhombus fits all these properties.</span>";
+  }else{
+    document.getElementById("finalFeedback").innerHTML="<span class='wrong'>Correct answer: B. Rhombus</span>";
+  }
+
+  setTimeout(showResult,1500);
+}
+
+function showResult(){
+  document.getElementById("challenge").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+
+  document.getElementById("finalScore").textContent="Your Score: "+score+" / "+totalScore;
+
+  document.getElementById("message").textContent =
+    score>=11 ? "Excellent! You understand quadrilaterals very well." :
+    score>=7 ? "Good effort! Revise shape properties once more." :
+    "Keep practising. Focus on sides, angles, and parallel lines.";
+}
+
+function disableOptions(){
+  document.querySelectorAll(".option").forEach(b=>b.disabled=true);
+}
+
+function play(id){
+  const audio=document.getElementById(id);
+  audio.currentTime=0;
+  audio.play().catch(()=>{});
+}
+
+function showCross(){
+  const c=document.getElementById("cross");
+  c.style.display="flex";
+
+  setTimeout(()=>{
+    c.style.display="none";
+  },500);
+}
+
+function confetti(){
+  for(let i=0;i<20;i++){
+    const s=document.createElement("div");
+    s.className="confetti";
+    s.textContent="★";
+    s.style.left=Math.random()*100+"vw";
+    s.style.top=Math.random()*30+"vh";
+    document.body.appendChild(s);
+
+    setTimeout(()=>{
+      s.remove();
+    },1000);
+  }
+}
+</script>
+
+</body>
+</html>
