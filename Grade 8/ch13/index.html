@@ -1,1 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Handling & Graphs Quiz</title>
 
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#eef9ff,#fff7ed);
+min-height:100vh;
+overflow-x:hidden;
+color:#1f2937;
+}
+
+#splash{
+position:fixed;
+inset:0;
+background:white;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:9999;
+}
+
+#splash img{
+width:200px;
+margin-bottom:20px;
+}
+
+.container{
+width:min(950px,95%);
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:rgba(255,255,255,.96);
+padding:24px;
+border-radius:24px;
+margin-top:25px;
+box-shadow:0 8px 25px rgba(0,0,0,.12);
+}
+
+.logo{
+width:90px;
+display:block;
+margin:auto;
+margin-bottom:10px;
+}
+
+h1,h2{
+text-align:center;
+color:#2563eb;
+margin-bottom:12px;
+}
+
+button{
+border:none;
+padding:13px 18px;
+border-radius:14px;
+background:#2563eb;
+color:white;
+font-weight:bold;
+cursor:pointer;
+margin-top:10px;
+transition:.2s;
+}
+
+button:hover{
+background:#1d4ed8;
+transform:scale(1.02);
+}
+
+.option{
+width:100%;
+display:block;
+text-align:left;
+margin:10px 0;
+background:#f3f4f6;
+color:#111827;
+}
+
+.option:hover{
+background:#dbeafe;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+flex-wrap:wrap;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.timer{
+color:#dc2626;
+}
+
+.feedback{
+margin-top:14px;
+font-weight:bold;
+min-height:30px;
+}
+
+.correct{
+color:#15803d;
+}
+
+.wrong{
+color:#dc2626;
+}
+
+.hidden{
+display:none;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin:15px 0;
+background:white;
+}
+
+th,td{
+border:1px solid #cbd5e1;
+padding:10px;
+text-align:center;
+}
+
+th{
+background:#dbeafe;
+}
+
+.cross{
+position:fixed;
+inset:0;
+display:none;
+justify-content:center;
+align-items:center;
+font-size:100px;
+color:rgba(220,38,38,.6);
+z-index:100;
+}
+
+.confetti{
+position:fixed;
+font-size:24px;
+pointer-events:none;
+z-index:200;
+animation:fall 1s linear forwards;
+}
+
+@keyframes fall{
+to{
+transform:translateY(150px) rotate(180deg);
+opacity:0;
+}
+}
+
+.bg span{
+position:fixed;
+font-size:26px;
+color:rgba(255,183,3,.3);
+animation:float 10s infinite linear;
+}
+
+@keyframes float{
+from{
+transform:translateY(100vh) rotate(0deg);
+}
+to{
+transform:translateY(-10vh) rotate(360deg);
+}
+}
+
+.final{
+border:3px dashed #f59e0b;
+background:#fff7ed;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="splash">
+<img src="assets/innovine-logo.png" alt="Innovine Logo">
+<h2>Data Handling & Graphs Quest</h2>
+<p>Loading Interactive Quiz...</p>
+</div>
+
+<div class="bg">
+<span style="left:10%;animation-delay:0s">★</span>
+<span style="left:30%;animation-delay:2s">✦</span>
+<span style="left:50%;animation-delay:4s">★</span>
+<span style="left:70%;animation-delay:1s">✧</span>
+<span style="left:90%;animation-delay:3s">★</span>
+</div>
+
+<div class="cross" id="cross">✖</div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<div class="container">
+
+<div class="card" id="intro">
+
+<img class="logo" src="assets/innovine-logo.png" alt="Innovine Logo">
+
+<h1>Data Handling & Graphs</h1>
+
+<p><b>Grade 8 Mathematics MCQ Interactive</b></p>
+
+<p style="margin-top:15px;">
+Explore competency-based questions on graphs, coordinates, pie charts, bar graphs, histograms, and data interpretation.
+You get one retry after the first wrong attempt.
+After the second wrong attempt, the correct answer and explanation will appear.
+</p>
+
+<button onclick="startGame()">Start Quiz</button>
+
+</div>
+
+<div class="card hidden" id="quiz">
+
+<div class="topbar">
+<div>Score: <span id="score">0</span></div>
+<div>Question: <span id="qNum">1</span>/<span id="total"></span></div>
+<div class="timer">Time: <span id="time">45</span>s</div>
+</div>
+
+<h2 id="question"></h2>
+
+<div id="tableBox"></div>
+
+<div id="options"></div>
+
+<div class="feedback" id="feedback"></div>
+
+<button id="nextBtn" class="hidden" onclick="nextQuestion()">Next</button>
+
+</div>
+
+<div class="card hidden final" id="challenge">
+
+<h2>Final Challenge</h2>
+
+<p>
+A pie chart represents 200 students. Science occupies 90° of the chart.
+How many students chose Science?
+</p>
+
+<button onclick="checkFinal('A')">A. 40</button>
+<button onclick="checkFinal('B')">B. 50</button>
+<button onclick="checkFinal('C')">C. 60</button>
+<button onclick="checkFinal('D')">D. 75</button>
+
+<div class="feedback" id="finalFeedback"></div>
+
+</div>
+
+<div class="card hidden" id="result">
+
+<h1>Quiz Complete!</h1>
+
+<h2 id="finalScore"></h2>
+
+<p id="message"></p>
+
+<button onclick="location.reload()">Play Again</button>
+
+</div>
+
+</div>
+
+<script>
+
+const questions=[
+
+{
+q:"A teacher plots the point A(4, 3) on a graph. What does 4 represent?",
+o:["y-coordinate","x-coordinate","origin","quadrant"],
+a:1,
+e:"The first number in coordinates represents the x-coordinate."
+},
+
+{
+q:"A shop records ice creams sold from Monday to Friday using bars of equal width with gaps. Which graph is suitable?",
+o:["Bar graph","Histogram","Pie chart","Line graph"],
+a:0,
+e:"Bar graphs are used for comparing categories."
+},
+
+{
+q:"A student wants to show temperature changes from 9 AM to 3 PM. Which graph is most suitable?",
+o:["Bar graph","Line graph","Pie chart","Tally chart"],
+a:1,
+e:"Line graphs show changes over time."
+},
+
+{
+q:"A survey has continuous class intervals like 10-20, 20-30, 30-40. Which graph should be used?",
+o:["Bar graph","Histogram","Double bar graph","Pictograph"],
+a:1,
+e:"Histograms are used for continuous grouped data."
+},
+
+{
+q:"A school wants to show how students travel to school using a circle divided into sectors. Which chart is used?",
+o:["Line graph","Pie chart","Histogram","Double bar graph"],
+a:1,
+e:"Pie charts use sectors of a circle."
+},
+
+{
+q:"Riya plotted three points on a Cartesian plane: A(3, 4), B(0, 5), and C(-2, 0). Which point lies on the y-axis?",
+o:["A","B","C","None"],
+a:1,
+e:"A point with x-coordinate 0 lies on the y-axis."
+},
+
+{
+q:"Riya plotted three points on a Cartesian plane: A(3, 4), B(0, 5), and C(-2, 0). Which point lies on the x-axis?",
+o:["A","B","C","None"],
+a:2,
+e:"A point with y-coordinate 0 lies on the x-axis."
+},
+
+{
+q:"Study the table of favourite fruits.",
+table:`<table>
+<tr>
+<th>Fruit</th>
+<th>Students</th>
+</tr>
+<tr>
+<td>Apple</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Mango</td>
+<td>18</td>
+</tr>
+<tr>
+<td>Banana</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Orange</td>
+<td>8</td>
+</tr>
+</table>`,
+o:["Apple","Mango","Banana","Orange"],
+a:1,
+e:"Mango has the highest value: 18."
+},
+
+{
+q:"Which graph is most suitable to compare favourite fruit categories?",
+o:["Line graph","Bar graph","Histogram","Coordinate graph"],
+a:1,
+e:"Bar graphs compare categories clearly."
+},
+
+{
+q:"A pie chart shows students’ favourite games. Total students = 120. Football has central angle 90°. What fraction of students like football?",
+o:["1/2","1/3","1/4","1/5"],
+a:2,
+e:"90° out of 360° equals 1/4."
+},
+
+{
+q:"A pie chart shows students’ favourite games. Total students = 120. Football has central angle 90°. How many students like football?",
+o:["20","30","40","60"],
+a:1,
+e:"1/4 of 120 = 30 students."
+},
+
+{
+q:"Assertion: The coordinates of origin are (0, 0).<br><br>Reason: The origin is the point where the x-axis and y-axis meet.",
+o:[
+"Both are true and the reason explains the assertion",
+"Both are true but the reason does not explain the assertion",
+"Assertion is true but reason is false",
+"Assertion is false but reason is true"
+],
+a:0,
+e:"The origin is the intersection of both axes."
+},
+
+{
+q:"Assertion: A point of the form (0, y) lies on the y-axis.<br><br>Reason: Its x-coordinate is zero.",
+o:[
+"Both are true and the reason explains the assertion",
+"Both are true but the reason does not explain the assertion",
+"Assertion is true but reason is false",
+"Assertion is false but reason is true"
+],
+a:0,
+e:"Points with x-coordinate 0 lie on the y-axis."
+},
+
+{
+q:"Assertion: A histogram has gaps between bars.<br><br>Reason: A histogram represents continuous grouped data.",
+o:[
+"Both are true and the reason explains the assertion",
+"Both are true but the reason does not explain the assertion",
+"Assertion is true but reason is false",
+"Assertion is false but reason is true"
+],
+a:3,
+e:"Histograms do not have gaps between bars."
+},
+
+{
+q:"Assertion: In a pie chart, the total central angle is 360 degrees.<br><br>Reason: A pie chart represents a whole circle.",
+o:[
+"Both are true and the reason explains the assertion",
+"Both are true but the reason does not explain the assertion",
+"Assertion is true but reason is false",
+"Assertion is false but reason is true"
+],
+a:0,
+e:"A full circle measures 360°."
+}
+
+];
+
+let index=0;
+let score=0;
+let attempts=0;
+let timer;
+let timeLeft=45;
+
+const totalScore=questions.length+1;
+
+setTimeout(()=>{
+document.getElementById("splash").style.display="none";
+},5000);
+
+document.getElementById("total").textContent=questions.length;
+
+function startGame(){
+
+document.getElementById("intro").classList.add("hidden");
+
+document.getElementById("quiz").classList.remove("hidden");
+
+loadQuestion();
+
+}
+
+function loadQuestion(){
+
+clearInterval(timer);
+
+attempts=0;
+
+timeLeft=45;
+
+document.getElementById("time").textContent=timeLeft;
+
+document.getElementById("feedback").innerHTML="";
+
+document.getElementById("nextBtn").classList.add("hidden");
+
+const q=questions[index];
+
+document.getElementById("qNum").textContent=index+1;
+
+document.getElementById("question").innerHTML=q.q;
+
+document.getElementById("tableBox").innerHTML=q.table || "";
+
+const box=document.getElementById("options");
+
+box.innerHTML="";
+
+q.o.forEach((opt,i)=>{
+
+const btn=document.createElement("button");
+
+btn.className="option";
+
+btn.textContent=String.fromCharCode(65+i)+". "+opt;
+
+btn.onclick=()=>checkAnswer(i);
+
+box.appendChild(btn);
+
+});
+
+timer=setInterval(()=>{
+
+timeLeft--;
+
+document.getElementById("time").textContent=timeLeft;
+
+if(timeLeft<=0){
+
+clearInterval(timer);
+
+showAnswer("Time up!");
+
+}
+
+},1000);
+
+}
+
+function checkAnswer(choice){
+
+const q=questions[index];
+
+if(choice===q.a){
+
+score++;
+
+document.getElementById("score").textContent=score;
+
+document.getElementById("feedback").innerHTML=
+"<span class='correct'>Correct! Great thinking.</span>";
+
+play("correctSound");
+
+confetti();
+
+disableOptions();
+
+clearInterval(timer);
+
+document.getElementById("nextBtn").classList.remove("hidden");
+
+}else{
+
+attempts++;
+
+play("wrongSound");
+
+showCross();
+
+if(attempts===1){
+
+document.getElementById("feedback").innerHTML=
+"<span class='wrong'>Try once more. Recheck the graph or data carefully.</span>";
+
+}else{
+
+showAnswer("Incorrect.");
+
+}
+
+}
+
+}
+
+function showAnswer(msg){
+
+const q=questions[index];
+
+disableOptions();
+
+clearInterval(timer);
+
+document.getElementById("feedback").innerHTML=
+"<span class='wrong'>"+msg+"</span><br><br>Correct Answer: <b>"+
+String.fromCharCode(65+q.a)+". "+q.o[q.a]+
+"</b><br>"+q.e;
+
+document.getElementById("nextBtn").classList.remove("hidden");
+
+}
+
+function nextQuestion(){
+
+index++;
+
+if(index<questions.length){
+
+loadQuestion();
+
+}else{
+
+document.getElementById("quiz").classList.add("hidden");
+
+document.getElementById("challenge").classList.remove("hidden");
+
+}
+
+}
+
+function checkFinal(ans){
+
+if(ans==="B"){
+
+score++;
+
+play("clapSound");
+
+confetti();
+
+document.getElementById("finalFeedback").innerHTML=
+"<span class='correct'>Correct! 90° is 1/4 of 360°, and 1/4 of 200 = 50.</span>";
+
+}else{
+
+document.getElementById("finalFeedback").innerHTML=
+"<span class='wrong'>Correct Answer: B. 50</span>";
+
+}
+
+setTimeout(showResult,1500);
+
+}
+
+function showResult(){
+
+document.getElementById("challenge").classList.add("hidden");
+
+document.getElementById("result").classList.remove("hidden");
+
+document.getElementById("finalScore").textContent=
+"Your Score: "+score+" / "+totalScore;
+
+document.getElementById("message").textContent=
+score>=13
+?"Excellent! You understand Data Handling & Graphs very well."
+:score>=9
+?"Good effort! Revise graphs, coordinates, and pie charts once more."
+:"Keep practising data interpretation and graph concepts.";
+
+}
+
+function disableOptions(){
+
+document.querySelectorAll(".option").forEach(btn=>btn.disabled=true);
+
+}
+
+function play(id){
+
+const audio=document.getElementById(id);
+
+audio.currentTime=0;
+
+audio.play().catch(()=>{});
+
+}
+
+function showCross(){
+
+const c=document.getElementById("cross");
+
+c.style.display="flex";
+
+setTimeout(()=>{
+c.style.display="none";
+},500);
+
+}
+
+function confetti(){
+
+for(let i=0;i<20;i++){
+
+const s=document.createElement("div");
+
+s.className="confetti";
+
+s.textContent="★";
+
+s.style.left=Math.random()*100+"vw";
+
+s.style.top=Math.random()*30+"vh";
+
+document.body.appendChild(s);
+
+setTimeout(()=>{
+s.remove();
+},1000);
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
