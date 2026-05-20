@@ -1,1 +1,750 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cubes & Cube Roots Quiz</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#eef9ff,#fff7ed);
+min-height:100vh;
+overflow-x:hidden;
+color:#1f2937;
+}
+
+#splash{
+position:fixed;
+inset:0;
+background:white;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:9999;
+}
+
+#splash img{
+width:200px;
+margin-bottom:20px;
+}
+
+.container{
+width:min(950px,95%);
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:rgba(255,255,255,.96);
+padding:24px;
+border-radius:24px;
+margin-top:25px;
+box-shadow:0 8px 25px rgba(0,0,0,.12);
+}
+
+.logo{
+width:90px;
+display:block;
+margin:auto;
+margin-bottom:10px;
+}
+
+h1,h2{
+text-align:center;
+color:#2563eb;
+margin-bottom:12px;
+}
+
+button{
+border:none;
+padding:13px 18px;
+border-radius:14px;
+background:#2563eb;
+color:white;
+font-weight:bold;
+cursor:pointer;
+margin-top:10px;
+transition:.2s;
+}
+
+button:hover{
+background:#1d4ed8;
+transform:scale(1.02);
+}
+
+.option{
+width:100%;
+display:block;
+text-align:left;
+margin:10px 0;
+background:#f3f4f6;
+color:#111827;
+}
+
+.option:hover{
+background:#dbeafe;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+flex-wrap:wrap;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.timer{
+color:#dc2626;
+}
+
+.feedback{
+margin-top:14px;
+font-weight:bold;
+min-height:30px;
+}
+
+.correct{
+color:#15803d;
+}
+
+.wrong{
+color:#dc2626;
+}
+
+.hidden{
+display:none;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin:15px 0;
+background:white;
+}
+
+th,td{
+border:1px solid #cbd5e1;
+padding:10px;
+text-align:center;
+}
+
+th{
+background:#dbeafe;
+}
+
+.cross{
+position:fixed;
+inset:0;
+display:none;
+justify-content:center;
+align-items:center;
+font-size:100px;
+color:rgba(220,38,38,.6);
+z-index:100;
+}
+
+.confetti{
+position:fixed;
+font-size:24px;
+pointer-events:none;
+z-index:200;
+animation:fall 1s linear forwards;
+}
+
+@keyframes fall{
+to{
+transform:translateY(150px) rotate(180deg);
+opacity:0;
+}
+}
+
+.bg span{
+position:fixed;
+font-size:26px;
+color:rgba(255,183,3,.3);
+animation:float 10s infinite linear;
+}
+
+@keyframes float{
+from{
+transform:translateY(100vh) rotate(0deg);
+}
+to{
+transform:translateY(-10vh) rotate(360deg);
+}
+}
+
+.final{
+border:3px dashed #f59e0b;
+background:#fff7ed;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="splash">
+<img src="assets/innovine-logo.png" alt="Innovine Logo">
+<h2>Cubes & Cube Roots Quest</h2>
+<p>Loading Interactive Quiz...</p>
+</div>
+
+<div class="bg">
+<span style="left:10%;animation-delay:0s">★</span>
+<span style="left:30%;animation-delay:2s">✦</span>
+<span style="left:50%;animation-delay:4s">★</span>
+<span style="left:70%;animation-delay:1s">✧</span>
+<span style="left:90%;animation-delay:3s">★</span>
+</div>
+
+<div class="cross" id="cross">✖</div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<div class="container">
+
+<div class="card" id="intro">
+
+<img class="logo" src="assets/innovine-logo.png" alt="Innovine Logo">
+
+<h1>Cubes & Cube Roots</h1>
+
+<p><b>Grade 8 Mathematics MCQ Interactive</b></p>
+
+<p style="margin-top:15px;">
+Explore real-life questions on cubes, cube roots, cube numbers, and volume.
+You get one retry after the first wrong attempt.
+After the second wrong attempt, the correct answer and explanation will appear.
+</p>
+
+<button onclick="startGame()">Start Quiz</button>
+
+</div>
+
+<div class="card hidden" id="quiz">
+
+<div class="topbar">
+<div>Score: <span id="score">0</span></div>
+<div>Question: <span id="qNum">1</span>/<span id="total"></span></div>
+<div class="timer">Time: <span id="time">45</span>s</div>
+</div>
+
+<h2 id="question"></h2>
+
+<div id="tableBox"></div>
+
+<div id="options"></div>
+
+<div class="feedback" id="feedback"></div>
+
+<button id="nextBtn" class="hidden" onclick="nextQuestion()">Next</button>
+
+</div>
+
+<div class="card hidden final" id="challenge">
+
+<h2>Final Challenge</h2>
+
+<p>
+A cube-shaped container has a volume of 2197 cm³.
+What is the length of one edge?
+</p>
+
+<button onclick="checkFinal('A')">A. 11 cm</button>
+<button onclick="checkFinal('B')">B. 12 cm</button>
+<button onclick="checkFinal('C')">C. 13 cm</button>
+<button onclick="checkFinal('D')">D. 14 cm</button>
+
+<div class="feedback" id="finalFeedback"></div>
+
+</div>
+
+<div class="card hidden" id="result">
+
+<h1>Quiz Complete!</h1>
+
+<h2 id="finalScore"></h2>
+
+<p id="message"></p>
+
+<button onclick="location.reload()">Play Again</button>
+
+</div>
+
+</div>
+
+<script>
+
+const questions=[
+
+{
+q:"A cube-shaped water tank has side length 6 m. What is the volume of the tank?",
+o:["36 m³","108 m³","216 m³","324 m³"],
+a:2,
+e:"Volume of cube = side × side × side = 6³ = 216 m³."
+},
+
+{
+q:"A toy company packs 512 small cubes equally into a larger cube-shaped box. How many cubes are arranged along one edge of the box?",
+o:["6","7","8","9"],
+a:2,
+e:"Cube root of 512 is 8."
+},
+
+{
+q:"A game rewards players with points in cube numbers: 1, 8, 27, 64, … Which number should come next?",
+o:["81","100","125","144"],
+a:2,
+e:"5³ = 125."
+},
+
+{
+q:"A cube-shaped gift box has side length 9 cm. What is its volume?",
+o:["81 cm³","243 cm³","512 cm³","729 cm³"],
+a:3,
+e:"9 × 9 × 9 = 729 cm³."
+},
+
+{
+q:"Study the table and identify the missing cube.",
+table:`<table>
+<tr>
+<th>Number</th>
+<th>Cube</th>
+</tr>
+<tr>
+<td>2</td>
+<td>8</td>
+</tr>
+<tr>
+<td>3</td>
+<td>27</td>
+</tr>
+<tr>
+<td>4</td>
+<td>64</td>
+</tr>
+<tr>
+<td>5</td>
+<td>?</td>
+</tr>
+</table>`,
+o:["100","115","125","150"],
+a:2,
+e:"5³ = 125."
+},
+
+{
+q:"A factory stores cube-shaped containers. If the side length becomes 5 cm, what will be the volume?",
+table:`<table>
+<tr>
+<th>Side Length (cm)</th>
+<th>Volume (cm³)</th>
+</tr>
+<tr>
+<td>2</td>
+<td>8</td>
+</tr>
+<tr>
+<td>3</td>
+<td>27</td>
+</tr>
+<tr>
+<td>4</td>
+<td>64</td>
+</tr>
+</table>`,
+o:["100 cm³","115 cm³","120 cm³","125 cm³"],
+a:3,
+e:"Volume = 5³ = 125 cm³."
+},
+
+{
+q:"A student arranges 343 identical cubes to form a larger cube. How many cubes are there along one edge?",
+o:["5","6","7","8"],
+a:2,
+e:"Cube root of 343 is 7."
+},
+
+{
+q:"During an exhibition, 729 small blocks are arranged to form a perfect cube display. How many blocks are there in each row?",
+o:["7","8","9","10"],
+a:2,
+e:"Cube root of 729 is 9."
+},
+
+{
+q:"Study the pattern and identify the missing cube root.",
+table:`<table>
+<tr>
+<th>Cube Number</th>
+<th>Cube Root</th>
+</tr>
+<tr>
+<td>64</td>
+<td>4</td>
+</tr>
+<tr>
+<td>125</td>
+<td>5</td>
+</tr>
+<tr>
+<td>216</td>
+<td>6</td>
+</tr>
+<tr>
+<td>343</td>
+<td>?</td>
+</tr>
+</table>`,
+o:["5","6","7","8"],
+a:2,
+e:"Cube root of 343 is 7."
+},
+
+{
+q:"A cube-shaped room has side length 10 m. What is the volume of the room?",
+o:["100 m³","500 m³","1000 m³","2000 m³"],
+a:2,
+e:"10³ = 1000 m³."
+},
+
+{
+q:"A wooden cube has volume 1000 cm³. What is the length of one edge?",
+o:["8 cm","9 cm","10 cm","12 cm"],
+a:2,
+e:"Cube root of 1000 is 10."
+},
+
+{
+q:"A designer creates cube-shaped lamps.",
+table:`<table>
+<tr>
+<th>Side Length (cm)</th>
+<th>Volume (cm³)</th>
+</tr>
+<tr>
+<td>3</td>
+<td>27</td>
+</tr>
+<tr>
+<td>6</td>
+<td>216</td>
+</tr>
+<tr>
+<td>9</td>
+<td>729</td>
+</tr>
+</table>`,
+o:["10 cm","11 cm","12 cm","13 cm"],
+a:2,
+e:"Cube root of 1728 is 12."
+},
+
+{
+q:"A student says that 512 is a perfect cube because it can be formed by multiplying the same number three times. Which cube root supports this statement?",
+o:["6","7","8","9"],
+a:2,
+e:"8 × 8 × 8 = 512."
+},
+
+{
+q:"Assertion: Every perfect cube has an integer cube root.<br><br>Reason: Perfect cubes are obtained by multiplying the same whole number three times.",
+o:[
+"Both are true and the reason explains the assertion",
+"Both are true but the reason does not explain the assertion",
+"Assertion is true but reason is false",
+"Assertion is false but reason is true"
+],
+a:0,
+e:"Perfect cubes are formed by multiplying equal whole numbers three times."
+},
+
+{
+q:"Assertion: The cube root of 729 is 9.<br><br>Reason: 9 × 9 × 9 = 729.",
+o:[
+"Both are true and the reason explains the assertion",
+"Both are true but the reason does not explain the assertion",
+"Assertion is true but reason is false",
+"Assertion is false but reason is true"
+],
+a:0,
+e:"9 × 9 × 9 = 729."
+}
+
+];
+
+let index=0;
+let score=0;
+let attempts=0;
+let timer;
+let timeLeft=45;
+
+const totalScore=questions.length+1;
+
+setTimeout(()=>{
+document.getElementById("splash").style.display="none";
+},5000);
+
+document.getElementById("total").textContent=questions.length;
+
+function startGame(){
+
+document.getElementById("intro").classList.add("hidden");
+
+document.getElementById("quiz").classList.remove("hidden");
+
+loadQuestion();
+
+}
+
+function loadQuestion(){
+
+clearInterval(timer);
+
+attempts=0;
+
+timeLeft=45;
+
+document.getElementById("time").textContent=timeLeft;
+
+document.getElementById("feedback").innerHTML="";
+
+document.getElementById("nextBtn").classList.add("hidden");
+
+const q=questions[index];
+
+document.getElementById("qNum").textContent=index+1;
+
+document.getElementById("question").innerHTML=q.q;
+
+document.getElementById("tableBox").innerHTML=q.table || "";
+
+const box=document.getElementById("options");
+
+box.innerHTML="";
+
+q.o.forEach((opt,i)=>{
+
+const btn=document.createElement("button");
+
+btn.className="option";
+
+btn.textContent=String.fromCharCode(65+i)+". "+opt;
+
+btn.onclick=()=>checkAnswer(i);
+
+box.appendChild(btn);
+
+});
+
+timer=setInterval(()=>{
+
+timeLeft--;
+
+document.getElementById("time").textContent=timeLeft;
+
+if(timeLeft<=0){
+
+clearInterval(timer);
+
+showAnswer("Time up!");
+
+}
+
+},1000);
+
+}
+
+function checkAnswer(choice){
+
+const q=questions[index];
+
+if(choice===q.a){
+
+score++;
+
+document.getElementById("score").textContent=score;
+
+document.getElementById("feedback").innerHTML=
+"<span class='correct'>Correct! Great thinking.</span>";
+
+play("correctSound");
+
+confetti();
+
+disableOptions();
+
+clearInterval(timer);
+
+document.getElementById("nextBtn").classList.remove("hidden");
+
+}else{
+
+attempts++;
+
+play("wrongSound");
+
+showCross();
+
+if(attempts===1){
+
+document.getElementById("feedback").innerHTML=
+"<span class='wrong'>Try once more. Recheck the cube or cube root carefully.</span>";
+
+}else{
+
+showAnswer("Incorrect.");
+
+}
+
+}
+
+}
+
+function showAnswer(msg){
+
+const q=questions[index];
+
+disableOptions();
+
+clearInterval(timer);
+
+document.getElementById("feedback").innerHTML=
+"<span class='wrong'>"+msg+"</span><br><br>Correct Answer: <b>"+
+String.fromCharCode(65+q.a)+". "+q.o[q.a]+
+"</b><br>"+q.e;
+
+document.getElementById("nextBtn").classList.remove("hidden");
+
+}
+
+function nextQuestion(){
+
+index++;
+
+if(index<questions.length){
+
+loadQuestion();
+
+}else{
+
+document.getElementById("quiz").classList.add("hidden");
+
+document.getElementById("challenge").classList.remove("hidden");
+
+}
+
+}
+
+function checkFinal(ans){
+
+if(ans==="C"){
+
+score++;
+
+play("clapSound");
+
+confetti();
+
+document.getElementById("finalFeedback").innerHTML=
+"<span class='correct'>Correct! Cube root of 2197 is 13.</span>";
+
+}else{
+
+document.getElementById("finalFeedback").innerHTML=
+"<span class='wrong'>Correct Answer: C. 13 cm</span>";
+
+}
+
+setTimeout(showResult,1500);
+
+}
+
+function showResult(){
+
+document.getElementById("challenge").classList.add("hidden");
+
+document.getElementById("result").classList.remove("hidden");
+
+document.getElementById("finalScore").textContent=
+"Your Score: "+score+" / "+totalScore;
+
+document.getElementById("message").textContent=
+score>=13
+?"Excellent! You understand Cubes & Cube Roots very well."
+:score>=9
+?"Good effort! Revise cube numbers and cube roots once more."
+:"Keep practising cubes, cube roots, patterns, and volume.";
+
+}
+
+function disableOptions(){
+
+document.querySelectorAll(".option").forEach(btn=>btn.disabled=true);
+
+}
+
+function play(id){
+
+const audio=document.getElementById(id);
+
+audio.currentTime=0;
+
+audio.play().catch(()=>{});
+
+}
+
+function showCross(){
+
+const c=document.getElementById("cross");
+
+c.style.display="flex";
+
+setTimeout(()=>{
+c.style.display="none";
+},500);
+
+}
+
+function confetti(){
+
+for(let i=0;i<20;i++){
+
+const s=document.createElement("div");
+
+s.className="confetti";
+
+s.textContent="★";
+
+s.style.left=Math.random()*100+"vw";
+
+s.style.top=Math.random()*30+"vh";
+
+document.body.appendChild(s);
+
+setTimeout(()=>{
+s.remove();
+},1000);
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
