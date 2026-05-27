@@ -6,72 +6,187 @@
 <title>Data Handling MCQ Challenge</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
 body{
 min-height:100vh;
-background:linear-gradient(135deg,#e0f7ff,#fff3d6,#f3e8ff);
+background:linear-gradient(135deg,#dff6ff,#fff4e6,#f3e8ff);
 display:flex;
 justify-content:center;
 align-items:center;
 padding:20px;
 overflow-x:hidden;
+position:relative;
 }
-body::before{
+
+/* Animated Background */
+
+body::before,
+body::after{
 content:"";
 position:fixed;
 inset:0;
-background-image:radial-gradient(#fff 1px,transparent 1px),radial-gradient(#ffd54f 1px,transparent 1px);
-background-size:100px 100px;
-animation:move 40s linear infinite;
-opacity:.35;
+background-image:
+radial-gradient(#ffffff 1px, transparent 1px),
+radial-gradient(#ffd54f 1px, transparent 1px);
+background-size:120px 120px;
+opacity:0.25;
+animation:starsMove 40s linear infinite;
 z-index:0;
 }
-@keyframes move{from{transform:translateY(0)}to{transform:translateY(-120px)}}
+
+body::after{
+animation-duration:60s;
+opacity:0.15;
+}
+
+@keyframes starsMove{
+from{
+transform:translateY(0);
+}
+to{
+transform:translateY(-120px);
+}
+}
+
+/* Splash Screen */
 
 #splash{
 position:fixed;
-inset:0;
+top:0;
+left:0;
+width:100%;
+height:100%;
 background:white;
-z-index:9999;
 display:flex;
-flex-direction:column;
 justify-content:center;
 align-items:center;
+flex-direction:column;
+z-index:9999;
 }
-#splash img{width:180px;animation:pulse 2s infinite}
-@keyframes pulse{50%{transform:scale(1.08)}}
+
+#splash img{
+width:180px;
+animation:pulse 2s infinite;
+}
+
+#splash h2{
+margin-top:20px;
+color:#555;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.08);}
+100%{transform:scale(1);}
+}
+
+/* Main Container */
 
 .container{
 position:relative;
 z-index:2;
-background:white;
 width:100%;
-max-width:850px;
-border-radius:24px;
+max-width:900px;
+background:white;
 padding:25px;
-box-shadow:0 10px 30px rgba(0,0,0,.15);
+border-radius:24px;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
 }
-.hidden{display:none}
-h1{text-align:center;color:#5b21b6;margin-bottom:10px}
-.subtitle{text-align:center;color:#555;margin-bottom:25px}
-.center{text-align:center}
-.topbar{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:20px}
-.box{background:#f3f4ff;padding:12px 18px;border-radius:12px;font-weight:bold}
-.question{font-size:1.15rem;font-weight:bold;line-height:1.6;margin-top:10px}
-.options{display:grid;gap:14px;margin-top:22px}
+
+.hidden{
+display:none;
+}
+
+h1{
+text-align:center;
+color:#5b21b6;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+margin-bottom:25px;
+color:#555;
+}
+
+.center{
+text-align:center;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.box{
+background:#f3f4ff;
+padding:12px 18px;
+border-radius:12px;
+font-weight:bold;
+}
+
+.question{
+font-size:1.15rem;
+line-height:1.6;
+font-weight:bold;
+margin-top:10px;
+color:#222;
+}
+
+.options{
+display:grid;
+gap:14px;
+margin-top:22px;
+}
+
 .option{
 background:#f8f8ff;
 padding:14px;
 border-radius:14px;
 border:2px solid transparent;
 cursor:pointer;
-transition:.2s;
+transition:0.25s;
 }
-.option:hover{background:#ececff;transform:translateY(-2px)}
-.correct{background:#d4ffd9!important;border-color:#16a34a!important}
-.wrong{background:#ffe0e0!important;border-color:#dc2626!important}
-.feedback{margin-top:16px;font-weight:bold;min-height:28px}
-.explanation{margin-top:10px;background:#f5f5f5;padding:12px;border-radius:12px;color:#444}
+
+.option:hover{
+background:#ececff;
+transform:translateY(-2px);
+}
+
+.correct{
+background:#d4ffd9 !important;
+border-color:#16a34a !important;
+}
+
+.wrong{
+background:#ffe0e0 !important;
+border-color:#dc2626 !important;
+}
+
+.feedback{
+margin-top:18px;
+font-weight:bold;
+min-height:28px;
+}
+
+.explanation{
+margin-top:10px;
+padding:12px;
+background:#f5f5f5;
+border-radius:12px;
+color:#444;
+}
+
 button{
 margin-top:20px;
 padding:14px 24px;
@@ -81,337 +196,788 @@ background:#6d28d9;
 color:white;
 font-size:1rem;
 cursor:pointer;
+transition:0.3s;
 }
-button:hover{background:#5b21b6}
-table{width:100%;border-collapse:collapse;margin-top:15px}
-th,td{border:1px solid #ccc;padding:10px;text-align:center}
-th{background:#ececff}
-.star,.cross{
+
+button:hover{
+background:#5b21b6;
+transform:scale(1.03);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+th,td{
+border:1px solid #ccc;
+padding:10px;
+text-align:center;
+}
+
+th{
+background:#ececff;
+}
+
+/* Confetti */
+
+.star{
 position:fixed;
-z-index:999;
+font-size:24px;
 pointer-events:none;
-font-size:25px;
+z-index:999;
+animation:fall 2s linear forwards;
 }
-.star{animation:fall 2s linear forwards}
-.cross{animation:fade 1s ease forwards}
-@keyframes fall{to{transform:translateY(100vh) rotate(720deg);opacity:0}}
-@keyframes fade{to{transform:scale(2);opacity:0}}
-@media(max-width:600px){h1{font-size:1.5rem}.question{font-size:1rem}}
+
+@keyframes fall{
+to{
+transform:translateY(100vh) rotate(720deg);
+opacity:0;
+}
+}
+
+/* Wrong Cross */
+
+.cross{
+position:fixed;
+font-size:28px;
+pointer-events:none;
+z-index:999;
+animation:fadeCross 1s ease forwards;
+}
+
+@keyframes fadeCross{
+to{
+transform:scale(2);
+opacity:0;
+}
+}
+
+@media(max-width:600px){
+
+h1{
+font-size:1.6rem;
+}
+
+.question{
+font-size:1rem;
+}
+
+.option{
+font-size:0.95rem;
+}
+
+}
+
 </style>
 </head>
 
 <body>
 
+<!-- SPLASH SCREEN -->
+
 <div id="splash">
+
 <img src="assets/innovine-logo.png" alt="Innovine Logo">
+
 <h2>Innovine Learning Experience</h2>
+
 </div>
 
-<div class="container" id="app">
+<!-- MAIN APP -->
 
-<div id="intro">
+<div class="container hidden" id="app">
+
+<!-- INTRO -->
+
+<div id="introScreen">
+
 <h1>Data Handling</h1>
-<p class="subtitle">Grade 6 Interactive MCQ Challenge</p>
+
+<p class="subtitle">
+Grade 6 Interactive MCQ Challenge
+</p>
+
 <div class="center">
-<p>✅ 15 Competency-Based Questions<br>✅ Timer: 45 Seconds<br>✅ One Retry Allowed<br>✅ Final Challenge</p>
-<button onclick="startQuiz()">Start Challenge</button>
-</div>
+
+<p style="margin-bottom:20px;">
+✅ 15 Competency-Based Questions<br>
+✅ Timer Challenge<br>
+✅ One Retry Feature<br>
+✅ Final Bonus Round
+</p>
+
+<button onclick="startQuiz()">
+Start Challenge
+</button>
+
 </div>
 
-<div id="quiz" class="hidden">
+</div>
+
+<!-- QUIZ -->
+
+<div id="quizScreen" class="hidden">
+
 <div class="topbar">
-<div class="box">⭐ Score: <span id="score">0</span></div>
-<div class="box">⏳ Time: <span id="timer">45</span>s</div>
+
+<div class="box">
+⭐ Score: <span id="score">0</span>
 </div>
-<div id="qno"></div>
-<div class="question" id="question"></div>
+
+<div class="box">
+⏳ Time: <span id="timer">45</span>s
+</div>
+
+</div>
+
+<div id="questionNumber"></div>
+
+<div class="question" id="questionText"></div>
+
 <div id="tableArea"></div>
-<div class="options" id="options"></div>
+
+<div class="options" id="optionsContainer"></div>
+
 <div class="feedback" id="feedback"></div>
+
 <div class="explanation hidden" id="explanation"></div>
-<button id="nextBtn" class="hidden" onclick="nextQuestion()">Next</button>
+
+<button id="nextBtn" class="hidden" onclick="nextQuestion()">
+Next
+</button>
+
 </div>
 
-<div id="final" class="hidden">
+<!-- FINAL CHALLENGE -->
+
+<div id="challengeScreen" class="hidden">
+
 <h1>Final Challenge 🚀</h1>
+
 <div class="question">
-A class recorded the favourite fruits of students: Mango = 12, Apple = 8, Banana = 10. Which fruit was liked by the most students?
+A class survey shows:
+<br><br>
+Mango = 12 students<br>
+Apple = 8 students<br>
+Banana = 10 students
+<br><br>
+Which fruit was liked by the most students?
 </div>
+
 <div class="options">
-<div class="option" onclick="finalAnswer(this,true)">Mango</div>
-<div class="option" onclick="finalAnswer(this,false)">Apple</div>
-<div class="option" onclick="finalAnswer(this,false)">Banana</div>
-<div class="option" onclick="finalAnswer(this,false)">All equal</div>
-</div>
-<div class="feedback" id="finalFeedback"></div>
-<button id="finishBtn" class="hidden" onclick="showResult()">Finish Quiz</button>
+
+<div class="option" onclick="finalChallenge(this,true)">
+Mango
 </div>
 
-<div id="result" class="hidden center">
+<div class="option" onclick="finalChallenge(this,false)">
+Apple
+</div>
+
+<div class="option" onclick="finalChallenge(this,false)">
+Banana
+</div>
+
+<div class="option" onclick="finalChallenge(this,false)">
+All equal
+</div>
+
+</div>
+
+<div class="feedback" id="challengeFeedback"></div>
+
+<button id="finishBtn" class="hidden" onclick="showResults()">
+Finish Quiz
+</button>
+
+</div>
+
+<!-- RESULT -->
+
+<div id="resultScreen" class="hidden center">
+
 <h1>Quiz Completed 🎉</h1>
-<h2>Your Score: <span id="finalScore"></span>/16</h2>
-<p id="message"></p>
-<button onclick="location.reload()">Play Again</button>
+
+<h2 style="margin:20px 0;color:#6d28d9;">
+Your Score: <span id="finalScore"></span>/16
+</h2>
+
+<p id="resultMessage"></p>
+
+<button onclick="location.reload()">
+Play Again
+</button>
+
 </div>
 
 </div>
+
+<!-- AUDIO -->
 
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
 <script>
+
+/* SPLASH SCREEN */
+
 setTimeout(()=>{
 document.getElementById("splash").style.display="none";
+document.getElementById("app").classList.remove("hidden");
 },5000);
 
+/* QUESTIONS */
+
 const questions=[
+
 {
-q:"A teacher records the number of books read by four students.",
-table:"<table><tr><th>Student</th><th>Books Read</th></tr><tr><td>Aarav</td><td>5</td></tr><tr><td>Riya</td><td>8</td></tr><tr><td>Kabir</td><td>6</td></tr><tr><td>Meena</td><td>4</td></tr></table>",
-o:["Aarav","Riya","Kabir","Meena"],
-a:"Riya",
-e:"Riya read the highest number of books, which is 8."
+question:"A teacher recorded the number of books read by students in a month.",
+table:`
+<table>
+<tr>
+<th>Student</th>
+<th>Books Read</th>
+</tr>
+
+<tr><td>Aarav</td><td>6</td></tr>
+<tr><td>Meera</td><td>9</td></tr>
+<tr><td>Kabir</td><td>5</td></tr>
+<tr><td>Riya</td><td>8</td></tr>
+</table>
+`,
+options:["Aarav","Meera","Kabir","Riya"],
+answer:"Meera",
+explanation:"Meera read the highest number of books, which is 9."
 },
+
 {
-q:"A shopkeeper sold fruits in one day.",
-table:"<table><tr><th>Fruit</th><th>Number Sold</th></tr><tr><td>Apples</td><td>25</td></tr><tr><td>Bananas</td><td>40</td></tr><tr><td>Oranges</td><td>30</td></tr></table>",
-o:["Apples","Bananas","Oranges","All equal"],
-a:"Bananas",
-e:"Bananas were sold the most because 40 is the highest number."
+question:"A fruit seller noted the fruits sold in one day.",
+table:`
+<table>
+<tr><th>Fruit</th><th>Number Sold</th></tr>
+<tr><td>Apples</td><td>25</td></tr>
+<tr><td>Bananas</td><td>40</td></tr>
+<tr><td>Grapes</td><td>15</td></tr>
+</table>
+`,
+options:["Apples","Grapes","Bananas","All equally"],
+answer:"Bananas",
+explanation:"Bananas were sold the most because 40 is the highest."
 },
+
 {
-q:"The marks of four students are 12, 15, 10 and 13. What is the range of the marks?",
-o:["3","4","5","6"],
-a:"5",
-e:"Range = highest value − lowest value = 15 − 10 = 5."
+question:"The marks scored by four students are 12, 18, 15 and 10. What is the range of the marks?",
+options:["6","7","8","9"],
+answer:"8",
+explanation:"Range = highest value − lowest value = 18 − 10 = 8."
 },
+
 {
-q:"A class voted for their favourite game.",
-table:"<table><tr><th>Game</th><th>Votes</th></tr><tr><td>Cricket</td><td>18</td></tr><tr><td>Football</td><td>15</td></tr><tr><td>Badminton</td><td>12</td></tr></table>",
-o:["Cricket got the least votes","Football got the most votes","Cricket got the most votes","Badminton got 15 votes"],
-a:"Cricket got the most votes",
-e:"Cricket has 18 votes, which is the highest."
+question:"A survey in a class showed the favourite sports of students.",
+table:`
+<table>
+<tr><th>Sport</th><th>Students</th></tr>
+<tr><td>Cricket</td><td>14</td></tr>
+<tr><td>Football</td><td>10</td></tr>
+<tr><td>Badminton</td><td>6</td></tr>
+</table>
+`,
+options:["6","7","8","9"],
+answer:"8",
+explanation:"14 − 6 = 8 more students liked Cricket."
 },
+
 {
-q:"A pictograph uses 1 star ⭐ to show 5 students. If there are 4 stars, how many students are shown?",
-o:["10","15","20","25"],
-a:"20",
-e:"4 stars × 5 students = 20 students."
+question:"A pictograph uses ⭐ = 5 students. If 4 stars are shown for singing club members, how many students are there in the club?",
+options:["10","15","20","25"],
+answer:"20",
+explanation:"4 stars × 5 students = 20 students."
 },
+
 {
-q:"The number of students absent in a week is shown.",
-table:"<table><tr><th>Day</th><th>Absent Students</th></tr><tr><td>Monday</td><td>3</td></tr><tr><td>Tuesday</td><td>5</td></tr><tr><td>Wednesday</td><td>2</td></tr><tr><td>Thursday</td><td>6</td></tr></table>",
-o:["Monday","Tuesday","Wednesday","Thursday"],
-a:"Thursday",
-e:"Thursday has the highest number of absentees, which is 6."
+question:"A shopkeeper recorded notebook sales for four days.",
+table:`
+<table>
+<tr><th>Day</th><th>Notebooks Sold</th></tr>
+<tr><td>Monday</td><td>18</td></tr>
+<tr><td>Tuesday</td><td>22</td></tr>
+<tr><td>Wednesday</td><td>18</td></tr>
+<tr><td>Thursday</td><td>25</td></tr>
+</table>
+`,
+options:[
+"Monday and Tuesday",
+"Tuesday and Thursday",
+"Monday and Wednesday",
+"Wednesday and Thursday"
+],
+answer:"Monday and Wednesday",
+explanation:"Both Monday and Wednesday have equal sales of 18."
 },
+
 {
-q:"A survey shows that 10 students like red, 15 like blue and 5 like green. How many students were surveyed in all?",
-o:["20","25","30","35"],
-a:"30",
-e:"Total students = 10 + 15 + 5 = 30."
+question:"The temperatures recorded in a city during a week were: 30°C, 32°C, 30°C, 31°C, 29°C. Which temperature occurred most often?",
+options:["29°C","30°C","31°C","32°C"],
+answer:"30°C",
+explanation:"30°C appears two times, more than the others."
 },
+
 {
-q:"Which type of graph is most suitable to compare the number of students choosing different hobbies?",
-o:["Bar graph","Clock","Number line","Compass"],
-a:"Bar graph",
-e:"A bar graph is useful for comparing quantities."
+question:"A class collected data on favourite ice cream flavours.",
+table:`
+<table>
+<tr><th>Flavour</th><th>Students</th></tr>
+<tr><td>Chocolate</td><td>12</td></tr>
+<tr><td>Vanilla</td><td>9</td></tr>
+<tr><td>Strawberry</td><td>7</td></tr>
+</table>
+`,
+options:["26","27","28","29"],
+answer:"28",
+explanation:"Total students = 12 + 9 + 7 = 28."
 },
+
 {
-q:"A shop records notebook sales.",
-table:"<table><tr><th>Day</th><th>Notebooks Sold</th></tr><tr><td>Monday</td><td>20</td></tr><tr><td>Tuesday</td><td>25</td></tr><tr><td>Wednesday</td><td>20</td></tr><tr><td>Thursday</td><td>30</td></tr></table>",
-o:["Monday and Wednesday","Tuesday and Thursday","Monday and Tuesday","Wednesday and Thursday"],
-a:"Monday and Wednesday",
-e:"Both Monday and Wednesday have equal sales of 20 notebooks."
+question:"A pictograph shows 🚲 = 2 bicycles. If 7 bicycle symbols are shown, how many bicycles are represented?",
+options:["7","9","12","14"],
+answer:"14",
+explanation:"7 symbols × 2 bicycles = 14 bicycles."
 },
+
 {
-q:"The temperatures recorded are 28°C, 30°C, 32°C and 30°C. Which temperature appears most often?",
-o:["28°C","30°C","32°C","All equal"],
-a:"30°C",
-e:"30°C appears two times, more than the others."
+question:"A library recorded the number of books issued.",
+table:`
+<table>
+<tr><th>Day</th><th>Books Issued</th></tr>
+<tr><td>Monday</td><td>35</td></tr>
+<tr><td>Tuesday</td><td>28</td></tr>
+<tr><td>Wednesday</td><td>42</td></tr>
+</table>
+`,
+options:["Monday","Tuesday","Wednesday","All equal"],
+answer:"Wednesday",
+explanation:"42 is the highest number."
 },
+
 {
-q:"Assertion: A bar graph helps compare different quantities.<br><br>Reason: Bars of different heights can represent different values.",
-o:["Both are true and Reason explains Assertion","Both are true but Reason does not explain Assertion","Assertion is true but Reason is false","Assertion is false but Reason is true"],
-a:"Both are true and Reason explains Assertion",
-e:"Bar heights make comparison easy."
+question:"Assertion: A bar graph helps compare different quantities easily.<br><br>Reason: The heights of bars represent different values.",
+options:[
+"Both are true and Reason explains Assertion",
+"Both are true but Reason does not explain Assertion",
+"Assertion is true but Reason is false",
+"Assertion is false but Reason is true"
+],
+answer:"Both are true and Reason explains Assertion",
+explanation:"Bar heights make comparison easy."
 },
+
 {
-q:"Assertion: Data handling helps us organise information.<br><br>Reason: Tables and graphs make information easier to read.",
-o:["Both are true and Reason explains Assertion","Both are true but Reason does not explain Assertion","Assertion is true but Reason is false","Assertion is false but Reason is true"],
-a:"Both are true and Reason explains Assertion",
-e:"Tables and graphs organise data clearly."
+question:"Assertion: Data handling helps organise information clearly.<br><br>Reason: Tables and graphs make information easier to understand.",
+options:[
+"Both are true and Reason explains Assertion",
+"Both are true but Reason does not explain Assertion",
+"Assertion is true but Reason is false",
+"Assertion is false but Reason is true"
+],
+answer:"Both are true and Reason explains Assertion",
+explanation:"Tables and graphs organise data clearly."
 },
+
 {
-q:"A library issued books over three days.",
-table:"<table><tr><th>Day</th><th>Books Issued</th></tr><tr><td>Monday</td><td>35</td></tr><tr><td>Tuesday</td><td>28</td></tr><tr><td>Wednesday</td><td>42</td></tr></table>",
-o:["Monday","Tuesday","Wednesday","Cannot say"],
-a:"Wednesday",
-e:"Wednesday has the highest number, 42."
+question:"The number of students absent in a week is shown below.",
+table:`
+<table>
+<tr><th>Day</th><th>Students Absent</th></tr>
+<tr><td>Monday</td><td>3</td></tr>
+<tr><td>Tuesday</td><td>5</td></tr>
+<tr><td>Wednesday</td><td>2</td></tr>
+<tr><td>Thursday</td><td>6</td></tr>
+</table>
+`,
+options:["Monday","Tuesday","Wednesday","Thursday"],
+answer:"Thursday",
+explanation:"Thursday has the highest number of absentees, which is 6."
 },
+
 {
-q:"A pictograph uses 1 circle to represent 2 bicycles. If 7 circles are shown, how many bicycles are represented?",
-o:["7","9","14","21"],
-a:"14",
-e:"7 circles × 2 bicycles = 14 bicycles."
+question:"A student recorded the number of pets owned by classmates.",
+table:`
+<table>
+<tr><th>Pet</th><th>Students</th></tr>
+<tr><td>Dog</td><td>9</td></tr>
+<tr><td>Cat</td><td>6</td></tr>
+<tr><td>Fish</td><td>4</td></tr>
+</table>
+`,
+options:["3","4","5","6"],
+answer:"5",
+explanation:"Difference = 9 − 4 = 5."
 },
+
 {
-q:"A student collected data about pets owned by classmates: Dog = 9, Cat = 6, Fish = 4. How many more students have dogs than fish?",
-o:["3","4","5","6"],
-a:"5",
-e:"Difference = 9 − 4 = 5."
+question:"A school canteen sold drinks in one afternoon.",
+table:`
+<table>
+<tr><th>Drink</th><th>Cups Sold</th></tr>
+<tr><td>Lemon Juice</td><td>18</td></tr>
+<tr><td>Milkshake</td><td>24</td></tr>
+<tr><td>Coconut Water</td><td>12</td></tr>
+</table>
+`,
+options:[
+"Lemon Juice was sold the most",
+"Coconut Water and Lemon Juice were sold equally",
+"Milkshake was sold the most",
+"All drinks were sold equally"
+],
+answer:"Milkshake was sold the most",
+explanation:"Milkshake has the highest sales with 24 cups."
 }
+
 ];
 
-let index=0,score=0,time=45,timer,retry=false;
+/* VARIABLES */
 
-function playSound(id){
-const s=document.getElementById(id);
-if(s){s.currentTime=0;s.play().catch(()=>{});}
-}
+let currentQuestion=0;
+let score=0;
+let timeLeft=45;
+let timer;
+let retryUsed=false;
+
+/* START QUIZ */
 
 function startQuiz(){
-document.getElementById("intro").classList.add("hidden");
-document.getElementById("quiz").classList.remove("hidden");
+
+document.getElementById("introScreen").classList.add("hidden");
+
+document.getElementById("quizScreen").classList.remove("hidden");
+
 loadQuestion();
+
 }
 
-function loadQuestion(){
-retry=false;
-time=45;
-clearInterval(timer);
-document.getElementById("timer").innerText=time;
+/* LOAD QUESTION */
 
-let q=questions[index];
-document.getElementById("qno").innerHTML="Question "+(index+1)+" of "+questions.length;
-document.getElementById("question").innerHTML=q.q;
+function loadQuestion(){
+
+retryUsed=false;
+
+timeLeft=45;
+
+clearInterval(timer);
+
+document.getElementById("timer").innerText=timeLeft;
+
+const q=questions[currentQuestion];
+
+document.getElementById("questionNumber").innerHTML=
+`Question ${currentQuestion+1} of ${questions.length}`;
+
+document.getElementById("questionText").innerHTML=q.question;
+
 document.getElementById("tableArea").innerHTML=q.table || "";
-document.getElementById("options").innerHTML="";
+
+document.getElementById("optionsContainer").innerHTML="";
+
 document.getElementById("feedback").innerHTML="";
+
 document.getElementById("explanation").classList.add("hidden");
+
 document.getElementById("nextBtn").classList.add("hidden");
 
-q.o.forEach(opt=>{
-let div=document.createElement("div");
+q.options.forEach(option=>{
+
+const div=document.createElement("div");
+
 div.className="option";
-div.innerHTML=opt;
-div.onclick=()=>checkAnswer(div,opt);
-document.getElementById("options").appendChild(div);
+
+div.innerHTML=option;
+
+div.onclick=()=>checkAnswer(div,option);
+
+document.getElementById("optionsContainer").appendChild(div);
+
 });
 
 timer=setInterval(()=>{
-time--;
-document.getElementById("timer").innerText=time;
-if(time<=0){
+
+timeLeft--;
+
+document.getElementById("timer").innerText=timeLeft;
+
+if(timeLeft<=0){
+
 clearInterval(timer);
-showAnswer();
+
+showCorrectAnswer();
+
 }
+
 },1000);
+
 }
 
-function checkAnswer(el,selected){
-let q=questions[index];
+/* CHECK ANSWER */
 
-if(selected===q.a){
-el.classList.add("correct");
+function checkAnswer(element,selected){
+
+const q=questions[currentQuestion];
+
+if(selected===q.answer){
+
+element.classList.add("correct");
+
 score++;
+
 document.getElementById("score").innerText=score;
+
 document.getElementById("feedback").innerHTML="✅ Correct!";
+
 playSound("correctSound");
+
 confetti();
+
 clearInterval(timer);
+
 disableOptions();
+
 document.getElementById("nextBtn").classList.remove("hidden");
+
 }else{
-el.classList.add("wrong");
+
+element.classList.add("wrong");
+
 playSound("wrongSound");
-cross();
-if(!retry){
-retry=true;
-document.getElementById("feedback").innerHTML="❌ Try again! One retry left.";
-el.style.pointerEvents="none";
+
+showCross();
+
+if(!retryUsed){
+
+retryUsed=true;
+
+document.getElementById("feedback").innerHTML=
+"❌ Try Again! One retry left.";
+
+element.style.pointerEvents="none";
+
 }else{
+
 clearInterval(timer);
-showAnswer();
-}
-}
+
+showCorrectAnswer();
+
 }
 
-function showAnswer(){
-let q=questions[index];
-disableOptions();
-document.querySelectorAll("#options .option").forEach(opt=>{
-if(opt.innerHTML===q.a){opt.classList.add("correct");}
-});
-document.getElementById("feedback").innerHTML="Correct Answer: "+q.a;
-document.getElementById("explanation").innerHTML="💡 "+q.e;
-document.getElementById("explanation").classList.remove("hidden");
-document.getElementById("nextBtn").classList.remove("hidden");
 }
+
+}
+
+/* SHOW ANSWER */
+
+function showCorrectAnswer(){
+
+const q=questions[currentQuestion];
+
+disableOptions();
+
+document.querySelectorAll(".option").forEach(opt=>{
+
+if(opt.innerHTML===q.answer){
+
+opt.classList.add("correct");
+
+}
+
+});
+
+document.getElementById("feedback").innerHTML=
+`Correct Answer: ${q.answer}`;
+
+const explanation=document.getElementById("explanation");
+
+explanation.innerHTML="💡 "+q.explanation;
+
+explanation.classList.remove("hidden");
+
+document.getElementById("nextBtn").classList.remove("hidden");
+
+}
+
+/* DISABLE OPTIONS */
 
 function disableOptions(){
-document.querySelectorAll("#options .option").forEach(o=>o.style.pointerEvents="none");
+
+document.querySelectorAll(".option").forEach(opt=>{
+
+opt.style.pointerEvents="none";
+
+});
+
 }
+
+/* NEXT QUESTION */
 
 function nextQuestion(){
-index++;
-if(index<questions.length){
+
+currentQuestion++;
+
+if(currentQuestion<questions.length){
+
 loadQuestion();
+
 }else{
-document.getElementById("quiz").classList.add("hidden");
-document.getElementById("final").classList.remove("hidden");
-}
+
+document.getElementById("quizScreen").classList.add("hidden");
+
+document.getElementById("challengeScreen").classList.remove("hidden");
+
 }
 
-function finalAnswer(el,correct){
-document.querySelectorAll("#final .option").forEach(o=>o.style.pointerEvents="none");
+}
+
+/* FINAL CHALLENGE */
+
+function finalChallenge(element,correct){
+
+document.querySelectorAll("#challengeScreen .option").forEach(opt=>{
+
+opt.style.pointerEvents="none";
+
+});
+
 if(correct){
-el.classList.add("correct");
+
+element.classList.add("correct");
+
 score++;
-document.getElementById("finalFeedback").innerHTML="🎉 Correct!";
+
+document.getElementById("challengeFeedback").innerHTML=
+"🎉 Excellent!";
+
 playSound("correctSound");
+
 playSound("clapSound");
+
 confetti();
+
 }else{
-el.classList.add("wrong");
-document.getElementById("finalFeedback").innerHTML="❌ Correct answer is Mango.";
+
+element.classList.add("wrong");
+
+document.getElementById("challengeFeedback").innerHTML=
+"❌ Correct answer is Mango.";
+
 playSound("wrongSound");
-cross();
-}
-document.getElementById("finishBtn").classList.remove("hidden");
+
+showCross();
+
 }
 
-function showResult(){
-document.getElementById("final").classList.add("hidden");
-document.getElementById("result").classList.remove("hidden");
+document.getElementById("finishBtn").classList.remove("hidden");
+
+}
+
+/* SHOW RESULT */
+
+function showResults(){
+
+document.getElementById("challengeScreen").classList.add("hidden");
+
+document.getElementById("resultScreen").classList.remove("hidden");
+
 document.getElementById("finalScore").innerText=score;
 
-let msg=score>=14?"🌟 Outstanding Work!":score>=10?"👏 Great Job!":"👍 Keep Practicing!";
-document.getElementById("message").innerHTML=msg;
+let message="";
+
+if(score>=14){
+
+message="🌟 Outstanding Work!";
+
+}else if(score>=10){
+
+message="👏 Great Job!";
+
+}else{
+
+message="👍 Keep Practicing!";
+
 }
+
+document.getElementById("resultMessage").innerHTML=message;
+
+}
+
+/* AUDIO */
+
+function playSound(id){
+
+const sound=document.getElementById(id);
+
+if(sound){
+
+sound.currentTime=0;
+
+sound.play().catch(()=>{});
+
+}
+
+}
+
+/* CONFETTI */
 
 function confetti(){
+
 for(let i=0;i<20;i++){
-let s=document.createElement("div");
-s.className="star";
-s.innerHTML="⭐";
-s.style.left=Math.random()*100+"vw";
-s.style.top="-20px";
-document.body.appendChild(s);
-setTimeout(()=>s.remove(),2000);
-}
+
+const star=document.createElement("div");
+
+star.className="star";
+
+star.innerHTML="⭐";
+
+star.style.left=Math.random()*100+"vw";
+
+star.style.top="-20px";
+
+document.body.appendChild(star);
+
+setTimeout(()=>{
+
+star.remove();
+
+},2000);
+
 }
 
-function cross(){
-let c=document.createElement("div");
-c.className="cross";
-c.innerHTML="❌";
-c.style.left=Math.random()*80+10+"vw";
-c.style.top=Math.random()*60+20+"vh";
-document.body.appendChild(c);
-setTimeout(()=>c.remove(),1000);
 }
+
+/* CROSS */
+
+function showCross(){
+
+const cross=document.createElement("div");
+
+cross.className="cross";
+
+cross.innerHTML="❌";
+
+cross.style.left=Math.random()*80+10+"vw";
+
+cross.style.top=Math.random()*60+20+"vh";
+
+document.body.appendChild(cross);
+
+setTimeout(()=>{
+
+cross.remove();
+
+},1000);
+
+}
+
 </script>
 
 </body>
