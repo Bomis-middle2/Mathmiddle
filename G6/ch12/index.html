@@ -1,1 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playing with Numbers MCQ Challenge</title>
 
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+min-height:100vh;
+background:linear-gradient(135deg,#dff6ff,#fff4e6,#f3e8ff);
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+overflow-x:hidden;
+position:relative;
+}
+
+body::before,
+body::after{
+content:"";
+position:fixed;
+inset:0;
+background-image:
+radial-gradient(#ffffff 1px, transparent 1px),
+radial-gradient(#ffd54f 1px, transparent 1px);
+background-size:120px 120px;
+opacity:0.25;
+animation:starsMove 40s linear infinite;
+z-index:0;
+}
+
+body::after{
+animation-duration:60s;
+opacity:0.15;
+}
+
+@keyframes starsMove{
+from{transform:translateY(0);}
+to{transform:translateY(-120px);}
+}
+
+/* Splash Screen */
+
+#splash{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:9999;
+}
+
+#splash img{
+width:180px;
+animation:pulse 2s infinite;
+}
+
+#splash h2{
+margin-top:20px;
+color:#555;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.08);}
+100%{transform:scale(1);}
+}
+
+/* Main Container */
+
+.container{
+position:relative;
+z-index:2;
+width:100%;
+max-width:900px;
+background:white;
+padding:25px;
+border-radius:24px;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+}
+
+.hidden{
+display:none;
+}
+
+h1{
+text-align:center;
+color:#5b21b6;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+margin-bottom:25px;
+color:#555;
+}
+
+.center{
+text-align:center;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.box{
+background:#f3f4ff;
+padding:12px 18px;
+border-radius:12px;
+font-weight:bold;
+}
+
+.question{
+font-size:1.15rem;
+line-height:1.6;
+font-weight:bold;
+margin-top:10px;
+color:#222;
+}
+
+.options{
+display:grid;
+gap:14px;
+margin-top:22px;
+}
+
+.option{
+background:#f8f8ff;
+padding:14px;
+border-radius:14px;
+border:2px solid transparent;
+cursor:pointer;
+transition:0.25s;
+}
+
+.option:hover{
+background:#ececff;
+transform:translateY(-2px);
+}
+
+.correct{
+background:#d4ffd9 !important;
+border-color:#16a34a !important;
+}
+
+.wrong{
+background:#ffe0e0 !important;
+border-color:#dc2626 !important;
+}
+
+.feedback{
+margin-top:18px;
+font-weight:bold;
+min-height:28px;
+}
+
+.explanation{
+margin-top:10px;
+padding:12px;
+background:#f5f5f5;
+border-radius:12px;
+color:#444;
+}
+
+button{
+margin-top:20px;
+padding:14px 24px;
+border:none;
+border-radius:14px;
+background:#6d28d9;
+color:white;
+font-size:1rem;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#5b21b6;
+transform:scale(1.03);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+th,td{
+border:1px solid #ccc;
+padding:10px;
+text-align:center;
+}
+
+th{
+background:#ececff;
+}
+
+/* Confetti */
+
+.star{
+position:fixed;
+font-size:24px;
+pointer-events:none;
+z-index:999;
+animation:fall 2s linear forwards;
+}
+
+@keyframes fall{
+to{
+transform:translateY(100vh) rotate(720deg);
+opacity:0;
+}
+}
+
+/* Wrong Cross */
+
+.cross{
+position:fixed;
+font-size:28px;
+pointer-events:none;
+z-index:999;
+animation:fadeCross 1s ease forwards;
+}
+
+@keyframes fadeCross{
+to{
+transform:scale(2);
+opacity:0;
+}
+}
+
+@media(max-width:600px){
+
+h1{
+font-size:1.6rem;
+}
+
+.question{
+font-size:1rem;
+}
+
+.option{
+font-size:0.95rem;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SPLASH SCREEN -->
+
+<div id="splash">
+
+<img src="assets/innovine-logo.png" alt="Innovine Logo">
+
+<h2>Innovine Learning Experience</h2>
+
+</div>
+
+<!-- MAIN APP -->
+
+<div class="container hidden" id="app">
+
+<!-- INTRO -->
+
+<div id="introScreen">
+
+<h1>Playing with Numbers</h1>
+
+<p class="subtitle">
+Grade 6 Interactive MCQ Challenge
+</p>
+
+<div class="center">
+
+<p style="margin-bottom:20px;">
+✅ 15 Competency-Based Questions<br>
+✅ Timer Challenge<br>
+✅ One Retry Feature<br>
+✅ Final Bonus Round
+</p>
+
+<button onclick="startQuiz()">
+Start Challenge
+</button>
+
+</div>
+
+</div>
+
+<!-- QUIZ -->
+
+<div id="quizScreen" class="hidden">
+
+<div class="topbar">
+
+<div class="box">
+⭐ Score: <span id="score">0</span>
+</div>
+
+<div class="box">
+⏳ Time: <span id="timer">45</span>s
+</div>
+
+</div>
+
+<div id="questionNumber"></div>
+
+<div class="question" id="questionText"></div>
+
+<div id="tableArea"></div>
+
+<div class="options" id="optionsContainer"></div>
+
+<div class="feedback" id="feedback"></div>
+
+<div class="explanation hidden" id="explanation"></div>
+
+<button id="nextBtn" class="hidden" onclick="nextQuestion()">
+Next
+</button>
+
+</div>
+
+<!-- FINAL CHALLENGE -->
+
+<div id="challengeScreen" class="hidden">
+
+<h1>Final Challenge 🚀</h1>
+
+<div class="question">
+A number is divisible by both 2 and 5. Which number could it be?
+</div>
+
+<div class="options">
+
+<div class="option" onclick="finalChallenge(this,false)">
+45
+</div>
+
+<div class="option" onclick="finalChallenge(this,true)">
+60
+</div>
+
+<div class="option" onclick="finalChallenge(this,false)">
+73
+</div>
+
+<div class="option" onclick="finalChallenge(this,false)">
+91
+</div>
+
+</div>
+
+<div class="feedback" id="challengeFeedback"></div>
+
+<button id="finishBtn" class="hidden" onclick="showResults()">
+Finish Quiz
+</button>
+
+</div>
+
+<!-- RESULT -->
+
+<div id="resultScreen" class="hidden center">
+
+<h1>Quiz Completed 🎉</h1>
+
+<h2 style="margin:20px 0;color:#6d28d9;">
+Your Score: <span id="finalScore"></span>/16
+</h2>
+
+<p id="resultMessage"></p>
+
+<button onclick="location.reload()">
+Play Again
+</button>
+
+</div>
+
+</div>
+
+<!-- AUDIO -->
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<script>
+
+setTimeout(()=>{
+document.getElementById("splash").style.display="none";
+document.getElementById("app").classList.remove("hidden");
+},5000);
+
+const questions=[
+
+{
+question:"A shopkeeper gives token numbers to customers: 24, 36, 48 and 60. Which number is divisible by both 3 and 5?",
+options:["24","36","48","60"],
+answer:"60",
+explanation:"60 is divisible by both 3 and 5."
+},
+
+{
+question:"A teacher asks students to arrange the factors of 18. Which pair below are common factors of both 18 and 24?",
+options:["2 and 3","5 and 6","7 and 9","8 and 12"],
+answer:"2 and 3",
+explanation:"2 and 3 are factors of both 18 and 24."
+},
+
+{
+question:"A bakery packs cupcakes in groups of 2, 3 and 5 without any cupcakes left. Which number of cupcakes could the bakery have packed?",
+options:["20","25","30","35"],
+answer:"30",
+explanation:"30 is divisible by 2, 3 and 5."
+},
+
+{
+question:"A school bus number is made using only prime digits. Which bus number follows this rule?",
+options:["246","357","489","620"],
+answer:"357",
+explanation:"3, 5 and 7 are all prime digits."
+},
+
+{
+question:"A student writes numbers on cards.",
+table:`
+<table>
+<tr><th>Number</th><th>Divisible by 2</th></tr>
+<tr><td>34</td><td>Yes</td></tr>
+<tr><td>57</td><td>No</td></tr>
+<tr><td>81</td><td>No</td></tr>
+<tr><td>90</td><td>Yes</td></tr>
+</table>
+`,
+options:[
+"Only 34 is even",
+"57 and 81 are even",
+"34 and 90 are even",
+"All are even"
+],
+answer:"34 and 90 are even",
+explanation:"Numbers divisible by 2 are even numbers."
+},
+
+{
+question:"A fruit seller wants to divide 48 apples equally into baskets of 6. How many baskets are needed?",
+options:["6","7","8","9"],
+answer:"8",
+explanation:"48 ÷ 6 = 8 baskets."
+},
+
+{
+question:"A student notices that a number leaves no remainder when divided by 10. Which of these numbers could it be?",
+options:["245","372","560","713"],
+answer:"560",
+explanation:"Numbers divisible by 10 end in 0."
+},
+
+{
+question:"A class forms teams for a quiz competition.",
+table:`
+<table>
+<tr><th>Team</th><th>Number of Students</th></tr>
+<tr><td>A</td><td>15</td></tr>
+<tr><td>B</td><td>18</td></tr>
+<tr><td>C</td><td>20</td></tr>
+</table>
+`,
+options:["15","18","20","None"],
+answer:"20",
+explanation:"20 is divisible by both 2 and 5."
+},
+
+{
+question:"A number is divisible by 9 if the sum of its digits is divisible by 9. Which number follows this rule?",
+options:["234","542","617","823"],
+answer:"234",
+explanation:"2 + 3 + 4 = 9, which is divisible by 9."
+},
+
+{
+question:"A student writes all factors of 16. Which number below is NOT a factor of 16?",
+options:["1","2","8","10"],
+answer:"10",
+explanation:"16 is not divisible by 10."
+},
+
+{
+question:"Assertion: Every number ending in 0 is divisible by 5.<br><br>Reason: Numbers divisible by 5 end in 0 or 5.",
+options:[
+"Both are true and Reason explains Assertion",
+"Both are true but Reason does not explain Assertion",
+"Assertion is true but Reason is false",
+"Assertion is false but Reason is true"
+],
+answer:"Both are true and Reason explains Assertion",
+explanation:"Numbers ending in 0 or 5 are divisible by 5."
+},
+
+{
+question:"Assertion: 2 is the only even prime number.<br><br>Reason: Every even number greater than 2 is divisible by 2.",
+options:[
+"Both are true and Reason explains Assertion",
+"Both are true but Reason does not explain Assertion",
+"Assertion is true but Reason is false",
+"Assertion is false but Reason is true"
+],
+answer:"Both are true and Reason explains Assertion",
+explanation:"All even numbers greater than 2 have more than two factors."
+},
+
+{
+question:"A teacher asks students to find the HCF of 12 and 18. Which number should they choose?",
+options:["2","3","6","9"],
+answer:"6",
+explanation:"6 is the highest common factor of both numbers."
+},
+
+{
+question:"A sports coach arranges players in rows of 4 and 6 without any player left out. Which number of players is possible?",
+options:["18","20","24","30"],
+answer:"24",
+explanation:"24 is divisible by both 4 and 6."
+},
+
+{
+question:"A student checks whether numbers are prime.",
+table:`
+<table>
+<tr><th>Number</th><th>Prime or Not</th></tr>
+<tr><td>13</td><td>Prime</td></tr>
+<tr><td>21</td><td>Not Prime</td></tr>
+<tr><td>29</td><td>Prime</td></tr>
+<tr><td>35</td><td>Not Prime</td></tr>
+</table>
+`,
+options:[
+"21 and 35 are prime",
+"13 and 29 are prime",
+"Only 35 is prime",
+"All numbers are prime"
+],
+answer:"13 and 29 are prime",
+explanation:"Prime numbers have exactly two factors."
+}
+
+];
+
+let currentQuestion=0;
+let score=0;
+let timeLeft=45;
+let timer;
+let retryUsed=false;
+
+function startQuiz(){
+
+document.getElementById("introScreen").classList.add("hidden");
+
+document.getElementById("quizScreen").classList.remove("hidden");
+
+loadQuestion();
+
+}
+
+function loadQuestion(){
+
+retryUsed=false;
+
+timeLeft=45;
+
+clearInterval(timer);
+
+document.getElementById("timer").innerText=timeLeft;
+
+const q=questions[currentQuestion];
+
+document.getElementById("questionNumber").innerHTML=
+`Question ${currentQuestion+1} of ${questions.length}`;
+
+document.getElementById("questionText").innerHTML=q.question;
+
+document.getElementById("tableArea").innerHTML=q.table || "";
+
+document.getElementById("optionsContainer").innerHTML="";
+
+document.getElementById("feedback").innerHTML="";
+
+document.getElementById("explanation").classList.add("hidden");
+
+document.getElementById("nextBtn").classList.add("hidden");
+
+q.options.forEach(option=>{
+
+const div=document.createElement("div");
+
+div.className="option";
+
+div.innerHTML=option;
+
+div.onclick=()=>checkAnswer(div,option);
+
+document.getElementById("optionsContainer").appendChild(div);
+
+});
+
+timer=setInterval(()=>{
+
+timeLeft--;
+
+document.getElementById("timer").innerText=timeLeft;
+
+if(timeLeft<=0){
+
+clearInterval(timer);
+
+showCorrectAnswer();
+
+}
+
+},1000);
+
+}
+
+function checkAnswer(element,selected){
+
+const q=questions[currentQuestion];
+
+if(selected===q.answer){
+
+element.classList.add("correct");
+
+score++;
+
+document.getElementById("score").innerText=score;
+
+document.getElementById("feedback").innerHTML="✅ Correct!";
+
+playSound("correctSound");
+
+confetti();
+
+clearInterval(timer);
+
+disableOptions();
+
+document.getElementById("nextBtn").classList.remove("hidden");
+
+}else{
+
+element.classList.add("wrong");
+
+playSound("wrongSound");
+
+showCross();
+
+if(!retryUsed){
+
+retryUsed=true;
+
+document.getElementById("feedback").innerHTML=
+"❌ Try Again! One retry left.";
+
+element.style.pointerEvents="none";
+
+}else{
+
+clearInterval(timer);
+
+showCorrectAnswer();
+
+}
+
+}
+
+}
+
+function showCorrectAnswer(){
+
+const q=questions[currentQuestion];
+
+disableOptions();
+
+document.querySelectorAll(".option").forEach(opt=>{
+
+if(opt.innerHTML===q.answer){
+
+opt.classList.add("correct");
+
+}
+
+});
+
+document.getElementById("feedback").innerHTML=
+`Correct Answer: ${q.answer}`;
+
+const explanation=document.getElementById("explanation");
+
+explanation.innerHTML="💡 "+q.explanation;
+
+explanation.classList.remove("hidden");
+
+document.getElementById("nextBtn").classList.remove("hidden");
+
+}
+
+function disableOptions(){
+
+document.querySelectorAll(".option").forEach(opt=>{
+
+opt.style.pointerEvents="none";
+
+});
+
+}
+
+function nextQuestion(){
+
+currentQuestion++;
+
+if(currentQuestion<questions.length){
+
+loadQuestion();
+
+}else{
+
+document.getElementById("quizScreen").classList.add("hidden");
+
+document.getElementById("challengeScreen").classList.remove("hidden");
+
+}
+
+}
+
+function finalChallenge(element,correct){
+
+document.querySelectorAll("#challengeScreen .option").forEach(opt=>{
+
+opt.style.pointerEvents="none";
+
+});
+
+if(correct){
+
+element.classList.add("correct");
+
+score++;
+
+document.getElementById("challengeFeedback").innerHTML=
+"🎉 Excellent!";
+
+playSound("correctSound");
+
+playSound("clapSound");
+
+confetti();
+
+}else{
+
+element.classList.add("wrong");
+
+document.getElementById("challengeFeedback").innerHTML=
+"❌ Correct answer is 60.";
+
+playSound("wrongSound");
+
+showCross();
+
+}
+
+document.getElementById("finishBtn").classList.remove("hidden");
+
+}
+
+function showResults(){
+
+document.getElementById("challengeScreen").classList.add("hidden");
+
+document.getElementById("resultScreen").classList.remove("hidden");
+
+document.getElementById("finalScore").innerText=score;
+
+let message="";
+
+if(score>=14){
+
+message="🌟 Outstanding Work!";
+
+}else if(score>=10){
+
+message="👏 Great Job!";
+
+}else{
+
+message="👍 Keep Practicing!";
+
+}
+
+document.getElementById("resultMessage").innerHTML=message;
+
+}
+
+function playSound(id){
+
+const sound=document.getElementById(id);
+
+if(sound){
+
+sound.currentTime=0;
+
+sound.play().catch(()=>{});
+
+}
+
+}
+
+function confetti(){
+
+for(let i=0;i<20;i++){
+
+const star=document.createElement("div");
+
+star.className="star";
+
+star.innerHTML="⭐";
+
+star.style.left=Math.random()*100+"vw";
+
+star.style.top="-20px";
+
+document.body.appendChild(star);
+
+setTimeout(()=>{
+
+star.remove();
+
+},2000);
+
+}
+
+}
+
+function showCross(){
+
+const cross=document.createElement("div");
+
+cross.className="cross";
+
+cross.innerHTML="❌";
+
+cross.style.left=Math.random()*80+10+"vw";
+
+cross.style.top=Math.random()*60+20+"vh";
+
+document.body.appendChild(cross);
+
+setTimeout(()=>{
+
+cross.remove();
+
+},1000);
+
+}
+
+</script>
+
+</body>
+</html>
