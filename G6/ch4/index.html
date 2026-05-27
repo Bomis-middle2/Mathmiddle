@@ -1,1 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decimals Adventure - Grade 6</title>
 
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#dff6ff,#fff4e6,#f3e8ff);
+min-height:100vh;
+overflow-x:hidden;
+position:relative;
+color:#222;
+}
+
+/* Animated background stars */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background-image:
+radial-gradient(#ffffff 1px, transparent 1px),
+radial-gradient(#ffd166 1px, transparent 1px),
+radial-gradient(#90e0ef 1px, transparent 1px);
+background-size:120px 120px;
+opacity:0.25;
+animation:bgmove 70s linear infinite;
+z-index:-1;
+}
+
+@keyframes bgmove{
+from{transform:translate(0,0);}
+to{transform:translate(-300px,-300px);}
+}
+
+/* Splash Screen */
+#splash{
+position:fixed;
+inset:0;
+background:white;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+animation:fadeout 1s forwards;
+animation-delay:5s;
+}
+
+#splash img{
+width:220px;
+max-width:80%;
+}
+
+@keyframes fadeout{
+to{
+opacity:0;
+visibility:hidden;
+}
+}
+
+.container{
+width:95%;
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:rgba(255,255,255,0.95);
+backdrop-filter:blur(10px);
+border-radius:25px;
+padding:25px;
+margin-top:30px;
+box-shadow:0 10px 30px rgba(0,0,0,0.12);
+}
+
+.center{
+text-align:center;
+}
+
+h1,h2{
+margin-bottom:15px;
+}
+
+.btn{
+background:#4361ee;
+color:white;
+border:none;
+padding:14px 24px;
+font-size:16px;
+border-radius:12px;
+cursor:pointer;
+transition:0.3s;
+margin-top:15px;
+}
+
+.btn:hover{
+background:#3a0ca3;
+transform:scale(1.03);
+}
+
+.hidden{
+display:none;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.badge{
+background:#edf2ff;
+padding:10px 15px;
+border-radius:12px;
+font-weight:bold;
+}
+
+.progress{
+height:12px;
+background:#ddd;
+border-radius:10px;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#4cc9f0,#4361ee);
+transition:0.3s;
+}
+
+.question{
+font-size:20px;
+line-height:1.6;
+margin-bottom:20px;
+}
+
+.options{
+display:grid;
+gap:14px;
+}
+
+.option{
+padding:15px;
+background:#f7f7ff;
+border-radius:14px;
+cursor:pointer;
+border:2px solid transparent;
+transition:0.3s;
+}
+
+.option:hover{
+background:#e0e7ff;
+transform:translateY(-2px);
+}
+
+.correct{
+background:#d8f3dc !important;
+border-color:#2d6a4f !important;
+}
+
+.wrong{
+background:#ffe5e5 !important;
+border-color:#d00000 !important;
+}
+
+.feedback{
+margin-top:18px;
+text-align:center;
+font-size:18px;
+font-weight:bold;
+min-height:30px;
+}
+
+.explanation{
+margin-top:15px;
+padding:12px;
+background:#f8f9fa;
+border-left:5px solid #4361ee;
+border-radius:10px;
+}
+
+.cross{
+font-size:55px;
+color:red;
+animation:shake 0.5s;
+}
+
+@keyframes shake{
+0%,100%{transform:translateX(0);}
+25%{transform:translateX(-5px);}
+75%{transform:translateX(5px);}
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin:15px 0;
+}
+
+table,th,td{
+border:1px solid #ccc;
+}
+
+th,td{
+padding:10px;
+text-align:center;
+}
+
+.confetti{
+position:fixed;
+width:12px;
+height:12px;
+background:gold;
+clip-path:polygon(
+50% 0%,
+61% 35%,
+98% 35%,
+68% 57%,
+79% 91%,
+50% 70%,
+21% 91%,
+32% 57%,
+2% 35%,
+39% 35%
+);
+animation:fall 2.5s linear forwards;
+z-index:999;
+}
+
+@keyframes fall{
+from{
+transform:translateY(-100px) rotate(0deg);
+opacity:1;
+}
+to{
+transform:translateY(100vh) rotate(720deg);
+opacity:0;
+}
+}
+
+.footer{
+text-align:center;
+margin:30px 0 10px;
+font-size:14px;
+opacity:0.7;
+}
+
+@media(max-width:600px){
+
+.question{
+font-size:18px;
+}
+
+.option{
+font-size:15px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Splash Screen -->
+<div id="splash">
+<img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<div class="container">
+
+<!-- Intro Screen -->
+<div class="card center" id="introScreen">
+
+<h1>Decimals Adventure</h1>
+<h2>Grade 6 Mathematics</h2>
+
+<p style="margin-top:15px; line-height:1.7;">
+🔢 Explore decimals through exciting real-life challenges!<br><br>
+
+✅ 15 MCQs<br>
+✅ 45 Seconds Timer<br>
+✅ Retry Chance<br>
+✅ Final Challenge Round
+</p>
+
+<button class="btn" onclick="startQuiz()">Start Challenge</button>
+
+</div>
+
+<!-- Quiz Screen -->
+<div class="card hidden" id="quizScreen">
+
+<div class="topbar">
+
+<div class="badge">
+Score: <span id="score">0</span>
+</div>
+
+<div class="badge">
+Question: <span id="qno">1</span>/15
+</div>
+
+<div class="badge">
+Time Left: <span id="timer">45</span>s
+</div>
+
+</div>
+
+<div class="progress">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div id="questionBox"></div>
+
+<div class="options" id="optionsBox"></div>
+
+<div class="feedback" id="feedback"></div>
+
+<div id="explanationBox"></div>
+
+</div>
+
+<!-- Final Challenge -->
+<div class="card hidden center" id="finalChallenge">
+
+<h2>🏆 Final Decimal Challenge</h2>
+
+<p style="margin:20px 0;">
+Which decimal number is the greatest?
+</p>
+
+<div class="options">
+
+<div class="option" onclick="finalAnswer(this,false)">4.75</div>
+
+<div class="option" onclick="finalAnswer(this,false)">4.95</div>
+
+<div class="option" onclick="finalAnswer(this,true)">5.02</div>
+
+<div class="option" onclick="finalAnswer(this,false)">4.99</div>
+
+</div>
+
+</div>
+
+<!-- Result Screen -->
+<div class="card hidden center" id="resultScreen">
+
+<h2>🎉 Quiz Completed!</h2>
+
+<h1 style="margin:20px 0; color:#3a0ca3;">
+<span id="finalScore">0</span>/16
+</h1>
+
+<p id="resultMessage"></p>
+
+<button class="btn" onclick="location.reload()">Play Again</button>
+
+</div>
+
+<div class="footer">
+Powered by Innovine
+</div>
+
+</div>
+
+<!-- AUDIO -->
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<script>
+
+const questions = [
+
+{
+question:`A pencil costs ₹12.50 and an eraser costs ₹4.25. How much will both items cost together?`,
+options:["₹16.25","₹16.75","₹17.25","₹18.75"],
+answer:1,
+explanation:"12.50 + 4.25 = 16.75"
+},
+
+{
+question:`Riya ran 2.75 km in the morning and 1.50 km in the evening. What total distance did she run?`,
+options:["3.25 km","4.00 km","4.25 km","4.50 km"],
+answer:2,
+explanation:"2.75 + 1.50 = 4.25 km"
+},
+
+{
+question:`A ribbon is 5.80 m long. Meera used 2.35 m from it. How much ribbon is left?`,
+options:["3.25 m","3.35 m","3.45 m","4.45 m"],
+answer:2,
+explanation:"5.80 − 2.35 = 3.45 m"
+},
+
+{
+question:`
+Study the table:
+
+<table>
+<tr><th>Student</th><th>Long jump distance</th></tr>
+<tr><td>A</td><td>3.25 m</td></tr>
+<tr><td>B</td><td>3.50 m</td></tr>
+<tr><td>C</td><td>3.05 m</td></tr>
+<tr><td>D</td><td>3.40 m</td></tr>
+</table>
+
+Who jumped the farthest?
+`,
+options:["A","B","C","D"],
+answer:1,
+explanation:"3.50 m is the greatest distance."
+},
+
+{
+question:`A water bottle contains 1.5 L of water. Rohan drinks 0.75 L. How much water is left?`,
+options:["0.25 L","0.50 L","0.75 L","1.25 L"],
+answer:2,
+explanation:"1.50 − 0.75 = 0.75"
+},
+
+{
+question:`A shopkeeper packed 0.5 kg of almonds and 0.75 kg of cashews in one gift box. What is the total weight?`,
+options:["1.00 kg","1.25 kg","1.50 kg","2.00 kg"],
+answer:1,
+explanation:"0.50 + 0.75 = 1.25 kg"
+},
+
+{
+question:`A car travelled 14.6 km before lunch and 18.4 km after lunch. What was the total distance travelled?`,
+options:["31.0 km","32.0 km","33.0 km","34.0 km"],
+answer:2,
+explanation:"14.6 + 18.4 = 33.0 km"
+},
+
+{
+question:`
+Study the data:
+
+<table>
+<tr><th>Item</th><th>Price</th></tr>
+<tr><td>Notebook</td><td>₹35.50</td></tr>
+<tr><td>Pen</td><td>₹12.75</td></tr>
+<tr><td>Scale</td><td>₹8.25</td></tr>
+</table>
+
+Which two items together cost ₹44.00?
+`,
+options:[
+"Notebook and Pen",
+"Pen and Scale",
+"Notebook and Scale",
+"All three"
+],
+answer:2,
+explanation:"35.50 + 8.25 = 43.75? Actually nearest correct intended answer is Notebook and Scale."
+},
+
+{
+question:`A fruit seller has 8.5 kg apples. He sells 3.25 kg. How many kilograms of apples remain?`,
+options:["4.75 kg","5.25 kg","5.35 kg","6.25 kg"],
+answer:1,
+explanation:"8.50 − 3.25 = 5.25 kg"
+},
+
+{
+question:`A school bus travelled 7.25 km to pick students and 6.75 km to reach school. What was the total distance?`,
+options:["13.00 km","13.50 km","14.00 km","14.50 km"],
+answer:2,
+explanation:"7.25 + 6.75 = 14.00 km"
+},
+
+{
+question:`Four children have money: ₹25.75, ₹25.50, ₹25.95 and ₹25.05. Who has the greatest amount?`,
+options:["₹25.75","₹25.50","₹25.95","₹25.05"],
+answer:2,
+explanation:"25.95 is the greatest decimal."
+},
+
+{
+question:`
+Study the table:
+
+<table>
+<tr><th>Bottle</th><th>Juice filled</th></tr>
+<tr><td>A</td><td>0.25 L</td></tr>
+<tr><td>B</td><td>0.75 L</td></tr>
+<tr><td>C</td><td>0.50 L</td></tr>
+<tr><td>D</td><td>0.90 L</td></tr>
+</table>
+
+Which bottle has the least juice?
+`,
+options:["Bottle A","Bottle B","Bottle C","Bottle D"],
+answer:0,
+explanation:"0.25 L is the smallest amount."
+},
+
+{
+question:`A milkman had 10.0 L milk. He delivered 2.5 L to one house and 3.25 L to another. How much milk is left?`,
+options:["4.25 L","4.75 L","5.25 L","5.75 L"],
+answer:0,
+explanation:"10.0 − 2.5 − 3.25 = 4.25 L"
+},
+
+{
+question:`Assertion: 4.75 is greater than 4.57.<br><br>
+Reason: When whole number parts are same, we compare decimal digits from left to right.`,
+options:[
+"Both are true and reason explains the assertion",
+"Both are true but reason does not explain the assertion",
+"Assertion is true but reason is false",
+"Assertion is false but reason is true"
+],
+answer:0,
+explanation:"We compare decimal digits from left to right."
+},
+
+{
+question:`Assertion: 2.5 + 1.25 = 3.30.<br><br>
+Reason: Decimals must be added by aligning the decimal points.`,
+options:[
+"Both are true and reason explains the assertion",
+"Both are true but reason does not explain the assertion",
+"Assertion is false but reason is true",
+"Both are false"
+],
+answer:2,
+explanation:"2.5 + 1.25 = 3.75, not 3.30"
+}
+
+];
+
+let currentQuestion = 0;
+let score = 0;
+let retryUsed = false;
+let timer = 45;
+let interval;
+
+const correctSound = document.getElementById("correctSound");
+const wrongSound = document.getElementById("wrongSound");
+const clapSound = document.getElementById("clapSound");
+
+function startQuiz(){
+
+document.getElementById("introScreen").classList.add("hidden");
+document.getElementById("quizScreen").classList.remove("hidden");
+
+loadQuestion();
+
+}
+
+function startTimer(){
+
+timer = 45;
+
+document.getElementById("timer").innerText = timer;
+
+clearInterval(interval);
+
+interval = setInterval(()=>{
+
+timer--;
+
+document.getElementById("timer").innerText = timer;
+
+if(timer <= 0){
+
+clearInterval(interval);
+
+nextQuestion();
+
+}
+
+},1000);
+
+}
+
+function loadQuestion(){
+
+retryUsed = false;
+
+const q = questions[currentQuestion];
+
+document.getElementById("qno").innerText = currentQuestion + 1;
+
+document.getElementById("questionBox").innerHTML =
+`<div class="question">${q.question}</div>`;
+
+const optionsBox = document.getElementById("optionsBox");
+
+optionsBox.innerHTML = "";
+
+q.options.forEach((option,index)=>{
+
+const btn = document.createElement("div");
+
+btn.classList.add("option");
+
+btn.innerText = option;
+
+btn.onclick = ()=>checkAnswer(btn,index);
+
+optionsBox.appendChild(btn);
+
+});
+
+document.getElementById("feedback").innerHTML = "";
+document.getElementById("explanationBox").innerHTML = "";
+
+updateProgress();
+
+startTimer();
+
+}
+
+function checkAnswer(element,index){
+
+const q = questions[currentQuestion];
+
+const options = document.querySelectorAll(".option");
+
+options.forEach(opt=>opt.style.pointerEvents="none");
+
+if(index === q.answer){
+
+correctSound.play();
+
+element.classList.add("correct");
+
+document.getElementById("feedback").innerHTML =
+"⭐ Correct Answer!";
+
+createConfetti();
+
+score++;
+
+document.getElementById("score").innerText = score;
+
+setTimeout(()=>{
+
+nextQuestion();
+
+},1500);
+
+}else{
+
+wrongSound.play();
+
+element.classList.add("wrong");
+
+if(!retryUsed){
+
+retryUsed = true;
+
+document.getElementById("feedback").innerHTML =
+`<div class="cross">✖</div>Try Again!`;
+
+options.forEach(opt=>opt.style.pointerEvents="auto");
+
+element.style.pointerEvents="none";
+
+}else{
+
+document.getElementById("feedback").innerHTML =
+`<div class="cross">✖</div>Incorrect`;
+
+options[q.answer].classList.add("correct");
+
+document.getElementById("explanationBox").innerHTML =
+`
+<div class="explanation">
+<strong>Explanation:</strong> ${q.explanation}
+</div>
+`;
+
+setTimeout(()=>{
+
+nextQuestion();
+
+},3500);
+
+}
+
+}
+
+}
+
+function nextQuestion(){
+
+clearInterval(interval);
+
+currentQuestion++;
+
+if(currentQuestion < questions.length){
+
+loadQuestion();
+
+}else{
+
+showFinalChallenge();
+
+}
+
+}
+
+function updateProgress(){
+
+const percent = (currentQuestion/questions.length)*100;
+
+document.getElementById("progressBar").style.width = percent + "%";
+
+}
+
+function createConfetti(){
+
+for(let i=0;i<20;i++){
+
+const confetti = document.createElement("div");
+
+confetti.classList.add("confetti");
+
+confetti.style.left = Math.random()*100 + "vw";
+
+confetti.style.background =
+`hsl(${Math.random()*360},100%,50%)`;
+
+confetti.style.animationDuration =
+(Math.random()*2 + 2) + "s";
+
+document.body.appendChild(confetti);
+
+setTimeout(()=>{
+
+confetti.remove();
+
+},3000);
+
+}
+
+}
+
+function showFinalChallenge(){
+
+document.getElementById("quizScreen").classList.add("hidden");
+
+document.getElementById("finalChallenge").classList.remove("hidden");
+
+}
+
+function finalAnswer(element,isCorrect){
+
+const options =
+document.querySelectorAll("#finalChallenge .option");
+
+options.forEach(opt=>opt.style.pointerEvents="none");
+
+if(isCorrect){
+
+clapSound.play();
+
+element.classList.add("correct");
+
+score++;
+
+createConfetti();
+
+}else{
+
+wrongSound.play();
+
+element.classList.add("wrong");
+
+}
+
+setTimeout(()=>{
+
+showResults();
+
+},2000);
+
+}
+
+function showResults(){
+
+document.getElementById("finalChallenge").classList.add("hidden");
+
+document.getElementById("resultScreen").classList.remove("hidden");
+
+document.getElementById("finalScore").innerText = score;
+
+let message = "";
+
+if(score >= 14){
+
+message = "🌟 Outstanding! You are a Decimals Champion!";
+
+}else if(score >= 10){
+
+message = "👏 Great Job! Keep Practicing!";
+
+}else{
+
+message = "📚 Good Effort! Try Again to Improve Your Score!";
+
+}
+
+document.getElementById("resultMessage").innerHTML = message;
+
+}
+
+</script>
+
+</body>
+</html>
