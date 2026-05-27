@@ -1,1 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integers Adventure - Grade 6</title>
 
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#dff6ff,#fef6e4,#f4f1ff);
+overflow-x:hidden;
+min-height:100vh;
+color:#222;
+position:relative;
+}
+
+/* Floating stars */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background-image:
+radial-gradient(#ffffff 1px, transparent 1px),
+radial-gradient(#ffd166 1px, transparent 1px),
+radial-gradient(#90e0ef 1px, transparent 1px);
+background-size:120px 120px;
+opacity:0.25;
+animation:bgmove 70s linear infinite;
+z-index:-1;
+}
+
+@keyframes bgmove{
+from{transform:translate(0,0);}
+to{transform:translate(-300px,-300px);}
+}
+
+/* Splash Screen */
+#splash{
+position:fixed;
+inset:0;
+background:white;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+animation:fadeout 1s forwards;
+animation-delay:5s;
+}
+
+#splash img{
+width:220px;
+max-width:80%;
+}
+
+@keyframes fadeout{
+to{
+opacity:0;
+visibility:hidden;
+}
+}
+
+.container{
+width:95%;
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:rgba(255,255,255,0.95);
+backdrop-filter:blur(10px);
+border-radius:25px;
+padding:25px;
+margin-top:30px;
+box-shadow:0 10px 30px rgba(0,0,0,0.12);
+}
+
+h1,h2{
+text-align:center;
+margin-bottom:15px;
+}
+
+.center{
+text-align:center;
+}
+
+.btn{
+background:#4361ee;
+color:white;
+border:none;
+padding:14px 24px;
+font-size:16px;
+border-radius:12px;
+cursor:pointer;
+transition:0.3s;
+margin-top:15px;
+}
+
+.btn:hover{
+background:#3a0ca3;
+transform:scale(1.03);
+}
+
+.hidden{
+display:none;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.badge{
+background:#edf2ff;
+padding:10px 15px;
+border-radius:12px;
+font-weight:bold;
+}
+
+.progress{
+height:12px;
+background:#ddd;
+border-radius:10px;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#4cc9f0,#4361ee);
+transition:0.3s;
+}
+
+.question{
+font-size:20px;
+line-height:1.6;
+margin-bottom:20px;
+}
+
+.options{
+display:grid;
+gap:14px;
+}
+
+.option{
+padding:15px;
+background:#f7f7ff;
+border-radius:14px;
+cursor:pointer;
+border:2px solid transparent;
+transition:0.3s;
+}
+
+.option:hover{
+background:#e0e7ff;
+transform:translateY(-2px);
+}
+
+.correct{
+background:#d8f3dc !important;
+border-color:#2d6a4f !important;
+}
+
+.wrong{
+background:#ffe5e5 !important;
+border-color:#d00000 !important;
+}
+
+.feedback{
+margin-top:18px;
+text-align:center;
+font-size:18px;
+font-weight:bold;
+min-height:30px;
+}
+
+.explanation{
+margin-top:15px;
+padding:12px;
+background:#f8f9fa;
+border-left:5px solid #4361ee;
+border-radius:10px;
+}
+
+.cross{
+font-size:55px;
+color:red;
+animation:shake 0.5s;
+}
+
+@keyframes shake{
+0%,100%{transform:translateX(0);}
+25%{transform:translateX(-5px);}
+75%{transform:translateX(5px);}
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin:15px 0;
+}
+
+table,th,td{
+border:1px solid #ccc;
+}
+
+th,td{
+padding:10px;
+text-align:center;
+}
+
+.confetti{
+position:fixed;
+width:12px;
+height:12px;
+background:gold;
+clip-path:polygon(
+50% 0%,
+61% 35%,
+98% 35%,
+68% 57%,
+79% 91%,
+50% 70%,
+21% 91%,
+32% 57%,
+2% 35%,
+39% 35%
+);
+animation:fall 2.5s linear forwards;
+z-index:999;
+}
+
+@keyframes fall{
+from{
+transform:translateY(-100px) rotate(0deg);
+opacity:1;
+}
+to{
+transform:translateY(100vh) rotate(720deg);
+opacity:0;
+}
+}
+
+.footer{
+text-align:center;
+margin:30px 0 10px;
+font-size:14px;
+opacity:0.7;
+}
+
+@media(max-width:600px){
+
+.question{
+font-size:18px;
+}
+
+.option{
+font-size:15px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Splash -->
+<div id="splash">
+<img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<div class="container">
+
+<!-- Intro -->
+<div class="card center" id="introScreen">
+
+<h1>Integers Adventure</h1>
+<h2>Grade 6 Mathematics</h2>
+
+<p style="margin-top:15px; line-height:1.7;">
+🚀 Test your understanding of Integers through exciting real-life challenges!<br><br>
+✅ 15 MCQs<br>
+✅ 45 Seconds Timer<br>
+✅ Retry Chance<br>
+✅ Final Challenge Round
+</p>
+
+<button class="btn" onclick="startQuiz()">Start Challenge</button>
+
+</div>
+
+<!-- Quiz -->
+<div class="card hidden" id="quizScreen">
+
+<div class="topbar">
+<div class="badge">Score: <span id="score">0</span></div>
+<div class="badge">Question: <span id="qno">1</span>/15</div>
+<div class="badge">Time Left: <span id="timer">45</span>s</div>
+</div>
+
+<div class="progress">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div id="questionBox"></div>
+
+<div class="options" id="optionsBox"></div>
+
+<div class="feedback" id="feedback"></div>
+
+<div id="explanationBox"></div>
+
+</div>
+
+<!-- Final Challenge -->
+<div class="card hidden center" id="finalChallenge">
+
+<h2>🏆 Final Integer Challenge</h2>
+
+<p style="margin:20px 0;">
+Which integer is the smallest?
+</p>
+
+<div class="options">
+
+<div class="option" onclick="finalAnswer(this,false)">−12</div>
+
+<div class="option" onclick="finalAnswer(this,true)">−20</div>
+
+<div class="option" onclick="finalAnswer(this,false)">−8</div>
+
+<div class="option" onclick="finalAnswer(this,false)">5</div>
+
+</div>
+
+</div>
+
+<!-- Result -->
+<div class="card hidden center" id="resultScreen">
+
+<h2>🎉 Challenge Completed!</h2>
+
+<h1 style="margin:20px 0; color:#3a0ca3;">
+<span id="finalScore">0</span>/16
+</h1>
+
+<p id="resultMessage"></p>
+
+<button class="btn" onclick="location.reload()">Play Again</button>
+
+</div>
+
+<div class="footer">
+Powered by Innovine
+</div>
+
+</div>
+
+<!-- AUDIO -->
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<script>
+
+const questions = [
+
+{
+question:`The temperature in a city was 4°C in the morning. By night, it dropped by 9°C. What was the temperature at night?`,
+options:["13°C","5°C","−5°C","−13°C"],
+answer:2,
+explanation:"4 − 9 = −5"
+},
+
+{
+question:`A submarine is at 20 m below sea level. It rises 12 m. What is its new position?`,
+options:["−32 m","−8 m","8 m","32 m"],
+answer:1,
+explanation:"−20 + 12 = −8"
+},
+
+{
+question:`Rohan had ₹150 in his wallet. He spent ₹210. Which integer best represents his balance?`,
+options:["₹60","−₹60","₹360","−₹360"],
+answer:1,
+explanation:"150 − 210 = −60"
+},
+
+{
+question:`
+Study the table:
+
+<table>
+<tr><th>Day</th><th>Temperature</th></tr>
+<tr><td>Monday</td><td>−2°C</td></tr>
+<tr><td>Tuesday</td><td>3°C</td></tr>
+<tr><td>Wednesday</td><td>−5°C</td></tr>
+<tr><td>Thursday</td><td>1°C</td></tr>
+</table>
+
+Which day was the coldest?
+`,
+options:["Monday","Tuesday","Wednesday","Thursday"],
+answer:2,
+explanation:"−5°C is the lowest temperature."
+},
+
+{
+question:`A lift is on the 3rd floor. It goes down 7 floors. Which floor does it reach?`,
+options:["10th floor","4th floor","−4th floor","−10th floor"],
+answer:2,
+explanation:"3 − 7 = −4"
+},
+
+{
+question:`A diver is 15 m below sea level and a bird is flying 18 m above sea level. What is the difference between their positions?`,
+options:["3 m","15 m","18 m","33 m"],
+answer:3,
+explanation:"18 − (−15) = 33"
+},
+
+{
+question:`A team lost 6 points in the first round and gained 10 points in the second round. What is the final score change?`,
+options:["−16","−4","4","16"],
+answer:2,
+explanation:"−6 + 10 = 4"
+},
+
+{
+question:`
+Study the bank transactions:
+
+<table>
+<tr><th>Transaction</th><th>Amount</th></tr>
+<tr><td>Deposit</td><td>+₹500</td></tr>
+<tr><td>Withdrawal</td><td>−₹700</td></tr>
+<tr><td>Deposit</td><td>+₹300</td></tr>
+</table>
+
+What is the net change in the account?
+`,
+options:["+₹100","−₹100","+₹1,500","−₹1,500"],
+answer:0,
+explanation:"500 − 700 + 300 = 100"
+},
+
+{
+question:`A mountain camp is at 2,000 m above sea level. A cave is 500 m below sea level. What integer represents the cave’s position?`,
+options:["+500 m","−500 m","+2,500 m","−2,500 m"],
+answer:1,
+explanation:"Below sea level is represented using negative integers."
+},
+
+{
+question:`A number line game starts at 0. Meera moves 5 steps left, then 8 steps right. Where does she stop?`,
+options:["−13","−3","3","13"],
+answer:2,
+explanation:"0 − 5 + 8 = 3"
+},
+
+{
+question:`A shopkeeper records profit as positive and loss as negative. On Monday he records −₹250 and on Tuesday +₹400. What is the total result?`,
+options:["−₹650","−₹150","+₹150","+₹650"],
+answer:2,
+explanation:"−250 + 400 = 150"
+},
+
+{
+question:`
+Study the scores:
+
+<table>
+<tr><th>Player</th><th>Score</th></tr>
+<tr><td>A</td><td>−4</td></tr>
+<tr><td>B</td><td>7</td></tr>
+<tr><td>C</td><td>−1</td></tr>
+<tr><td>D</td><td>3</td></tr>
+</table>
+
+Which player has the lowest score?
+`,
+options:["A","B","C","D"],
+answer:0,
+explanation:"−4 is the smallest integer."
+},
+
+{
+question:`A football team’s goal difference was −3. After winning the next match, it improved by 5. What is the new goal difference?`,
+options:["−8","−2","2","8"],
+answer:2,
+explanation:"−3 + 5 = 2"
+},
+
+{
+question:`Assertion: −8 is smaller than −3.<br><br>
+Reason: On a number line, numbers farther left are smaller.`,
+options:[
+"Both are true and reason explains the assertion",
+"Both are true but reason does not explain the assertion",
+"Assertion is true but reason is false",
+"Assertion is false but reason is true"
+],
+answer:0,
+explanation:"Numbers farther left on the number line are smaller."
+},
+
+{
+question:`Assertion: Adding −6 to 10 gives 16.<br><br>
+Reason: Adding a negative integer means moving left on the number line.`,
+options:[
+"Both are true and reason explains the assertion",
+"Both are true but reason does not explain the assertion",
+"Assertion is false but reason is true",
+"Both are false"
+],
+answer:2,
+explanation:"10 + (−6) = 4, not 16."
+}
+
+];
+
+let currentQuestion = 0;
+let score = 0;
+let retryUsed = false;
+let timer = 45;
+let interval;
+
+const correctSound = document.getElementById("correctSound");
+const wrongSound = document.getElementById("wrongSound");
+const clapSound = document.getElementById("clapSound");
+
+function startQuiz(){
+
+document.getElementById("introScreen").classList.add("hidden");
+document.getElementById("quizScreen").classList.remove("hidden");
+
+loadQuestion();
+
+}
+
+function startTimer(){
+
+timer = 45;
+document.getElementById("timer").innerText = timer;
+
+clearInterval(interval);
+
+interval = setInterval(()=>{
+
+timer--;
+
+document.getElementById("timer").innerText = timer;
+
+if(timer <= 0){
+
+clearInterval(interval);
+
+nextQuestion();
+
+}
+
+},1000);
+
+}
+
+function loadQuestion(){
+
+retryUsed = false;
+
+const q = questions[currentQuestion];
+
+document.getElementById("qno").innerText = currentQuestion + 1;
+
+document.getElementById("questionBox").innerHTML =
+`<div class="question">${q.question}</div>`;
+
+const optionsBox = document.getElementById("optionsBox");
+
+optionsBox.innerHTML = "";
+
+q.options.forEach((option,index)=>{
+
+const btn = document.createElement("div");
+
+btn.classList.add("option");
+
+btn.innerText = option;
+
+btn.onclick = ()=>checkAnswer(btn,index);
+
+optionsBox.appendChild(btn);
+
+});
+
+document.getElementById("feedback").innerHTML = "";
+document.getElementById("explanationBox").innerHTML = "";
+
+updateProgress();
+
+startTimer();
+
+}
+
+function checkAnswer(element,index){
+
+const q = questions[currentQuestion];
+
+const options = document.querySelectorAll(".option");
+
+options.forEach(opt=>opt.style.pointerEvents="none");
+
+if(index === q.answer){
+
+correctSound.play();
+
+element.classList.add("correct");
+
+document.getElementById("feedback").innerHTML =
+"⭐ Correct Answer!";
+
+createConfetti();
+
+score++;
+
+document.getElementById("score").innerText = score;
+
+setTimeout(()=>{
+
+nextQuestion();
+
+},1500);
+
+}else{
+
+wrongSound.play();
+
+element.classList.add("wrong");
+
+if(!retryUsed){
+
+retryUsed = true;
+
+document.getElementById("feedback").innerHTML =
+`<div class="cross">✖</div>Try Again!`;
+
+options.forEach(opt=>opt.style.pointerEvents="auto");
+
+element.style.pointerEvents="none";
+
+}else{
+
+document.getElementById("feedback").innerHTML =
+`<div class="cross">✖</div>Incorrect`;
+
+options[q.answer].classList.add("correct");
+
+document.getElementById("explanationBox").innerHTML =
+`
+<div class="explanation">
+<strong>Explanation:</strong> ${q.explanation}
+</div>
+`;
+
+setTimeout(()=>{
+
+nextQuestion();
+
+},3500);
+
+}
+
+}
+
+}
+
+function nextQuestion(){
+
+clearInterval(interval);
+
+currentQuestion++;
+
+if(currentQuestion < questions.length){
+
+loadQuestion();
+
+}else{
+
+showFinalChallenge();
+
+}
+
+}
+
+function updateProgress(){
+
+const percent = (currentQuestion/questions.length)*100;
+
+document.getElementById("progressBar").style.width = percent + "%";
+
+}
+
+function createConfetti(){
+
+for(let i=0;i<20;i++){
+
+const confetti = document.createElement("div");
+
+confetti.classList.add("confetti");
+
+confetti.style.left = Math.random()*100 + "vw";
+
+confetti.style.background =
+`hsl(${Math.random()*360},100%,50%)`;
+
+confetti.style.animationDuration =
+(Math.random()*2 + 2) + "s";
+
+document.body.appendChild(confetti);
+
+setTimeout(()=>{
+
+confetti.remove();
+
+},3000);
+
+}
+
+}
+
+function showFinalChallenge(){
+
+document.getElementById("quizScreen").classList.add("hidden");
+
+document.getElementById("finalChallenge").classList.remove("hidden");
+
+}
+
+function finalAnswer(element,isCorrect){
+
+const options =
+document.querySelectorAll("#finalChallenge .option");
+
+options.forEach(opt=>opt.style.pointerEvents="none");
+
+if(isCorrect){
+
+clapSound.play();
+
+element.classList.add("correct");
+
+score++;
+
+createConfetti();
+
+}else{
+
+wrongSound.play();
+
+element.classList.add("wrong");
+
+}
+
+setTimeout(()=>{
+
+showResults();
+
+},2000);
+
+}
+
+function showResults(){
+
+document.getElementById("finalChallenge").classList.add("hidden");
+
+document.getElementById("resultScreen").classList.remove("hidden");
+
+document.getElementById("finalScore").innerText = score;
+
+let message = "";
+
+if(score >= 14){
+
+message = "🌟 Outstanding! You are an Integer Champion!";
+
+}else if(score >= 10){
+
+message = "👏 Great Job! Keep Practicing!";
+
+}else{
+
+message = "📚 Good Effort! Try Again to Improve Your Score!";
+
+}
+
+document.getElementById("resultMessage").innerHTML = message;
+
+}
+
+</script>
+
+</body>
+</html>
