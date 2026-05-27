@@ -1,1 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Knowing Our Numbers - Grade 6 MCQ Challenge</title>
 
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    overflow-x:hidden;
+    background:linear-gradient(135deg,#dff6ff,#f7f7ff,#fff4e6);
+    min-height:100vh;
+    color:#222;
+    position:relative;
+}
+
+/* Animated stars */
+body::before{
+    content:'';
+    position:fixed;
+    width:200%;
+    height:200%;
+    background-image:
+      radial-gradient(white 1px, transparent 1px),
+      radial-gradient(#ffd166 1px, transparent 1px),
+      radial-gradient(#90e0ef 1px, transparent 1px);
+    background-size:120px 120px;
+    animation:moveBg 60s linear infinite;
+    opacity:0.25;
+    z-index:-1;
+}
+
+@keyframes moveBg{
+    from{transform:translate(0,0);}
+    to{transform:translate(-300px,-300px);}
+}
+
+.logo-splash{
+    position:fixed;
+    inset:0;
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+    animation:hideSplash 1s forwards;
+    animation-delay:5s;
+}
+
+.logo-splash img{
+    width:220px;
+    max-width:80%;
+}
+
+@keyframes hideSplash{
+    to{
+        opacity:0;
+        visibility:hidden;
+    }
+}
+
+.container{
+    width:95%;
+    max-width:850px;
+    margin:auto;
+    padding:20px;
+}
+
+.card{
+    background:rgba(255,255,255,0.95);
+    border-radius:25px;
+    padding:25px;
+    margin-top:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.12);
+    backdrop-filter:blur(10px);
+}
+
+h1,h2{
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.intro{
+    text-align:center;
+}
+
+.intro p{
+    margin:15px 0;
+    line-height:1.6;
+}
+
+.btn{
+    background:#4361ee;
+    color:white;
+    border:none;
+    padding:14px 25px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:16px;
+    transition:0.3s;
+    margin-top:10px;
+}
+
+.btn:hover{
+    background:#3a0ca3;
+    transform:scale(1.03);
+}
+
+.top-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.badge{
+    background:#edf2ff;
+    padding:10px 16px;
+    border-radius:12px;
+    font-weight:bold;
+}
+
+.question{
+    font-size:20px;
+    line-height:1.5;
+    margin-bottom:20px;
+}
+
+.options{
+    display:grid;
+    gap:14px;
+}
+
+.option{
+    background:#f7f7ff;
+    border:2px solid transparent;
+    padding:15px;
+    border-radius:14px;
+    cursor:pointer;
+    transition:0.3s;
+    font-size:16px;
+}
+
+.option:hover{
+    background:#e0e7ff;
+    transform:translateY(-2px);
+}
+
+.correct{
+    background:#d8f3dc !important;
+    border-color:#2d6a4f !important;
+}
+
+.wrong{
+    background:#ffe5e5 !important;
+    border-color:#d00000 !important;
+}
+
+.hidden{
+    display:none;
+}
+
+.feedback{
+    text-align:center;
+    margin-top:20px;
+    font-weight:bold;
+    font-size:18px;
+    min-height:30px;
+}
+
+.explanation{
+    background:#f8f9fa;
+    border-left:5px solid #4361ee;
+    padding:12px;
+    border-radius:10px;
+    margin-top:15px;
+}
+
+.progress{
+    height:12px;
+    background:#ddd;
+    border-radius:10px;
+    overflow:hidden;
+    margin-bottom:20px;
+}
+
+.progress-bar{
+    height:100%;
+    background:linear-gradient(90deg,#4cc9f0,#4361ee);
+    width:0%;
+    transition:0.4s;
+}
+
+.final-box{
+    text-align:center;
+}
+
+.result-score{
+    font-size:34px;
+    margin:20px 0;
+    color:#3a0ca3;
+}
+
+.footer{
+    text-align:center;
+    margin-top:30px;
+    opacity:0.8;
+    font-size:14px;
+}
+
+.confetti{
+    position:fixed;
+    width:12px;
+    height:12px;
+    background:gold;
+    clip-path:polygon(
+      50% 0%,
+      61% 35%,
+      98% 35%,
+      68% 57%,
+      79% 91%,
+      50% 70%,
+      21% 91%,
+      32% 57%,
+      2% 35%,
+      39% 35%
+    );
+    animation:fall 2s linear forwards;
+    z-index:999;
+}
+
+@keyframes fall{
+    from{
+        transform:translateY(-100px) rotate(0deg);
+        opacity:1;
+    }
+    to{
+        transform:translateY(100vh) rotate(720deg);
+        opacity:0;
+    }
+}
+
+.cross{
+    font-size:55px;
+    color:red;
+    text-align:center;
+    animation:shake 0.5s;
+}
+
+@keyframes shake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-5px);}
+    75%{transform:translateX(5px);}
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:15px 0;
+}
+
+table,th,td{
+    border:1px solid #ccc;
+}
+
+th,td{
+    padding:10px;
+    text-align:center;
+}
+
+@media(max-width:600px){
+    .question{
+        font-size:18px;
+    }
+
+    .option{
+        font-size:15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGO SPLASH -->
+<div class="logo-splash">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<div class="container">
+
+<!-- INTRO -->
+<div id="introScreen" class="card intro">
+    <h1>Knowing Our Numbers</h1>
+    <h2>Grade 6 Mathematics Challenge</h2>
+
+    <p>
+        Welcome to the exciting competency-based MCQ challenge!
+        Test your understanding of large numbers, place value,
+        comparison, rounding and more.
+    </p>
+
+    <p>
+        ✅ 15 MCQs <br>
+        ✅ 45 Seconds Each <br>
+        ✅ Retry Chance <br>
+        ✅ Final Challenge Round
+    </p>
+
+    <button class="btn" onclick="startQuiz()">Start Challenge</button>
+</div>
+
+<!-- QUIZ -->
+<div id="quizScreen" class="card hidden">
+
+    <div class="top-bar">
+        <div class="badge">Score: <span id="score">0</span></div>
+        <div class="badge">Question: <span id="qno">1</span>/15</div>
+        <div class="badge">Time Left: <span id="timer">45</span>s</div>
+    </div>
+
+    <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div id="questionBox"></div>
+
+    <div class="options" id="optionsBox"></div>
+
+    <div class="feedback" id="feedback"></div>
+
+    <div id="explanationBox"></div>
+
+</div>
+
+<!-- FINAL CHALLENGE -->
+<div id="finalChallenge" class="card hidden final-box">
+    <h2>🏆 Final Challenge</h2>
+
+    <p style="margin:20px 0;">
+        Which of these numbers is the greatest?
+    </p>
+
+    <div class="options">
+        <div class="option" onclick="finalAnswer(this,false)">7,89,999</div>
+        <div class="option" onclick="finalAnswer(this,true)">8,01,001</div>
+        <div class="option" onclick="finalAnswer(this,false)">7,99,999</div>
+        <div class="option" onclick="finalAnswer(this,false)">8,00,100</div>
+    </div>
+</div>
+
+<!-- RESULT -->
+<div id="resultScreen" class="card hidden final-box">
+
+    <h2>🎉 Quiz Completed!</h2>
+
+    <div class="result-score">
+        You Scored <span id="finalScore">0</span>/16
+    </div>
+
+    <p id="resultMessage"></p>
+
+    <button class="btn" onclick="location.reload()">Play Again</button>
+
+</div>
+
+<div class="footer">
+    Powered by Innovine
+</div>
+
+</div>
+
+<!-- AUDIO -->
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+
+<script>
+
+const questions = [
+
+{
+question:"A school library has 8,764 books. The librarian receives 1,236 more books. Which number sentence shows the total books correctly?",
+options:[
+"8,764 − 1,236",
+"8,764 + 1,236",
+"8,764 × 1,236",
+"8,764 ÷ 1,236"
+],
+answer:1,
+explanation:"The word 'total' means addition."
+},
+
+{
+question:"Aarav wrote the number 5,08,421. Which digit is in the ten-thousands place?",
+options:["5","0","8","4"],
+answer:1,
+explanation:"The ten-thousands place in 5,08,421 is 0."
+},
+
+{
+question:"A shopkeeper has ₹9,850. He needs ₹10,000 to buy new stock. How much more money does he need?",
+options:["₹50","₹100","₹150","₹250"],
+answer:2,
+explanation:"10,000 − 9,850 = 150."
+},
+
+{
+question:`Study the table:
+
+<table>
+<tr><th>City</th><th>Population</th></tr>
+<tr><td>A</td><td>3,45,210</td></tr>
+<tr><td>B</td><td>3,54,120</td></tr>
+<tr><td>C</td><td>3,40,521</td></tr>
+</table>
+
+Which city has the greatest population?`,
+options:["City A","City B","City C","All are equal"],
+answer:1,
+explanation:"3,54,120 is the greatest population."
+},
+
+{
+question:"Four students wrote the same number in different ways. Which one is correct for 7,06,305?",
+options:[
+"Seven lakh six thousand three hundred five",
+"Seventy lakh six thousand three hundred five",
+"Seven lakh sixty thousand three hundred five",
+"Seven lakh six hundred thirty-five"
+],
+answer:0,
+explanation:"7,06,305 is read as Seven lakh six thousand three hundred five."
+},
+
+{
+question:"A stadium had 24,875 people on Monday and 25,120 people on Tuesday. Which statement is correct?",
+options:[
+"Monday had more people",
+"Tuesday had more people",
+"Both days had equal people",
+"Cannot be compared"
+],
+answer:1,
+explanation:"25,120 is greater than 24,875."
+},
+
+{
+question:"A number rounded to the nearest thousand becomes 48,000. Which number could it be?",
+options:["47,420","47,499","47,500","46,999"],
+answer:2,
+explanation:"Numbers from 47,500 round up to 48,000."
+},
+
+{
+question:"A delivery van travelled 12,450 km in one year and 13,275 km in the next year. How much more did it travel in the second year?",
+options:["725 km","825 km","925 km","1,825 km"],
+answer:1,
+explanation:"13,275 − 12,450 = 825 km."
+},
+
+{
+question:`Study the data:
+
+<table>
+<tr><th>Item</th><th>Cost</th></tr>
+<tr><td>Bag</td><td>₹1,250</td></tr>
+<tr><td>Shoes</td><td>₹2,475</td></tr>
+<tr><td>Watch</td><td>₹3,150</td></tr>
+</table>
+
+Which two items together cost ₹4,400?`,
+options:[
+"Bag and Shoes",
+"Shoes and Watch",
+"Bag and Watch",
+"All three"
+],
+answer:2,
+explanation:"1,250 + 3,150 = 4,400."
+},
+
+{
+question:"A teacher asked students to form the greatest 5-digit number using 4, 8, 1, 0 and 6 once. Which is correct?",
+options:["86,410","86,401","84,610","81,640"],
+answer:0,
+explanation:"Arrange digits in descending order."
+},
+
+{
+question:"A train ticket number is 6,43,219. If the digits 4 and 2 are interchanged, how does the number change?",
+options:[
+"It becomes greater",
+"It becomes smaller",
+"It remains same",
+"It becomes 6,23,419"
+],
+answer:1,
+explanation:"Changing 4 and 2 reduces the value."
+},
+
+{
+question:"A school collected ₹2,45,600 for a charity drive. Another school collected ₹2,54,060. Which comparison is correct?",
+options:[
+"2,45,600 > 2,54,060",
+"2,45,600 < 2,54,060",
+"2,45,600 = 2,54,060",
+"2,45,600 is greatest among all numbers"
+],
+answer:1,
+explanation:"2,54,060 is greater."
+},
+
+{
+question:"A factory packed 4,375 toys on Day 1 and 5,625 toys on Day 2. The toys were packed equally into boxes of 100. How many complete boxes can be made in all?",
+options:["90","100","10,000","1,000"],
+answer:1,
+explanation:"4,375 + 5,625 = 10,000 toys. 10,000 ÷ 100 = 100."
+},
+
+{
+question:"Assertion: 9,87,654 is greater than 9,78,654.<br><br>Reason: When lakh and ten-thousand places are same, we compare the thousands place.",
+options:[
+"Both are true and reason explains the assertion",
+"Both are true but reason does not explain the assertion",
+"Assertion is true but reason is false",
+"Assertion is false but reason is true"
+],
+answer:0,
+explanation:"The thousands place helps compare the numbers."
+},
+
+{
+question:"Assertion: 3,49,999 rounded to the nearest lakh is 3,00,000.<br><br>Reason: If the ten-thousands digit is 5 or more, we round up.",
+options:[
+"Both are true and reason explains the assertion",
+"Both are true but reason does not explain the assertion",
+"Assertion is false but reason is true",
+"Both are false"
+],
+answer:2,
+explanation:"3,49,999 rounds to 3,00,000? No. It rounds to 3,00,000 because ten-thousands digit is 4."
+}
+
+];
+
+let currentQuestion = 0;
+let score = 0;
+let retryUsed = false;
+let timer = 45;
+let interval;
+
+const correctSound = document.getElementById('correctSound');
+const wrongSound = document.getElementById('wrongSound');
+const clapSound = document.getElementById('clapSound');
+
+function startQuiz(){
+    document.getElementById('introScreen').classList.add('hidden');
+    document.getElementById('quizScreen').classList.remove('hidden');
+    loadQuestion();
+}
+
+function startTimer(){
+    timer = 45;
+    document.getElementById('timer').innerText = timer;
+
+    clearInterval(interval);
+
+    interval = setInterval(()=>{
+        timer--;
+        document.getElementById('timer').innerText = timer;
+
+        if(timer <= 0){
+            clearInterval(interval);
+            nextQuestion();
+        }
+    },1000);
+}
+
+function loadQuestion(){
+
+    retryUsed = false;
+
+    const q = questions[currentQuestion];
+
+    document.getElementById('qno').innerText = currentQuestion + 1;
+
+    document.getElementById('questionBox').innerHTML =
+    `<div class="question">${q.question}</div>`;
+
+    const optionsBox = document.getElementById('optionsBox');
+    optionsBox.innerHTML = "";
+
+    q.options.forEach((option,index)=>{
+        const btn = document.createElement('div');
+        btn.classList.add('option');
+        btn.innerText = option;
+        btn.onclick = ()=>checkAnswer(btn,index);
+        optionsBox.appendChild(btn);
+    });
+
+    document.getElementById('feedback').innerHTML = "";
+    document.getElementById('explanationBox').innerHTML = "";
+
+    updateProgress();
+
+    startTimer();
+}
+
+function checkAnswer(element,index){
+
+    const q = questions[currentQuestion];
+    const options = document.querySelectorAll('.option');
+
+    options.forEach(opt=>opt.style.pointerEvents="none");
+
+    if(index === q.answer){
+
+        correctSound.play();
+
+        element.classList.add('correct');
+
+        document.getElementById('feedback').innerHTML =
+        "⭐ Correct Answer!";
+
+        createConfetti();
+
+        score++;
+        document.getElementById('score').innerText = score;
+
+        setTimeout(()=>{
+            nextQuestion();
+        },1500);
+
+    } else {
+
+        wrongSound.play();
+
+        element.classList.add('wrong');
+
+        if(!retryUsed){
+
+            retryUsed = true;
+
+            document.getElementById('feedback').innerHTML =
+            `<div class="cross">✖</div>Try Again!`;
+
+            options.forEach(opt=>opt.style.pointerEvents="auto");
+            element.style.pointerEvents="none";
+
+        } else {
+
+            document.getElementById('feedback').innerHTML =
+            `<div class="cross">✖</div>Incorrect`;
+
+            options[q.answer].classList.add('correct');
+
+            document.getElementById('explanationBox').innerHTML =
+            `<div class="explanation">
+                <strong>Explanation:</strong> ${q.explanation}
+            </div>`;
+
+            setTimeout(()=>{
+                nextQuestion();
+            },3500);
+        }
+    }
+}
+
+function nextQuestion(){
+
+    clearInterval(interval);
+
+    currentQuestion++;
+
+    if(currentQuestion < questions.length){
+        loadQuestion();
+    } else {
+        showFinalChallenge();
+    }
+}
+
+function updateProgress(){
+    const percent = ((currentQuestion)/questions.length)*100;
+    document.getElementById('progressBar').style.width = percent + "%";
+}
+
+function createConfetti(){
+
+    for(let i=0;i<20;i++){
+
+        const confetti = document.createElement('div');
+
+        confetti.classList.add('confetti');
+
+        confetti.style.left = Math.random()*100 + "vw";
+
+        confetti.style.background =
+        `hsl(${Math.random()*360},100%,50%)`;
+
+        confetti.style.animationDuration =
+        (Math.random()*2 + 2) + "s";
+
+        document.body.appendChild(confetti);
+
+        setTimeout(()=>{
+            confetti.remove();
+        },3000);
+    }
+}
+
+function showFinalChallenge(){
+    document.getElementById('quizScreen').classList.add('hidden');
+    document.getElementById('finalChallenge').classList.remove('hidden');
+}
+
+function finalAnswer(element,isCorrect){
+
+    const options = document.querySelectorAll('#finalChallenge .option');
+
+    options.forEach(opt=>opt.style.pointerEvents="none");
+
+    if(isCorrect){
+
+        clapSound.play();
+
+        element.classList.add('correct');
+
+        score++;
+
+        createConfetti();
+
+    } else {
+
+        wrongSound.play();
+
+        element.classList.add('wrong');
+    }
+
+    setTimeout(()=>{
+        showResults();
+    },2000);
+}
+
+function showResults(){
+
+    document.getElementById('finalChallenge').classList.add('hidden');
+
+    document.getElementById('resultScreen').classList.remove('hidden');
+
+    document.getElementById('finalScore').innerText = score;
+
+    let message = "";
+
+    if(score >= 14){
+        message = "🌟 Outstanding! You are a Number Champion!";
+    }
+    else if(score >= 10){
+        message = "👏 Great Job! Keep practicing!";
+    }
+    else{
+        message = "📚 Good effort! Try again to improve your score!";
+    }
+
+    document.getElementById('resultMessage').innerHTML = message;
+}
+
+</script>
+
+</body>
+</html>
