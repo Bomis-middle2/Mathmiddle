@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CBQ MCQ Game</title>
+<title>Grade 7 Math CBQ Challenge</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
@@ -14,7 +14,6 @@ body{
   overflow-x:hidden;
 }
 
-/* ===================== SPLASH ===================== */
 #logoScreen{
   position:fixed;
   inset:0;
@@ -23,49 +22,40 @@ body{
   align-items:center;
   justify-content:center;
   z-index:9999;
-  animation:fadeIn 0.8s ease;
 }
 
 #logoScreen img{
   width:65%;
   max-width:260px;
   animation:logoPulse 2s ease-in-out infinite;
-  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
-}
-
-@keyframes fadeIn{
-  from{opacity:0}
-  to{opacity:1}
+  filter:drop-shadow(0 10px 20px rgba(0,0,0,0.15));
 }
 
 @keyframes logoPulse{
-  0%{transform:scale(0.92);opacity:0.85;}
-  50%{transform:scale(1);opacity:1;}
-  100%{transform:scale(0.92);opacity:0.85;}
+  0%{transform:scale(.92);opacity:.85}
+  50%{transform:scale(1);opacity:1}
+  100%{transform:scale(.92);opacity:.85}
 }
 
-.fade-out{
-  animation:fadeOut 0.8s ease forwards;
-}
+.fade-out{animation:fadeOut .8s ease forwards}
 
 @keyframes fadeOut{
   from{opacity:1}
   to{opacity:0;visibility:hidden}
 }
 
-/* ===================== BACKGROUND ===================== */
 .bg span{
   position:fixed;
   color:rgba(255,180,0,.25);
   animation:float 12s linear infinite;
   z-index:-1;
 }
+
 @keyframes float{
   from{transform:translateY(100vh)}
   to{transform:translateY(-10vh)}
 }
 
-/* ===================== MAIN UI ===================== */
 .container{
   width:min(95%,900px);
   margin:20px auto;
@@ -95,14 +85,17 @@ body{
   background:#eee;
   border-radius:20px;
   overflow:hidden;
-  margin:10px 0;
+  margin:10px 0 18px;
 }
+
 .bar{
   height:100%;
   width:0%;
   background:#2f6fed;
   transition:.3s;
 }
+
+h2,h3{margin-bottom:12px}
 
 button{
   background:#2f6fed;
@@ -112,6 +105,7 @@ button{
   border-radius:12px;
   cursor:pointer;
   margin-top:12px;
+  font-size:16px;
 }
 
 button:hover{background:#1f56c7}
@@ -125,6 +119,8 @@ button:hover{background:#1f56c7}
   color:#222;
 }
 
+.options button:disabled{cursor:not-allowed}
+
 .correct{background:#d9f8dd!important;border-color:#2fbf4a!important}
 .wrong{background:#ffdcdc!important;border-color:#e53935!important}
 
@@ -132,17 +128,26 @@ button:hover{background:#1f56c7}
   padding:12px;
   margin:10px 0;
   border-radius:10px;
+  line-height:1.5;
 }
+
 .case{background:#fff6d8;border-left:5px solid #f0b400}
 .assert{background:#eef6ff;border-left:5px solid #3b82f6}
+
+#msg{
+  margin-top:10px;
+  font-weight:bold;
+  line-height:1.5;
+}
 
 .hidden{display:none}
 
 .star{
   position:fixed;
   top:-20px;
-  font-size:20px;
+  font-size:22px;
   animation:fall 1.5s linear forwards;
+  pointer-events:none;
 }
 
 @keyframes fall{
@@ -153,15 +158,12 @@ button:hover{background:#1f56c7}
 
 <body>
 
-<!-- SPLASH -->
 <div id="logoScreen">
   <img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
-<!-- BACKGROUND -->
 <div class="bg" id="bg"></div>
 
-<!-- AUDIO -->
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
@@ -177,15 +179,16 @@ button:hover{background:#1f56c7}
   <div class="progress"><div class="bar" id="bar"></div></div>
 
   <div id="intro">
-    <h2>CBQ Challenge</h2>
-    <button onclick="startGame()">Start</button>
+    <h2>Grade 7 Math CBQ Challenge</h2>
+    <p>Read carefully and choose the correct answer.</p>
+    <button onclick="startGame()">Start Game</button>
   </div>
 
   <div id="quiz" class="hidden">
-    <h3 id="question"></h3>
-
     <div id="caseBox" class="box case hidden"></div>
     <div id="assertBox" class="box assert hidden"></div>
+
+    <h3 id="question"></h3>
 
     <div class="options" id="options"></div>
     <div id="msg"></div>
@@ -194,60 +197,150 @@ button:hover{background:#1f56c7}
   <div id="result" class="hidden">
     <h2>Result</h2>
     <h3 id="finalScore"></h3>
+    <p>Great effort! You completed the challenge.</p>
     <button onclick="location.reload()">Play Again</button>
   </div>
 
 </div>
 
 <script>
-
-/* ================= SPLASH CONTROL ================= */
-window.onload = function () {
-  const splash = document.getElementById("logoScreen");
-
-  setTimeout(() => {
+window.onload=function(){
+  const splash=document.getElementById("logoScreen");
+  setTimeout(()=>{
     splash.classList.add("fade-out");
-
-    setTimeout(() => {
-      splash.style.display = "none";
-    }, 800);
-
-  }, 5000);
+    setTimeout(()=>{splash.style.display="none"},800);
+  },5000);
 };
 
-/* ================= GAME DATA ================= */
 const data=[
- {q:"2 + 3 = ?",o:["4","5","6","7"],a:1,e:"2+3=5"},
- {q:"5 - 2 = ?",o:["2","3","4","5"],a:1,e:"5-2=3"}
+  {
+    q:"The temperature in Shimla was −4°C in the morning. By afternoon, it rose by 9°C. What was the afternoon temperature?",
+    o:["−13°C","5°C","−5°C","13°C"],
+    a:1,
+    e:"−4 + 9 = 5°C"
+  },
+  {
+    q:"In a quiz, +4 marks are given for a correct answer and −2 for an incorrect answer. Riya gives 6 correct answers and 4 incorrect answers. What is her total score?",
+    o:["16","20","24","32"],
+    a:0,
+    e:"(6 × 4) − (4 × 2) = 24 − 8 = 16"
+  },
+  {
+    case:"A shopkeeper earns ₹50 profit on one shirt and loses ₹20 on one pair of trousers. On a day, he sells 6 shirts and 8 trousers.",
+    q:"What is his total profit from shirts?",
+    o:["₹250","₹300","₹350","₹400"],
+    a:1,
+    e:"6 × 50 = ₹300"
+  },
+  {
+    case:"A shopkeeper earns ₹50 profit on one shirt and loses ₹20 on one pair of trousers. On a day, he sells 6 shirts and 8 trousers.",
+    q:"What is his overall gain or loss?",
+    o:["₹140 gain","₹160 loss","₹160 gain","₹460 gain"],
+    a:0,
+    e:"Profit from shirts = ₹300. Loss from trousers = 8 × 20 = ₹160. Overall = 300 − 160 = ₹140 gain."
+  },
+  {
+    assert:"Assertion: −8 is greater than −12<br>Reason: Among two negative integers, the number closer to zero is greater.",
+    q:"Choose the correct option.",
+    o:[
+      "Both Assertion and Reason are true and Reason correctly explains Assertion",
+      "Both Assertion and Reason are true but Reason does not explain Assertion",
+      "Assertion is true but Reason is false",
+      "Assertion is false but Reason is true"
+    ],
+    a:0,
+    e:"−8 is closer to zero than −12, so −8 is greater."
+  },
+  {
+    assert:"Assertion: 0 is a positive integer<br>Reason: 0 is neither positive nor negative.",
+    q:"Choose the correct option.",
+    o:[
+      "Both Assertion and Reason are true and Reason correctly explains Assertion",
+      "Both Assertion and Reason are true but Reason does not explain Assertion",
+      "Assertion is true but Reason is false",
+      "Assertion is false but Reason is true"
+    ],
+    a:3,
+    e:"0 is not positive. It is neither positive nor negative."
+  },
+  {
+    assert:"Assertion: Addition of integers is commutative<br>Reason: a + b = b + a.",
+    q:"Choose the correct option.",
+    o:[
+      "Both Assertion and Reason are true and Reason correctly explains Assertion",
+      "Both Assertion and Reason are true but Reason does not explain Assertion",
+      "Assertion is true but Reason is false",
+      "Assertion is false but Reason is true"
+    ],
+    a:0,
+    e:"Addition is commutative because changing the order does not change the sum."
+  },
+  {
+    q:"A submarine was at −120 m below sea level. It moved up by 45 m. What is its new position?",
+    o:["−165 m","−75 m","75 m","165 m"],
+    a:1,
+    e:"−120 + 45 = −75 m"
+  },
+  {
+    q:"A football team gets +3 for a win and −1 for a loss. It wins 7 matches and loses 2. What is the total score?",
+    o:["19","20","21","23"],
+    a:0,
+    e:"(7 × 3) + (2 × −1) = 21 − 2 = 19"
+  },
+  {
+    q:"The temperature of a freezer is −18°C. If it increases by 11°C, what is the new temperature?",
+    o:["−29°C","−7°C","7°C","29°C"],
+    a:1,
+    e:"−18 + 11 = −7°C"
+  }
 ];
 
 let qSet=[],i=0,score=0,t=45,tm,attempt=0;
 
-/* ================= START ================= */
 function startGame(){
-  qSet=data;
+  qSet=[...data].sort(()=>Math.random()-.5);
+  i=0;
+  score=0;
+  document.getElementById("score").innerText=score;
+  document.getElementById("bar").style.width="0%";
   document.getElementById("intro").classList.add("hidden");
   document.getElementById("quiz").classList.remove("hidden");
   load();
 }
 
-/* ================= LOAD QUESTION ================= */
 function load(){
   attempt=0;
   t=45;
   updateTime();
+  document.getElementById("msg").innerText="";
 
   clearInterval(tm);
   tm=setInterval(()=>{
     t--;
     updateTime();
-    if(t<=0) next();
+    if(t<=0) reveal();
   },1000);
 
   let q=qSet[i];
 
   document.getElementById("qno").innerText=(i+1)+"/"+qSet.length;
   document.getElementById("question").innerText=q.q;
+
+  const caseBox=document.getElementById("caseBox");
+  const assertBox=document.getElementById("assertBox");
+
+  caseBox.classList.add("hidden");
+  assertBox.classList.add("hidden");
+
+  if(q.case){
+    caseBox.innerHTML="<b>Case:</b><br>"+q.case;
+    caseBox.classList.remove("hidden");
+  }
+
+  if(q.assert){
+    assertBox.innerHTML=q.assert;
+    assertBox.classList.remove("hidden");
+  }
 
   let box=document.getElementById("options");
   box.innerHTML="";
@@ -259,13 +352,9 @@ function load(){
     box.appendChild(b);
   });
 
-  document.getElementById("caseBox").classList.add("hidden");
-  document.getElementById("assertBox").classList.add("hidden");
-
   updateBar();
 }
 
-/* ================= CHECK ANSWER ================= */
 function check(c,b){
   let q=qSet[i];
 
@@ -274,10 +363,16 @@ function check(c,b){
     document.getElementById("score").innerText=score;
     b.classList.add("correct");
     play("correctSound");
+
+    document.querySelectorAll(".options button").forEach(btn=>{
+      btn.disabled=true;
+    });
+
     setTimeout(next,800);
   }else{
     attempt++;
     b.classList.add("wrong");
+    b.disabled=true;
     play("wrongSound");
 
     if(attempt===2){
@@ -286,25 +381,37 @@ function check(c,b){
   }
 }
 
-/* ================= REVEAL ================= */
 function reveal(){
+  clearInterval(tm);
+
   let q=qSet[i];
-  document.getElementById("msg").innerText="Answer: "+q.o[q.a]+" - "+q.e;
-  setTimeout(next,2000);
+  document.getElementById("msg").innerText="Answer: "+q.o[q.a]+" | Explanation: "+q.e;
+
+  document.querySelectorAll(".options button").forEach((btn,idx)=>{
+    btn.disabled=true;
+    if(idx===q.a){
+      btn.classList.add("correct");
+    }
+  });
+
+  setTimeout(next,2500);
 }
 
-/* ================= NEXT ================= */
 function next(){
+  clearInterval(tm);
   i++;
+
   if(i>=qSet.length){
     end();
     return;
   }
+
   load();
 }
 
-/* ================= END ================= */
 function end(){
+  clearInterval(tm);
+  document.getElementById("bar").style.width="100%";
   document.getElementById("quiz").classList.add("hidden");
   document.getElementById("result").classList.remove("hidden");
   document.getElementById("finalScore").innerText=score+"/"+qSet.length;
@@ -312,32 +419,33 @@ function end(){
   star();
 }
 
-/* ================= UI HELPERS ================= */
 function updateTime(){
   document.getElementById("time").innerText=t;
 }
 
 function updateBar(){
-  document.getElementById("bar").style.width=(i/qSet.length)*100+"%";
+  const progress=(i/qSet.length)*100;
+  document.getElementById("bar").style.width=progress+"%";
 }
 
 function play(id){
-  document.getElementById(id).play();
+  const sound=document.getElementById(id);
+  sound.currentTime=0;
+  sound.play().catch(()=>{});
 }
 
-/* ================= CONFETTI ================= */
 function star(){
-  for(let i=0;i<20;i++){
+  for(let i=0;i<30;i++){
     let s=document.createElement("div");
     s.className="star";
     s.innerText="★";
     s.style.left=Math.random()*100+"vw";
+    s.style.color=["#ffb703","#2f6fed","#2fbf4a","#ff6b6b"][Math.floor(Math.random()*4)];
     document.body.appendChild(s);
     setTimeout(()=>s.remove(),1500);
   }
 }
 
-/* ================= BG EFFECT ================= */
 for(let i=0;i<25;i++){
   const s=document.createElement("span");
   s.innerText="★";
@@ -345,7 +453,6 @@ for(let i=0;i<25;i++){
   s.style.animationDuration=(5+Math.random()*10)+"s";
   document.getElementById("bg").appendChild(s);
 }
-
 </script>
 
 </body>
