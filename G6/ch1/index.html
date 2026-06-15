@@ -21,19 +21,19 @@ body{
     position:relative;
 }
 
-/* Animated stars */
+/* Animated background decorations (stars/streamers vibe) */
 body::before{
     content:'';
     position:fixed;
     width:200%;
     height:200%;
     background-image:
-      radial-gradient(white 1px, transparent 1px),
-      radial-gradient(#ffd166 1px, transparent 1px),
-      radial-gradient(#90e0ef 1px, transparent 1px);
+        radial-gradient(white 1px, transparent 1px),
+        radial-gradient(#ffd166 1.5px, transparent 1.5px),
+        radial-gradient(#90e0ef 1px, transparent 1px);
     background-size:120px 120px;
     animation:moveBg 60s linear infinite;
-    opacity:0.25;
+    opacity:0.4;
     z-index:-1;
 }
 
@@ -50,7 +50,7 @@ body::before{
     align-items:center;
     justify-content:center;
     z-index:9999;
-    animation:hideSplash 1s forwards;
+    animation:hideSplash 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     animation-delay:5s;
 }
 
@@ -217,49 +217,39 @@ h1,h2{
     font-size:14px;
 }
 
-.confetti{
-    position:fixed;
-    width:12px;
-    height:12px;
-    background:gold;
-    clip-path:polygon(
-      50% 0%,
-      61% 35%,
-      98% 35%,
-      68% 57%,
-      79% 91%,
-      50% 70%,
-      21% 91%,
-      32% 57%,
-      2% 35%,
-      39% 35%
-    );
-    animation:fall 2s linear forwards;
-    z-index:999;
+/* Custom performance-friendly Star Confetti Shapes */
+.confetti {
+    position: fixed;
+    width: 14px;
+    height: 14px;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    animation: fall linear forwards;
+    z-index: 999;
 }
 
-@keyframes fall{
-    from{
-        transform:translateY(-100px) rotate(0deg);
-        opacity:1;
+@keyframes fall {
+    from {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 1;
     }
-    to{
-        transform:translateY(100vh) rotate(720deg);
-        opacity:0;
+    to {
+        transform: translateY(105vh) rotate(720deg);
+        opacity: 0;
     }
 }
 
 .cross{
-    font-size:55px;
-    color:red;
+    font-size:45px;
+    color:#d00000;
     text-align:center;
-    animation:shake 0.5s;
+    margin-bottom: 5px;
+    animation:shake 0.4s ease-in-out;
 }
 
 @keyframes shake{
     0%,100%{transform:translateX(0);}
-    25%{transform:translateX(-5px);}
-    75%{transform:translateX(5px);}
+    25%{transform:translateX(-8px);}
+    75%{transform:translateX(8px);}
 }
 
 table{
@@ -291,14 +281,12 @@ th,td{
 
 <body>
 
-<!-- LOGO SPLASH -->
 <div class="logo-splash">
     <img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
 <div class="container">
 
-<!-- INTRO -->
 <div id="introScreen" class="card intro">
     <h1>Knowing Our Numbers</h1>
     <h2>Grade 6 Mathematics Challenge</h2>
@@ -310,16 +298,15 @@ th,td{
     </p>
 
     <p>
-        ✅ 15 MCQs <br>
-        ✅ 45 Seconds Each <br>
-        ✅ Retry Chance <br>
-        ✅ Final Challenge Round
+        ✅ 15 Competency MCQs <br>
+        ✅ 45 Seconds Per Question <br>
+        ✅ One Extra Retry Per Question <br>
+        ✅ Final Challenge Round Evaluation
     </p>
 
     <button class="btn" onclick="startQuiz()">Start Challenge</button>
 </div>
 
-<!-- QUIZ -->
 <div id="quizScreen" class="card hidden">
 
     <div class="top-bar">
@@ -342,12 +329,11 @@ th,td{
 
 </div>
 
-<!-- FINAL CHALLENGE -->
 <div id="finalChallenge" class="card hidden final-box">
     <h2>🏆 Final Challenge</h2>
 
-    <p style="margin:20px 0;">
-        Which of these numbers is the greatest?
+    <p style="margin:20px 0; font-size: 20px;">
+        Which of these numbers has the greatest numerical value?
     </p>
 
     <div class="options">
@@ -358,7 +344,6 @@ th,td{
     </div>
 </div>
 
-<!-- RESULT -->
 <div id="resultScreen" class="card hidden final-box">
 
     <h2>🎉 Quiz Completed!</h2>
@@ -367,7 +352,7 @@ th,td{
         You Scored <span id="finalScore">0</span>/16
     </div>
 
-    <p id="resultMessage"></p>
+    <p id="resultMessage" style="font-size: 18px; margin-bottom: 20px; font-weight: bold;"></p>
 
     <button class="btn" onclick="location.reload()">Play Again</button>
 
@@ -379,178 +364,157 @@ th,td{
 
 </div>
 
-<!-- AUDIO -->
-<audio id="correctSound" src="assets/correct.mp3"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3"></audio>
-<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+<audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3" preload="auto"></audio>
 
 <script>
 
 const questions = [
-
-{
-question:"A school library has 8,764 books. The librarian receives 1,236 more books. Which number sentence shows the total books correctly?",
-options:[
-"8,764 − 1,236",
-"8,764 + 1,236",
-"8,764 × 1,236",
-"8,764 ÷ 1,236"
-],
-answer:1,
-explanation:"The word 'total' means addition."
-},
-
-{
-question:"Aarav wrote the number 5,08,421. Which digit is in the ten-thousands place?",
-options:["5","0","8","4"],
-answer:1,
-explanation:"The ten-thousands place in 5,08,421 is 0."
-},
-
-{
-question:"A shopkeeper has ₹9,850. He needs ₹10,000 to buy new stock. How much more money does he need?",
-options:["₹50","₹100","₹150","₹250"],
-answer:2,
-explanation:"10,000 − 9,850 = 150."
-},
-
-{
-question:`Study the table:
-
-<table>
-<tr><th>City</th><th>Population</th></tr>
-<tr><td>A</td><td>3,45,210</td></tr>
-<tr><td>B</td><td>3,54,120</td></tr>
-<tr><td>C</td><td>3,40,521</td></tr>
-</table>
-
-Which city has the greatest population?`,
-options:["City A","City B","City C","All are equal"],
-answer:1,
-explanation:"3,54,120 is the greatest population."
-},
-
-{
-question:"Four students wrote the same number in different ways. Which one is correct for 7,06,305?",
-options:[
-"Seven lakh six thousand three hundred five",
-"Seventy lakh six thousand three hundred five",
-"Seven lakh sixty thousand three hundred five",
-"Seven lakh six hundred thirty-five"
-],
-answer:0,
-explanation:"7,06,305 is read as Seven lakh six thousand three hundred five."
-},
-
-{
-question:"A stadium had 24,875 people on Monday and 25,120 people on Tuesday. Which statement is correct?",
-options:[
-"Monday had more people",
-"Tuesday had more people",
-"Both days had equal people",
-"Cannot be compared"
-],
-answer:1,
-explanation:"25,120 is greater than 24,875."
-},
-
-{
-question:"A number rounded to the nearest thousand becomes 48,000. Which number could it be?",
-options:["47,420","47,499","47,500","46,999"],
-answer:2,
-explanation:"Numbers from 47,500 round up to 48,000."
-},
-
-{
-question:"A delivery van travelled 12,450 km in one year and 13,275 km in the next year. How much more did it travel in the second year?",
-options:["725 km","825 km","925 km","1,825 km"],
-answer:1,
-explanation:"13,275 − 12,450 = 825 km."
-},
-
-{
-question:`Study the data:
-
-<table>
-<tr><th>Item</th><th>Cost</th></tr>
-<tr><td>Bag</td><td>₹1,250</td></tr>
-<tr><td>Shoes</td><td>₹2,475</td></tr>
-<tr><td>Watch</td><td>₹3,150</td></tr>
-</table>
-
-Which two items together cost ₹4,400?`,
-options:[
-"Bag and Shoes",
-"Shoes and Watch",
-"Bag and Watch",
-"All three"
-],
-answer:2,
-explanation:"1,250 + 3,150 = 4,400."
-},
-
-{
-question:"A teacher asked students to form the greatest 5-digit number using 4, 8, 1, 0 and 6 once. Which is correct?",
-options:["86,410","86,401","84,610","81,640"],
-answer:0,
-explanation:"Arrange digits in descending order."
-},
-
-{
-question:"A train ticket number is 6,43,219. If the digits 4 and 2 are interchanged, how does the number change?",
-options:[
-"It becomes greater",
-"It becomes smaller",
-"It remains same",
-"It becomes 6,23,419"
-],
-answer:1,
-explanation:"Changing 4 and 2 reduces the value."
-},
-
-{
-question:"A school collected ₹2,45,600 for a charity drive. Another school collected ₹2,54,060. Which comparison is correct?",
-options:[
-"2,45,600 > 2,54,060",
-"2,45,600 < 2,54,060",
-"2,45,600 = 2,54,060",
-"2,45,600 is greatest among all numbers"
-],
-answer:1,
-explanation:"2,54,060 is greater."
-},
-
-{
-question:"A factory packed 4,375 toys on Day 1 and 5,625 toys on Day 2. The toys were packed equally into boxes of 100. How many complete boxes can be made in all?",
-options:["90","100","10,000","1,000"],
-answer:1,
-explanation:"4,375 + 5,625 = 10,000 toys. 10,000 ÷ 100 = 100."
-},
-
-{
-question:"Assertion: 9,87,654 is greater than 9,78,654.<br><br>Reason: When lakh and ten-thousand places are same, we compare the thousands place.",
-options:[
-"Both are true and reason explains the assertion",
-"Both are true but reason does not explain the assertion",
-"Assertion is true but reason is false",
-"Assertion is false but reason is true"
-],
-answer:0,
-explanation:"The thousands place helps compare the numbers."
-},
-
-{
-question:"Assertion: 3,49,999 rounded to the nearest lakh is 3,00,000.<br><br>Reason: If the ten-thousands digit is 5 or more, we round up.",
-options:[
-"Both are true and reason explains the assertion",
-"Both are true but reason does not explain the assertion",
-"Assertion is false but reason is true",
-"Both are false"
-],
-answer:2,
-explanation:"3,49,999 rounds to 3,00,000? No. It rounds to 3,00,000 because ten-thousands digit is 4."
-}
-
+    {
+        question:"A school library has 8,764 books. The librarian receives 1,236 more books. Which number sentence shows the total books correctly?",
+        options:[
+            "8,764 − 1,236",
+            "8,764 + 1,236",
+            "8,764 × 1,236",
+            "8,764 ÷ 1,236"
+        ],
+        answer:1,
+        explanation:"The word 'total' signifies joining sets together, which is solved using addition."
+    },
+    {
+        question:"Aarav wrote the number 5,08,421. Which digit is in the ten-thousands place?",
+        options:["5","0","8","4"],
+        answer:1,
+        explanation:"Following standard Indian configuration layout: 1 is in ones, 2 is in tens, 4 is in hundreds, 8 is in thousands, and 0 holds the ten-thousands position."
+    },
+    {
+        question:"A shopkeeper has ₹9,850. He needs ₹10,000 to buy new stock. How much more money does he need?",
+        options:["₹50","₹100","₹150","₹250"],
+        answer:2,
+        explanation:"Subtracting the active savings balance from the objective requirements shows the remaining deficit balance: 10,000 − 9,850 = 150."
+    },
+    {
+        question:`Study the table:
+        <table>
+        <tr><th>City</th><th>Population</th></tr>
+        <tr><td>City A</td><td>3,45,210</td></tr>
+        <tr><td>City B</td><td>3,54,120</td></tr>
+        <tr><td>City C</td><td>3,40,521</td></tr>
+        </table>
+        Which city has the greatest population value?`,
+        options:["City A","City B","City C","All are equal"],
+        answer:1,
+        explanation:"Comparing the ten-thousands position after establishing all numbers contain equal digit lengths shows City B (3,54,120) is the highest."
+    },
+    {
+        question:"Four students wrote the same number in different word formats. Which option is correct for 7,06,305?",
+        options:[
+            "Seven lakh six thousand three hundred five",
+            "Seventy lakh six thousand three hundred five",
+            "Seven lakh sixty thousand three hundred five",
+            "Seven lakh six hundred thirty-five"
+        ],
+        answer:0,
+        explanation:"Separating value blocks via place commas correctly identifies it as Seven lakh six thousand three hundred five."
+    },
+    {
+        question:"A stadium had 24,875 people on Monday and 25,120 people on Tuesday. Which structural comparison summary statement is correct?",
+        options:[
+            "Monday had more people",
+            "Tuesday had more people",
+            "Both days had equal people",
+            "Cannot be compared"
+        ],
+        answer:1,
+        explanation:"Evaluating highest value columns first verifies 25,120 is strictly greater than 24,875."
+    },
+    {
+        question:"A whole number rounded to the nearest thousand becomes 48,000. Which number could it be?",
+        options:["47,420","47,499","47,500","46,999"],
+        answer:2,
+        explanation:"Numbers possessing hundreds place structures of 500 or higher automatically scale up to the next thousand interval mark."
+    },
+    {
+        question:"A delivery van travelled 12,450 km in one year and 13,275 km in the next year. How much more did it travel in the second year?",
+        options:["725 km","825 km","925 km","1,825 km"],
+        answer:1,
+        explanation:"The difference equation calculation outputs: 13,275 − 12,450 = 825 km."
+    },
+    {
+        question:`Study the transactional data:
+        <table>
+        <tr><th>Item</th><th>Cost</th></tr>
+        <tr><td>Bag</td><td>₹1,250</td></tr>
+        <tr><td>Shoes</td><td>₹2,475</td></tr>
+        <tr><td>Watch</td><td>₹3,150</td></tr>
+        </table>
+        Which two combined items together cost exactly ₹4,400?`,
+        options:[
+            "Bag and Shoes",
+            "Shoes and Watch",
+            "Bag and Watch",
+            "All three items"
+        ],
+        answer:2,
+        explanation:"Adding the costs of the Bag and Watch yields: 1,250 + 3,150 = ₹4,400."
+    },
+    {
+        question:"A teacher asked students to form the greatest 5-digit number using the digit set 4, 8, 1, 0, and 6 exactly once. Which answer is correct?",
+        options:["86,410","86,401","84,610","81,640"],
+        answer:0,
+        explanation:"Arranging the base input array digits in descending order creates the highest magnitude combination possible: 86,410."
+    },
+    {
+        question:"A train ticket number is 6,43,219. If the digits 4 and 2 are interchanged, how does the absolute value profile of the number change?",
+        options:[
+            "It becomes greater",
+            "It becomes smaller",
+            "It remains same",
+            "It becomes 6,23,419"
+        ],
+        answer:1,
+        explanation:"Swapping a larger value digit from a higher structural index (4 at ten-thousands position) down into a lower place value position automatically scales down the system value."
+    },
+    {
+        question:"A school collected ₹2,45,600 for a charity drive. Another school collected ₹2,54,060. Which statement outlines a mathematically correct relationship?",
+        options:[
+            "2,45,600 > 2,54,060",
+            "2,45,600 < 2,54,060",
+            "2,45,600 = 2,54,060",
+            "2,45,600 is greatest among all numbers"
+        ],
+        answer:1,
+        explanation:"Evaluating structural columns left-to-right establishes that 2,54,060 holds a greater ten-thousands column index value."
+    },
+    {
+        question:"A factory packed 4,375 toys on Day 1 and 5,625 toys on Day 2. The combined output toys were sorted and packed equally into boxes of 100. How many complete boxes can be shipped?",
+        options:["90","100","10,000","1,000"],
+        answer:1,
+        explanation:"Total toys = 4,375 + 5,625 = 10,000. Complete shipping packages capacity count equals 10,000 ÷ 100 = 100 boxes."
+    },
+    {
+        question:"Assertion: 9,87,654 is greater than 9,78,654.<br><br>Reason: When lakh and ten-thousand places are identical, we evaluate down to the thousands place column.",
+        options:[
+            "Both are true and reason explains the assertion",
+            "Both are true but reason does not explain the assertion",
+            "Assertion is true but reason is false",
+            "Assertion is false but reason is true"
+        ],
+        answer:1,
+        explanation:"Both are individually true statements, but the assertion change is directly confirmed at the ten-thousands place column (8 > 7), making the thousands column evaluation check redundant."
+    },
+    {
+        question:"Assertion: 3,49,999 rounded to the nearest lakh value landmark position is 3,00,000.<br><br>Reason: If the checked ten-thousands evaluation digit is less than 5, we round down.",
+        options:[
+            "Both are true and reason explains the assertion",
+            "Both are true but reason does not explain the assertion",
+            "Assertion is false but reason is true",
+            "Both are false"
+        ],
+        answer:0,
+        explanation:"Since the ten-thousands index digit is 4, it fulfills the 'less than 5' requirement, correctly rounding down the base cluster down to 3,00,000."
+    }
 ];
 
 let currentQuestion = 0;
@@ -572,7 +536,6 @@ function startQuiz(){
 function startTimer(){
     timer = 45;
     document.getElementById('timer').innerText = timer;
-
     clearInterval(interval);
 
     interval = setInterval(()=>{
@@ -581,21 +544,17 @@ function startTimer(){
 
         if(timer <= 0){
             clearInterval(interval);
-            nextQuestion();
+            revealCorrectAnswerTimeout();
         }
     },1000);
 }
 
 function loadQuestion(){
-
     retryUsed = false;
-
     const q = questions[currentQuestion];
-
     document.getElementById('qno').innerText = currentQuestion + 1;
 
-    document.getElementById('questionBox').innerHTML =
-    `<div class="question">${q.question}</div>`;
+    document.getElementById('questionBox').innerHTML = `<div class="question">${q.question}</div>`;
 
     const optionsBox = document.getElementById('optionsBox');
     optionsBox.innerHTML = "";
@@ -612,74 +571,80 @@ function loadQuestion(){
     document.getElementById('explanationBox').innerHTML = "";
 
     updateProgress();
-
     startTimer();
 }
 
 function checkAnswer(element,index){
-
     const q = questions[currentQuestion];
-    const options = document.querySelectorAll('.option');
+    const options = document.querySelectorAll('#optionsBox .option');
 
+    // Disable all options during immediate answer validation evaluation
     options.forEach(opt=>opt.style.pointerEvents="none");
 
     if(index === q.answer){
-
-        correctSound.play();
-
+        if(correctSound) correctSound.play().catch(e=>{});
+        element.classList.remove('wrong');
         element.classList.add('correct');
-
-        document.getElementById('feedback').innerHTML =
-        "⭐ Correct Answer!";
-
+        document.getElementById('feedback').innerHTML = "⭐ Correct Answer!";
         createConfetti();
-
         score++;
         document.getElementById('score').innerText = score;
 
+        clearInterval(interval);
         setTimeout(()=>{
             nextQuestion();
         },1500);
-
     } else {
-
-        wrongSound.play();
-
+        if(wrongSound) wrongSound.play().catch(e=>{});
         element.classList.add('wrong');
 
         if(!retryUsed){
-
             retryUsed = true;
-
-            document.getElementById('feedback').innerHTML =
-            `<div class="cross">✖</div>Try Again!`;
-
-            options.forEach(opt=>opt.style.pointerEvents="auto");
-            element.style.pointerEvents="none";
-
+            document.getElementById('feedback').innerHTML = `<div class="cross">✖</div> Try Again!`;
+            
+            // Reactivate non-selected choices for the single retry attempt
+            options.forEach(opt => {
+                if(!opt.classList.contains('wrong')){
+                    opt.style.pointerEvents = "auto";
+                }
+            });
         } else {
-
-            document.getElementById('feedback').innerHTML =
-            `<div class="cross">✖</div>Incorrect`;
-
+            clearInterval(interval);
+            document.getElementById('feedback').innerHTML = `<div class="cross">✖</div> Incorrect`;
             options[q.answer].classList.add('correct');
 
-            document.getElementById('explanationBox').innerHTML =
+            document.getElementById('explanationBox').innerHTML = 
             `<div class="explanation">
                 <strong>Explanation:</strong> ${q.explanation}
             </div>`;
 
             setTimeout(()=>{
                 nextQuestion();
-            },3500);
+            },4000);
         }
     }
 }
 
+function revealCorrectAnswerTimeout(){
+    const q = questions[currentQuestion];
+    const options = document.querySelectorAll('#optionsBox .option');
+    options.forEach(opt=>opt.style.pointerEvents="none");
+
+    document.getElementById('feedback').innerHTML = `<div class="cross">✖</div> Time Out!`;
+    options[q.answer].classList.add('correct');
+
+    document.getElementById('explanationBox').innerHTML = 
+    `<div class="explanation">
+        <strong>Explanation:</strong> ${q.explanation}
+    </div>`;
+
+    setTimeout(()=>{
+        nextQuestion();
+    },4000);
+}
+
 function nextQuestion(){
-
     clearInterval(interval);
-
     currentQuestion++;
 
     if(currentQuestion < questions.length){
@@ -695,21 +660,12 @@ function updateProgress(){
 }
 
 function createConfetti(){
-
-    for(let i=0;i<20;i++){
-
+    for(let i=0; i<30; i++){
         const confetti = document.createElement('div');
-
         confetti.classList.add('confetti');
-
         confetti.style.left = Math.random()*100 + "vw";
-
-        confetti.style.background =
-        `hsl(${Math.random()*360},100%,50%)`;
-
-        confetti.style.animationDuration =
-        (Math.random()*2 + 2) + "s";
-
+        confetti.style.background = `hsl(${Math.random()*360}, 100%, 50%)`;
+        confetti.style.animationDuration = (Math.random()*1.5 + 1.5) + "s";
         document.body.appendChild(confetti);
 
         setTimeout(()=>{
@@ -724,56 +680,44 @@ function showFinalChallenge(){
 }
 
 function finalAnswer(element,isCorrect){
-
     const options = document.querySelectorAll('#finalChallenge .option');
-
     options.forEach(opt=>opt.style.pointerEvents="none");
 
     if(isCorrect){
-
-        clapSound.play();
-
+        if(clapSound) clapSound.play().catch(e=>{});
         element.classList.add('correct');
-
         score++;
-
         createConfetti();
-
     } else {
-
-        wrongSound.play();
-
+        if(wrongSound) wrongSound.play().catch(e=>{});
         element.classList.add('wrong');
+        // Find and highlight correct answer options element container
+        options[1].classList.add('correct');
     }
 
     setTimeout(()=>{
         showResults();
-    },2000);
+    },2500);
 }
 
 function showResults(){
-
     document.getElementById('finalChallenge').classList.add('hidden');
-
     document.getElementById('resultScreen').classList.remove('hidden');
-
     document.getElementById('finalScore').innerText = score;
 
     let message = "";
-
     if(score >= 14){
-        message = "🌟 Outstanding! You are a Number Champion!";
+        message = "🌟 Outstanding Performance! You are an Absolute Number System Champion!";
     }
     else if(score >= 10){
-        message = "👏 Great Job! Keep practicing!";
+        message = "👏 Great Job! Solid operational comprehension skills demonstrated.";
     }
     else{
-        message = "📚 Good effort! Try again to improve your score!";
+        message = "📚 Good effort! Review the foundational metrics structure items and try again!";
     }
 
     document.getElementById('resultMessage').innerHTML = message;
 }
-
 </script>
 
 </body>
