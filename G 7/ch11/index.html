@@ -6,6 +6,7 @@
 <title>Exponents & Powers Challenge</title>
 
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -19,6 +20,8 @@ overflow-x:hidden;
 min-height:100vh;
 color:#1f2937;
 }
+
+/* BACKGROUND STARS */
 
 .background-stars span{
 position:fixed;
@@ -40,6 +43,8 @@ transform:translateY(-20vh) rotate(360deg);
 }
 }
 
+/* ONLY FIRST PAGE LOGO SCREEN */
+
 .logo-screen{
 position:fixed;
 inset:0;
@@ -48,24 +53,26 @@ display:flex;
 justify-content:center;
 align-items:center;
 z-index:100;
-animation:hideLogo 5s forwards;
 }
 
 .logo-screen img{
 width:220px;
 max-width:80%;
+animation:logoZoom 1s ease;
 }
 
-@keyframes hideLogo{
-0%,85%{
-opacity:1;
-visibility:visible;
-}
-100%{
+@keyframes logoZoom{
+from{
 opacity:0;
-visibility:hidden;
+transform:scale(.6);
+}
+to{
+opacity:1;
+transform:scale(1);
 }
 }
+
+/* MAIN CONTAINER */
 
 .container{
 position:relative;
@@ -75,6 +82,8 @@ margin:auto;
 padding:18px;
 }
 
+/* CARD */
+
 .card{
 background:rgba(255,255,255,.95);
 padding:24px;
@@ -82,6 +91,8 @@ border-radius:24px;
 box-shadow:0 10px 30px rgba(0,0,0,.12);
 margin-top:24px;
 }
+
+/* HEADER */
 
 .header{
 display:flex;
@@ -91,9 +102,7 @@ gap:10px;
 flex-wrap:wrap;
 }
 
-.brand img{
-height:45px;
-}
+/* BADGE */
 
 .badge{
 background:#dbeafe;
@@ -101,6 +110,8 @@ padding:10px 16px;
 border-radius:999px;
 font-weight:bold;
 }
+
+/* TEXT */
 
 h1,h2{
 text-align:center;
@@ -112,6 +123,12 @@ text-align:center;
 color:#64748b;
 margin-bottom:12px;
 }
+
+p{
+line-height:1.6;
+}
+
+/* BUTTONS */
 
 button{
 width:100%;
@@ -140,6 +157,13 @@ background:#2563eb;
 color:white;
 }
 
+.primary:hover{
+filter:brightness(.95);
+transform:translateY(-1px);
+}
+
+/* ANSWER STATES */
+
 .correct{
 background:#dcfce7 !important;
 border-color:#22c55e !important;
@@ -150,9 +174,13 @@ background:#fee2e2 !important;
 border-color:#ef4444 !important;
 }
 
+/* HIDDEN */
+
 .hidden{
 display:none;
 }
+
+/* FEEDBACK */
 
 .feedback{
 min-height:50px;
@@ -160,6 +188,8 @@ margin-top:12px;
 font-weight:bold;
 text-align:center;
 }
+
+/* TIMER */
 
 .timer{
 height:12px;
@@ -175,6 +205,8 @@ width:100%;
 background:#22c55e;
 transition:width 1s linear;
 }
+
+/* WRONG CROSS */
 
 .cross{
 position:fixed;
@@ -207,6 +239,8 @@ transform:translate(-50%,-50%) scale(1);
 }
 }
 
+/* CONFETTI */
+
 .confetti{
 position:fixed;
 top:-20px;
@@ -225,6 +259,8 @@ opacity:0;
 }
 }
 
+/* FINAL CHALLENGE */
+
 .challenge-box{
 background:#fff7ed;
 padding:18px;
@@ -232,47 +268,58 @@ border-radius:18px;
 border:2px dashed #fb923c;
 margin-top:10px;
 }
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+.card{
+padding:18px;
+}
+
+h1{
+font-size:26px;
+}
+
+button{
+font-size:15px;
+}
+
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="logo-screen">
+<!-- LOGO ONLY FOR FIRST 5 SECONDS -->
+
+<div class="logo-screen" id="logoScreen">
 <img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
-<div class="background-stars">
-<span style="left:8%;animation-delay:0s"></span>
-<span style="left:25%;animation-delay:2s"></span>
-<span style="left:40%;animation-delay:4s"></span>
-<span style="left:60%;animation-delay:1s"></span>
-<span style="left:80%;animation-delay:3s"></span>
-</div>
+<!-- FLOATING STARS -->
+
+<div class="background-stars" id="stars"></div>
+
+<!-- WRONG CROSS -->
 
 <div class="cross" id="cross">✖</div>
+
+<!-- AUDIO -->
 
 <audio id="correctSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 
+<!-- MAIN CONTENT -->
+
 <div class="container">
 
-<div class="header">
-<div class="brand">
-<img src="assets/innovine-logo.png" alt="Logo">
-</div>
-
-<div class="badge">
-Score: <span id="score">0</span>
-</div>
-</div>
+<!-- INTRO -->
 
 <div class="card" id="intro">
 
 <h1>🚀 Exponents & Powers Challenge</h1>
-
-<p class="small">
-Grade 7 Mathematics • Chapter 11
-</p>
 
 <p style="text-align:center;margin-top:10px;">
 Answer the MCQs before the timer ends and become the Power Master!
@@ -284,9 +331,12 @@ Start Quiz
 
 </div>
 
+<!-- QUIZ -->
+
 <div class="card hidden" id="quiz">
 
 <div class="header">
+
 <div class="badge">
 Question <span id="qNum">1</span>/10
 </div>
@@ -294,6 +344,11 @@ Question <span id="qNum">1</span>/10
 <div class="badge">
 ⏳ <span id="time">45</span>s
 </div>
+
+<div class="badge">
+⭐ Score: <span id="score">0</span>
+</div>
+
 </div>
 
 <div class="timer">
@@ -308,30 +363,45 @@ Question <span id="qNum">1</span>/10
 
 </div>
 
+<!-- FINAL CHALLENGE -->
+
 <div class="card hidden" id="finalChallenge">
 
 <h1>🏆 Final Challenge</h1>
 
 <div class="challenge-box">
+
 <p>
 If a number doubles 6 times starting from 1, which expression represents it?
 </p>
+
 </div>
 
-<button class="option" onclick="checkFinal(0)">2 × 6</button>
-<button class="option" onclick="checkFinal(1)">2<sup>6</sup></button>
-<button class="option" onclick="checkFinal(2)">6<sup>2</sup></button>
+<button class="option" onclick="checkFinal(0)">
+2 × 6
+</button>
+
+<button class="option" onclick="checkFinal(1)">
+2<sup>6</sup>
+</button>
+
+<button class="option" onclick="checkFinal(2)">
+6<sup>2</sup>
+</button>
 
 <div class="feedback" id="finalFeedback"></div>
 
 </div>
+
+<!-- RESULT -->
 
 <div class="card hidden" id="result">
 
 <h1>🎉 Quiz Complete!</h1>
 
 <h2>
-Final Score: <span id="finalScore"></span>
+Final Score:
+<span id="finalScore"></span>
 </h2>
 
 <p class="small" id="resultMsg"></p>
@@ -346,7 +416,30 @@ Play Again
 
 <script>
 
-const questions = [
+/* REMOVE LOGO AFTER 5 SECONDS */
+
+setTimeout(()=>{
+document.getElementById("logoScreen").style.display="none";
+},5000);
+
+/* CREATE FLOATING STARS */
+
+const stars=document.getElementById("stars");
+
+for(let i=0;i<28;i++){
+
+const star=document.createElement("span");
+
+star.style.left=Math.random()*100+"vw";
+star.style.animationDelay=Math.random()*8+"s";
+
+stars.appendChild(star);
+
+}
+
+/* QUESTIONS */
+
+const questions=[
 
 {
 q:"A paper is folded again and again. After each fold, the number of parts doubles. After 4 folds, the number of parts is:",
@@ -420,58 +513,75 @@ e:"2 × 2 × 2 × 2 × 2 × 2 = 64."
 
 ];
 
-let current = 0;
-let score = 0;
-let attempts = 0;
+/* VARIABLES */
+
+let current=0;
+let score=0;
+let attempts=0;
 let timer;
-let timeLeft = 45;
+let timeLeft=45;
+
+/* START QUIZ */
 
 function startQuiz(){
+
 document.getElementById("intro").classList.add("hidden");
+
 document.getElementById("quiz").classList.remove("hidden");
+
 loadQuestion();
+
 }
+
+/* LOAD QUESTION */
 
 function loadQuestion(){
 
 clearInterval(timer);
 
-attempts = 0;
-timeLeft = 45;
+attempts=0;
 
-document.getElementById("time").textContent = timeLeft;
-document.getElementById("timerFill").style.width = "100%";
-document.getElementById("feedback").textContent = "";
+timeLeft=45;
 
-const q = questions[current];
+document.getElementById("time").textContent=timeLeft;
 
-document.getElementById("qNum").textContent = current + 1;
-document.getElementById("question").innerHTML = q.q;
+document.getElementById("timerFill").style.width="100%";
 
-const optionsDiv = document.getElementById("options");
-optionsDiv.innerHTML = "";
+document.getElementById("feedback").textContent="";
+
+const q=questions[current];
+
+document.getElementById("qNum").textContent=current+1;
+
+document.getElementById("question").innerHTML=q.q;
+
+const optionsDiv=document.getElementById("options");
+
+optionsDiv.innerHTML="";
 
 q.o.forEach((opt,index)=>{
 
-const btn = document.createElement("button");
+const btn=document.createElement("button");
 
-btn.className = "option";
+btn.className="option";
 
-btn.innerHTML = String.fromCharCode(65+index)+". "+opt;
+btn.innerHTML=
+String.fromCharCode(65+index)+". "+opt;
 
-btn.onclick = ()=>checkAnswer(index,btn);
+btn.onclick=()=>checkAnswer(index,btn);
 
 optionsDiv.appendChild(btn);
 
 });
 
-timer = setInterval(()=>{
+timer=setInterval(()=>{
 
 timeLeft--;
 
-document.getElementById("time").textContent = timeLeft;
+document.getElementById("time").textContent=timeLeft;
 
-document.getElementById("timerFill").style.width = (timeLeft/45*100)+"%";
+document.getElementById("timerFill").style.width=
+(timeLeft/45*100)+"%";
 
 if(timeLeft<=0){
 
@@ -485,9 +595,11 @@ showCorrect("Time up!");
 
 }
 
+/* CHECK ANSWER */
+
 function checkAnswer(choice,btn){
 
-const q = questions[current];
+const q=questions[current];
 
 if(choice===q.a){
 
@@ -497,9 +609,10 @@ btn.classList.add("correct");
 
 score++;
 
-document.getElementById("score").textContent = score;
+document.getElementById("score").textContent=score;
 
-document.getElementById("feedback").textContent = "Correct! Excellent!";
+document.getElementById("feedback").textContent=
+"Correct! Excellent!";
 
 playSound("correctSound");
 
@@ -507,8 +620,7 @@ createConfetti();
 
 setTimeout(nextQuestion,1300);
 
-}
-else{
+}else{
 
 attempts++;
 
@@ -520,12 +632,12 @@ showCross();
 
 if(attempts===1){
 
-document.getElementById("feedback").textContent = "Try once more!";
+document.getElementById("feedback").textContent=
+"Try once more!";
 
-btn.disabled = true;
+btn.disabled=true;
 
-}
-else{
+}else{
 
 clearInterval(timer);
 
@@ -537,15 +649,17 @@ showCorrect("Incorrect.");
 
 }
 
+/* SHOW CORRECT ANSWER */
+
 function showCorrect(prefix){
 
-const q = questions[current];
+const q=questions[current];
 
-const buttons = document.querySelectorAll(".option");
+const buttons=document.querySelectorAll(".option");
 
 buttons.forEach((b,i)=>{
 
-b.disabled = true;
+b.disabled=true;
 
 if(i===q.a){
 
@@ -555,12 +669,14 @@ b.classList.add("correct");
 
 });
 
-document.getElementById("feedback").textContent =
+document.getElementById("feedback").textContent=
 prefix+" Correct Answer: "+q.o[q.a]+". "+q.e;
 
 setTimeout(nextQuestion,3000);
 
 }
+
+/* NEXT QUESTION */
 
 function nextQuestion(){
 
@@ -570,8 +686,7 @@ if(current<questions.length){
 
 loadQuestion();
 
-}
-else{
+}else{
 
 document.getElementById("quiz").classList.add("hidden");
 
@@ -581,25 +696,26 @@ document.getElementById("finalChallenge").classList.remove("hidden");
 
 }
 
+/* FINAL CHALLENGE */
+
 function checkFinal(choice){
 
 if(choice===1){
 
 score++;
 
-document.getElementById("score").textContent = score;
+document.getElementById("score").textContent=score;
 
-document.getElementById("finalFeedback").textContent =
+document.getElementById("finalFeedback").textContent=
 "Correct! Doubling 6 times is written as 2⁶.";
 
 playSound("correctSound");
 
 createConfetti();
 
-}
-else{
+}else{
 
-document.getElementById("finalFeedback").textContent =
+document.getElementById("finalFeedback").textContent=
 "Incorrect. The correct answer is 2⁶.";
 
 playSound("wrongSound");
@@ -612,71 +728,70 @@ setTimeout(showResult,1800);
 
 }
 
+/* SHOW RESULT */
+
 function showResult(){
 
 document.getElementById("finalChallenge").classList.add("hidden");
 
 document.getElementById("result").classList.remove("hidden");
 
-document.getElementById("finalScore").textContent = score+" / 11";
+document.getElementById("finalScore").textContent=
+score+" / 11";
 
-let msg = "Good effort!";
+let msg="Good effort!";
 
 if(score>=9){
 
-msg = "Outstanding! You are an Exponents Master!";
+msg="Outstanding! You are an Exponents Master!";
+
+}else if(score>=6){
+
+msg="Well done! Keep practising powers and exponents.";
 
 }
-else if(score>=6){
 
-msg = "Well done! Keep practising powers and exponents.";
-
-}
-
-document.getElementById("resultMsg").textContent = msg;
+document.getElementById("resultMsg").textContent=msg;
 
 }
+
+/* RESTART */
 
 function restartQuiz(){
 
-current = 0;
-score = 0;
-
-document.getElementById("score").textContent = "0";
-
-document.getElementById("result").classList.add("hidden");
-
-document.getElementById("intro").classList.remove("hidden");
+location.reload();
 
 }
+
+/* CONFETTI */
 
 function createConfetti(){
 
 for(let i=0;i<25;i++){
 
-const star = document.createElement("div");
+const star=document.createElement("div");
 
-star.className = "confetti";
+star.className="confetti";
 
-star.style.left = Math.random()*100+"vw";
+star.style.left=Math.random()*100+"vw";
 
-star.style.animationDelay = Math.random()*0.3+"s";
+star.style.animationDelay=Math.random()*0.3+"s";
 
 document.body.appendChild(star);
 
 setTimeout(()=>{
-
 star.remove();
-
 },1500);
 
 }
 
 }
 
+/* WRONG CROSS */
+
 function showCross(){
 
-const cross = document.getElementById("cross");
+const cross=document.getElementById("cross");
 
 cross.classList.remove("show");
 
@@ -686,11 +801,13 @@ cross.classList.add("show");
 
 }
 
+/* AUDIO */
+
 function playSound(id){
 
-const audio = document.getElementById(id);
+const audio=document.getElementById(id);
 
-audio.currentTime = 0;
+audio.currentTime=0;
 
 audio.play().catch(()=>{});
 
@@ -700,3 +817,4 @@ audio.play().catch(()=>{});
 
 </body>
 </html>
+```
