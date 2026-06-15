@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Angles Adventure - Grade 6</title>
+<title>Angles Adventure</title>
 
 <style>
 
@@ -22,7 +22,8 @@ position:relative;
 color:#222;
 }
 
-/* Animated stars */
+/* Animated Background */
+
 body::before{
 content:"";
 position:fixed;
@@ -38,11 +39,16 @@ z-index:-1;
 }
 
 @keyframes bgmove{
-from{transform:translate(0,0);}
-to{transform:translate(-300px,-300px);}
+from{
+transform:translate(0,0);
+}
+to{
+transform:translate(-300px,-300px);
+}
 }
 
-/* Splash Screen */
+/* LOGO SCREEN ONLY */
+
 #splash{
 position:fixed;
 inset:0;
@@ -67,12 +73,16 @@ visibility:hidden;
 }
 }
 
+/* CONTAINER */
+
 .container{
 width:95%;
 max-width:900px;
 margin:auto;
 padding:20px;
 }
+
+/* CARD */
 
 .card{
 background:rgba(255,255,255,0.95);
@@ -87,9 +97,13 @@ box-shadow:0 10px 30px rgba(0,0,0,0.12);
 text-align:center;
 }
 
+/* HEADINGS */
+
 h1,h2{
 margin-bottom:15px;
 }
+
+/* BUTTON */
 
 .btn{
 background:#4361ee;
@@ -108,9 +122,13 @@ background:#3a0ca3;
 transform:scale(1.03);
 }
 
+/* HIDDEN */
+
 .hidden{
 display:none;
 }
+
+/* TOPBAR */
 
 .topbar{
 display:flex;
@@ -120,12 +138,16 @@ flex-wrap:wrap;
 margin-bottom:20px;
 }
 
+/* BADGE */
+
 .badge{
 background:#edf2ff;
 padding:10px 15px;
 border-radius:12px;
 font-weight:bold;
 }
+
+/* PROGRESS */
 
 .progress{
 height:12px;
@@ -142,11 +164,15 @@ background:linear-gradient(90deg,#4cc9f0,#4361ee);
 transition:0.3s;
 }
 
+/* QUESTION */
+
 .question{
 font-size:20px;
 line-height:1.6;
 margin-bottom:20px;
 }
+
+/* OPTIONS */
 
 .options{
 display:grid;
@@ -167,6 +193,8 @@ background:#e0e7ff;
 transform:translateY(-2px);
 }
 
+/* ANSWERS */
+
 .correct{
 background:#d8f3dc !important;
 border-color:#2d6a4f !important;
@@ -177,6 +205,8 @@ background:#ffe5e5 !important;
 border-color:#d00000 !important;
 }
 
+/* FEEDBACK */
+
 .feedback{
 margin-top:18px;
 text-align:center;
@@ -184,6 +214,8 @@ font-size:18px;
 font-weight:bold;
 min-height:30px;
 }
+
+/* EXPLANATION */
 
 .explanation{
 margin-top:15px;
@@ -193,6 +225,8 @@ border-left:5px solid #4361ee;
 border-radius:10px;
 }
 
+/* CROSS */
+
 .cross{
 font-size:55px;
 color:red;
@@ -200,10 +234,18 @@ animation:shake 0.5s;
 }
 
 @keyframes shake{
-0%,100%{transform:translateX(0);}
-25%{transform:translateX(-5px);}
-75%{transform:translateX(5px);}
+0%,100%{
+transform:translateX(0);
 }
+25%{
+transform:translateX(-5px);
+}
+75%{
+transform:translateX(5px);
+}
+}
+
+/* TABLE */
 
 table{
 width:100%;
@@ -219,6 +261,8 @@ th,td{
 padding:10px;
 text-align:center;
 }
+
+/* CONFETTI */
 
 .confetti{
 position:fixed;
@@ -252,12 +296,7 @@ opacity:0;
 }
 }
 
-.footer{
-text-align:center;
-margin:30px 0 10px;
-font-size:14px;
-opacity:0.7;
-}
+/* MOBILE */
 
 @media(max-width:600px){
 
@@ -276,47 +315,58 @@ font-size:15px;
 
 <body>
 
-<!-- Splash Screen -->
+<!-- LOGO SCREEN -->
+
 <div id="splash">
 <img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
 <div class="container">
 
-<!-- Intro -->
+<!-- INTRO -->
+
 <div class="card center" id="introScreen">
 
 <h1>Angles Adventure</h1>
-<h2>Grade 6 Mathematics</h2>
 
 <p style="margin-top:15px; line-height:1.7;">
-📐 Explore acute, right, obtuse and straight angles through exciting challenges!<br><br>
+
+📐 Explore acute, right, obtuse and straight angles through exciting challenges!
+
+<br><br>
 
 ✅ 15 MCQs<br>
 ✅ 45 Seconds Timer<br>
 ✅ Retry Chance<br>
 ✅ Final Challenge Round
+
 </p>
 
-<button class="btn" onclick="startQuiz()">Start Challenge</button>
+<button class="btn" onclick="startQuiz()">
+Start Challenge
+</button>
 
 </div>
 
-<!-- Quiz Screen -->
+<!-- QUIZ -->
+
 <div class="card hidden" id="quizScreen">
 
 <div class="topbar">
 
 <div class="badge">
-Score: <span id="score">0</span>
+⭐ Score:
+<span id="score">0</span>
 </div>
 
 <div class="badge">
-Question: <span id="qno">1</span>/15
+📘 Question:
+<span id="qno">1</span>/15
 </div>
 
 <div class="badge">
-Time Left: <span id="timer">45</span>s
+⏳ Time:
+<span id="timer">45</span>s
 </div>
 
 </div>
@@ -335,10 +385,11 @@ Time Left: <span id="timer">45</span>s
 
 </div>
 
-<!-- Final Challenge -->
+<!-- FINAL CHALLENGE -->
+
 <div class="card hidden center" id="finalChallenge">
 
-<h2>🏆 Final Angles Challenge</h2>
+<h2>🏆 Final Challenge</h2>
 
 <p style="margin:20px 0;">
 Which angle is exactly 90°?
@@ -346,19 +397,28 @@ Which angle is exactly 90°?
 
 <div class="options">
 
-<div class="option" onclick="finalAnswer(this,false)">Acute angle</div>
+<div class="option" onclick="finalAnswer(this,false)">
+Acute angle
+</div>
 
-<div class="option" onclick="finalAnswer(this,true)">Right angle</div>
+<div class="option" onclick="finalAnswer(this,true)">
+Right angle
+</div>
 
-<div class="option" onclick="finalAnswer(this,false)">Obtuse angle</div>
+<div class="option" onclick="finalAnswer(this,false)">
+Obtuse angle
+</div>
 
-<div class="option" onclick="finalAnswer(this,false)">Straight angle</div>
-
+<div class="option" onclick="finalAnswer(this,false)">
+Straight angle
 </div>
 
 </div>
 
-<!-- Result -->
+</div>
+
+<!-- RESULT -->
+
 <div class="card hidden center" id="resultScreen">
 
 <h2>🎉 Quiz Completed!</h2>
@@ -369,22 +429,23 @@ Which angle is exactly 90°?
 
 <p id="resultMessage"></p>
 
-<button class="btn" onclick="location.reload()">Play Again</button>
+<button class="btn" onclick="location.reload()">
+Play Again
+</button>
 
-</div>
-
-<div class="footer">
-Powered by Innovine
 </div>
 
 </div>
 
 <!-- AUDIO -->
+
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
 <script>
+
+/* QUESTIONS */
 
 const questions = [
 
@@ -406,7 +467,7 @@ explanation:"Angles smaller than 90° are acute angles."
 question:`A student folds a paper exactly in half along a straight line. The angle formed is 180°. Which angle is it?`,
 options:["Acute angle","Right angle","Straight angle","Reflex angle"],
 answer:2,
-explanation:"An angle measuring 180° is a straight angle."
+explanation:"180° is a straight angle."
 },
 
 {
@@ -430,14 +491,14 @@ options:[
 "Wide-open gate"
 ],
 answer:3,
-explanation:"120° is greater than 90° and less than 180°, so it is obtuse."
+explanation:"120° is obtuse."
 },
 
 {
-question:`A ladder leaning against a wall makes an angle greater than 90° but less than 180° with the ground on one side. Which angle is it?`,
+question:`A ladder leaning against a wall makes an angle greater than 90° but less than 180° with the ground. Which angle is it?`,
 options:["Acute angle","Right angle","Obtuse angle","Complete angle"],
 answer:2,
-explanation:"Angles between 90° and 180° are obtuse angles."
+explanation:"Angles between 90° and 180° are obtuse."
 },
 
 {
@@ -453,10 +514,10 @@ explanation:"90° is a right angle."
 },
 
 {
-question:`A pencil and a ruler are placed so that they meet at one end and make an opening less than 90°. What angle is formed?`,
+question:`A pencil and ruler make an opening less than 90°. What angle is formed?`,
 options:["Acute angle","Right angle","Obtuse angle","Straight angle"],
 answer:0,
-explanation:"An angle less than 90° is acute."
+explanation:"Less than 90° means acute."
 },
 
 {
@@ -475,28 +536,28 @@ Which angle is acute?
 `,
 options:["P","Q","R","S"],
 answer:0,
-explanation:"30° is less than 90°, so it is acute."
+explanation:"30° is acute."
 },
 
 {
 question:`A child turns halfway around while playing. What angle does the turn represent?`,
 options:["90°","180°","270°","360°"],
 answer:1,
-explanation:"A half turn equals 180°."
+explanation:"Half turn = 180°."
 },
 
 {
 question:`A fan blade completes one full turn. Which angle is formed?`,
 options:["Right angle","Straight angle","Complete angle","Acute angle"],
 answer:2,
-explanation:"One full turn is 360°, called a complete angle."
+explanation:"360° is a complete angle."
 },
 
 {
-question:`A gate opens from a closed position to 100°. Which type of angle is formed?`,
+question:`A gate opens to 100°. Which type of angle is formed?`,
 options:["Acute angle","Right angle","Obtuse angle","Straight angle"],
 answer:2,
-explanation:"100° is greater than 90° and less than 180°."
+explanation:"100° is obtuse."
 },
 
 {
@@ -520,19 +581,19 @@ options:[
 "Small turn"
 ],
 answer:0,
-explanation:"A quarter turn equals 90°, a right angle."
+explanation:"Quarter turn = 90°."
 },
 
 {
-question:`Riya draws two rays starting from the same point. One ray points east and the other points north. What type of angle is formed?`,
+question:`Riya draws two rays from one point. One points east and the other north. What angle is formed?`,
 options:["Acute angle","Right angle","Straight angle","Complete angle"],
 answer:1,
-explanation:"East and north directions form a 90° right angle."
+explanation:"East and north form 90°."
 },
 
 {
-question:`Assertion: An angle of 40° is an acute angle.<br><br>
-Reason: An acute angle is greater than 0° and less than 90°.`,
+question:`Assertion: An angle of 40° is acute.<br><br>
+Reason: Acute angles are greater than 0° and less than 90°.`,
 options:[
 "Both are true and reason explains the assertion",
 "Both are true but reason does not explain the assertion",
@@ -553,10 +614,12 @@ options:[
 "Both are false"
 ],
 answer:2,
-explanation:"150° is obtuse, not a right angle."
+explanation:"150° is obtuse."
 }
 
 ];
+
+/* VARIABLES */
 
 let currentQuestion = 0;
 let score = 0;
@@ -568,14 +631,19 @@ const correctSound = document.getElementById("correctSound");
 const wrongSound = document.getElementById("wrongSound");
 const clapSound = document.getElementById("clapSound");
 
+/* START QUIZ */
+
 function startQuiz(){
 
 document.getElementById("introScreen").classList.add("hidden");
+
 document.getElementById("quizScreen").classList.remove("hidden");
 
 loadQuestion();
 
 }
+
+/* TIMER */
 
 function startTimer(){
 
@@ -602,6 +670,8 @@ nextQuestion();
 },1000);
 
 }
+
+/* LOAD QUESTION */
 
 function loadQuestion(){
 
@@ -633,6 +703,7 @@ optionsBox.appendChild(btn);
 });
 
 document.getElementById("feedback").innerHTML = "";
+
 document.getElementById("explanationBox").innerHTML = "";
 
 updateProgress();
@@ -640,6 +711,8 @@ updateProgress();
 startTimer();
 
 }
+
+/* CHECK ANSWER */
 
 function checkAnswer(element,index){
 
@@ -665,9 +738,7 @@ score++;
 document.getElementById("score").innerText = score;
 
 setTimeout(()=>{
-
 nextQuestion();
-
 },1500);
 
 }else{
@@ -702,9 +773,7 @@ document.getElementById("explanationBox").innerHTML =
 `;
 
 setTimeout(()=>{
-
 nextQuestion();
-
 },3500);
 
 }
@@ -712,6 +781,8 @@ nextQuestion();
 }
 
 }
+
+/* NEXT QUESTION */
 
 function nextQuestion(){
 
@@ -731,13 +802,19 @@ showFinalChallenge();
 
 }
 
+/* PROGRESS */
+
 function updateProgress(){
 
-const percent = (currentQuestion/questions.length)*100;
+const percent =
+(currentQuestion/questions.length)*100;
 
-document.getElementById("progressBar").style.width = percent + "%";
+document.getElementById("progressBar").style.width =
+percent + "%";
 
 }
+
+/* CONFETTI */
 
 function createConfetti(){
 
@@ -747,7 +824,8 @@ const confetti = document.createElement("div");
 
 confetti.classList.add("confetti");
 
-confetti.style.left = Math.random()*100 + "vw";
+confetti.style.left =
+Math.random()*100 + "vw";
 
 confetti.style.background =
 `hsl(${Math.random()*360},100%,50%)`;
@@ -758,14 +836,14 @@ confetti.style.animationDuration =
 document.body.appendChild(confetti);
 
 setTimeout(()=>{
-
 confetti.remove();
-
 },3000);
 
 }
 
 }
+
+/* FINAL CHALLENGE */
 
 function showFinalChallenge(){
 
@@ -774,6 +852,8 @@ document.getElementById("quizScreen").classList.add("hidden");
 document.getElementById("finalChallenge").classList.remove("hidden");
 
 }
+
+/* FINAL ANSWER */
 
 function finalAnswer(element,isCorrect){
 
@@ -801,12 +881,12 @@ element.classList.add("wrong");
 }
 
 setTimeout(()=>{
-
 showResults();
-
 },2000);
 
 }
+
+/* RESULTS */
 
 function showResults(){
 
@@ -840,3 +920,4 @@ document.getElementById("resultMessage").innerHTML = message;
 
 </body>
 </html>
+```
