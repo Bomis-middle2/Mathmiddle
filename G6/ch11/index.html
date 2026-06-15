@@ -1,9 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Data Handling MCQ Challenge</title>
+
+<title>Interactive MCQ Challenge</title>
 
 <style>
 
@@ -67,18 +69,12 @@ background:white;
 display:flex;
 justify-content:center;
 align-items:center;
-flex-direction:column;
 z-index:9999;
 }
 
 #splash img{
 width:180px;
 animation:pulse 2s infinite;
-}
-
-#splash h2{
-margin-top:20px;
-color:#555;
 }
 
 @keyframes pulse{
@@ -104,21 +100,38 @@ box-shadow:0 10px 30px rgba(0,0,0,0.15);
 display:none;
 }
 
-h1{
+/* Intro */
+
+.intro{
 text-align:center;
+}
+
+.intro h1{
 color:#5b21b6;
+margin-bottom:20px;
+font-size:2rem;
+}
+
+.instructions{
+background:#f5f3ff;
+padding:25px;
+border-radius:18px;
+text-align:left;
+line-height:1.8;
+max-width:650px;
+margin:20px auto;
+color:#444;
+}
+
+.instructions ol{
+padding-left:22px;
+}
+
+.instructions li{
 margin-bottom:10px;
 }
 
-.subtitle{
-text-align:center;
-margin-bottom:25px;
-color:#555;
-}
-
-.center{
-text-align:center;
-}
+/* Top Bar */
 
 .topbar{
 display:flex;
@@ -134,6 +147,8 @@ padding:12px 18px;
 border-radius:12px;
 font-weight:bold;
 }
+
+/* Question */
 
 .question{
 font-size:1.15rem;
@@ -187,6 +202,8 @@ border-radius:12px;
 color:#444;
 }
 
+/* Button */
+
 button{
 margin-top:20px;
 padding:14px 24px;
@@ -204,6 +221,8 @@ background:#5b21b6;
 transform:scale(1.03);
 }
 
+/* Table */
+
 table{
 width:100%;
 border-collapse:collapse;
@@ -220,7 +239,33 @@ th{
 background:#ececff;
 }
 
-/* Confetti */
+/* Result */
+
+.result{
+text-align:center;
+}
+
+.result h1{
+color:#6d28d9;
+margin-bottom:20px;
+}
+
+.score-circle{
+width:170px;
+height:170px;
+margin:25px auto;
+border-radius:50%;
+background:linear-gradient(135deg,#7c3aed,#60a5fa);
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:2.5rem;
+font-weight:bold;
+color:white;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Stars */
 
 .star{
 position:fixed;
@@ -237,7 +282,7 @@ opacity:0;
 }
 }
 
-/* Wrong Cross */
+/* Cross */
 
 .cross{
 position:fixed;
@@ -254,11 +299,9 @@ opacity:0;
 }
 }
 
-@media(max-width:600px){
+/* Responsive */
 
-h1{
-font-size:1.6rem;
-}
+@media(max-width:600px){
 
 .question{
 font-size:1rem;
@@ -268,6 +311,14 @@ font-size:1rem;
 font-size:0.95rem;
 }
 
+.intro h1{
+font-size:1.6rem;
+}
+
+button{
+width:100%;
+}
+
 }
 
 </style>
@@ -275,38 +326,42 @@ font-size:0.95rem;
 
 <body>
 
-<!-- SPLASH SCREEN -->
+<!-- Splash -->
 
 <div id="splash">
 
 <img src="assets/innovine-logo.png" alt="Innovine Logo">
 
-<h2>Innovine Learning Experience</h2>
-
 </div>
 
-<!-- MAIN APP -->
+<!-- Main App -->
 
 <div class="container hidden" id="app">
 
-<!-- INTRO -->
+<!-- Intro -->
 
-<div id="introScreen">
+<div id="introScreen" class="intro">
 
-<h1>Data Handling</h1>
+<h1>Data Handling Challenge</h1>
 
-<p class="subtitle">
-Grade 6 Interactive MCQ Challenge
-</p>
+<div class="instructions">
 
-<div class="center">
+<ol>
+<li>Read every question carefully before answering.</li>
 
-<p style="margin-bottom:20px;">
-✅ 15 Competency-Based Questions<br>
-✅ Timer Challenge<br>
-✅ One Retry Feature<br>
-✅ Final Bonus Round
-</p>
+<li>You get only one retry for each question.</li>
+
+<li>Each question has a 45-second timer.</li>
+
+<li>Correct answer appears after wrong attempts.</li>
+
+<li>Complete all questions to unlock the final challenge.</li>
+
+<li>Try to score maximum marks and become the champion.</li>
+
+</ol>
+
+</div>
 
 <button onclick="startQuiz()">
 Start Challenge
@@ -314,20 +369,20 @@ Start Challenge
 
 </div>
 
-</div>
-
-<!-- QUIZ -->
+<!-- Quiz Screen -->
 
 <div id="quizScreen" class="hidden">
 
 <div class="topbar">
 
 <div class="box">
-⭐ Score: <span id="score">0</span>
+⭐ Score:
+<span id="score">0</span>
 </div>
 
 <div class="box">
-⏳ Time: <span id="timer">45</span>s
+⏳ Time:
+<span id="timer">45</span>s
 </div>
 
 </div>
@@ -345,66 +400,22 @@ Start Challenge
 <div class="explanation hidden" id="explanation"></div>
 
 <button id="nextBtn" class="hidden" onclick="nextQuestion()">
-Next
+Next Question
 </button>
 
 </div>
 
-<!-- FINAL CHALLENGE -->
+<!-- Result Screen -->
 
-<div id="challengeScreen" class="hidden">
+<div id="resultScreen" class="hidden result">
 
-<h1>Final Challenge 🚀</h1>
+<h1>🎉 Quiz Completed 🎉</h1>
 
-<div class="question">
-A class survey shows:
-<br><br>
-Mango = 12 students<br>
-Apple = 8 students<br>
-Banana = 10 students
-<br><br>
-Which fruit was liked by the most students?
+<div class="score-circle">
+<span id="finalScore"></span>
 </div>
 
-<div class="options">
-
-<div class="option" onclick="finalChallenge(this,true)">
-Mango
-</div>
-
-<div class="option" onclick="finalChallenge(this,false)">
-Apple
-</div>
-
-<div class="option" onclick="finalChallenge(this,false)">
-Banana
-</div>
-
-<div class="option" onclick="finalChallenge(this,false)">
-All equal
-</div>
-
-</div>
-
-<div class="feedback" id="challengeFeedback"></div>
-
-<button id="finishBtn" class="hidden" onclick="showResults()">
-Finish Quiz
-</button>
-
-</div>
-
-<!-- RESULT -->
-
-<div id="resultScreen" class="hidden center">
-
-<h1>Quiz Completed 🎉</h1>
-
-<h2 style="margin:20px 0;color:#6d28d9;">
-Your Score: <span id="finalScore"></span>/16
-</h2>
-
-<p id="resultMessage"></p>
+<p id="resultMessage" style="font-size:1.1rem;"></p>
 
 <button onclick="location.reload()">
 Play Again
@@ -418,18 +429,20 @@ Play Again
 
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
-<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
 <script>
 
-/* SPLASH SCREEN */
+/* Splash */
 
 setTimeout(()=>{
+
 document.getElementById("splash").style.display="none";
+
 document.getElementById("app").classList.remove("hidden");
+
 },5000);
 
-/* QUESTIONS */
+/* Sample Questions */
 
 const questions=[
 
@@ -450,196 +463,19 @@ table:`
 `,
 options:["Aarav","Meera","Kabir","Riya"],
 answer:"Meera",
-explanation:"Meera read the highest number of books, which is 9."
+explanation:"Meera read the highest number of books."
 },
 
 {
-question:"A fruit seller noted the fruits sold in one day.",
-table:`
-<table>
-<tr><th>Fruit</th><th>Number Sold</th></tr>
-<tr><td>Apples</td><td>25</td></tr>
-<tr><td>Bananas</td><td>40</td></tr>
-<tr><td>Grapes</td><td>15</td></tr>
-</table>
-`,
-options:["Apples","Grapes","Bananas","All equally"],
-answer:"Bananas",
-explanation:"Bananas were sold the most because 40 is the highest."
-},
-
-{
-question:"The marks scored by four students are 12, 18, 15 and 10. What is the range of the marks?",
+question:"The marks scored by students are 12, 18, 15 and 10. What is the range?",
 options:["6","7","8","9"],
 answer:"8",
-explanation:"Range = highest value − lowest value = 18 − 10 = 8."
-},
-
-{
-question:"A survey in a class showed the favourite sports of students.",
-table:`
-<table>
-<tr><th>Sport</th><th>Students</th></tr>
-<tr><td>Cricket</td><td>14</td></tr>
-<tr><td>Football</td><td>10</td></tr>
-<tr><td>Badminton</td><td>6</td></tr>
-</table>
-`,
-options:["6","7","8","9"],
-answer:"8",
-explanation:"14 − 6 = 8 more students liked Cricket."
-},
-
-{
-question:"A pictograph uses ⭐ = 5 students. If 4 stars are shown for singing club members, how many students are there in the club?",
-options:["10","15","20","25"],
-answer:"20",
-explanation:"4 stars × 5 students = 20 students."
-},
-
-{
-question:"A shopkeeper recorded notebook sales for four days.",
-table:`
-<table>
-<tr><th>Day</th><th>Notebooks Sold</th></tr>
-<tr><td>Monday</td><td>18</td></tr>
-<tr><td>Tuesday</td><td>22</td></tr>
-<tr><td>Wednesday</td><td>18</td></tr>
-<tr><td>Thursday</td><td>25</td></tr>
-</table>
-`,
-options:[
-"Monday and Tuesday",
-"Tuesday and Thursday",
-"Monday and Wednesday",
-"Wednesday and Thursday"
-],
-answer:"Monday and Wednesday",
-explanation:"Both Monday and Wednesday have equal sales of 18."
-},
-
-{
-question:"The temperatures recorded in a city during a week were: 30°C, 32°C, 30°C, 31°C, 29°C. Which temperature occurred most often?",
-options:["29°C","30°C","31°C","32°C"],
-answer:"30°C",
-explanation:"30°C appears two times, more than the others."
-},
-
-{
-question:"A class collected data on favourite ice cream flavours.",
-table:`
-<table>
-<tr><th>Flavour</th><th>Students</th></tr>
-<tr><td>Chocolate</td><td>12</td></tr>
-<tr><td>Vanilla</td><td>9</td></tr>
-<tr><td>Strawberry</td><td>7</td></tr>
-</table>
-`,
-options:["26","27","28","29"],
-answer:"28",
-explanation:"Total students = 12 + 9 + 7 = 28."
-},
-
-{
-question:"A pictograph shows 🚲 = 2 bicycles. If 7 bicycle symbols are shown, how many bicycles are represented?",
-options:["7","9","12","14"],
-answer:"14",
-explanation:"7 symbols × 2 bicycles = 14 bicycles."
-},
-
-{
-question:"A library recorded the number of books issued.",
-table:`
-<table>
-<tr><th>Day</th><th>Books Issued</th></tr>
-<tr><td>Monday</td><td>35</td></tr>
-<tr><td>Tuesday</td><td>28</td></tr>
-<tr><td>Wednesday</td><td>42</td></tr>
-</table>
-`,
-options:["Monday","Tuesday","Wednesday","All equal"],
-answer:"Wednesday",
-explanation:"42 is the highest number."
-},
-
-{
-question:"Assertion: A bar graph helps compare different quantities easily.<br><br>Reason: The heights of bars represent different values.",
-options:[
-"Both are true and Reason explains Assertion",
-"Both are true but Reason does not explain Assertion",
-"Assertion is true but Reason is false",
-"Assertion is false but Reason is true"
-],
-answer:"Both are true and Reason explains Assertion",
-explanation:"Bar heights make comparison easy."
-},
-
-{
-question:"Assertion: Data handling helps organise information clearly.<br><br>Reason: Tables and graphs make information easier to understand.",
-options:[
-"Both are true and Reason explains Assertion",
-"Both are true but Reason does not explain Assertion",
-"Assertion is true but Reason is false",
-"Assertion is false but Reason is true"
-],
-answer:"Both are true and Reason explains Assertion",
-explanation:"Tables and graphs organise data clearly."
-},
-
-{
-question:"The number of students absent in a week is shown below.",
-table:`
-<table>
-<tr><th>Day</th><th>Students Absent</th></tr>
-<tr><td>Monday</td><td>3</td></tr>
-<tr><td>Tuesday</td><td>5</td></tr>
-<tr><td>Wednesday</td><td>2</td></tr>
-<tr><td>Thursday</td><td>6</td></tr>
-</table>
-`,
-options:["Monday","Tuesday","Wednesday","Thursday"],
-answer:"Thursday",
-explanation:"Thursday has the highest number of absentees, which is 6."
-},
-
-{
-question:"A student recorded the number of pets owned by classmates.",
-table:`
-<table>
-<tr><th>Pet</th><th>Students</th></tr>
-<tr><td>Dog</td><td>9</td></tr>
-<tr><td>Cat</td><td>6</td></tr>
-<tr><td>Fish</td><td>4</td></tr>
-</table>
-`,
-options:["3","4","5","6"],
-answer:"5",
-explanation:"Difference = 9 − 4 = 5."
-},
-
-{
-question:"A school canteen sold drinks in one afternoon.",
-table:`
-<table>
-<tr><th>Drink</th><th>Cups Sold</th></tr>
-<tr><td>Lemon Juice</td><td>18</td></tr>
-<tr><td>Milkshake</td><td>24</td></tr>
-<tr><td>Coconut Water</td><td>12</td></tr>
-</table>
-`,
-options:[
-"Lemon Juice was sold the most",
-"Coconut Water and Lemon Juice were sold equally",
-"Milkshake was sold the most",
-"All drinks were sold equally"
-],
-answer:"Milkshake was sold the most",
-explanation:"Milkshake has the highest sales with 24 cups."
+explanation:"Range = Highest − Lowest = 18 − 10 = 8."
 }
 
 ];
 
-/* VARIABLES */
+/* Variables */
 
 let currentQuestion=0;
 let score=0;
@@ -647,7 +483,7 @@ let timeLeft=45;
 let timer;
 let retryUsed=false;
 
-/* START QUIZ */
+/* Start Quiz */
 
 function startQuiz(){
 
@@ -659,7 +495,7 @@ loadQuestion();
 
 }
 
-/* LOAD QUESTION */
+/* Load Question */
 
 function loadQuestion(){
 
@@ -720,7 +556,7 @@ showCorrectAnswer();
 
 }
 
-/* CHECK ANSWER */
+/* Check Answer */
 
 function checkAnswer(element,selected){
 
@@ -734,11 +570,12 @@ score++;
 
 document.getElementById("score").innerText=score;
 
-document.getElementById("feedback").innerHTML="✅ Correct!";
+document.getElementById("feedback").innerHTML=
+"✅ Correct Answer!";
 
 playSound("correctSound");
 
-confetti();
+createStars();
 
 clearInterval(timer);
 
@@ -775,7 +612,7 @@ showCorrectAnswer();
 
 }
 
-/* SHOW ANSWER */
+/* Show Correct Answer */
 
 function showCorrectAnswer(){
 
@@ -806,7 +643,7 @@ document.getElementById("nextBtn").classList.remove("hidden");
 
 }
 
-/* DISABLE OPTIONS */
+/* Disable */
 
 function disableOptions(){
 
@@ -818,7 +655,7 @@ opt.style.pointerEvents="none";
 
 }
 
-/* NEXT QUESTION */
+/* Next */
 
 function nextQuestion(){
 
@@ -830,93 +667,50 @@ loadQuestion();
 
 }else{
 
-document.getElementById("quizScreen").classList.add("hidden");
-
-document.getElementById("challengeScreen").classList.remove("hidden");
+showResults();
 
 }
 
 }
 
-/* FINAL CHALLENGE */
-
-function finalChallenge(element,correct){
-
-document.querySelectorAll("#challengeScreen .option").forEach(opt=>{
-
-opt.style.pointerEvents="none";
-
-});
-
-if(correct){
-
-element.classList.add("correct");
-
-score++;
-
-document.getElementById("challengeFeedback").innerHTML=
-"🎉 Excellent!";
-
-playSound("correctSound");
-
-playSound("clapSound");
-
-confetti();
-
-}else{
-
-element.classList.add("wrong");
-
-document.getElementById("challengeFeedback").innerHTML=
-"❌ Correct answer is Mango.";
-
-playSound("wrongSound");
-
-showCross();
-
-}
-
-document.getElementById("finishBtn").classList.remove("hidden");
-
-}
-
-/* SHOW RESULT */
+/* Result */
 
 function showResults(){
 
-document.getElementById("challengeScreen").classList.add("hidden");
+document.getElementById("quizScreen").classList.add("hidden");
 
 document.getElementById("resultScreen").classList.remove("hidden");
 
-document.getElementById("finalScore").innerText=score;
+document.getElementById("finalScore").innerHTML=
+`${score}/${questions.length}`;
 
-let message="";
+let msg="";
 
-if(score>=14){
+if(score===questions.length){
 
-message="🌟 Outstanding Work!";
+msg="🌟 Perfect Score! Excellent work!";
 
-}else if(score>=10){
+}else if(score>=1){
 
-message="👏 Great Job!";
+msg="👏 Great Job! Keep learning and improving.";
 
 }else{
 
-message="👍 Keep Practicing!";
+msg="👍 Nice Try! Practice more to improve your score.";
 
 }
 
-document.getElementById("resultMessage").innerHTML=message;
+document.getElementById("resultMessage").innerHTML=msg;
+
+createStars();
 
 }
 
-/* AUDIO */
+/* Audio */
 
 function playSound(id){
 
 const sound=document.getElementById(id);
-
-if(sound){
 
 sound.currentTime=0;
 
@@ -924,11 +718,9 @@ sound.play().catch(()=>{});
 
 }
 
-}
+/* Stars */
 
-/* CONFETTI */
-
-function confetti(){
+function createStars(){
 
 for(let i=0;i<20;i++){
 
@@ -954,7 +746,7 @@ star.remove();
 
 }
 
-/* CROSS */
+/* Cross */
 
 function showCross(){
 
@@ -982,3 +774,4 @@ cross.remove();
 
 </body>
 </html>
+```
