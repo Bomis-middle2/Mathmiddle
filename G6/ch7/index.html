@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Understanding Elementary Shapes - Grade 6</title>
+<title>Understanding Elementary Shapes</title>
 
 <style>
 
@@ -23,6 +23,7 @@ color:#222;
 }
 
 /* Animated Background */
+
 body::before{
 content:"";
 position:fixed;
@@ -38,11 +39,16 @@ z-index:-1;
 }
 
 @keyframes bgmove{
-from{transform:translate(0,0);}
-to{transform:translate(-300px,-300px);}
+from{
+transform:translate(0,0);
+}
+to{
+transform:translate(-300px,-300px);
+}
 }
 
-/* Splash Screen */
+/* SPLASH SCREEN ONLY */
+
 #splash{
 position:fixed;
 inset:0;
@@ -67,12 +73,16 @@ visibility:hidden;
 }
 }
 
+/* CONTAINER */
+
 .container{
 width:95%;
 max-width:900px;
 margin:auto;
 padding:20px;
 }
+
+/* CARD */
 
 .card{
 background:rgba(255,255,255,0.95);
@@ -87,9 +97,13 @@ box-shadow:0 10px 30px rgba(0,0,0,0.12);
 text-align:center;
 }
 
+/* HEADINGS */
+
 h1,h2{
 margin-bottom:15px;
 }
+
+/* BUTTON */
 
 .btn{
 background:#4361ee;
@@ -108,9 +122,13 @@ background:#3a0ca3;
 transform:scale(1.03);
 }
 
+/* HIDDEN */
+
 .hidden{
 display:none;
 }
+
+/* TOP BAR */
 
 .topbar{
 display:flex;
@@ -120,12 +138,16 @@ flex-wrap:wrap;
 margin-bottom:20px;
 }
 
+/* BADGES */
+
 .badge{
 background:#edf2ff;
 padding:10px 15px;
 border-radius:12px;
 font-weight:bold;
 }
+
+/* PROGRESS */
 
 .progress{
 height:12px;
@@ -142,11 +164,15 @@ background:linear-gradient(90deg,#4cc9f0,#4361ee);
 transition:0.3s;
 }
 
+/* QUESTION */
+
 .question{
 font-size:20px;
 line-height:1.6;
 margin-bottom:20px;
 }
+
+/* OPTIONS */
 
 .options{
 display:grid;
@@ -167,6 +193,8 @@ background:#e0e7ff;
 transform:translateY(-2px);
 }
 
+/* ANSWERS */
+
 .correct{
 background:#d8f3dc !important;
 border-color:#2d6a4f !important;
@@ -177,6 +205,8 @@ background:#ffe5e5 !important;
 border-color:#d00000 !important;
 }
 
+/* FEEDBACK */
+
 .feedback{
 margin-top:18px;
 text-align:center;
@@ -184,6 +214,8 @@ font-size:18px;
 font-weight:bold;
 min-height:30px;
 }
+
+/* EXPLANATION */
 
 .explanation{
 margin-top:15px;
@@ -193,6 +225,8 @@ border-left:5px solid #4361ee;
 border-radius:10px;
 }
 
+/* CROSS */
+
 .cross{
 font-size:55px;
 color:red;
@@ -200,10 +234,18 @@ animation:shake 0.5s;
 }
 
 @keyframes shake{
-0%,100%{transform:translateX(0);}
-25%{transform:translateX(-5px);}
-75%{transform:translateX(5px);}
+0%,100%{
+transform:translateX(0);
 }
+25%{
+transform:translateX(-5px);
+}
+75%{
+transform:translateX(5px);
+}
+}
+
+/* TABLE */
 
 table{
 width:100%;
@@ -219,6 +261,8 @@ th,td{
 padding:10px;
 text-align:center;
 }
+
+/* CONFETTI */
 
 .confetti{
 position:fixed;
@@ -252,12 +296,7 @@ opacity:0;
 }
 }
 
-.footer{
-text-align:center;
-margin:30px 0 10px;
-font-size:14px;
-opacity:0.7;
-}
+/* MOBILE */
 
 @media(max-width:600px){
 
@@ -276,47 +315,58 @@ font-size:15px;
 
 <body>
 
-<!-- Splash -->
+<!-- SPLASH SCREEN -->
+
 <div id="splash">
 <img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
 <div class="container">
 
-<!-- Intro -->
+<!-- INTRO -->
+
 <div class="card center" id="introScreen">
 
 <h1>Understanding Elementary Shapes</h1>
-<h2>Grade 6 Mathematics</h2>
 
 <p style="margin-top:15px; line-height:1.7;">
-🔷 Explore triangles, quadrilaterals, polygons and shapes through exciting challenges!<br><br>
+
+🔷 Explore triangles, quadrilaterals, polygons and shapes through exciting challenges!
+
+<br><br>
 
 ✅ 15 MCQs<br>
 ✅ 45 Seconds Timer<br>
 ✅ Retry Chance<br>
 ✅ Final Challenge Round
+
 </p>
 
-<button class="btn" onclick="startQuiz()">Start Challenge</button>
+<button class="btn" onclick="startQuiz()">
+Start Challenge
+</button>
 
 </div>
 
-<!-- Quiz -->
+<!-- QUIZ -->
+
 <div class="card hidden" id="quizScreen">
 
 <div class="topbar">
 
 <div class="badge">
-Score: <span id="score">0</span>
+⭐ Score:
+<span id="score">0</span>
 </div>
 
 <div class="badge">
-Question: <span id="qno">1</span>/15
+📘 Question:
+<span id="qno">1</span>/15
 </div>
 
 <div class="badge">
-Time Left: <span id="timer">45</span>s
+⏳ Time:
+<span id="timer">45</span>s
 </div>
 
 </div>
@@ -335,7 +385,8 @@ Time Left: <span id="timer">45</span>s
 
 </div>
 
-<!-- Final Challenge -->
+<!-- FINAL CHALLENGE -->
+
 <div class="card hidden center" id="finalChallenge">
 
 <h2>🏆 Final Shapes Challenge</h2>
@@ -346,19 +397,28 @@ Which shape has 8 sides?
 
 <div class="options">
 
-<div class="option" onclick="finalAnswer(this,false)">Hexagon</div>
+<div class="option" onclick="finalAnswer(this,false)">
+Hexagon
+</div>
 
-<div class="option" onclick="finalAnswer(this,true)">Octagon</div>
+<div class="option" onclick="finalAnswer(this,true)">
+Octagon
+</div>
 
-<div class="option" onclick="finalAnswer(this,false)">Pentagon</div>
+<div class="option" onclick="finalAnswer(this,false)">
+Pentagon
+</div>
 
-<div class="option" onclick="finalAnswer(this,false)">Triangle</div>
-
+<div class="option" onclick="finalAnswer(this,false)">
+Triangle
 </div>
 
 </div>
 
-<!-- Result -->
+</div>
+
+<!-- RESULT -->
+
 <div class="card hidden center" id="resultScreen">
 
 <h2>🎉 Quiz Completed!</h2>
@@ -369,17 +429,16 @@ Which shape has 8 sides?
 
 <p id="resultMessage"></p>
 
-<button class="btn" onclick="location.reload()">Play Again</button>
+<button class="btn" onclick="location.reload()">
+Play Again
+</button>
 
-</div>
-
-<div class="footer">
-Powered by Innovine
 </div>
 
 </div>
 
 <!-- AUDIO -->
+
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
@@ -485,14 +544,14 @@ options:[
 "Wheel"
 ],
 answer:1,
-explanation:"Honeycomb cells are shaped like hexagons."
+explanation:"Honeycomb cells are hexagons."
 },
 
 {
-question:`A tile pattern has a shape with five sides and five vertices. Which shape is used in the pattern?`,
+question:`A tile pattern has a shape with five sides and five vertices. Which shape is used?`,
 options:["Pentagon","Hexagon","Triangle","Octagon"],
 answer:0,
-explanation:"A pentagon has 5 sides and 5 vertices."
+explanation:"A pentagon has 5 sides."
 },
 
 {
@@ -504,7 +563,7 @@ options:[
 "Right triangle"
 ],
 answer:2,
-explanation:"A scalene triangle has all sides and angles different."
+explanation:"A scalene triangle has all sides different."
 },
 
 {
@@ -555,7 +614,7 @@ options:[
 "Assertion is false but reason is true"
 ],
 answer:0,
-explanation:"A square satisfies all properties of a rectangle."
+explanation:"A square satisfies all rectangle properties."
 },
 
 {
@@ -568,10 +627,12 @@ options:[
 "Both are false"
 ],
 answer:2,
-explanation:"A triangle always has 3 sides."
+explanation:"Triangles always have 3 sides."
 }
 
 ];
+
+/* VARIABLES */
 
 let currentQuestion = 0;
 let score = 0;
@@ -583,14 +644,19 @@ const correctSound = document.getElementById("correctSound");
 const wrongSound = document.getElementById("wrongSound");
 const clapSound = document.getElementById("clapSound");
 
+/* START QUIZ */
+
 function startQuiz(){
 
 document.getElementById("introScreen").classList.add("hidden");
+
 document.getElementById("quizScreen").classList.remove("hidden");
 
 loadQuestion();
 
 }
+
+/* TIMER */
 
 function startTimer(){
 
@@ -617,6 +683,8 @@ nextQuestion();
 },1000);
 
 }
+
+/* LOAD QUESTION */
 
 function loadQuestion(){
 
@@ -648,6 +716,7 @@ optionsBox.appendChild(btn);
 });
 
 document.getElementById("feedback").innerHTML = "";
+
 document.getElementById("explanationBox").innerHTML = "";
 
 updateProgress();
@@ -655,6 +724,8 @@ updateProgress();
 startTimer();
 
 }
+
+/* CHECK ANSWER */
 
 function checkAnswer(element,index){
 
@@ -680,9 +751,7 @@ score++;
 document.getElementById("score").innerText = score;
 
 setTimeout(()=>{
-
 nextQuestion();
-
 },1500);
 
 }else{
@@ -717,9 +786,7 @@ document.getElementById("explanationBox").innerHTML =
 `;
 
 setTimeout(()=>{
-
 nextQuestion();
-
 },3500);
 
 }
@@ -727,6 +794,8 @@ nextQuestion();
 }
 
 }
+
+/* NEXT QUESTION */
 
 function nextQuestion(){
 
@@ -746,13 +815,19 @@ showFinalChallenge();
 
 }
 
+/* PROGRESS */
+
 function updateProgress(){
 
-const percent = (currentQuestion/questions.length)*100;
+const percent =
+(currentQuestion/questions.length)*100;
 
-document.getElementById("progressBar").style.width = percent + "%";
+document.getElementById("progressBar").style.width =
+percent + "%";
 
 }
+
+/* CONFETTI */
 
 function createConfetti(){
 
@@ -762,7 +837,8 @@ const confetti = document.createElement("div");
 
 confetti.classList.add("confetti");
 
-confetti.style.left = Math.random()*100 + "vw";
+confetti.style.left =
+Math.random()*100 + "vw";
 
 confetti.style.background =
 `hsl(${Math.random()*360},100%,50%)`;
@@ -773,14 +849,14 @@ confetti.style.animationDuration =
 document.body.appendChild(confetti);
 
 setTimeout(()=>{
-
 confetti.remove();
-
 },3000);
 
 }
 
 }
+
+/* FINAL CHALLENGE */
 
 function showFinalChallenge(){
 
@@ -789,6 +865,8 @@ document.getElementById("quizScreen").classList.add("hidden");
 document.getElementById("finalChallenge").classList.remove("hidden");
 
 }
+
+/* FINAL ANSWER */
 
 function finalAnswer(element,isCorrect){
 
@@ -816,12 +894,12 @@ element.classList.add("wrong");
 }
 
 setTimeout(()=>{
-
 showResults();
-
 },2000);
 
 }
+
+/* RESULTS */
 
 function showResults(){
 
@@ -855,3 +933,4 @@ document.getElementById("resultMessage").innerHTML = message;
 
 </body>
 </html>
+```
