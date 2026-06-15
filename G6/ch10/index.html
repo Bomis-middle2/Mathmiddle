@@ -1,9 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Perimeter and Area MCQ Challenge</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Interactive Challenge</title>
 
 <style>
 
@@ -15,64 +17,62 @@ font-family:Arial,sans-serif;
 }
 
 body{
-background:linear-gradient(135deg,#dff6ff,#fff4e6,#f3e8ff);
+background:linear-gradient(135deg,#dff6ff,#fff7ed,#f3e8ff);
 min-height:100vh;
-overflow-x:hidden;
 display:flex;
 justify-content:center;
 align-items:center;
-padding:20px;
+padding:15px;
+overflow-x:hidden;
 position:relative;
 }
 
-/* Animated background stars */
-body::before,
+/* Background Glow */
+
+body::before{
+content:"";
+position:absolute;
+width:300px;
+height:300px;
+background:#c084fc;
+border-radius:50%;
+filter:blur(120px);
+top:-80px;
+left:-80px;
+opacity:0.3;
+}
+
 body::after{
 content:"";
 position:absolute;
-width:100%;
-height:100%;
-background-image:
-radial-gradient(#ffffff 1px, transparent 1px),
-radial-gradient(#ffe066 1px, transparent 1px),
-radial-gradient(#ffffff 1px, transparent 1px);
-background-size:120px 120px;
-animation:moveStars 40s linear infinite;
+width:300px;
+height:300px;
+background:#60a5fa;
+border-radius:50%;
+filter:blur(120px);
+bottom:-80px;
+right:-80px;
 opacity:0.3;
-z-index:0;
 }
 
-body::after{
-animation-duration:60s;
-opacity:0.2;
-}
-
-@keyframes moveStars{
-from{
-transform:translateY(0);
-}
-to{
-transform:translateY(-120px);
-}
-}
+/* Main Container */
 
 .container{
 width:100%;
-max-width:850px;
+max-width:900px;
 background:white;
-border-radius:24px;
+border-radius:25px;
 padding:25px;
 box-shadow:0 10px 30px rgba(0,0,0,0.15);
 position:relative;
 z-index:2;
-overflow:hidden;
 }
 
 .hidden{
 display:none;
 }
 
-/* Splash Screen */
+/* Splash */
 
 #splash{
 position:fixed;
@@ -93,47 +93,66 @@ width:180px;
 animation:pulse 2s infinite;
 }
 
-#splash h2{
-margin-top:20px;
-color:#555;
-}
-
 @keyframes pulse{
 0%{transform:scale(1);}
 50%{transform:scale(1.08);}
 100%{transform:scale(1);}
 }
 
-/* Typography */
+/* Intro */
 
-h1{
+.intro{
 text-align:center;
-color:#5b21b6;
-margin-bottom:10px;
+}
+
+.intro h1{
 font-size:2rem;
+color:#6d28d9;
+margin-bottom:15px;
 }
 
-.subtitle{
-text-align:center;
-color:#666;
-margin-bottom:25px;
+.instructions{
+background:#f8f4ff;
+padding:20px;
+border-radius:18px;
+line-height:1.8;
+margin-top:20px;
+color:#444;
+font-size:1rem;
 }
+
+button{
+padding:14px 28px;
+border:none;
+border-radius:14px;
+background:#6d28d9;
+color:white;
+font-size:1rem;
+cursor:pointer;
+margin-top:25px;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.04);
+background:#5b21b6;
+}
+
+/* Quiz */
 
 .topbar{
 display:flex;
 justify-content:space-between;
-flex-wrap:wrap;
 gap:10px;
+flex-wrap:wrap;
 margin-bottom:20px;
 }
 
-.score,
-.timer{
+.box{
 background:#f3f4ff;
 padding:12px 18px;
-border-radius:12px;
+border-radius:14px;
 font-weight:bold;
-color:#333;
 }
 
 .question-number{
@@ -143,38 +162,38 @@ margin-bottom:10px;
 
 .question{
 font-size:1.2rem;
-line-height:1.6;
 font-weight:bold;
+line-height:1.6;
 color:#222;
 }
 
 .options{
 display:grid;
 gap:14px;
-margin-top:22px;
+margin-top:25px;
 }
 
 .option{
+padding:15px;
 background:#f8f8ff;
-padding:14px;
-border-radius:14px;
+border-radius:15px;
 cursor:pointer;
-border:2px solid transparent;
 transition:0.3s;
+border:2px solid transparent;
 }
 
 .option:hover{
-background:#ececff;
 transform:translateY(-2px);
+background:#ececff;
 }
 
 .correct{
-background:#d4ffd9 !important;
+background:#d1fae5 !important;
 border-color:#16a34a !important;
 }
 
 .wrong{
-background:#ffe0e0 !important;
+background:#fee2e2 !important;
 border-color:#dc2626 !important;
 }
 
@@ -185,43 +204,67 @@ min-height:30px;
 }
 
 .explanation{
-margin-top:10px;
-padding:12px;
+margin-top:15px;
 background:#f5f5f5;
-border-radius:12px;
-font-size:0.95rem;
+padding:15px;
+border-radius:14px;
+line-height:1.6;
+}
+
+/* Final Page */
+
+.final-page{
+text-align:center;
+padding:20px;
+}
+
+.final-page h1{
+font-size:2.4rem;
+color:#6d28d9;
+margin-bottom:20px;
+}
+
+.score-circle{
+width:170px;
+height:170px;
+border-radius:50%;
+background:linear-gradient(135deg,#7c3aed,#60a5fa);
+margin:25px auto;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:2.5rem;
+font-weight:bold;
+color:white;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.final-message{
+font-size:1.1rem;
+line-height:1.8;
 color:#444;
 }
 
-button{
-padding:14px 24px;
-border:none;
-border-radius:14px;
-background:#6d28d9;
-color:white;
-font-size:1rem;
-cursor:pointer;
-transition:0.3s;
+/* Table */
+
+table{
+width:100%;
+border-collapse:collapse;
 margin-top:20px;
+overflow-x:auto;
 }
 
-button:hover{
-background:#5b21b6;
-transform:scale(1.03);
-}
-
-.center{
+th,td{
+border:1px solid #ccc;
+padding:10px;
 text-align:center;
 }
 
-.challenge-box{
-background:#fff7d6;
-padding:20px;
-border-radius:18px;
-margin-top:20px;
+th{
+background:#ececff;
 }
 
-/* Confetti */
+/* Stars */
 
 .star{
 position:fixed;
@@ -242,55 +285,26 @@ opacity:0;
 }
 }
 
-/* Wrong Cross */
+/* Responsive */
 
-.cross{
-position:fixed;
-font-size:28px;
-animation:fadeCross 1s ease forwards;
-pointer-events:none;
-z-index:999;
-}
+@media(max-width:768px){
 
-@keyframes fadeCross{
-0%{
-opacity:1;
-transform:scale(1);
+.container{
+padding:20px;
 }
-100%{
-opacity:0;
-transform:scale(2);
-}
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:15px;
-}
-
-th,td{
-border:1px solid #ccc;
-padding:10px;
-text-align:center;
-}
-
-th{
-background:#ececff;
-}
-
-@media(max-width:600px){
 
 .question{
 font-size:1.05rem;
 }
 
-.option{
-font-size:0.95rem;
+button{
+width:100%;
 }
 
-h1{
-font-size:1.6rem;
+.score-circle{
+width:140px;
+height:140px;
+font-size:2rem;
 }
 
 }
@@ -300,52 +314,49 @@ font-size:1.6rem;
 
 <body>
 
-<!-- SPLASH SCREEN -->
+<!-- Splash -->
 
 <div id="splash">
 <img src="assets/innovine-logo.png" alt="Innovine Logo">
-<h2>Innovine Learning Experience</h2>
 </div>
 
 <div class="container hidden" id="app">
 
-<!-- INTRO -->
+<!-- Intro Screen -->
 
-<div id="introScreen">
+<div id="introScreen" class="intro">
 
-<h1>Perimeter & Area</h1>
+<h1>Interactive Challenge</h1>
 
-<p class="subtitle">
-Grade 6 Interactive MCQ Challenge
-</p>
-
-<div class="center">
-<p style="margin-bottom:20px;">
-✅ 15 Competency-Based Questions<br>
-✅ Retry Feature<br>
-✅ Timer Challenge<br>
-✅ Final Bonus Round
-</p>
+<div class="instructions">
+✅ Read each question carefully<br>
+✅ You get only 2 chances per question<br>
+✅ Correct answer will appear after 2 wrong attempts<br>
+✅ Complete all questions and unlock the final celebration
+</div>
 
 <button onclick="startQuiz()">
-Start Challenge
+Start Game
 </button>
-</div>
 
 </div>
 
-<!-- QUIZ SCREEN -->
+<!-- Quiz Screen -->
 
 <div id="quizScreen" class="hidden">
 
 <div class="topbar">
-<div class="score">
-⭐ Score: <span id="score">0</span>
+
+<div class="box">
+⭐ Score:
+<span id="score">0</span>
 </div>
 
-<div class="timer">
-⏳ Time: <span id="timer">45</span>s
+<div class="box">
+⏳ Time:
+<span id="timer">45</span>s
 </div>
+
 </div>
 
 <div class="question-number" id="questionNumber"></div>
@@ -361,66 +372,24 @@ Start Challenge
 <div class="explanation hidden" id="explanation"></div>
 
 <button id="nextBtn" class="hidden" onclick="nextQuestion()">
-Next
+Next Question
 </button>
 
 </div>
 
-<!-- FINAL CHALLENGE -->
+<!-- Final Screen -->
 
-<div id="challengeScreen" class="hidden">
+<div id="resultScreen" class="hidden final-page">
 
-<h1>Final Challenge 🚀</h1>
+<h1>🎉 Congratulations 🎉</h1>
 
-<div class="challenge-box">
+<p>You completed the challenge successfully!</p>
 
-<p style="font-size:1.1rem;line-height:1.7;">
-A rectangular playground is 18 m long and 12 m wide.<br><br>
-
-What is its perimeter?
-</p>
-
-<div class="options" style="margin-top:20px;">
-
-<div class="option" onclick="finalChallenge(this,false)">
-30 m
+<div class="score-circle">
+<span id="finalScore"></span>
 </div>
 
-<div class="option" onclick="finalChallenge(this,true)">
-60 m
-</div>
-
-<div class="option" onclick="finalChallenge(this,false)">
-216 m²
-</div>
-
-<div class="option" onclick="finalChallenge(this,false)">
-72 m
-</div>
-
-</div>
-
-<div class="feedback" id="challengeFeedback"></div>
-
-<button class="hidden" id="finishBtn" onclick="showResults()">
-Finish Quiz
-</button>
-
-</div>
-
-</div>
-
-<!-- RESULT -->
-
-<div id="resultScreen" class="hidden center">
-
-<h1>Quiz Completed 🎉</h1>
-
-<div style="font-size:2.5rem;color:#6d28d9;margin:20px 0;">
-<span id="finalScore"></span>/16
-</div>
-
-<p id="resultMessage" style="font-size:1.1rem;"></p>
+<div class="final-message" id="finalMessage"></div>
 
 <button onclick="location.reload()">
 Play Again
@@ -430,197 +399,61 @@ Play Again
 
 </div>
 
-<!-- AUDIO -->
+<!-- Sounds -->
 
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
-<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
 <script>
+
+/* Splash */
 
 setTimeout(()=>{
 document.getElementById("splash").style.display="none";
 document.getElementById("app").classList.remove("hidden");
 },5000);
 
-const questions = [
+/* Questions */
+
+const questions=[
 
 {
 question:"A rectangular garden is 12 m long and 8 m wide. A fence is put around it. What length of fence is needed?",
 options:["20 m","40 m","96 m","48 m"],
 answer:"40 m",
-explanation:"Fence around the garden means perimeter = 2 × (12 + 8)."
+explanation:"Perimeter = 2 × (12 + 8)"
 },
 
 {
 question:"A square tile has side 9 cm. What is the area covered by one tile?",
 options:["18 cm²","36 cm²","81 cm²","90 cm²"],
 answer:"81 cm²",
-explanation:"Area of square = side × side = 9 × 9."
-},
-
-{
-question:"A rectangular notice board is 15 cm long and 10 cm wide. A border is pasted around it. What is the length of the border?",
-options:["25 cm","50 cm","150 cm","30 cm"],
-answer:"50 cm",
-explanation:"Border around the board means perimeter."
-},
-
-{
-question:"A farmer has two fields.",
-table:`
-<table>
-<tr>
-<th>Field</th>
-<th>Length</th>
-<th>Breadth</th>
-</tr>
-
-<tr>
-<td>A</td>
-<td>20 m</td>
-<td>10 m</td>
-</tr>
-
-<tr>
-<td>B</td>
-<td>15 m</td>
-<td>12 m</td>
-</tr>
-</table>
-`,
-options:["Field A","Field B","Both have equal area","Cannot be found"],
-answer:"Field A",
-explanation:"Area A = 200 m² and Area B = 180 m²."
-},
-
-{
-question:"A square park has a perimeter of 48 m. What is the length of one side?",
-options:["8 m","10 m","12 m","24 m"],
-answer:"12 m",
-explanation:"Side = perimeter ÷ 4."
+explanation:"Area of square = side × side"
 },
 
 {
 question:"A rectangular carpet has length 7 m and breadth 5 m. What area of the floor will it cover?",
 options:["12 m²","24 m²","35 m²","70 m²"],
 answer:"35 m²",
-explanation:"Area = length × breadth."
+explanation:"Area = length × breadth"
 },
 
 {
-question:"A playground is 30 m long and 20 m wide. A child runs once around it. How far does the child run?",
-options:["50 m","100 m","600 m","120 m"],
-answer:"100 m",
-explanation:"Running around means perimeter."
-},
-
-{
-question:"Look at the data:",
-table:`
-<table>
-<tr>
-<th>Shape</th>
-<th>Measurement</th>
-</tr>
-
-<tr>
-<td>Square</td>
-<td>Side = 6 cm</td>
-</tr>
-
-<tr>
-<td>Rectangle</td>
-<td>Length = 8 cm, Breadth = 4 cm</td>
-</tr>
-</table>
-`,
-options:[
-"Square has greater area",
-"Rectangle has greater area",
-"Both have equal area",
-"Rectangle has no area"
-],
-answer:"Square has greater area",
-explanation:"Square area = 36 cm² and rectangle area = 32 cm²."
-},
-
-{
-question:"A picture frame is 18 cm long and 12 cm wide. Which expression gives its perimeter?",
-options:[
-"18 × 12",
-"18 + 12",
-"2 × (18 + 12)",
-"18 − 12"
-],
-answer:"2 × (18 + 12)",
-explanation:"Perimeter of rectangle = 2 × (length + breadth)."
-},
-
-{
-question:"A classroom floor is 10 m long and 6 m wide. If each square mat covers 1 m², how many mats are needed to cover the floor?",
-options:["16","30","60","100"],
-answer:"60",
-explanation:"Floor area = 10 × 6."
-},
-
-{
-question:"Assertion: The perimeter of a square with side 7 cm is 28 cm.<br><br>Reason: Perimeter of a square is 4 × side.",
-options:[
-"Both are true and Reason explains Assertion",
-"Both are true but Reason does not explain Assertion",
-"Assertion is true but Reason is false",
-"Assertion is false but Reason is true"
-],
-answer:"Both are true and Reason explains Assertion",
-explanation:"Perimeter = 4 × 7 = 28 cm."
-},
-
-{
-question:"Assertion: Area is measured in square units.<br><br>Reason: Area tells the space covered by a flat surface.",
-options:[
-"Both are true and Reason explains Assertion",
-"Both are true but Reason does not explain Assertion",
-"Assertion is true but Reason is false",
-"Assertion is false but Reason is true"
-],
-answer:"Both are true and Reason explains Assertion",
-explanation:"Area measures surface covered."
-},
-
-{
-question:"A rectangular path is 25 m long and 5 m wide. Which calculation gives its area?",
-options:[
-"25 + 5",
-"2 × (25 + 5)",
-"25 × 5",
-"25 − 5"
-],
-answer:"25 × 5",
-explanation:"Area = length × breadth."
-},
-
-{
-question:"A square handkerchief has area 64 cm². What is the length of one side?",
-options:["6 cm","8 cm","16 cm","32 cm"],
-answer:"8 cm",
-explanation:"8 × 8 = 64."
-},
-
-{
-question:"A rectangular garden has area 72 m² and length 9 m. What is its breadth?",
-options:["6 m","7 m","8 m","9 m"],
-answer:"8 m",
-explanation:"Breadth = area ÷ length."
+question:"A square park has a perimeter of 48 m. What is the length of one side?",
+options:["8 m","10 m","12 m","24 m"],
+answer:"12 m",
+explanation:"Side = perimeter ÷ 4"
 }
 
 ];
 
 let currentQuestion=0;
 let score=0;
+let attempts=0;
 let timer;
 let timeLeft=45;
-let retry=false;
+
+/* Start */
 
 function startQuiz(){
 
@@ -631,9 +464,11 @@ loadQuestion();
 
 }
 
+/* Load Question */
+
 function loadQuestion(){
 
-retry=false;
+attempts=0;
 timeLeft=45;
 
 startTimer();
@@ -647,21 +482,21 @@ document.getElementById("questionText").innerHTML=q.question;
 
 document.getElementById("tableArea").innerHTML=q.table || "";
 
-const optionsContainer=document.getElementById("optionsContainer");
+const container=document.getElementById("optionsContainer");
 
-optionsContainer.innerHTML="";
+container.innerHTML="";
 
 q.options.forEach(option=>{
 
-const btn=document.createElement("div");
+const div=document.createElement("div");
 
-btn.classList.add("option");
+div.classList.add("option");
 
-btn.innerHTML=option;
+div.innerHTML=option;
 
-btn.onclick=()=>checkAnswer(btn,option);
+div.onclick=()=>checkAnswer(div,option);
 
-optionsContainer.appendChild(btn);
+container.appendChild(div);
 
 });
 
@@ -670,6 +505,8 @@ document.getElementById("explanation").classList.add("hidden");
 document.getElementById("nextBtn").classList.add("hidden");
 
 }
+
+/* Timer */
 
 function startTimer(){
 
@@ -686,7 +523,6 @@ document.getElementById("timer").innerText=timeLeft;
 if(timeLeft<=0){
 
 clearInterval(timer);
-
 showCorrectAnswer();
 
 }
@@ -694,6 +530,8 @@ showCorrectAnswer();
 },1000);
 
 }
+
+/* Check Answer */
 
 function checkAnswer(element,selected){
 
@@ -703,40 +541,35 @@ if(selected===q.answer){
 
 element.classList.add("correct");
 
-document.getElementById("feedback").innerHTML="✅ Correct!";
+document.getElementById("feedback").innerHTML=
+"✅ Correct Answer!";
 
 document.getElementById("score").innerText=++score;
 
 document.getElementById("correctSound").play();
 
-createConfetti();
-
-clearInterval(timer);
+createStars();
 
 disableOptions();
+
+clearInterval(timer);
 
 document.getElementById("nextBtn").classList.remove("hidden");
 
 }else{
 
+attempts++;
+
+element.classList.add("wrong");
+
 document.getElementById("wrongSound").play();
 
-showCross();
-
-if(!retry){
-
-retry=true;
-
-element.classList.add("wrong");
+if(attempts<2){
 
 document.getElementById("feedback").innerHTML=
-"❌ Try Again! One retry left.";
+"❌ Try Again! One chance left.";
 
 }else{
-
-element.classList.add("wrong");
-
-clearInterval(timer);
 
 showCorrectAnswer();
 
@@ -746,11 +579,15 @@ showCorrectAnswer();
 
 }
 
+/* Show Correct Answer */
+
 function showCorrectAnswer(){
 
-const q=questions[currentQuestion];
+clearInterval(timer);
 
 disableOptions();
+
+const q=questions[currentQuestion];
 
 document.querySelectorAll(".option").forEach(opt=>{
 
@@ -775,6 +612,8 @@ document.getElementById("nextBtn").classList.remove("hidden");
 
 }
 
+/* Disable */
+
 function disableOptions(){
 
 document.querySelectorAll(".option").forEach(opt=>{
@@ -784,6 +623,8 @@ opt.style.pointerEvents="none";
 });
 
 }
+
+/* Next */
 
 function nextQuestion(){
 
@@ -795,97 +636,56 @@ loadQuestion();
 
 }else{
 
-document.getElementById("quizScreen").classList.add("hidden");
-
-document.getElementById("challengeScreen").classList.remove("hidden");
+showResults();
 
 }
 
 }
 
-function finalChallenge(element,correct){
-
-disableChallenge();
-
-if(correct){
-
-element.classList.add("correct");
-
-score++;
-
-document.getElementById("challengeFeedback").innerHTML=
-"🎉 Excellent Final Answer!";
-
-document.getElementById("correctSound").play();
-
-document.getElementById("clapSound").play();
-
-createConfetti();
-
-}else{
-
-element.classList.add("wrong");
-
-document.getElementById("challengeFeedback").innerHTML=
-"❌ Correct answer is 60 m";
-
-document.getElementById("wrongSound").play();
-
-showCross();
-
-}
-
-document.getElementById("finishBtn").classList.remove("hidden");
-
-}
-
-function disableChallenge(){
-
-document.querySelectorAll("#challengeScreen .option").forEach(opt=>{
-
-opt.style.pointerEvents="none";
-
-});
-
-}
+/* Results */
 
 function showResults(){
 
-document.getElementById("challengeScreen").classList.add("hidden");
+document.getElementById("quizScreen").classList.add("hidden");
 
 document.getElementById("resultScreen").classList.remove("hidden");
 
-document.getElementById("finalScore").innerText=score;
+document.getElementById("finalScore").innerHTML=
+`${score}/${questions.length}`;
 
-let message="";
+let msg="";
 
-if(score>=14){
+if(score===questions.length){
 
-message="🌟 Outstanding Work!";
+msg="🌟 Perfect performance! Amazing work!";
 
-}else if(score>=10){
+}else if(score>=3){
 
-message="👏 Great Job!";
+msg="👏 Fantastic effort! You did really well.";
 
 }else{
 
-message="👍 Keep Practicing!";
+msg="🚀 Great try! Keep practicing and shine brighter.";
 
 }
 
-document.getElementById("resultMessage").innerHTML=message;
+document.getElementById("finalMessage").innerHTML=msg;
+
+createStars();
 
 }
 
-function createConfetti(){
+/* Celebration */
 
-for(let i=0;i<20;i++){
+function createStars(){
+
+for(let i=0;i<25;i++){
 
 const star=document.createElement("div");
 
-star.innerHTML="⭐";
-
 star.classList.add("star");
+
+star.innerHTML="⭐";
 
 star.style.left=Math.random()*100+"vw";
 
@@ -896,34 +696,10 @@ star.style.fontSize=(Math.random()*20+15)+"px";
 document.body.appendChild(star);
 
 setTimeout(()=>{
-
 star.remove();
-
 },2000);
 
 }
-
-}
-
-function showCross(){
-
-const cross=document.createElement("div");
-
-cross.innerHTML="❌";
-
-cross.classList.add("cross");
-
-cross.style.left=Math.random()*80+10+"vw";
-
-cross.style.top=Math.random()*60+20+"vh";
-
-document.body.appendChild(cross);
-
-setTimeout(()=>{
-
-cross.remove();
-
-},1000);
 
 }
 
@@ -931,3 +707,4 @@ cross.remove();
 
 </body>
 </html>
+```
