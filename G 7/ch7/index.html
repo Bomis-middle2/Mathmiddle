@@ -4,335 +4,839 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Comparing Quantities MCQ Challenge</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
 body{
-  font-family:Arial,sans-serif;
-  min-height:100vh;
-  background:linear-gradient(135deg,#eef7ff,#fff3dc);
-  color:#203040;
-  overflow-x:hidden;
+font-family:Arial,sans-serif;
+min-height:100vh;
+background:linear-gradient(135deg,#eef7ff,#fff3dc);
+color:#203040;
+overflow-x:hidden;
 }
+
+/* LOGO SCREEN ONLY */
+
 .logo-screen{
-  position:fixed;inset:0;background:#fff;z-index:99;
-  display:flex;align-items:center;justify-content:center;
+position:fixed;
+inset:0;
+background:#fff;
+z-index:99;
+display:flex;
+align-items:center;
+justify-content:center;
 }
-.logo-screen img{max-width:220px;animation:pop 1s ease}
-@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+
+.logo-screen img{
+max-width:220px;
+animation:pop 1s ease;
+}
+
+@keyframes pop{
+from{
+opacity:0;
+transform:scale(.7);
+}
+to{
+opacity:1;
+transform:scale(1);
+}
+}
+
+/* FLOATING BACKGROUND */
+
 .bg span{
-  position:fixed;color:rgba(255,180,0,.35);z-index:-1;
-  animation:float 10s linear infinite;
+position:fixed;
+color:rgba(255,180,0,.35);
+z-index:-1;
+animation:float 10s linear infinite;
 }
+
 @keyframes float{
-  from{transform:translateY(100vh) rotate(0)}
-  to{transform:translateY(-10vh) rotate(360deg)}
+from{
+transform:translateY(100vh) rotate(0);
 }
+to{
+transform:translateY(-10vh) rotate(360deg);
+}
+}
+
+/* MAIN CONTAINER */
+
 .container{
-  width:min(92%,800px);
-  margin:28px auto;
-  background:rgba(255,255,255,.94);
-  border-radius:24px;
-  padding:24px;
-  box-shadow:0 10px 28px rgba(0,0,0,.12);
+width:min(92%,800px);
+margin:28px auto;
+background:rgba(255,255,255,.94);
+border-radius:24px;
+padding:24px;
+box-shadow:0 10px 28px rgba(0,0,0,.12);
 }
+
+/* HEADER */
+
 .header{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:10px;margin-bottom:18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+margin-bottom:18px;
+flex-wrap:wrap;
 }
-.header img{height:46px}
+
+/* BADGES */
+
 .badge{
-  background:#e8f2ff;
-  padding:8px 12px;
-  border-radius:18px;
-  font-weight:bold;
+background:#e8f2ff;
+padding:8px 12px;
+border-radius:18px;
+font-weight:bold;
 }
-h1,h2{text-align:center;margin-bottom:14px}
-p{line-height:1.5}
+
+/* TEXT */
+
+h1,h2{
+text-align:center;
+margin-bottom:14px;
+}
+
+p{
+line-height:1.5;
+}
+
+/* CASE BOX */
+
 .case-box{
-  background:#fff6d9;
-  border-left:5px solid #f0b400;
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:12px;
-  font-weight:bold;
+background:#fff6d9;
+border-left:5px solid #f0b400;
+padding:12px;
+border-radius:12px;
+margin-bottom:12px;
+font-weight:bold;
 }
+
+/* BUTTONS */
+
 button{
-  border:0;background:#3478f6;color:white;
-  padding:13px 18px;border-radius:14px;
-  font-size:16px;cursor:pointer;margin-top:14px;
+border:0;
+background:#3478f6;
+color:white;
+padding:13px 18px;
+border-radius:14px;
+font-size:16px;
+cursor:pointer;
+margin-top:14px;
+transition:.2s;
 }
-button:hover{background:#245ed0}
+
+button:hover{
+background:#245ed0;
+transform:translateY(-1px);
+}
+
+/* OPTIONS */
+
 .options button{
-  width:100%;display:block;background:#fff;color:#203040;
-  border:2px solid #dbe7ff;margin:10px 0;text-align:left;
+width:100%;
+display:block;
+background:#fff;
+color:#203040;
+border:2px solid #dbe7ff;
+margin:10px 0;
+text-align:left;
 }
-.options button:hover{background:#edf5ff}
-.correct{background:#dcf8dc!important;border-color:#36b24a!important}
-.wrong{background:#ffe1e1!important;border-color:#e23b3b!important}
+
+.options button:hover{
+background:#edf5ff;
+}
+
+/* ANSWER STATES */
+
+.correct{
+background:#dcf8dc !important;
+border-color:#36b24a !important;
+}
+
+.wrong{
+background:#ffe1e1 !important;
+border-color:#e23b3b !important;
+}
+
+/* MESSAGE */
+
 .message{
-  min-height:50px;text-align:center;font-weight:bold;margin-top:10px;
+min-height:50px;
+text-align:center;
+font-weight:bold;
+margin-top:10px;
 }
-.cross{font-size:42px;color:#e23b3b;animation:shake .3s}
+
+/* CROSS */
+
+.cross{
+font-size:42px;
+color:#e23b3b;
+animation:shake .3s;
+}
+
 @keyframes shake{
-  0%,100%{transform:translateX(0)}
-  25%{transform:translateX(-6px)}
-  75%{transform:translateX(6px)}
+0%,100%{
+transform:translateX(0);
 }
+25%{
+transform:translateX(-6px);
+}
+75%{
+transform:translateX(6px);
+}
+}
+
+/* CONFETTI */
+
 .confetti{
-  position:fixed;top:-20px;font-size:22px;
-  pointer-events:none;animation:fall 1.4s linear forwards;
+position:fixed;
+top:-20px;
+font-size:22px;
+pointer-events:none;
+animation:fall 1.4s linear forwards;
 }
+
 @keyframes fall{
-  to{transform:translateY(100vh) rotate(360deg);opacity:0}
+to{
+transform:translateY(100vh) rotate(360deg);
+opacity:0;
 }
-.hidden{display:none}
+}
+
+/* HIDDEN */
+
+.hidden{
+display:none;
+}
+
+/* FINAL BOX */
+
 .final-box{
-  background:#fff2c7;
-  border:2px dashed #f0b400;
-  padding:18px;
-  border-radius:18px;
-  margin:12px 0;
+background:#fff2c7;
+border:2px dashed #f0b400;
+padding:18px;
+border-radius:18px;
+margin:12px 0;
 }
+
+/* MOBILE */
+
 @media(max-width:520px){
-  .container{padding:18px;margin:16px auto}
-  .header{flex-direction:column}
-  h1{font-size:24px}
+
+.container{
+padding:18px;
+margin:16px auto;
 }
+
+.header{
+flex-direction:column;
+}
+
+h1{
+font-size:24px;
+}
+
+}
+
 </style>
 </head>
+
 <body>
 
+<!-- LOGO ONLY FOR FIRST 5 SECONDS -->
+
 <div class="logo-screen" id="logoScreen">
-  <img src="assets/innovine-logo.png" alt="Innovine Logo">
+<img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
+<!-- FLOATING STARS -->
+
 <div class="bg" id="bg"></div>
+
+<!-- AUDIO -->
 
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
+<!-- MAIN CONTAINER -->
+
 <div class="container">
-  <div class="header">
-    <img src="assets/innovine-logo.png" alt="Innovine Logo">
-    <div class="badge">Score: <span id="score">0</span></div>
-    <div class="badge">Time: <span id="timer">45</span>s</div>
-  </div>
 
-  <section id="intro">
-    <h1>Comparing Quantities Quest</h1>
-    <p>Welcome, smart shopper! Solve questions on percentage, profit, loss, discount and simple interest.</p>
-    <p>You get <b>45 seconds</b> for every question and <b>one retry</b> after the first wrong attempt.</p>
-    <button onclick="startGame()">Start Challenge</button>
-  </section>
+<!-- HEADER WITHOUT LOGO -->
 
-  <section id="quiz" class="hidden">
-    <h2 id="qTitle"></h2>
-    <div id="caseBox" class="case-box hidden"></div>
-    <p id="question"></p>
-    <div class="options" id="options"></div>
-    <div class="message" id="message"></div>
-  </section>
+<div class="header">
 
-  <section id="finalChallenge" class="hidden">
-    <h2>Final Challenge</h2>
-    <div class="final-box">
-      A product costs ₹1,000 and is sold at 15% discount. What is the selling price?
-    </div>
-    <div class="options" id="finalOptions"></div>
-    <div class="message" id="finalMessage"></div>
-  </section>
+<div class="badge">
+⭐ Score:
+<span id="score">0</span>
+</div>
 
-  <section id="result" class="hidden">
-    <h1>Challenge Complete!</h1>
-    <h2>Your Final Score: <span id="finalScore"></span></h2>
-    <p id="resultText"></p>
-    <button onclick="location.reload()">Play Again</button>
-  </section>
+<div class="badge">
+⏳ Time:
+<span id="timer">45</span>s
+</div>
+
+</div>
+
+<!-- INTRO -->
+
+<section id="intro">
+
+<h1>Comparing Quantities Quest</h1>
+
+<p>
+Welcome, smart shopper! Solve questions on percentage, profit, loss, discount and simple interest.
+</p>
+
+<br>
+
+<p>
+✔ 45 seconds for each question<br>
+✔ One retry after first wrong attempt<br>
+✔ Final bonus challenge included
+</p>
+
+<button onclick="startGame()">
+Start Challenge
+</button>
+
+</section>
+
+<!-- QUIZ -->
+
+<section id="quiz" class="hidden">
+
+<h2 id="qTitle"></h2>
+
+<div id="caseBox" class="case-box hidden"></div>
+
+<p id="question"></p>
+
+<div class="options" id="options"></div>
+
+<div class="message" id="message"></div>
+
+</section>
+
+<!-- FINAL CHALLENGE -->
+
+<section id="finalChallenge" class="hidden">
+
+<h2>🏆 Final Challenge</h2>
+
+<div class="final-box">
+A product costs ₹1,000 and is sold at 15% discount. What is the selling price?
+</div>
+
+<div class="options" id="finalOptions"></div>
+
+<div class="message" id="finalMessage"></div>
+
+</section>
+
+<!-- RESULT -->
+
+<section id="result" class="hidden">
+
+<h1>🎉 Challenge Complete!</h1>
+
+<h2>
+Your Final Score:
+<span id="finalScore"></span>
+</h2>
+
+<p id="resultText"></p>
+
+<button onclick="location.reload()">
+Play Again
+</button>
+
+</section>
+
 </div>
 
 <script>
-setTimeout(()=>document.getElementById("logoScreen").style.display="none",5000);
+
+/* REMOVE LOGO AFTER 5 SECONDS */
+
+setTimeout(()=>{
+document.getElementById("logoScreen").style.display="none";
+},5000);
+
+/* QUESTIONS */
 
 const questions=[
-{q:"A class has 40 students. 25% of them are absent. How many students are absent?",o:["5","10","15","20"],a:1,e:"25% of 40 = 25/100 × 40 = 10."},
-{q:"A shirt marked ₹800 is sold at 10% discount. What is the discount amount?",o:["₹40","₹80","₹720","₹880"],a:1,e:"10% of ₹800 = ₹80."},
-{q:"A fruit seller buys mangoes for ₹500 and sells them for ₹650. What is his profit?",o:["₹100","₹150","₹250","₹1150"],a:1,e:"Profit = Selling Price − Cost Price = 650 − 500 = ₹150."},
-{q:"Rohan scored 45 marks out of 60. What is his percentage?",o:["65%","70%","75%","80%"],a:2,e:"Percentage = 45/60 × 100 = 75%."},
-{q:"A bicycle costs ₹4,000. Its price increases by 20%. What is the new price?",o:["₹4,200","₹4,400","₹4,600","₹4,800"],a:3,e:"Increase = 20% of 4000 = ₹800. New price = ₹4800."},
-{q:"Simple interest on ₹2,000 at 5% per annum for 2 years is:",o:["₹100","₹200","₹300","₹400"],a:1,e:"SI = P × R × T / 100 = 2000 × 5 × 2 / 100 = ₹200."},
-{caseText:"Case 1: A shopkeeper bought a bag for ₹900 and sold it for ₹1,080.",q:"What is the profit?",o:["₹90","₹108","₹180","₹200"],a:2,e:"Profit = Selling Price − Cost Price = 1080 − 900 = ₹180."},
-{caseText:"Case 1: A shopkeeper bought a bag for ₹900 and sold it for ₹1,080.",q:"What is the profit percentage?",o:["10%","15%","20%","25%"],a:2,e:"Profit % = Profit/Cost Price × 100 = 180/900 × 100 = 20%."},
-{q:"Assertion: 25% means 25 out of 100. Reason: Percent means per hundred.",o:["Both Assertion and Reason are true, and Reason correctly explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:0,e:"Percent means per hundred, so 25% means 25 out of 100."},
-{q:"Assertion: If cost price is ₹500 and selling price is ₹600, there is a loss. Reason: Loss occurs when selling price is less than cost price.",o:["Both Assertion and Reason are true, and Reason correctly explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:3,e:"The assertion is false because SP is greater than CP, so there is profit. The reason is true."},
-{q:"Assertion: 0.75 can be written as 75%. Reason: To convert a decimal into percentage, multiply it by 100.",o:["Both Assertion and Reason are true, and Reason correctly explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:0,e:"0.75 × 100 = 75%, so the reason correctly explains the assertion."},
-{q:"Assertion: Discount is always calculated on the marked price. Reason: Selling price = Marked price + Discount.",o:["Both Assertion and Reason are true, and Reason correctly explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:2,e:"Discount is calculated on marked price, but selling price = marked price − discount."},
-{q:"Assertion: Simple interest depends on principal, rate and time. Reason: Simple Interest = (P × R × T)/100.",o:["Both Assertion and Reason are true, and Reason correctly explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:0,e:"Simple interest depends on P, R and T, as shown in the formula."}
+
+{
+q:"A class has 40 students. 25% of them are absent. How many students are absent?",
+o:["5","10","15","20"],
+a:1,
+e:"25% of 40 = 10."
+},
+
+{
+q:"A shirt marked ₹800 is sold at 10% discount. What is the discount amount?",
+o:["₹40","₹80","₹720","₹880"],
+a:1,
+e:"10% of ₹800 = ₹80."
+},
+
+{
+q:"A fruit seller buys mangoes for ₹500 and sells them for ₹650. What is his profit?",
+o:["₹100","₹150","₹250","₹1150"],
+a:1,
+e:"Profit = Selling Price − Cost Price = ₹150."
+},
+
+{
+q:"Rohan scored 45 marks out of 60. What is his percentage?",
+o:["65%","70%","75%","80%"],
+a:2,
+e:"45/60 × 100 = 75%."
+},
+
+{
+q:"A bicycle costs ₹4,000. Its price increases by 20%. What is the new price?",
+o:["₹4,200","₹4,400","₹4,600","₹4,800"],
+a:3,
+e:"20% increase = ₹800. New price = ₹4800."
+},
+
+{
+q:"Simple interest on ₹2,000 at 5% per annum for 2 years is:",
+o:["₹100","₹200","₹300","₹400"],
+a:1,
+e:"SI = ₹200."
+},
+
+{
+caseText:"Case 1: A shopkeeper bought a bag for ₹900 and sold it for ₹1,080.",
+q:"What is the profit?",
+o:["₹90","₹108","₹180","₹200"],
+a:2,
+e:"Profit = ₹180."
+},
+
+{
+caseText:"Case 1: A shopkeeper bought a bag for ₹900 and sold it for ₹1,080.",
+q:"What is the profit percentage?",
+o:["10%","15%","20%","25%"],
+a:2,
+e:"Profit % = 20%."
+},
+
+{
+q:"Assertion: 25% means 25 out of 100. Reason: Percent means per hundred.",
+o:[
+"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
+"Both Assertion and Reason are true, but Reason does not explain Assertion.",
+"Assertion is true, but Reason is false.",
+"Assertion is false, but Reason is true."
+],
+a:0,
+e:"Percent means per hundred."
+},
+
+{
+q:"Assertion: If cost price is ₹500 and selling price is ₹600, there is a loss. Reason: Loss occurs when selling price is less than cost price.",
+o:[
+"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
+"Both Assertion and Reason are true, but Reason does not explain Assertion.",
+"Assertion is true, but Reason is false.",
+"Assertion is false, but Reason is true."
+],
+a:3,
+e:"SP is greater than CP, so there is profit."
+},
+
+{
+q:"Assertion: 0.75 can be written as 75%. Reason: To convert decimal into percentage, multiply by 100.",
+o:[
+"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
+"Both Assertion and Reason are true, but Reason does not explain Assertion.",
+"Assertion is true, but Reason is false.",
+"Assertion is false, but Reason is true."
+],
+a:0,
+e:"0.75 × 100 = 75%."
+},
+
+{
+q:"Assertion: Discount is always calculated on the marked price. Reason: Selling price = Marked price + Discount.",
+o:[
+"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
+"Both Assertion and Reason are true, but Reason does not explain Assertion.",
+"Assertion is true, but Reason is false.",
+"Assertion is false, but Reason is true."
+],
+a:2,
+e:"Selling price = Marked price − Discount."
+},
+
+{
+q:"Assertion: Simple interest depends on principal, rate and time. Reason: SI = (P × R × T)/100.",
+o:[
+"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
+"Both Assertion and Reason are true, but Reason does not explain Assertion.",
+"Assertion is true, but Reason is false.",
+"Assertion is false, but Reason is true."
+],
+a:0,
+e:"Simple interest depends on P, R and T."
+}
+
 ];
 
-let index=0,score=0,time=45,timer,attempt=0;
+/* VARIABLES */
+
+let index=0;
+let score=0;
+let time=45;
+let timer;
+let attempt=0;
+
+/* START GAME */
 
 function startGame(){
-  intro.classList.add("hidden");
-  quiz.classList.remove("hidden");
-  loadQuestion();
+
+intro.classList.add("hidden");
+
+quiz.classList.remove("hidden");
+
+loadQuestion();
+
 }
+
+/* LOAD QUESTION */
 
 function loadQuestion(){
-  attempt=0;
-  time=45;
-  updateTimer();
-  clearInterval(timer);
-  timer=setInterval(()=>{
-    time--;
-    updateTimer();
-    if(time<=0) showCorrectAnswer();
-  },1000);
 
-  const item=questions[index];
-  qTitle.textContent="Question "+(index+1)+" of "+questions.length;
-  question.textContent=item.q;
-  message.textContent="";
-  options.innerHTML="";
+attempt=0;
 
-  if(item.caseText){
-    caseBox.textContent=item.caseText;
-    caseBox.classList.remove("hidden");
-  }else{
-    caseBox.classList.add("hidden");
-  }
+time=45;
 
-  item.o.forEach((opt,i)=>{
-    const btn=document.createElement("button");
-    btn.textContent=String.fromCharCode(65+i)+". "+opt;
-    btn.onclick=()=>checkAnswer(i,btn);
-    options.appendChild(btn);
-  });
+updateTimer();
+
+clearInterval(timer);
+
+timer=setInterval(()=>{
+
+time--;
+
+updateTimer();
+
+if(time<=0){
+
+showCorrectAnswer();
+
 }
+
+},1000);
+
+const item=questions[index];
+
+qTitle.textContent=
+"Question "+(index+1)+" of "+questions.length;
+
+question.textContent=item.q;
+
+message.textContent="";
+
+options.innerHTML="";
+
+if(item.caseText){
+
+caseBox.textContent=item.caseText;
+
+caseBox.classList.remove("hidden");
+
+}else{
+
+caseBox.classList.add("hidden");
+
+}
+
+item.o.forEach((opt,i)=>{
+
+const btn=document.createElement("button");
+
+btn.textContent=
+String.fromCharCode(65+i)+". "+opt;
+
+btn.onclick=()=>checkAnswer(i,btn);
+
+options.appendChild(btn);
+
+});
+
+}
+
+/* TIMER */
 
 function updateTimer(){
-  document.getElementById("timer").textContent=time;
+
+document.getElementById("timer").textContent=time;
+
 }
+
+/* CHECK ANSWER */
 
 function checkAnswer(choice,btn){
-  const item=questions[index];
 
-  if(choice===item.a){
-    score++;
-    document.getElementById("score").textContent=score;
-    btn.classList.add("correct");
-    message.textContent="Correct! Great work!";
-    playSound("correctSound");
-    makeConfetti();
-    goNext();
-  }else{
-    attempt++;
-    btn.classList.add("wrong");
-    playSound("wrongSound");
-    message.innerHTML='<div class="cross">✖</div>';
+const item=questions[index];
 
-    if(attempt===1){
-      setTimeout(()=>message.textContent="Try once more!",600);
-      btn.disabled=true;
-    }else{
-      showCorrectAnswer();
-    }
-  }
+if(choice===item.a){
+
+score++;
+
+document.getElementById("score").textContent=score;
+
+btn.classList.add("correct");
+
+message.textContent="Correct! Great work!";
+
+playSound("correctSound");
+
+makeConfetti();
+
+goNext();
+
+}else{
+
+attempt++;
+
+btn.classList.add("wrong");
+
+playSound("wrongSound");
+
+message.innerHTML='<div class="cross">✖</div>';
+
+if(attempt===1){
+
+setTimeout(()=>{
+message.textContent="Try once more!";
+},600);
+
+btn.disabled=true;
+
+}else{
+
+showCorrectAnswer();
+
 }
+
+}
+
+}
+
+/* SHOW CORRECT ANSWER */
 
 function showCorrectAnswer(){
-  clearInterval(timer);
-  const item=questions[index];
-  message.textContent="Correct answer: "+item.o[item.a]+". "+item.e;
 
-  [...options.children].forEach((b,i)=>{
-    b.disabled=true;
-    if(i===item.a)b.classList.add("correct");
-  });
+clearInterval(timer);
 
-  goNext();
+const item=questions[index];
+
+message.textContent=
+"Correct answer: "+
+item.o[item.a]+". "+item.e;
+
+[...options.children].forEach((b,i)=>{
+
+b.disabled=true;
+
+if(i===item.a){
+
+b.classList.add("correct");
+
 }
+
+});
+
+goNext();
+
+}
+
+/* NEXT */
 
 function goNext(){
-  clearInterval(timer);
-  setTimeout(()=>{
-    index++;
-    if(index<questions.length){
-      loadQuestion();
-    }else{
-      showFinalChallenge();
-    }
-  },2400);
+
+clearInterval(timer);
+
+setTimeout(()=>{
+
+index++;
+
+if(index<questions.length){
+
+loadQuestion();
+
+}else{
+
+showFinalChallenge();
+
 }
+
+},2400);
+
+}
+
+/* FINAL CHALLENGE */
 
 function showFinalChallenge(){
-  quiz.classList.add("hidden");
-  finalChallenge.classList.remove("hidden");
-  document.getElementById("timer").textContent="--";
 
-  const opts=["₹850","₹900","₹1,150","₹750"];
-  finalOptions.innerHTML="";
+quiz.classList.add("hidden");
 
-  opts.forEach((op,i)=>{
-    const b=document.createElement("button");
-    b.textContent=String.fromCharCode(65+i)+". "+op;
-    b.onclick=()=>{
-      [...finalOptions.children].forEach(x=>x.disabled=true);
+finalChallenge.classList.remove("hidden");
 
-      if(i===0){
-        score+=2;
-        document.getElementById("score").textContent=score;
-        b.classList.add("correct");
-        finalMessage.textContent="Excellent! Discount = 15% of ₹1000 = ₹150. Selling price = ₹850.";
-        playSound("clapSound");
-        makeConfetti();
-      }else{
-        b.classList.add("wrong");
-        finalMessage.textContent="Correct answer: ₹850. Selling price = Marked price − Discount.";
-        playSound("wrongSound");
-      }
+document.getElementById("timer").textContent="--";
 
-      setTimeout(showResult,2600);
-    };
-    finalOptions.appendChild(b);
-  });
+const opts=[
+"₹850",
+"₹900",
+"₹1,150",
+"₹750"
+];
+
+finalOptions.innerHTML="";
+
+opts.forEach((op,i)=>{
+
+const b=document.createElement("button");
+
+b.textContent=
+String.fromCharCode(65+i)+". "+op;
+
+b.onclick=()=>{
+
+[...finalOptions.children].forEach(x=>x.disabled=true);
+
+if(i===0){
+
+score+=2;
+
+document.getElementById("score").textContent=score;
+
+b.classList.add("correct");
+
+finalMessage.textContent=
+"Excellent! Discount = ₹150, so selling price = ₹850.";
+
+playSound("clapSound");
+
+makeConfetti();
+
+}else{
+
+b.classList.add("wrong");
+
+finalMessage.textContent=
+"Correct answer: ₹850.";
+
+playSound("wrongSound");
+
 }
+
+setTimeout(showResult,2600);
+
+};
+
+finalOptions.appendChild(b);
+
+});
+
+}
+
+/* RESULT */
 
 function showResult(){
-  finalChallenge.classList.add("hidden");
-  result.classList.remove("hidden");
-  finalScore.textContent=score+" / 15";
-  resultText.textContent=score>=12
-    ? "Amazing! You are a Comparing Quantities Star!"
-    : "Good effort! Revise percentage, profit, discount and simple interest.";
+
+finalChallenge.classList.add("hidden");
+
+result.classList.remove("hidden");
+
+finalScore.textContent=score+" / 15";
+
+resultText.textContent=
+score>=12
+?"Amazing! You are a Comparing Quantities Star!"
+:"Good effort! Revise percentage, profit, discount and simple interest.";
+
 }
+
+/* AUDIO */
 
 function playSound(id){
-  const audio=document.getElementById(id);
-  audio.currentTime=0;
-  audio.play().catch(()=>{});
+
+const audio=document.getElementById(id);
+
+audio.currentTime=0;
+
+audio.play().catch(()=>{});
+
 }
+
+/* CONFETTI */
 
 function makeConfetti(){
-  for(let i=0;i<18;i++){
-    const s=document.createElement("div");
-    s.className="confetti";
-    s.textContent="★";
-    s.style.left=Math.random()*100+"vw";
-    s.style.color=["#ffbf00","#58c7ff","#ff6b9a","#72d572"][Math.floor(Math.random()*4)];
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(),1500);
-  }
+
+for(let i=0;i<18;i++){
+
+const s=document.createElement("div");
+
+s.className="confetti";
+
+s.textContent="★";
+
+s.style.left=Math.random()*100+"vw";
+
+s.style.color=
+["#ffbf00","#58c7ff","#ff6b9a","#72d572"]
+[Math.floor(Math.random()*4)];
+
+document.body.appendChild(s);
+
+setTimeout(()=>{
+s.remove();
+},1500);
+
 }
 
-for(let i=0;i<26;i++){
-  const star=document.createElement("span");
-  star.textContent=i%2?"★":"✦";
-  star.style.left=Math.random()*100+"vw";
-  star.style.fontSize=(14+Math.random()*20)+"px";
-  star.style.animationDelay=Math.random()*8+"s";
-  bg.appendChild(star);
 }
+
+/* FLOATING STARS */
+
+for(let i=0;i<26;i++){
+
+const star=document.createElement("span");
+
+star.textContent=i%2?"★":"✦";
+
+star.style.left=Math.random()*100+"vw";
+
+star.style.fontSize=
+(14+Math.random()*20)+"px";
+
+star.style.animationDelay=
+Math.random()*8+"s";
+
+bg.appendChild(star);
+
+}
+
 </script>
+
 </body>
 </html>
+```
