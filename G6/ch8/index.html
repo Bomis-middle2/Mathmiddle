@@ -1,9 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ratio and Proportion Adventure - Grade 6</title>
+<title>Ratio and Proportion Adventure</title>
 
 <style>
 
@@ -23,6 +24,7 @@ color:#222;
 }
 
 /* Animated Background */
+
 body::before{
 content:"";
 position:fixed;
@@ -38,11 +40,16 @@ z-index:-1;
 }
 
 @keyframes bgmove{
-from{transform:translate(0,0);}
-to{transform:translate(-300px,-300px);}
+from{
+transform:translate(0,0);
+}
+to{
+transform:translate(-300px,-300px);
+}
 }
 
 /* Splash Screen */
+
 #splash{
 position:fixed;
 inset:0;
@@ -67,12 +74,16 @@ visibility:hidden;
 }
 }
 
+/* Main Container */
+
 .container{
 width:95%;
 max-width:900px;
 margin:auto;
 padding:20px;
 }
+
+/* Card */
 
 .card{
 background:rgba(255,255,255,0.95);
@@ -91,6 +102,22 @@ h1,h2{
 margin-bottom:15px;
 }
 
+/* Instructions */
+
+.instructions{
+text-align:left;
+max-width:550px;
+margin:20px auto;
+line-height:1.9;
+font-size:17px;
+}
+
+.instructions li{
+margin-bottom:10px;
+}
+
+/* Button */
+
 .btn{
 background:#4361ee;
 color:white;
@@ -108,9 +135,13 @@ background:#3a0ca3;
 transform:scale(1.03);
 }
 
+/* Hidden */
+
 .hidden{
 display:none;
 }
+
+/* Top Bar */
 
 .topbar{
 display:flex;
@@ -120,12 +151,16 @@ flex-wrap:wrap;
 margin-bottom:20px;
 }
 
+/* Badge */
+
 .badge{
 background:#edf2ff;
 padding:10px 15px;
 border-radius:12px;
 font-weight:bold;
 }
+
+/* Progress */
 
 .progress{
 height:12px;
@@ -142,11 +177,15 @@ background:linear-gradient(90deg,#4cc9f0,#4361ee);
 transition:0.3s;
 }
 
+/* Question */
+
 .question{
 font-size:20px;
 line-height:1.6;
 margin-bottom:20px;
 }
+
+/* Options */
 
 .options{
 display:grid;
@@ -167,15 +206,21 @@ background:#e0e7ff;
 transform:translateY(-2px);
 }
 
+/* Correct */
+
 .correct{
 background:#d8f3dc !important;
 border-color:#2d6a4f !important;
 }
 
+/* Wrong */
+
 .wrong{
 background:#ffe5e5 !important;
 border-color:#d00000 !important;
 }
+
+/* Feedback */
 
 .feedback{
 margin-top:18px;
@@ -185,6 +230,8 @@ font-weight:bold;
 min-height:30px;
 }
 
+/* Explanation */
+
 .explanation{
 margin-top:15px;
 padding:12px;
@@ -193,6 +240,8 @@ border-left:5px solid #4361ee;
 border-radius:10px;
 }
 
+/* Cross */
+
 .cross{
 font-size:55px;
 color:red;
@@ -200,10 +249,18 @@ animation:shake 0.5s;
 }
 
 @keyframes shake{
-0%,100%{transform:translateX(0);}
-25%{transform:translateX(-5px);}
-75%{transform:translateX(5px);}
+0%,100%{
+transform:translateX(0);
 }
+25%{
+transform:translateX(-5px);
+}
+75%{
+transform:translateX(5px);
+}
+}
+
+/* Tables */
 
 table{
 width:100%;
@@ -219,6 +276,8 @@ th,td{
 padding:10px;
 text-align:center;
 }
+
+/* Confetti */
 
 .confetti{
 position:fixed;
@@ -252,12 +311,7 @@ opacity:0;
 }
 }
 
-.footer{
-text-align:center;
-margin:30px 0 10px;
-font-size:14px;
-opacity:0.7;
-}
+/* Mobile */
 
 @media(max-width:600px){
 
@@ -276,47 +330,65 @@ font-size:15px;
 
 <body>
 
-<!-- Splash -->
+<!-- Splash Screen -->
+
 <div id="splash">
 <img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
 <div class="container">
 
-<!-- Intro -->
+<!-- Intro Screen -->
+
 <div class="card center" id="introScreen">
 
 <h1>Ratio and Proportion Adventure</h1>
-<h2>Grade 6 Mathematics</h2>
 
-<p style="margin-top:15px; line-height:1.7;">
-⚖️ Explore ratios, sharing, comparison and proportions through fun challenges!<br><br>
-
-✅ 15 MCQs<br>
-✅ 45 Seconds Timer<br>
-✅ Retry Chance<br>
-✅ Final Challenge Round
+<p style="margin-top:10px;font-size:18px;">
+⚖️ Explore exciting ratio and proportion challenges!
 </p>
 
-<button class="btn" onclick="startQuiz()">Start Challenge</button>
+<ol class="instructions">
+
+<li>Answer all MCQs carefully.</li>
+
+<li>You will get 45 seconds for each question.</li>
+
+<li>You can retry once after a wrong answer.</li>
+
+<li>Read tables and assertion questions carefully.</li>
+
+<li>Complete the final challenge to earn bonus points.</li>
+
+<li>Try to score maximum points and become a Ratio Champion.</li>
+
+</ol>
+
+<button class="btn" onclick="startQuiz()">
+Start Challenge
+</button>
 
 </div>
 
-<!-- Quiz -->
+<!-- Quiz Screen -->
+
 <div class="card hidden" id="quizScreen">
 
 <div class="topbar">
 
 <div class="badge">
-Score: <span id="score">0</span>
+⭐ Score:
+<span id="score">0</span>
 </div>
 
 <div class="badge">
-Question: <span id="qno">1</span>/15
+📘 Question:
+<span id="qno">1</span>/15
 </div>
 
 <div class="badge">
-Time Left: <span id="timer">45</span>s
+⏳ Time:
+<span id="timer">45</span>s
 </div>
 
 </div>
@@ -336,6 +408,7 @@ Time Left: <span id="timer">45</span>s
 </div>
 
 <!-- Final Challenge -->
+
 <div class="card hidden center" id="finalChallenge">
 
 <h2>🏆 Final Ratio Challenge</h2>
@@ -346,196 +419,77 @@ Which ratio is equivalent to 2 : 4 ?
 
 <div class="options">
 
-<div class="option" onclick="finalAnswer(this,false)">3 : 5</div>
+<div class="option" onclick="finalAnswer(this,false)">
+3 : 5
+</div>
 
-<div class="option" onclick="finalAnswer(this,true)">1 : 2</div>
+<div class="option" onclick="finalAnswer(this,true)">
+1 : 2
+</div>
 
-<div class="option" onclick="finalAnswer(this,false)">4 : 5</div>
+<div class="option" onclick="finalAnswer(this,false)">
+4 : 5
+</div>
 
-<div class="option" onclick="finalAnswer(this,false)">2 : 5</div>
-
+<div class="option" onclick="finalAnswer(this,false)">
+2 : 5
 </div>
 
 </div>
 
-<!-- Result -->
+</div>
+
+<!-- Result Screen -->
+
 <div class="card hidden center" id="resultScreen">
 
 <h2>🎉 Quiz Completed!</h2>
 
-<h1 style="margin:20px 0; color:#3a0ca3;">
+<h1 style="margin:20px 0;color:#3a0ca3;">
 <span id="finalScore">0</span>/16
 </h1>
 
 <p id="resultMessage"></p>
 
-<button class="btn" onclick="location.reload()">Play Again</button>
+<button class="btn" onclick="location.reload()">
+Play Again
+</button>
 
-</div>
-
-<div class="footer">
-Powered by Innovine
 </div>
 
 </div>
 
 <!-- AUDIO -->
+
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
 <script>
 
+/* Sample Questions */
+
 const questions = [
 
 {
-question:`A fruit basket has 6 apples and 3 oranges. What is the ratio of apples to oranges?`,
+question:"A fruit basket has 6 apples and 3 oranges. What is the ratio of apples to oranges?",
 options:["1 : 2","2 : 1","3 : 1","6 : 1"],
 answer:1,
 explanation:"6 : 3 simplifies to 2 : 1."
 },
 
 {
-question:`A classroom has 12 boys and 18 girls. What is the ratio of boys to girls in simplest form?`,
+question:"A classroom has 12 boys and 18 girls. What is the ratio of boys to girls in simplest form?",
 options:["2 : 3","3 : 2","12 : 18","1 : 2"],
 answer:0,
 explanation:"12 : 18 simplifies to 2 : 3."
 },
 
 {
-question:`A recipe uses 2 cups of sugar for every 5 cups of flour. If 10 cups of flour are used, how many cups of sugar are needed?`,
-options:["2","4","5","10"],
-answer:1,
-explanation:"The flour doubles from 5 to 10, so sugar doubles from 2 to 4."
-},
-
-{
-question:`
-Study the table:
-
-<table>
-<tr><th>Item</th><th>Red</th><th>Blue</th></tr>
-<tr><td>Marbles</td><td>8</td><td>4</td></tr>
-<tr><td>Pens</td><td>6</td><td>3</td></tr>
-<tr><td>Balls</td><td>10</td><td>5</td></tr>
-</table>
-
-Which item has the ratio 2 : 1?
-`,
-options:["Marbles","Pens","Balls","All of these"],
-answer:3,
-explanation:"8:4, 6:3 and 10:5 all simplify to 2:1."
-},
-
-{
-question:`A map scale shows 1 cm represents 5 km. What distance does 4 cm represent?`,
+question:"A map scale shows 1 cm represents 5 km. What distance does 4 cm represent?",
 options:["5 km","10 km","15 km","20 km"],
 answer:3,
 explanation:"4 × 5 = 20 km."
-},
-
-{
-question:`A class has 24 students. The ratio of boys to girls is 1 : 2. How many girls are there?`,
-options:["8","12","16","24"],
-answer:2,
-explanation:"Total parts = 3. Each part = 24 ÷ 3 = 8. Girls = 2 × 8 = 16."
-},
-
-{
-question:`A shopkeeper mixes 3 kg tea leaves with 1 kg herbs. What is the ratio of tea leaves to herbs?`,
-options:["1 : 3","3 : 1","3 : 4","4 : 3"],
-answer:1,
-explanation:"Tea leaves : herbs = 3 : 1."
-},
-
-{
-question:`
-Study the data:
-
-<table>
-<tr><th>Drink</th><th>Water</th><th>Juice</th></tr>
-<tr><td>A</td><td>2</td><td>1</td></tr>
-<tr><td>B</td><td>4</td><td>2</td></tr>
-<tr><td>C</td><td>6</td><td>3</td></tr>
-</table>
-
-Which drinks have equivalent ratios?
-`,
-options:["A and B","B and C","A and C","All of these"],
-answer:3,
-explanation:"All ratios simplify to 2 : 1."
-},
-
-{
-question:`A toy car travels 60 km using 3 litres of fuel. At the same rate, how far will it travel using 5 litres?`,
-options:["80 km","90 km","100 km","120 km"],
-answer:2,
-explanation:"60 ÷ 3 = 20 km per litre. 20 × 5 = 100 km."
-},
-
-{
-question:`A classroom chart uses red and yellow in the ratio 5 : 2. If 10 yellow strips are used, how many red strips are needed?`,
-options:["15","20","25","30"],
-answer:2,
-explanation:"Yellow increased from 2 to 10 (×5), so red becomes 5 × 5 = 25."
-},
-
-{
-question:`A bag has black and white beads in the ratio 7 : 3. If there are 21 black beads, how many white beads are there?`,
-options:["3","6","9","12"],
-answer:2,
-explanation:"7 became 21 (×3), so white beads = 3 × 3 = 9."
-},
-
-{
-question:`
-Study the table:
-
-<table>
-<tr><th>Class</th><th>Boys</th><th>Girls</th></tr>
-<tr><td>VI-A</td><td>10</td><td>20</td></tr>
-<tr><td>VI-B</td><td>15</td><td>30</td></tr>
-<tr><td>VI-C</td><td>8</td><td>16</td></tr>
-</table>
-
-Which class has the ratio of boys to girls as 1 : 2?
-`,
-options:["VI-A","VI-B","VI-C","All of these"],
-answer:3,
-explanation:"All classes have boys : girls = 1 : 2."
-},
-
-{
-question:`A painter mixes blue and white paint in the ratio 4 : 1. If 20 litres of blue paint are used, how much white paint is needed?`,
-options:["4 L","5 L","10 L","15 L"],
-answer:1,
-explanation:"Blue increased from 4 to 20 (×5), so white = 1 × 5 = 5 L."
-},
-
-{
-question:`Assertion: Ratios 2 : 4 and 1 : 2 are equivalent.<br><br>
-Reason: Both ratios simplify to the same value.`,
-options:[
-"Both are true and reason explains the assertion",
-"Both are true but reason does not explain the assertion",
-"Assertion is true but reason is false",
-"Assertion is false but reason is true"
-],
-answer:0,
-explanation:"2 : 4 simplifies to 1 : 2."
-},
-
-{
-question:`Assertion: In a proportion, the product of means equals the product of extremes.<br><br>
-Reason: 2 : 3 = 4 : 6 is a true proportion.`,
-options:[
-"Both are true and reason explains the assertion",
-"Both are true but reason does not explain the assertion",
-"Assertion is true but reason is false",
-"Assertion is false but reason is true"
-],
-answer:1,
-explanation:"Both are true, but the reason is only an example."
 }
 
 ];
@@ -546,18 +500,30 @@ let retryUsed = false;
 let timer = 45;
 let interval;
 
-const correctSound = document.getElementById("correctSound");
-const wrongSound = document.getElementById("wrongSound");
-const clapSound = document.getElementById("clapSound");
+const correctSound =
+document.getElementById("correctSound");
+
+const wrongSound =
+document.getElementById("wrongSound");
+
+const clapSound =
+document.getElementById("clapSound");
+
+/* Start Quiz */
 
 function startQuiz(){
 
-document.getElementById("introScreen").classList.add("hidden");
-document.getElementById("quizScreen").classList.remove("hidden");
+document.getElementById("introScreen")
+.classList.add("hidden");
+
+document.getElementById("quizScreen")
+.classList.remove("hidden");
 
 loadQuestion();
 
 }
+
+/* Timer */
 
 function startTimer(){
 
@@ -585,18 +551,22 @@ nextQuestion();
 
 }
 
+/* Load Question */
+
 function loadQuestion(){
 
 retryUsed = false;
 
 const q = questions[currentQuestion];
 
-document.getElementById("qno").innerText = currentQuestion + 1;
+document.getElementById("qno").innerText =
+currentQuestion + 1;
 
 document.getElementById("questionBox").innerHTML =
 `<div class="question">${q.question}</div>`;
 
-const optionsBox = document.getElementById("optionsBox");
+const optionsBox =
+document.getElementById("optionsBox");
 
 optionsBox.innerHTML = "";
 
@@ -615,6 +585,7 @@ optionsBox.appendChild(btn);
 });
 
 document.getElementById("feedback").innerHTML = "";
+
 document.getElementById("explanationBox").innerHTML = "";
 
 updateProgress();
@@ -623,13 +594,18 @@ startTimer();
 
 }
 
+/* Check Answer */
+
 function checkAnswer(element,index){
 
 const q = questions[currentQuestion];
 
-const options = document.querySelectorAll(".option");
+const options =
+document.querySelectorAll(".option");
 
-options.forEach(opt=>opt.style.pointerEvents="none");
+options.forEach(opt=>
+opt.style.pointerEvents="none"
+);
 
 if(index === q.answer){
 
@@ -647,9 +623,7 @@ score++;
 document.getElementById("score").innerText = score;
 
 setTimeout(()=>{
-
 nextQuestion();
-
 },1500);
 
 }else{
@@ -665,7 +639,9 @@ retryUsed = true;
 document.getElementById("feedback").innerHTML =
 `<div class="cross">✖</div>Try Again!`;
 
-options.forEach(opt=>opt.style.pointerEvents="auto");
+options.forEach(opt=>
+opt.style.pointerEvents="auto"
+);
 
 element.style.pointerEvents="none";
 
@@ -679,14 +655,13 @@ options[q.answer].classList.add("correct");
 document.getElementById("explanationBox").innerHTML =
 `
 <div class="explanation">
-<strong>Explanation:</strong> ${q.explanation}
+<strong>Explanation:</strong>
+${q.explanation}
 </div>
 `;
 
 setTimeout(()=>{
-
 nextQuestion();
-
 },3500);
 
 }
@@ -694,6 +669,8 @@ nextQuestion();
 }
 
 }
+
+/* Next Question */
 
 function nextQuestion(){
 
@@ -713,23 +690,31 @@ showFinalChallenge();
 
 }
 
+/* Progress */
+
 function updateProgress(){
 
-const percent = (currentQuestion/questions.length)*100;
+const percent =
+(currentQuestion/questions.length)*100;
 
-document.getElementById("progressBar").style.width = percent + "%";
+document.getElementById("progressBar").style.width =
+percent + "%";
 
 }
+
+/* Confetti */
 
 function createConfetti(){
 
 for(let i=0;i<20;i++){
 
-const confetti = document.createElement("div");
+const confetti =
+document.createElement("div");
 
 confetti.classList.add("confetti");
 
-confetti.style.left = Math.random()*100 + "vw";
+confetti.style.left =
+Math.random()*100 + "vw";
 
 confetti.style.background =
 `hsl(${Math.random()*360},100%,50%)`;
@@ -740,29 +725,37 @@ confetti.style.animationDuration =
 document.body.appendChild(confetti);
 
 setTimeout(()=>{
-
 confetti.remove();
-
 },3000);
 
 }
 
 }
 
+/* Final Challenge */
+
 function showFinalChallenge(){
 
-document.getElementById("quizScreen").classList.add("hidden");
+document.getElementById("quizScreen")
+.classList.add("hidden");
 
-document.getElementById("finalChallenge").classList.remove("hidden");
+document.getElementById("finalChallenge")
+.classList.remove("hidden");
 
 }
+
+/* Final Answer */
 
 function finalAnswer(element,isCorrect){
 
 const options =
-document.querySelectorAll("#finalChallenge .option");
+document.querySelectorAll(
+"#finalChallenge .option"
+);
 
-options.forEach(opt=>opt.style.pointerEvents="none");
+options.forEach(opt=>
+opt.style.pointerEvents="none"
+);
 
 if(isCorrect){
 
@@ -783,38 +776,45 @@ element.classList.add("wrong");
 }
 
 setTimeout(()=>{
-
 showResults();
-
 },2000);
 
 }
 
+/* Results */
+
 function showResults(){
 
-document.getElementById("finalChallenge").classList.add("hidden");
+document.getElementById("finalChallenge")
+.classList.add("hidden");
 
-document.getElementById("resultScreen").classList.remove("hidden");
+document.getElementById("resultScreen")
+.classList.remove("hidden");
 
-document.getElementById("finalScore").innerText = score;
+document.getElementById("finalScore").innerText =
+score;
 
 let message = "";
 
-if(score >= 14){
+if(score >= 4){
 
-message = "🌟 Outstanding! You are a Ratio Champion!";
+message =
+"🌟 Outstanding! You are a Ratio Champion!";
 
-}else if(score >= 10){
+}else if(score >= 2){
 
-message = "👏 Great Job! Keep Practicing!";
+message =
+"👏 Great Job! Keep Practicing!";
 
 }else{
 
-message = "📚 Good Effort! Try Again to Improve Your Score!";
+message =
+"📚 Good Effort! Try Again to Improve!";
 
 }
 
-document.getElementById("resultMessage").innerHTML = message;
+document.getElementById("resultMessage").innerHTML =
+message;
 
 }
 
@@ -822,3 +822,4 @@ document.getElementById("resultMessage").innerHTML = message;
 
 </body>
 </html>
+```
