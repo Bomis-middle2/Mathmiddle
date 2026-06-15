@@ -4,342 +4,798 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mensuration MCQ Challenge</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
 body{
-  font-family:Arial,sans-serif;
-  min-height:100vh;
-  background:linear-gradient(135deg,#eaf7ff,#fff4d8);
-  color:#203040;
-  overflow-x:hidden;
+font-family:Arial,sans-serif;
+min-height:100vh;
+background:linear-gradient(135deg,#eaf7ff,#fff4d8);
+color:#203040;
+overflow-x:hidden;
 }
+
+/* LOGO SCREEN ONLY */
+
 .logo-screen{
-  position:fixed;inset:0;background:#fff;z-index:99;
-  display:flex;align-items:center;justify-content:center;
+position:fixed;
+inset:0;
+background:#fff;
+z-index:99;
+display:flex;
+align-items:center;
+justify-content:center;
 }
-.logo-screen img{max-width:220px;animation:pop 1s ease}
-@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+
+.logo-screen img{
+max-width:220px;
+animation:pop 1s ease;
+}
+
+@keyframes pop{
+from{
+opacity:0;
+transform:scale(.7);
+}
+to{
+opacity:1;
+transform:scale(1);
+}
+}
+
+/* FLOATING BACKGROUND */
+
 .bg span{
-  position:fixed;
-  color:rgba(255,180,0,.35);
-  z-index:-1;
-  animation:float 10s linear infinite;
+position:fixed;
+color:rgba(255,180,0,.35);
+z-index:-1;
+animation:float 10s linear infinite;
 }
+
 @keyframes float{
-  from{transform:translateY(100vh) rotate(0)}
-  to{transform:translateY(-10vh) rotate(360deg)}
+from{
+transform:translateY(100vh) rotate(0);
 }
+to{
+transform:translateY(-10vh) rotate(360deg);
+}
+}
+
+/* MAIN CONTAINER */
+
 .container{
-  width:min(92%,780px);
-  margin:28px auto;
-  background:rgba(255,255,255,.93);
-  border-radius:24px;
-  padding:24px;
-  box-shadow:0 10px 28px rgba(0,0,0,.12);
+width:min(92%,780px);
+margin:28px auto;
+background:rgba(255,255,255,.93);
+border-radius:24px;
+padding:24px;
+box-shadow:0 10px 28px rgba(0,0,0,.12);
 }
+
+/* HEADER */
+
 .header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+margin-bottom:18px;
+flex-wrap:wrap;
 }
-.header img{height:46px}
+
+/* BADGES */
+
 .badge{
-  background:#e8f2ff;
-  padding:8px 12px;
-  border-radius:18px;
-  font-weight:bold;
+background:#e8f2ff;
+padding:8px 12px;
+border-radius:18px;
+font-weight:bold;
 }
-h1,h2{text-align:center;margin-bottom:14px}
-p{line-height:1.5}
+
+/* TEXT */
+
+h1,h2{
+text-align:center;
+margin-bottom:14px;
+}
+
+p{
+line-height:1.5;
+}
+
+/* BUTTONS */
+
 button{
-  border:0;
-  background:#3478f6;
-  color:white;
-  padding:13px 18px;
-  border-radius:14px;
-  font-size:16px;
-  cursor:pointer;
-  margin-top:14px;
+border:0;
+background:#3478f6;
+color:white;
+padding:13px 18px;
+border-radius:14px;
+font-size:16px;
+cursor:pointer;
+margin-top:14px;
+transition:.2s;
 }
-button:hover{background:#245ed0}
+
+button:hover{
+background:#245ed0;
+transform:translateY(-1px);
+}
+
+/* OPTIONS */
+
 .options button{
-  width:100%;
-  display:block;
-  background:#fff;
-  color:#203040;
-  border:2px solid #dbe7ff;
-  margin:10px 0;
-  text-align:left;
+width:100%;
+display:block;
+background:#fff;
+color:#203040;
+border:2px solid #dbe7ff;
+margin:10px 0;
+text-align:left;
 }
-.options button:hover{background:#edf5ff}
-.correct{background:#dcf8dc!important;border-color:#36b24a!important}
-.wrong{background:#ffe1e1!important;border-color:#e23b3b!important}
+
+.options button:hover{
+background:#edf5ff;
+}
+
+/* ANSWER STATES */
+
+.correct{
+background:#dcf8dc !important;
+border-color:#36b24a !important;
+}
+
+.wrong{
+background:#ffe1e1 !important;
+border-color:#e23b3b !important;
+}
+
+/* MESSAGE */
+
 .message{
-  min-height:50px;
-  text-align:center;
-  font-weight:bold;
-  margin-top:10px;
+min-height:50px;
+text-align:center;
+font-weight:bold;
+margin-top:10px;
 }
+
+/* WRONG CROSS */
+
 .cross{
-  font-size:42px;
-  color:#e23b3b;
-  animation:shake .3s;
+font-size:42px;
+color:#e23b3b;
+animation:shake .3s;
 }
+
 @keyframes shake{
-  0%,100%{transform:translateX(0)}
-  25%{transform:translateX(-6px)}
-  75%{transform:translateX(6px)}
+0%,100%{
+transform:translateX(0);
 }
+25%{
+transform:translateX(-6px);
+}
+75%{
+transform:translateX(6px);
+}
+}
+
+/* CONFETTI */
+
 .confetti{
-  position:fixed;
-  top:-20px;
-  font-size:22px;
-  pointer-events:none;
-  animation:fall 1.4s linear forwards;
+position:fixed;
+top:-20px;
+font-size:22px;
+pointer-events:none;
+animation:fall 1.4s linear forwards;
 }
+
 @keyframes fall{
-  to{transform:translateY(100vh) rotate(360deg);opacity:0}
+to{
+transform:translateY(100vh) rotate(360deg);
+opacity:0;
 }
-.hidden{display:none}
+}
+
+/* HIDDEN */
+
+.hidden{
+display:none;
+}
+
+/* FINAL BOX */
+
 .final-box{
-  background:#fff2c7;
-  border:2px dashed #f0b400;
-  padding:18px;
-  border-radius:18px;
-  margin:12px 0;
+background:#fff2c7;
+border:2px dashed #f0b400;
+padding:18px;
+border-radius:18px;
+margin:12px 0;
 }
+
+/* MOBILE */
+
 @media(max-width:520px){
-  .container{padding:18px;margin:16px auto}
-  .header{flex-direction:column}
-  h1{font-size:24px}
+
+.container{
+padding:18px;
+margin:16px auto;
 }
+
+.header{
+flex-direction:column;
+}
+
+h1{
+font-size:24px;
+}
+
+}
+
 </style>
 </head>
+
 <body>
 
+<!-- LOGO ONLY FOR FIRST 5 SECONDS -->
+
 <div class="logo-screen" id="logoScreen">
-  <img src="assets/innovine-logo.png" alt="Innovine Logo">
+<img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
+<!-- FLOATING STARS -->
+
 <div class="bg" id="bg"></div>
+
+<!-- AUDIO -->
 
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
+<!-- MAIN CONTAINER -->
+
 <div class="container">
-  <div class="header">
-    <img src="assets/innovine-logo.png" alt="Innovine Logo">
-    <div class="badge">Score: <span id="score">0</span></div>
-    <div class="badge">Time: <span id="timer">45</span>s</div>
-  </div>
 
-  <section id="intro">
-    <h1>Mensuration Mission</h1>
-    <p>Welcome, shape explorer! Solve questions on perimeter, area, squares, rectangles, triangles and parallelograms.</p>
-    <p>You get <b>45 seconds</b> for every question and <b>one retry</b> after the first wrong attempt.</p>
-    <button onclick="startGame()">Start Challenge</button>
-  </section>
+<!-- HEADER WITHOUT LOGO/TITLE -->
 
-  <section id="quiz" class="hidden">
-    <h2 id="qTitle"></h2>
-    <p id="question"></p>
-    <div class="options" id="options"></div>
-    <div class="message" id="message"></div>
-  </section>
+<div class="header">
 
-  <section id="finalChallenge" class="hidden">
-    <h2>Final Challenge</h2>
-    <div class="final-box">
-      A square garden has side 12 m. What is its area?
-    </div>
-    <div class="options" id="finalOptions"></div>
-    <div class="message" id="finalMessage"></div>
-  </section>
+<div class="badge">
+⭐ Score:
+<span id="score">0</span>
+</div>
 
-  <section id="result" class="hidden">
-    <h1>Challenge Complete!</h1>
-    <h2>Your Final Score: <span id="finalScore"></span></h2>
-    <p id="resultText"></p>
-    <button onclick="location.reload()">Play Again</button>
-  </section>
+<div class="badge">
+⏳ Time:
+<span id="timer">45</span>s
+</div>
+
+</div>
+
+<!-- INTRO -->
+
+<section id="intro">
+
+<h1>Mensuration Mission</h1>
+
+<p>
+Welcome, shape explorer! Solve questions on perimeter, area, squares, rectangles, triangles and parallelograms.
+</p>
+
+<br>
+
+<p>
+✔ 45 seconds for each question<br>
+✔ One retry after first wrong attempt<br>
+✔ Final bonus challenge included
+</p>
+
+<button onclick="startGame()">
+Start Challenge
+</button>
+
+</section>
+
+<!-- QUIZ -->
+
+<section id="quiz" class="hidden">
+
+<h2 id="qTitle"></h2>
+
+<p id="question"></p>
+
+<div class="options" id="options"></div>
+
+<div class="message" id="message"></div>
+
+</section>
+
+<!-- FINAL CHALLENGE -->
+
+<section id="finalChallenge" class="hidden">
+
+<h2>🏆 Final Challenge</h2>
+
+<div class="final-box">
+A square garden has side 12 m. What is its area?
+</div>
+
+<div class="options" id="finalOptions"></div>
+
+<div class="message" id="finalMessage"></div>
+
+</section>
+
+<!-- RESULT -->
+
+<section id="result" class="hidden">
+
+<h1>🎉 Challenge Complete!</h1>
+
+<h2>
+Your Final Score:
+<span id="finalScore"></span>
+</h2>
+
+<p id="resultText"></p>
+
+<button onclick="location.reload()">
+Play Again
+</button>
+
+</section>
+
 </div>
 
 <script>
-setTimeout(()=>document.getElementById("logoScreen").style.display="none",5000);
+
+/* REMOVE LOGO AFTER 5 SECONDS */
+
+setTimeout(()=>{
+document.getElementById("logoScreen").style.display="none";
+},5000);
+
+/* QUESTIONS */
 
 const questions=[
-{q:"Riya wants to put lace around a square table cloth of side 18 cm. How much lace is needed?",o:["36 cm","54 cm","72 cm","324 cm"],a:2,e:"Perimeter of square = 4 × side = 4 × 18 = 72 cm."},
-{q:"A rectangular garden is 30 m long and 18 m wide. A gardener wants to fence it. What length of fencing is required?",o:["48 m","96 m","540 m","24 m"],a:1,e:"Perimeter of rectangle = 2 × (length + breadth) = 2 × (30 + 18) = 96 m."},
-{q:"A painter paints a rectangular wall of length 12 m and height 8 m. What area will be painted?",o:["20 m²","40 m²","96 m²","192 m²"],a:2,e:"Area of rectangle = length × breadth = 12 × 8 = 96 m²."},
-{q:"A triangular banner has base 10 cm and height 7 cm. Find its area.",o:["17 cm²","35 cm²","70 cm²","140 cm²"],a:1,e:"Area of triangle = 1/2 × base × height = 1/2 × 10 × 7 = 35 cm²."},
-{q:"A parallelogram-shaped tile has base 16 cm and height 9 cm. What is its area?",o:["25 cm²","72 cm²","144 cm²","288 cm²"],a:2,e:"Area of parallelogram = base × height = 16 × 9 = 144 cm²."},
-{q:"A square park has perimeter 80 m. What is the length of one side?",o:["10 m","20 m","40 m","160 m"],a:1,e:"Side of square = perimeter ÷ 4 = 80 ÷ 4 = 20 m."},
-{q:"Assertion: The perimeter of a square of side 9 cm is 36 cm. Reason: Perimeter of a square = 4 × side.",o:["Both Assertion and Reason are true, and Reason correctly explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:0,e:"4 × 9 = 36 cm, so the reason correctly explains the assertion."},
-{q:"Assertion: The area of a rectangle of length 12 cm and breadth 5 cm is 34 cm². Reason: Area of a rectangle = length × breadth.",o:["Both Assertion and Reason are true, and Reason correctly explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:3,e:"Area = 12 × 5 = 60 cm², not 34 cm². The reason is true."},
-{q:"Assertion: Area tells us the space occupied by a closed figure. Reason: Perimeter tells us the distance around the boundary of a closed figure.",o:["Both Assertion and Reason are true, and Reason correctly explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:1,e:"Both statements are true, but the reason explains perimeter, not area."},
-{q:"Assertion: The area of a parallelogram with base 10 cm and height 6 cm is 60 cm². Reason: Area of a parallelogram = base × height.",o:["Both Assertion and Reason are true, and Reason correctly explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:0,e:"Area = 10 × 6 = 60 cm². The reason correctly explains it."},
-{q:"Assertion: If the side of a square is doubled, its area also becomes double. Reason: Area of square = side × side.",o:["Both Assertion and Reason are true, and Reason correctly explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:3,e:"If side doubles, area becomes 4 times. The formula side × side is true."}
+
+{
+q:"Riya wants to put lace around a square table cloth of side 18 cm. How much lace is needed?",
+o:["36 cm","54 cm","72 cm","324 cm"],
+a:2,
+e:"Perimeter of square = 4 × side = 4 × 18 = 72 cm."
+},
+
+{
+q:"A rectangular garden is 30 m long and 18 m wide. A gardener wants to fence it. What length of fencing is required?",
+o:["48 m","96 m","540 m","24 m"],
+a:1,
+e:"Perimeter of rectangle = 2 × (30 + 18) = 96 m."
+},
+
+{
+q:"A painter paints a rectangular wall of length 12 m and height 8 m. What area will be painted?",
+o:["20 m²","40 m²","96 m²","192 m²"],
+a:2,
+e:"Area of rectangle = 12 × 8 = 96 m²."
+},
+
+{
+q:"A triangular banner has base 10 cm and height 7 cm. Find its area.",
+o:["17 cm²","35 cm²","70 cm²","140 cm²"],
+a:1,
+e:"Area of triangle = ½ × 10 × 7 = 35 cm²."
+},
+
+{
+q:"A parallelogram-shaped tile has base 16 cm and height 9 cm. What is its area?",
+o:["25 cm²","72 cm²","144 cm²","288 cm²"],
+a:2,
+e:"Area of parallelogram = base × height = 144 cm²."
+},
+
+{
+q:"A square park has perimeter 80 m. What is the length of one side?",
+o:["10 m","20 m","40 m","160 m"],
+a:1,
+e:"Side = perimeter ÷ 4 = 20 m."
+},
+
+{
+q:"Assertion: The perimeter of a square of side 9 cm is 36 cm. Reason: Perimeter of square = 4 × side.",
+o:[
+"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
+"Both Assertion and Reason are true, but Reason does not explain Assertion.",
+"Assertion is true, but Reason is false.",
+"Assertion is false, but Reason is true."
+],
+a:0,
+e:"4 × 9 = 36 cm."
+},
+
+{
+q:"Assertion: The area of a rectangle of length 12 cm and breadth 5 cm is 34 cm². Reason: Area = length × breadth.",
+o:[
+"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
+"Both Assertion and Reason are true, but Reason does not explain Assertion.",
+"Assertion is true, but Reason is false.",
+"Assertion is false, but Reason is true."
+],
+a:3,
+e:"Actual area = 12 × 5 = 60 cm²."
+},
+
+{
+q:"Assertion: Area tells the space occupied by a figure. Reason: Perimeter tells the boundary length.",
+o:[
+"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
+"Both Assertion and Reason are true, but Reason does not explain Assertion.",
+"Assertion is true, but Reason is false.",
+"Assertion is false, but Reason is true."
+],
+a:1,
+e:"Both are true but explain different concepts."
+},
+
+{
+q:"Assertion: Area of a parallelogram with base 10 cm and height 6 cm is 60 cm². Reason: Area = base × height.",
+o:[
+"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
+"Both Assertion and Reason are true, but Reason does not explain Assertion.",
+"Assertion is true, but Reason is false.",
+"Assertion is false, but Reason is true."
+],
+a:0,
+e:"10 × 6 = 60 cm²."
+},
+
+{
+q:"Assertion: If side of a square doubles, area doubles. Reason: Area = side × side.",
+o:[
+"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
+"Both Assertion and Reason are true, but Reason does not explain Assertion.",
+"Assertion is true, but Reason is false.",
+"Assertion is false, but Reason is true."
+],
+a:3,
+e:"If side doubles, area becomes 4 times."
+}
+
 ];
 
-let index=0,score=0,time=45,timer,attempt=0;
+/* VARIABLES */
+
+let index=0;
+let score=0;
+let time=45;
+let timer;
+let attempt=0;
+
+/* START GAME */
 
 function startGame(){
-  intro.classList.add("hidden");
-  quiz.classList.remove("hidden");
-  loadQuestion();
+
+intro.classList.add("hidden");
+
+quiz.classList.remove("hidden");
+
+loadQuestion();
+
 }
+
+/* LOAD QUESTION */
 
 function loadQuestion(){
-  attempt=0;
-  time=45;
-  updateTimer();
-  clearInterval(timer);
-  timer=setInterval(()=>{
-    time--;
-    updateTimer();
-    if(time<=0) showCorrectAnswer();
-  },1000);
 
-  const item=questions[index];
-  qTitle.textContent="Question "+(index+1)+" of "+questions.length;
-  question.textContent=item.q;
-  message.textContent="";
-  options.innerHTML="";
+attempt=0;
 
-  item.o.forEach((opt,i)=>{
-    const btn=document.createElement("button");
-    btn.textContent=String.fromCharCode(65+i)+". "+opt;
-    btn.onclick=()=>checkAnswer(i,btn);
-    options.appendChild(btn);
-  });
+time=45;
+
+updateTimer();
+
+clearInterval(timer);
+
+timer=setInterval(()=>{
+
+time--;
+
+updateTimer();
+
+if(time<=0){
+
+showCorrectAnswer();
+
 }
+
+},1000);
+
+const item=questions[index];
+
+qTitle.textContent=
+"Question "+(index+1)+" of "+questions.length;
+
+question.textContent=item.q;
+
+message.textContent="";
+
+options.innerHTML="";
+
+item.o.forEach((opt,i)=>{
+
+const btn=document.createElement("button");
+
+btn.textContent=
+String.fromCharCode(65+i)+". "+opt;
+
+btn.onclick=()=>checkAnswer(i,btn);
+
+options.appendChild(btn);
+
+});
+
+}
+
+/* TIMER */
 
 function updateTimer(){
-  document.getElementById("timer").textContent=time;
+
+document.getElementById("timer").textContent=time;
+
 }
+
+/* CHECK ANSWER */
 
 function checkAnswer(choice,btn){
-  const item=questions[index];
 
-  if(choice===item.a){
-    score++;
-    document.getElementById("score").textContent=score;
-    btn.classList.add("correct");
-    message.textContent="Correct! Great work!";
-    playSound("correctSound");
-    makeConfetti();
-    goNext();
-  }else{
-    attempt++;
-    btn.classList.add("wrong");
-    playSound("wrongSound");
-    message.innerHTML='<div class="cross">✖</div>';
+const item=questions[index];
 
-    if(attempt===1){
-      setTimeout(()=>message.textContent="Try once more!",600);
-      btn.disabled=true;
-    }else{
-      showCorrectAnswer();
-    }
-  }
+if(choice===item.a){
+
+score++;
+
+document.getElementById("score").textContent=score;
+
+btn.classList.add("correct");
+
+message.textContent="Correct! Great work!";
+
+playSound("correctSound");
+
+makeConfetti();
+
+goNext();
+
+}else{
+
+attempt++;
+
+btn.classList.add("wrong");
+
+playSound("wrongSound");
+
+message.innerHTML='<div class="cross">✖</div>';
+
+if(attempt===1){
+
+setTimeout(()=>{
+message.textContent="Try once more!";
+},600);
+
+btn.disabled=true;
+
+}else{
+
+showCorrectAnswer();
+
 }
+
+}
+
+}
+
+/* SHOW CORRECT */
 
 function showCorrectAnswer(){
-  clearInterval(timer);
-  const item=questions[index];
-  message.textContent="Correct answer: "+item.o[item.a]+". "+item.e;
 
-  [...options.children].forEach((b,i)=>{
-    b.disabled=true;
-    if(i===item.a)b.classList.add("correct");
-  });
+clearInterval(timer);
 
-  goNext();
+const item=questions[index];
+
+message.textContent=
+"Correct answer: "+
+item.o[item.a]+". "+item.e;
+
+[...options.children].forEach((b,i)=>{
+
+b.disabled=true;
+
+if(i===item.a){
+
+b.classList.add("correct");
+
 }
+
+});
+
+goNext();
+
+}
+
+/* NEXT */
 
 function goNext(){
-  clearInterval(timer);
-  setTimeout(()=>{
-    index++;
-    if(index<questions.length){
-      loadQuestion();
-    }else{
-      showFinalChallenge();
-    }
-  },2400);
+
+clearInterval(timer);
+
+setTimeout(()=>{
+
+index++;
+
+if(index<questions.length){
+
+loadQuestion();
+
+}else{
+
+showFinalChallenge();
+
 }
+
+},2400);
+
+}
+
+/* FINAL CHALLENGE */
 
 function showFinalChallenge(){
-  quiz.classList.add("hidden");
-  finalChallenge.classList.remove("hidden");
-  document.getElementById("timer").textContent="--";
 
-  const opts=["24 m²","48 m²","144 m²","120 m²"];
-  finalOptions.innerHTML="";
+quiz.classList.add("hidden");
 
-  opts.forEach((op,i)=>{
-    const b=document.createElement("button");
-    b.textContent=String.fromCharCode(65+i)+". "+op;
-    b.onclick=()=>{
-      [...finalOptions.children].forEach(x=>x.disabled=true);
+finalChallenge.classList.remove("hidden");
 
-      if(i===2){
-        score+=2;
-        document.getElementById("score").textContent=score;
-        b.classList.add("correct");
-        finalMessage.textContent="Excellent! Area of square = side × side = 12 × 12 = 144 m².";
-        playSound("clapSound");
-        makeConfetti();
-      }else{
-        b.classList.add("wrong");
-        finalMessage.textContent="Correct answer: 144 m². Area of square = side × side.";
-        playSound("wrongSound");
-      }
+document.getElementById("timer").textContent="--";
 
-      setTimeout(showResult,2600);
-    };
-    finalOptions.appendChild(b);
-  });
+const opts=[
+"24 m²",
+"48 m²",
+"144 m²",
+"120 m²"
+];
+
+finalOptions.innerHTML="";
+
+opts.forEach((op,i)=>{
+
+const b=document.createElement("button");
+
+b.textContent=
+String.fromCharCode(65+i)+". "+op;
+
+b.onclick=()=>{
+
+[...finalOptions.children].forEach(x=>x.disabled=true);
+
+if(i===2){
+
+score+=2;
+
+document.getElementById("score").textContent=score;
+
+b.classList.add("correct");
+
+finalMessage.textContent=
+"Excellent! Area = 12 × 12 = 144 m².";
+
+playSound("clapSound");
+
+makeConfetti();
+
+}else{
+
+b.classList.add("wrong");
+
+finalMessage.textContent=
+"Correct answer: 144 m².";
+
+playSound("wrongSound");
+
 }
+
+setTimeout(showResult,2600);
+
+};
+
+finalOptions.appendChild(b);
+
+});
+
+}
+
+/* RESULT */
 
 function showResult(){
-  finalChallenge.classList.add("hidden");
-  result.classList.remove("hidden");
-  finalScore.textContent=score+" / 13";
-  resultText.textContent=score>=10
-    ? "Amazing! You are a Mensuration Star!"
-    : "Good effort! Revise area and perimeter formulas and try again.";
+
+finalChallenge.classList.add("hidden");
+
+result.classList.remove("hidden");
+
+finalScore.textContent=score+" / 13";
+
+resultText.textContent=
+score>=10
+?"Amazing! You are a Mensuration Star!"
+:"Good effort! Revise area and perimeter formulas.";
+
 }
+
+/* AUDIO */
 
 function playSound(id){
-  const audio=document.getElementById(id);
-  audio.currentTime=0;
-  audio.play().catch(()=>{});
+
+const audio=document.getElementById(id);
+
+audio.currentTime=0;
+
+audio.play().catch(()=>{});
+
 }
+
+/* CONFETTI */
 
 function makeConfetti(){
-  for(let i=0;i<18;i++){
-    const s=document.createElement("div");
-    s.className="confetti";
-    s.textContent="★";
-    s.style.left=Math.random()*100+"vw";
-    s.style.color=["#ffbf00","#58c7ff","#ff6b9a","#72d572"][Math.floor(Math.random()*4)];
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(),1500);
-  }
+
+for(let i=0;i<18;i++){
+
+const s=document.createElement("div");
+
+s.className="confetti";
+
+s.textContent="★";
+
+s.style.left=Math.random()*100+"vw";
+
+s.style.color=
+["#ffbf00","#58c7ff","#ff6b9a","#72d572"]
+[Math.floor(Math.random()*4)];
+
+document.body.appendChild(s);
+
+setTimeout(()=>{
+s.remove();
+},1500);
+
 }
 
-for(let i=0;i<26;i++){
-  const star=document.createElement("span");
-  star.textContent=i%2?"★":"✦";
-  star.style.left=Math.random()*100+"vw";
-  star.style.fontSize=(14+Math.random()*20)+"px";
-  star.style.animationDelay=Math.random()*8+"s";
-  bg.appendChild(star);
 }
+
+/* FLOATING STARS */
+
+for(let i=0;i<26;i++){
+
+const star=document.createElement("span");
+
+star.textContent=i%2?"★":"✦";
+
+star.style.left=Math.random()*100+"vw";
+
+star.style.fontSize=
+(14+Math.random()*20)+"px";
+
+star.style.animationDelay=
+Math.random()*8+"s";
+
+bg.appendChild(star);
+
+}
+
 </script>
+
 </body>
 </html>
+```
