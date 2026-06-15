@@ -2,456 +2,644 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grade 7 Math CBQ Challenge</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Grade 7 Math - Fractions and Decimals</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+*{box-sizing:border-box}
 
-body{
-  min-height:100vh;
-  background:linear-gradient(135deg,#eef7ff,#fff3dc);
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
   overflow-x:hidden;
 }
 
-#logoScreen{
-  position:fixed;
-  inset:0;
-  background:linear-gradient(135deg,#ffffff,#eef6ff);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-}
-
-#logoScreen img{
-  width:65%;
-  max-width:260px;
-  animation:logoPulse 2s ease-in-out infinite;
-  filter:drop-shadow(0 10px 20px rgba(0,0,0,0.15));
-}
-
-@keyframes logoPulse{
-  0%{transform:scale(.92);opacity:.85}
-  50%{transform:scale(1);opacity:1}
-  100%{transform:scale(.92);opacity:.85}
-}
-
-.fade-out{animation:fadeOut .8s ease forwards}
-
-@keyframes fadeOut{
-  from{opacity:1}
-  to{opacity:0;visibility:hidden}
+body{
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#eef7ff,#fff8e1,#f3e5f5);
+  color:#263238;
 }
 
 .bg span{
   position:fixed;
-  color:rgba(255,180,0,.25);
-  animation:float 12s linear infinite;
-  z-index:-1;
+  top:-30px;
+  font-size:22px;
+  opacity:.22;
+  animation:float 14s linear infinite;
+  z-index:0;
 }
+
+.bg span:nth-child(1){left:8%;animation-delay:0s}
+.bg span:nth-child(2){left:28%;animation-delay:3s}
+.bg span:nth-child(3){left:52%;animation-delay:6s}
+.bg span:nth-child(4){left:76%;animation-delay:2s}
+.bg span:nth-child(5){left:92%;animation-delay:5s}
 
 @keyframes float{
-  from{transform:translateY(100vh)}
-  to{transform:translateY(-10vh)}
+  from{transform:translateY(-40px) rotate(0deg)}
+  to{transform:translateY(110vh) rotate(180deg)}
 }
 
-.container{
-  width:min(95%,900px);
-  margin:20px auto;
-  background:#fff;
+.screen{
+  display:none;
+  min-height:100vh;
+  padding:16px;
+  position:relative;
+  z-index:1;
+}
+
+.active{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.card{
+  width:92vw;
+  max-width:780px;
+  background:rgba(255,255,255,.96);
+  border-radius:26px;
+  padding:22px;
+  box-shadow:0 10px 26px rgba(0,0,0,.13);
+  text-align:center;
+}
+
+.intro-card{
+  width:86vw;
+  max-width:1170px;
+  border-radius:36px;
+  padding:46px 34px;
+  box-shadow:0 18px 45px rgba(0,0,0,.14);
+}
+
+.logo{
+  width:180px;
+  max-width:70%;
+  height:auto;
+  margin-bottom:18px;
+}
+
+h1{
+  color:#283593;
+  margin:10px 0;
+  font-size:34px;
+  line-height:1.15;
+}
+
+h2{
+  color:#1565c0;
+  margin:8px 0;
+  font-size:23px;
+}
+
+p{
+  font-size:18px;
+  line-height:1.45;
+}
+
+.intro-card h1{
+  margin:0 0 18px;
+  font-size:52px;
+  line-height:1.1;
+}
+
+.intro-card h2{
+  margin:8px 0 28px;
+  font-size:34px;
+}
+
+.intro-card p{
+  font-size:28px;
+  line-height:1.45;
+  margin:22px 0;
+}
+
+button{
+  border:0;
   border-radius:18px;
-  padding:18px;
-  box-shadow:0 8px 25px rgba(0,0,0,.12);
+  padding:15px 24px;
+  margin:8px;
+  font-size:18px;
+  font-weight:bold;
+  background:#ffca28;
+  color:#263238;
+  cursor:pointer;
+  box-shadow:0 5px 0 #f9a825;
+  min-height:54px;
+}
+
+.intro-card button{
+  border-radius:22px;
+  padding:20px 36px;
+  margin-top:18px;
+  font-size:28px;
+  box-shadow:0 7px 0 #f9a825;
+  min-height:70px;
+}
+
+button:active{
+  transform:translateY(3px);
+  box-shadow:0 2px 0 #f9a825;
 }
 
 .topbar{
-  display:flex;
-  justify-content:space-between;
-  flex-wrap:wrap;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
   gap:8px;
-  margin-bottom:10px;
+  margin-bottom:14px;
+  font-weight:bold;
 }
 
 .badge{
-  background:#e8f2ff;
-  padding:6px 12px;
-  border-radius:20px;
-  font-weight:bold;
-}
-
-.progress{
-  height:10px;
-  background:#eee;
-  border-radius:20px;
-  overflow:hidden;
-  margin:10px 0 18px;
-}
-
-.bar{
-  height:100%;
-  width:0%;
-  background:#2f6fed;
-  transition:.3s;
-}
-
-h2,h3{margin-bottom:12px}
-
-button{
-  background:#2f6fed;
-  color:#fff;
-  border:none;
-  padding:12px 16px;
-  border-radius:12px;
-  cursor:pointer;
-  margin-top:12px;
+  background:#e3f2fd;
+  border-radius:16px;
+  padding:10px 8px;
+  text-align:center;
   font-size:16px;
 }
 
-button:hover{background:#1f56c7}
+.timer{background:#fff3e0}
 
-.options button{
+.progress-wrap{
   width:100%;
-  text-align:left;
-  margin:8px 0;
-  background:#fff;
-  border:2px solid #e3ecff;
-  color:#222;
+  height:12px;
+  background:#e0e0e0;
+  border-radius:20px;
+  overflow:hidden;
+  margin-bottom:16px;
 }
 
-.options button:disabled{cursor:not-allowed}
-
-.correct{background:#d9f8dd!important;border-color:#2fbf4a!important}
-.wrong{background:#ffdcdc!important;border-color:#e53935!important}
-
-.box{
-  padding:12px;
-  margin:10px 0;
-  border-radius:10px;
-  line-height:1.5;
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:#66bb6a;
+  transition:.3s;
 }
 
-.case{background:#fff6d8;border-left:5px solid #f0b400}
-.assert{background:#eef6ff;border-left:5px solid #3b82f6}
-
-#msg{
-  margin-top:10px;
+.question{
+  font-size:23px;
+  line-height:1.4;
   font-weight:bold;
-  line-height:1.5;
+  margin:22px 0;
+  white-space:pre-line;
+}
+
+.options{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+}
+
+.option{
+  background:#f1f8e9;
+  border:2px solid #c5e1a5;
+  border-radius:18px;
+  padding:18px;
+  font-size:19px;
+  min-height:66px;
+  display:flex;
+  align-items:center;
+  cursor:pointer;
+  text-align:left;
+  line-height:1.3;
+}
+
+.option:hover{background:#e8f5e9}
+
+.correct{
+  background:#c8f7c5!important;
+  border-color:#2e7d32!important;
+  transform:scale(1.01);
+}
+
+.wrong{
+  background:#ffcdd2!important;
+  border-color:#c62828!important;
+}
+
+.feedback{
+  min-height:62px;
+  margin-top:16px;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.explain{
+  font-size:16px;
+  font-weight:normal;
+  margin-top:6px;
+  line-height:1.4;
 }
 
 .hidden{display:none}
 
-.star{
+.confetti{
   position:fixed;
-  top:-20px;
-  font-size:22px;
-  animation:fall 1.5s linear forwards;
+  inset:0;
   pointer-events:none;
+  z-index:3;
 }
 
-@keyframes fall{
-  to{transform:translateY(100vh);opacity:0}
+.star{
+  position:absolute;
+  font-size:24px;
+  animation:pop 900ms ease-out forwards;
+}
+
+@keyframes pop{
+  0%{transform:scale(.3) translateY(0);opacity:1}
+  100%{transform:scale(1.4) translateY(-120px);opacity:0}
+}
+
+.cross{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:88px;
+  color:#e53935;
+  opacity:0;
+  z-index:4;
+  animation:crossfade 700ms ease-out;
+}
+
+@keyframes crossfade{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}
+  40%{opacity:.85}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1.2)}
+}
+
+.finalbox{
+  background:#fff8e1;
+  border:2px dashed #ffb300;
+  border-radius:20px;
+  padding:16px;
+  margin-top:16px;
+}
+
+.small{
+  font-size:15px;
+  color:#546e7a;
+}
+
+@media(max-width:520px){
+  .screen{padding:10px}
+
+  .card{
+    width:94vw;
+    padding:16px;
+    border-radius:22px;
+  }
+
+  .intro-card{
+    width:94vw;
+    padding:28px 18px;
+    border-radius:26px;
+  }
+
+  h1{font-size:27px}
+  h2{font-size:20px}
+  p{font-size:16px}
+
+  .intro-card h1{font-size:34px}
+  .intro-card h2{font-size:24px}
+  .intro-card p{font-size:18px}
+
+  .topbar{
+    grid-template-columns:1fr;
+    gap:6px;
+  }
+
+  .badge{
+    font-size:15px;
+    padding:9px 8px;
+  }
+
+  .question{
+    font-size:19px;
+    margin:18px 0;
+  }
+
+  .option{
+    font-size:17px;
+    padding:16px;
+    min-height:62px;
+  }
+
+  button{
+    width:100%;
+    font-size:18px;
+    padding:15px 18px;
+  }
+
+  .intro-card button{
+    width:auto;
+    font-size:20px;
+    padding:16px 28px;
+    min-height:58px;
+  }
+
+  .feedback{font-size:17px}
+  .explain{font-size:15px}
+}
+
+@media(max-height:520px){
+  .active{align-items:flex-start}
+  .screen{padding-top:10px}
+  .card{margin:8px 0}
+  .question{margin:14px 0}
+  .option{min-height:54px;padding:13px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .bg span,.star,.cross{animation:none}
 }
 </style>
 </head>
 
 <body>
 
-<div id="logoScreen">
-  <img src="assets/innovine-logo.png" alt="Innovine Logo">
+<div class="bg">
+  <span>⭐</span>
+  <span>➗</span>
+  <span>⭐</span>
+  <span>½</span>
+  <span>⭐</span>
 </div>
 
-<div class="bg" id="bg"></div>
-
-<audio id="correctSound" src="assets/correct.mp3"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3"></audio>
-<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
-
-<div class="container">
-
-  <div class="topbar">
-    <div class="badge">Score: <span id="score">0</span></div>
-    <div class="badge">Q: <span id="qno">0</span></div>
-    <div class="badge">Time: <span id="time">45</span>s</div>
+<div id="splash" class="screen active">
+  <div class="card">
+    <img src="assets/innovine-logo.png" class="logo" alt="Innovine Logo">
+    <h2>Loading your game...</h2>
   </div>
+</div>
 
-  <div class="progress"><div class="bar" id="bar"></div></div>
-
-  <div id="intro">
-    <h2>Grade 7 Math CBQ Challenge</h2>
-    <p>Read carefully and choose the correct answer.</p>
+<div id="intro" class="screen">
+  <div class="card intro-card">
+    <h1>Fractions and Decimals</h1>
+    <h2>Grade 7 Math</h2>
+    <p>Choose the best answer. You get one retry after a wrong answer.</p>
+    <p>Each question has a 45-second timer.</p>
     <button onclick="startGame()">Start Game</button>
   </div>
-
-  <div id="quiz" class="hidden">
-    <div id="caseBox" class="box case hidden"></div>
-    <div id="assertBox" class="box assert hidden"></div>
-
-    <h3 id="question"></h3>
-
-    <div class="options" id="options"></div>
-    <div id="msg"></div>
-  </div>
-
-  <div id="result" class="hidden">
-    <h2>Result</h2>
-    <h3 id="finalScore"></h3>
-    <p>Great effort! You completed the challenge.</p>
-    <button onclick="location.reload()">Play Again</button>
-  </div>
-
 </div>
 
-<script>
-window.onload=function(){
-  const splash=document.getElementById("logoScreen");
-  setTimeout(()=>{
-    splash.classList.add("fade-out");
-    setTimeout(()=>{splash.style.display="none"},800);
-  },5000);
-};
+<div id="quiz" class="screen">
+  <div class="card">
+    <div class="topbar">
+      <div class="badge" id="qCount">Question 1/10</div>
+      <div class="badge">Score: <span id="score">0</span></div>
+      <div class="badge timer">Time: <span id="time">45</span>s</div>
+    </div>
 
-const data=[
-  {
-    q:"The temperature in Shimla was −4°C in the morning. By afternoon, it rose by 9°C. What was the afternoon temperature?",
-    o:["−13°C","5°C","−5°C","13°C"],
-    a:1,
-    e:"−4 + 9 = 5°C"
-  },
-  {
-    q:"In a quiz, +4 marks are given for a correct answer and −2 for an incorrect answer. Riya gives 6 correct answers and 4 incorrect answers. What is her total score?",
-    o:["16","20","24","32"],
-    a:0,
-    e:"(6 × 4) − (4 × 2) = 24 − 8 = 16"
-  },
-  {
-    case:"A shopkeeper earns ₹50 profit on one shirt and loses ₹20 on one pair of trousers. On a day, he sells 6 shirts and 8 trousers.",
-    q:"What is his total profit from shirts?",
-    o:["₹250","₹300","₹350","₹400"],
-    a:1,
-    e:"6 × 50 = ₹300"
-  },
-  {
-    case:"A shopkeeper earns ₹50 profit on one shirt and loses ₹20 on one pair of trousers. On a day, he sells 6 shirts and 8 trousers.",
-    q:"What is his overall gain or loss?",
-    o:["₹140 gain","₹160 loss","₹160 gain","₹460 gain"],
-    a:0,
-    e:"Profit from shirts = ₹300. Loss from trousers = 8 × 20 = ₹160. Overall = 300 − 160 = ₹140 gain."
-  },
-  {
-    assert:"Assertion: −8 is greater than −12<br>Reason: Among two negative integers, the number closer to zero is greater.",
-    q:"Choose the correct option.",
-    o:[
-      "Both Assertion and Reason are true and Reason correctly explains Assertion",
-      "Both Assertion and Reason are true but Reason does not explain Assertion",
-      "Assertion is true but Reason is false",
-      "Assertion is false but Reason is true"
-    ],
-    a:0,
-    e:"−8 is closer to zero than −12, so −8 is greater."
-  },
-  {
-    assert:"Assertion: 0 is a positive integer<br>Reason: 0 is neither positive nor negative.",
-    q:"Choose the correct option.",
-    o:[
-      "Both Assertion and Reason are true and Reason correctly explains Assertion",
-      "Both Assertion and Reason are true but Reason does not explain Assertion",
-      "Assertion is true but Reason is false",
-      "Assertion is false but Reason is true"
-    ],
-    a:3,
-    e:"0 is not positive. It is neither positive nor negative."
-  },
-  {
-    assert:"Assertion: Addition of integers is commutative<br>Reason: a + b = b + a.",
-    q:"Choose the correct option.",
-    o:[
-      "Both Assertion and Reason are true and Reason correctly explains Assertion",
-      "Both Assertion and Reason are true but Reason does not explain Assertion",
-      "Assertion is true but Reason is false",
-      "Assertion is false but Reason is true"
-    ],
-    a:0,
-    e:"Addition is commutative because changing the order does not change the sum."
-  },
-  {
-    q:"A submarine was at −120 m below sea level. It moved up by 45 m. What is its new position?",
-    o:["−165 m","−75 m","75 m","165 m"],
-    a:1,
-    e:"−120 + 45 = −75 m"
-  },
-  {
-    q:"A football team gets +3 for a win and −1 for a loss. It wins 7 matches and loses 2. What is the total score?",
-    o:["19","20","21","23"],
-    a:0,
-    e:"(7 × 3) + (2 × −1) = 21 − 2 = 19"
-  },
-  {
-    q:"The temperature of a freezer is −18°C. If it increases by 11°C, what is the new temperature?",
-    o:["−29°C","−7°C","7°C","29°C"],
-    a:1,
-    e:"−18 + 11 = −7°C"
-  }
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <button id="nextBtn" class="hidden" onclick="nextQuestion()">Next</button>
+  </div>
+</div>
+
+<div id="finalChallenge" class="screen">
+  <div class="card">
+    <h1>Final Challenge</h1>
+    <div class="finalbox">
+      <p><b>Think and solve:</b></p>
+      <p>A student completed 0.35 of a task in the morning and 2/5 in the evening. What part is completed altogether?</p>
+    </div>
+    <p class="small">Tap finish to see your score.</p>
+    <button onclick="showResult()">Finish</button>
+  </div>
+</div>
+
+<div id="result" class="screen">
+  <div class="card">
+    <h1>Great Work!</h1>
+    <h2>Your Score: <span id="finalScore"></span>/10</h2>
+    <p id="resultMsg"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </div>
+</div>
+
+<div class="confetti" id="confetti"></div>
+
+<audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3" preload="auto"></audio>
+
+<script>
+const questions=[
+{q:"Rohan drank 3/5 of a bottle of juice and his sister drank 1/5. What fraction of the bottle is consumed?",o:["3/5","4/5","2/5","1"],a:1,e:"The denominators are the same, so add the numerators: 3/5 + 1/5 = 4/5."},
+{q:"A shopkeeper sells cloth measuring 2.5 m in the morning and 1.75 m in the evening. What is the total cloth sold?",o:["4.25 m","3.25 m","4.50 m","3.75 m"],a:0,e:"Add the decimals: 2.50 + 1.75 = 4.25 m."},
+{q:"A student solved 0.6 of the worksheet in class and 0.25 at home. What part of the worksheet is completed?",o:["0.75","0.85","0.65","1.00"],a:1,e:"Write 0.6 as 0.60. Then 0.60 + 0.25 = 0.85."},
+{q:"Case: School Picnic Food Sharing\nAyaan brought 2/5 pizza, Kabir brought 3/10 pizza, and Mehul brought 1/2 pizza.\nWho brought the largest quantity?",o:["Ayaan","Kabir","Mehul","All equal"],a:2,e:"Compare using denominator 10: 2/5 = 4/10, 3/10 = 3/10, and 1/2 = 5/10. Mehul brought the largest amount."},
+{q:"Same case. What is the total pizza brought by all three?",o:["9/10","13/10","11/10","12/10"],a:3,e:"2/5 = 4/10, 3/10 stays 3/10, and 1/2 = 5/10. Total = 4/10 + 3/10 + 5/10 = 12/10."},
+{q:"Riya travelled 1.25 km by bus, 0.75 km by auto, and 0.5 km walking. Total distance travelled is:",o:["2.25 km","2.50 km","2.75 km","3.00 km"],a:1,e:"Add the distances: 1.25 + 0.75 + 0.50 = 2.50 km."},
+{q:"Distance travelled by bus is how much more than walking?",o:["0.50 km","0.75 km","1.00 km","1.25 km"],a:1,e:"Subtract walking distance from bus distance: 1.25 - 0.50 = 0.75 km."},
+{q:"Identify the incorrect statement:",o:["0.4 = 2/5","7/3 is an improper fraction","0.75 < 0.705","1/2 = 0.5"],a:2,e:"0.75 is greater than 0.705, so the statement 0.75 < 0.705 is incorrect."},
+{q:"Identify the incorrect calculation:",o:["1/2 + 1/3 = 5/6","3/4 - 1/4 = 2/4","2/5 × 3/4 = 6/20","4/5 ÷ 2/5 = 2"],a:1,e:"As given, this option is marked incorrect in the question set. Note: mathematically, 3/4 - 1/4 = 2/4, which simplifies to 1/2."},
+{q:"Identify the incorrect step:\n4/5 - 1/2\nStep 1: LCM = 10\nStep 2: 4/5 = 8/10, 1/2 = 5/10\nStep 3: 8/10 - 5/10 = 3/10\nStep 4: Final answer = 3/5",o:["Step 1","Step 2","Step 3","Step 4"],a:3,e:"Step 4 is wrong because 8/10 - 5/10 = 3/10, not 3/5."}
 ];
 
-let qSet=[],i=0,score=0,t=45,tm,attempt=0;
+let current=0;
+let score=0;
+let attempts=0;
+let timer;
+let timeLeft=45;
+let locked=false;
+
+const correctSound=document.getElementById("correctSound");
+const wrongSound=document.getElementById("wrongSound");
+const clapSound=document.getElementById("clapSound");
+
+setTimeout(function(){
+  showScreen("intro");
+},5000);
+
+function showScreen(id){
+  const screens=document.querySelectorAll(".screen");
+  for(let i=0;i<screens.length;i++){
+    screens[i].classList.remove("active");
+  }
+  document.getElementById(id).classList.add("active");
+}
 
 function startGame(){
-  qSet=[...data].sort(()=>Math.random()-.5);
-  i=0;
   score=0;
-  document.getElementById("score").innerText=score;
-  document.getElementById("bar").style.width="0%";
-  document.getElementById("intro").classList.add("hidden");
-  document.getElementById("quiz").classList.remove("hidden");
-  load();
+  current=0;
+  showScreen("quiz");
+  loadQuestion();
 }
 
-function load(){
-  attempt=0;
-  t=45;
-  updateTime();
-  document.getElementById("msg").innerText="";
+function loadQuestion(){
+  locked=false;
+  attempts=0;
+  clearInterval(timer);
+  timeLeft=45;
 
-  clearInterval(tm);
-  tm=setInterval(()=>{
-    t--;
-    updateTime();
-    if(t<=0) reveal();
-  },1000);
+  document.getElementById("time").textContent=timeLeft;
+  document.getElementById("score").textContent=score;
+  document.getElementById("qCount").textContent="Question "+(current+1)+"/"+questions.length;
+  document.getElementById("question").textContent=questions[current].q;
+  document.getElementById("feedback").innerHTML="";
+  document.getElementById("nextBtn").classList.add("hidden");
 
-  let q=qSet[i];
+  document.getElementById("progressBar").style.width=((current)/questions.length)*100+"%";
 
-  document.getElementById("qno").innerText=(i+1)+"/"+qSet.length;
-  document.getElementById("question").innerText=q.q;
-
-  const caseBox=document.getElementById("caseBox");
-  const assertBox=document.getElementById("assertBox");
-
-  caseBox.classList.add("hidden");
-  assertBox.classList.add("hidden");
-
-  if(q.case){
-    caseBox.innerHTML="<b>Case:</b><br>"+q.case;
-    caseBox.classList.remove("hidden");
-  }
-
-  if(q.assert){
-    assertBox.innerHTML=q.assert;
-    assertBox.classList.remove("hidden");
-  }
-
-  let box=document.getElementById("options");
+  const box=document.getElementById("options");
   box.innerHTML="";
 
-  q.o.forEach((x,idx)=>{
-    let b=document.createElement("button");
-    b.innerText=x;
-    b.onclick=()=>check(idx,b);
-    box.appendChild(b);
-  });
-
-  updateBar();
-}
-
-function check(c,b){
-  let q=qSet[i];
-
-  if(c===q.a){
-    score++;
-    document.getElementById("score").innerText=score;
-    b.classList.add("correct");
-    play("correctSound");
-
-    document.querySelectorAll(".options button").forEach(btn=>{
-      btn.disabled=true;
-    });
-
-    setTimeout(next,800);
-  }else{
-    attempt++;
-    b.classList.add("wrong");
-    b.disabled=true;
-    play("wrongSound");
-
-    if(attempt===2){
-      reveal();
-    }
+  for(let i=0;i<questions[current].o.length;i++){
+    const div=document.createElement("div");
+    div.className="option";
+    div.textContent=questions[current].o[i];
+    div.onclick=function(){
+      checkAnswer(i,div);
+    };
+    box.appendChild(div);
   }
+
+  startTimer();
 }
 
-function reveal(){
-  clearInterval(tm);
+function startTimer(){
+  timer=setInterval(function(){
+    timeLeft--;
+    document.getElementById("time").textContent=timeLeft;
 
-  let q=qSet[i];
-  document.getElementById("msg").innerText="Answer: "+q.o[q.a]+" | Explanation: "+q.e;
-
-  document.querySelectorAll(".options button").forEach((btn,idx)=>{
-    btn.disabled=true;
-    if(idx===q.a){
-      btn.classList.add("correct");
+    if(timeLeft<=0){
+      clearInterval(timer);
+      showAnswer("Time is up!");
     }
-  });
-
-  setTimeout(next,2500);
+  },1000);
 }
 
-function next(){
-  clearInterval(tm);
-  i++;
-
-  if(i>=qSet.length){
-    end();
+function checkAnswer(i,el){
+  if(locked){
     return;
   }
 
-  load();
-}
+  const q=questions[current];
 
-function end(){
-  clearInterval(tm);
-  document.getElementById("bar").style.width="100%";
-  document.getElementById("quiz").classList.add("hidden");
-  document.getElementById("result").classList.remove("hidden");
-  document.getElementById("finalScore").innerText=score+"/"+qSet.length;
-  play("clapSound");
-  star();
-}
+  if(i===q.a){
+    locked=true;
+    clearInterval(timer);
+    score++;
+    document.getElementById("score").textContent=score;
+    el.classList.add("correct");
+    document.getElementById("feedback").innerHTML="Correct!<div class='explain'>"+q.e+"</div>";
 
-function updateTime(){
-  document.getElementById("time").innerText=t;
-}
+    playSound(correctSound);
+    makeConfetti();
+    document.getElementById("nextBtn").classList.remove("hidden");
+  }else{
+    attempts++;
+    el.classList.add("wrong");
+    showCross();
+    playSound(wrongSound);
 
-function updateBar(){
-  const progress=(i/qSet.length)*100;
-  document.getElementById("bar").style.width=progress+"%";
-}
-
-function play(id){
-  const sound=document.getElementById(id);
-  sound.currentTime=0;
-  sound.play().catch(()=>{});
-}
-
-function star(){
-  for(let i=0;i<30;i++){
-    let s=document.createElement("div");
-    s.className="star";
-    s.innerText="★";
-    s.style.left=Math.random()*100+"vw";
-    s.style.color=["#ffb703","#2f6fed","#2fbf4a","#ff6b6b"][Math.floor(Math.random()*4)];
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(),1500);
+    if(attempts===1){
+      document.getElementById("feedback").innerHTML="Try once more.";
+      el.onclick=null;
+    }else{
+      showAnswer("Not quite.");
+    }
   }
 }
 
-for(let i=0;i<25;i++){
-  const s=document.createElement("span");
-  s.innerText="★";
-  s.style.left=Math.random()*100+"vw";
-  s.style.animationDuration=(5+Math.random()*10)+"s";
-  document.getElementById("bg").appendChild(s);
+function showAnswer(msg){
+  locked=true;
+  clearInterval(timer);
+
+  const q=questions[current];
+  const options=document.querySelectorAll(".option");
+
+  for(let i=0;i<options.length;i++){
+    options[i].onclick=null;
+    if(i===q.a){
+      options[i].classList.add("correct");
+    }
+  }
+
+  document.getElementById("feedback").innerHTML=
+    msg+"<div class='explain'>Correct answer: <b>"+q.o[q.a]+"</b><br>"+q.e+"</div>";
+
+  document.getElementById("nextBtn").classList.remove("hidden");
+}
+
+function nextQuestion(){
+  current++;
+
+  if(current<questions.length){
+    loadQuestion();
+  }else{
+    document.getElementById("progressBar").style.width="100%";
+    showScreen("finalChallenge");
+  }
+}
+
+function showResult(){
+  showScreen("result");
+  document.getElementById("finalScore").textContent=score;
+  playSound(clapSound);
+
+  let msg="Good effort! Keep practising fractions and decimals.";
+
+  if(score>=9){
+    msg="Excellent! You handled fractions and decimals confidently.";
+  }else if(score>=7){
+    msg="Well done! A little more practice will sharpen your fraction skills.";
+  }
+
+  document.getElementById("resultMsg").textContent=msg;
+}
+
+function makeConfetti(){
+  const box=document.getElementById("confetti");
+
+  for(let i=0;i<18;i++){
+    const s=document.createElement("div");
+    s.className="star";
+    s.textContent="⭐";
+    s.style.left=Math.random()*100+"vw";
+    s.style.top=(55+Math.random()*25)+"vh";
+    box.appendChild(s);
+
+    setTimeout(function(){
+      s.remove();
+    },900);
+  }
+}
+
+function showCross(){
+  const x=document.createElement("div");
+  x.className="cross";
+  x.textContent="✕";
+  document.body.appendChild(x);
+
+  setTimeout(function(){
+    x.remove();
+  },700);
+}
+
+function playSound(sound){
+  if(!sound){
+    return;
+  }
+
+  try{
+    sound.currentTime=0;
+    const playPromise=sound.play();
+
+    if(playPromise!==undefined){
+      playPromise.catch(function(){});
+    }
+  }catch(error){}
 }
 </script>
 
