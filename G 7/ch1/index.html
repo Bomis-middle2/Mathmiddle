@@ -3,39 +3,248 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Integers MCQ Challenge</title>
+<title>Integers Quest</title>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;min-height:100vh;background:linear-gradient(135deg,#eef7ff,#fff3dc);color:#203040;overflow-x:hidden}
-.logo-screen{position:fixed;inset:0;background:#fff;z-index:99;display:flex;align-items:center;justify-content:center}
-.logo-screen img{max-width:220px;animation:pop 1s ease}
-@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
-.bg span{position:fixed;color:rgba(255,180,0,.35);z-index:-1;animation:float 10s linear infinite}
-@keyframes float{from{transform:translateY(100vh) rotate(0)}to{transform:translateY(-10vh) rotate(360deg)}}
-.container{width:min(92%,820px);margin:28px auto;background:rgba(255,255,255,.94);border-radius:24px;padding:24px;box-shadow:0 10px 28px rgba(0,0,0,.12)}
-.header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
-.header img{height:46px}
-.badge{background:#e8f2ff;padding:8px 12px;border-radius:18px;font-weight:bold}
-h1,h2{text-align:center;margin-bottom:14px}
-p{line-height:1.5}
-.case-box{background:#fff6d9;border-left:5px solid #f0b400;padding:12px;border-radius:12px;margin-bottom:12px;font-weight:bold}
-.assertion-box{background:#eef7ff;border-left:5px solid #3478f6;padding:12px;border-radius:12px;margin-bottom:12px}
-button{border:0;background:#3478f6;color:white;padding:13px 18px;border-radius:14px;font-size:16px;cursor:pointer;margin-top:14px}
+
+body{
+  font-family:Arial,sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#eef7ff,#fff3dc);
+  color:#203040;
+  overflow-x:hidden;
+}
+
+.logo-screen{
+  position:fixed;
+  inset:0;
+  background:#fff;
+  z-index:999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.logo-screen img{
+  max-width:230px;
+  width:70%;
+  animation:pop 1s ease;
+}
+
+@keyframes pop{
+  from{opacity:0;transform:scale(.75)}
+  to{opacity:1;transform:scale(1)}
+}
+
+.bg span{
+  position:fixed;
+  color:rgba(255,180,0,.35);
+  z-index:-1;
+  animation:float 10s linear infinite;
+}
+
+@keyframes float{
+  from{transform:translateY(100vh) rotate(0)}
+  to{transform:translateY(-10vh) rotate(360deg)}
+}
+
+.container{
+  width:min(94%,850px);
+  margin:24px auto;
+  background:rgba(255,255,255,.95);
+  border-radius:24px;
+  padding:22px;
+  box-shadow:0 10px 28px rgba(0,0,0,.12);
+}
+
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:16px;
+  flex-wrap:wrap;
+}
+
+.header img{height:44px}
+
+.badge{
+  background:#e8f2ff;
+  padding:8px 12px;
+  border-radius:18px;
+  font-weight:bold;
+  font-size:15px;
+}
+
+.controls{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.controls button{
+  margin-top:0;
+  padding:8px 12px;
+  font-size:14px;
+}
+
+.controls input{
+  width:95px;
+}
+
+h1,h2{
+  text-align:center;
+  margin-bottom:14px;
+}
+
+p{
+  line-height:1.5;
+  font-size:17px;
+}
+
+ul{
+  margin:12px 0 12px 22px;
+  line-height:1.7;
+  font-size:17px;
+}
+
+.case-box{
+  background:#fff6d9;
+  border-left:5px solid #f0b400;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:12px;
+  font-weight:bold;
+}
+
+.assertion-box{
+  background:#eef7ff;
+  border-left:5px solid #3478f6;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:12px;
+  line-height:1.6;
+}
+
+button{
+  border:0;
+  background:#3478f6;
+  color:white;
+  padding:13px 18px;
+  border-radius:14px;
+  font-size:16px;
+  cursor:pointer;
+  margin-top:14px;
+}
+
 button:hover{background:#245ed0}
-.options button{width:100%;display:block;background:#fff;color:#203040;border:2px solid #dbe7ff;margin:10px 0;text-align:left}
+
+.options button{
+  width:100%;
+  display:block;
+  background:#fff;
+  color:#203040;
+  border:2px solid #dbe7ff;
+  margin:10px 0;
+  text-align:left;
+}
+
 .options button:hover{background:#edf5ff}
-.correct{background:#dcf8dc!important;border-color:#36b24a!important}
-.wrong{background:#ffe1e1!important;border-color:#e23b3b!important}
-.message{min-height:50px;text-align:center;font-weight:bold;margin-top:10px}
-.cross{font-size:42px;color:#e23b3b;animation:shake .3s}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.confetti{position:fixed;top:-20px;font-size:22px;pointer-events:none;animation:fall 1.4s linear forwards}
-@keyframes fall{to{transform:translateY(100vh) rotate(360deg);opacity:0}}
+
+.correct{
+  background:#dcf8dc!important;
+  border-color:#36b24a!important;
+}
+
+.wrong{
+  background:#ffe1e1!important;
+  border-color:#e23b3b!important;
+}
+
+.message{
+  min-height:58px;
+  text-align:center;
+  font-weight:bold;
+  margin-top:10px;
+  font-size:17px;
+}
+
+.cross{
+  font-size:42px;
+  color:#e23b3b;
+  animation:shake .3s;
+}
+
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  75%{transform:translateX(6px)}
+}
+
+.confetti{
+  position:fixed;
+  top:-20px;
+  font-size:22px;
+  pointer-events:none;
+  animation:fall 1.4s linear forwards;
+  z-index:1000;
+}
+
+@keyframes fall{
+  to{transform:translateY(100vh) rotate(360deg);opacity:0}
+}
+
+.progress-wrap{
+  width:100%;
+  height:12px;
+  background:#e8eef8;
+  border-radius:20px;
+  overflow:hidden;
+  margin:10px 0 16px;
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:#3478f6;
+  transition:.3s;
+}
+
 .hidden{display:none}
-.final-box{background:#fff2c7;border:2px dashed #f0b400;padding:18px;border-radius:18px;margin:12px 0}
-@media(max-width:520px){.container{padding:18px;margin:16px auto}.header{flex-direction:column}h1{font-size:24px}}
+
+.final-box{
+  background:#fff2c7;
+  border:2px dashed #f0b400;
+  padding:18px;
+  border-radius:18px;
+  margin:12px 0;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.center{text-align:center}
+
+@media(max-width:560px){
+  .container{
+    padding:16px;
+    margin:14px auto;
+    border-radius:18px;
+  }
+
+  .header{
+    flex-direction:column;
+  }
+
+  h1{font-size:24px}
+  h2{font-size:20px}
+  p,ul{font-size:16px}
+  button{font-size:15px}
+}
 </style>
 </head>
+
 <body>
 
 <div class="logo-screen" id="logoScreen">
@@ -51,15 +260,40 @@ button:hover{background:#245ed0}
 <div class="container">
   <div class="header">
     <img src="assets/innovine-logo.png" alt="Innovine Logo">
+
     <div class="badge">Score: <span id="score">0</span></div>
+    <div class="badge">Question: <span id="progressText">0 / 10</span></div>
     <div class="badge">Time: <span id="timer">45</span>s</div>
+
+    <div class="controls">
+      <button id="muteBtn" onclick="toggleMute()">🔊 Sound</button>
+      <label for="volume">Volume</label>
+      <input id="volume" type="range" min="0" max="1" step="0.1" value="1" oninput="setVolume(this.value)">
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar" id="progressBar"></div>
   </div>
 
   <section id="intro">
     <h1>Integers Quest</h1>
-    <p>Welcome, integer explorer! Solve questions on positive and negative numbers, temperature, scores, profit-loss and integer properties.</p>
-    <p>You get <b>45 seconds</b> for every question and <b>one retry</b> after the first wrong attempt.</p>
-    <button onclick="startGame()">Start Challenge</button>
+    <p>Welcome, integer explorer! You will solve questions about positive and negative numbers in real-life situations.</p>
+    <button onclick="showInstructions()">Continue</button>
+  </section>
+
+  <section id="instructions" class="hidden">
+    <h2>How to Play</h2>
+    <ul>
+      <li>Read each question carefully.</li>
+      <li>You will get 45 seconds for each question.</li>
+      <li>You get one more try after the first wrong answer.</li>
+      <li>After the second wrong answer, the correct answer will be shown.</li>
+      <li>Your score will be shown at the end.</li>
+    </ul>
+    <div class="center">
+      <button onclick="startGame()">Start Challenge</button>
+    </div>
   </section>
 
   <section id="quiz" class="hidden">
@@ -71,13 +305,6 @@ button:hover{background:#245ed0}
     <div class="message" id="message"></div>
   </section>
 
-  <section id="finalChallenge" class="hidden">
-    <h2>Final Challenge</h2>
-    <div class="final-box">A diver is at −35 m and moves up by 20 m. What is the new position?</div>
-    <div class="options" id="finalOptions"></div>
-    <div class="message" id="finalMessage"></div>
-  </section>
-
   <section id="result" class="hidden">
     <h1>Challenge Complete!</h1>
     <h2>Your Final Score: <span id="finalScore"></span></h2>
@@ -87,27 +314,158 @@ button:hover{background:#245ed0}
 </div>
 
 <script>
-setTimeout(()=>document.getElementById("logoScreen").style.display="none",5000);
+setTimeout(function(){
+  document.getElementById("logoScreen").style.display="none";
+},5000);
 
-const questions=[
-{q:"The temperature in Shimla was −4°C in the morning. By afternoon, it rose by 9°C. What was the afternoon temperature?",o:["−13°C","5°C","−5°C","13°C"],a:1,e:"−4 + 9 = 5°C."},
-{q:"In a quiz, +4 marks are given for a correct answer and −2 marks for an incorrect answer. Riya gives 6 correct answers and 4 incorrect answers. What is her total score?",o:["16","20","24","32"],a:0,e:"Score = 6 × 4 + 4 × (−2) = 24 − 8 = 16."},
-{caseText:"Case Study: A shopkeeper earns ₹50 profit on one shirt and loses ₹20 on one pair of trousers. On a day, he sells 6 shirts and 8 pairs of trousers.",q:"What is his total profit from shirts?",o:["₹250","₹300","₹350","₹400"],a:1,e:"Profit from shirts = 6 × ₹50 = ₹300."},
-{caseText:"Case Study: A shopkeeper earns ₹50 profit on one shirt and loses ₹20 on one pair of trousers. On a day, he sells 6 shirts and 8 pairs of trousers.",q:"What is his overall gain or loss?",o:["₹140 gain","₹160 loss","₹160 gain","₹460 gain"],a:0,e:"Profit = ₹300 and loss = 8 × ₹20 = ₹160. Overall = ₹140 gain."},
-{assertion:"Assertion: −8 is greater than −12.",reason:"Reason: Among two negative integers, the integer with smaller absolute value is greater.",q:"Choose the correct option.",o:["Both Assertion and Reason are true, and Reason explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:0,e:"−8 is greater because it is closer to zero than −12."},
-{assertion:"Assertion: 0 is a positive integer.",reason:"Reason: 0 is neither positive nor negative.",q:"Choose the correct option.",o:["Both Assertion and Reason are true.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true.","Both Assertion and Reason are false."],a:2,e:"0 is not positive. It is neither positive nor negative."},
-{assertion:"Assertion: Addition of integers is commutative.",reason:"Reason: For any two integers a and b, a + b = b + a.",q:"Choose the correct option.",o:["Both Assertion and Reason are true, and Reason explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:0,e:"The formula a + b = b + a explains the commutative property."},
-{q:"A submarine was at −120 m below sea level. It moved up by 45 m. What is its new position?",o:["−165 m","−75 m","75 m","165 m"],a:1,e:"−120 + 45 = −75 m."},
-{q:"A football team gets +3 points for a win and −1 point for a loss. If the team wins 7 matches and loses 2 matches, what is the total score?",o:["19","20","21","23"],a:0,e:"Score = 7 × 3 + 2 × (−1) = 21 − 2 = 19."},
-{q:"The temperature of a freezer is −18°C. If the temperature increases by 11°C, what will be the new temperature?",o:["−29°C","−7°C","7°C","29°C"],a:1,e:"−18 + 11 = −7°C."}
+const allQuestions=[
+  {
+    q:"The temperature in Shimla was −4°C in the morning. By afternoon, it rose by 9°C. What was the afternoon temperature?",
+    o:["−13°C","5°C","−5°C","13°C"],
+    a:1,
+    e:"−4 + 9 = 5°C."
+  },
+  {
+    q:"In a quiz, +4 marks are given for a correct answer and −2 marks for an incorrect answer. Riya gives 6 correct answers and 4 incorrect answers. What is her total score?",
+    o:["16","20","24","32"],
+    a:0,
+    e:"Score = 6 × 4 + 4 × (−2) = 24 − 8 = 16."
+  },
+  {
+    caseText:"A shopkeeper earns ₹50 profit on one shirt and loses ₹20 on one pair of trousers. On a day, he sells 6 shirts and 8 pairs of trousers.",
+    q:"What is his total profit from shirts?",
+    o:["₹250","₹300","₹350","₹400"],
+    a:1,
+    e:"Profit from shirts = 6 × ₹50 = ₹300."
+  },
+  {
+    caseText:"A shopkeeper earns ₹50 profit on one shirt and loses ₹20 on one pair of trousers. On a day, he sells 6 shirts and 8 pairs of trousers.",
+    q:"What is his overall gain or loss?",
+    o:["₹140 gain","₹160 loss","₹160 gain","₹460 gain"],
+    a:0,
+    e:"Profit = ₹300 and loss = 8 × ₹20 = ₹160. Overall = ₹140 gain."
+  },
+  {
+    assertion:"Assertion: −8 is greater than −12.",
+    reason:"Reason: Among two negative integers, the integer closer to zero is greater.",
+    q:"Choose the correct option.",
+    o:[
+      "Both Assertion and Reason are true, and Reason explains Assertion.",
+      "Both Assertion and Reason are true, but Reason does not explain Assertion.",
+      "Assertion is true, but Reason is false.",
+      "Assertion is false, but Reason is true."
+    ],
+    a:0,
+    e:"−8 is greater because it is closer to zero than −12."
+  },
+  {
+    assertion:"Assertion: 0 is a positive integer.",
+    reason:"Reason: 0 is neither positive nor negative.",
+    q:"Choose the correct option.",
+    o:[
+      "Both Assertion and Reason are true.",
+      "Assertion is true, but Reason is false.",
+      "Assertion is false, but Reason is true.",
+      "Both Assertion and Reason are false."
+    ],
+    a:2,
+    e:"0 is not positive. It is neither positive nor negative."
+  },
+  {
+    assertion:"Assertion: Addition of integers is commutative.",
+    reason:"Reason: For any two integers a and b, a + b = b + a.",
+    q:"Choose the correct option.",
+    o:[
+      "Both Assertion and Reason are true, and Reason explains Assertion.",
+      "Both Assertion and Reason are true, but Reason does not explain Assertion.",
+      "Assertion is true, but Reason is false.",
+      "Assertion is false, but Reason is true."
+    ],
+    a:0,
+    e:"The formula a + b = b + a explains the commutative property."
+  },
+  {
+    q:"A submarine was at −120 m below sea level. It moved up by 45 m. What is its new position?",
+    o:["−165 m","−75 m","75 m","165 m"],
+    a:1,
+    e:"−120 + 45 = −75 m."
+  },
+  {
+    q:"A football team gets +3 points for a win and −1 point for a loss. If the team wins 7 matches and loses 2 matches, what is the total score?",
+    o:["19","20","21","23"],
+    a:0,
+    e:"Score = 7 × 3 + 2 × (−1) = 21 − 2 = 19."
+  },
+  {
+    q:"The temperature of a freezer is −18°C. If the temperature increases by 11°C, what will be the new temperature?",
+    o:["−29°C","−7°C","7°C","29°C"],
+    a:1,
+    e:"−18 + 11 = −7°C."
+  }
 ];
 
-let index=0,score=0,time=45,timer,attempt=0;
+let questions=[];
+let index=0;
+let score=0;
+let time=45;
+let timer=null;
+let attempt=0;
+let muted=false;
+let volumeLevel=1;
+
+const intro=document.getElementById("intro");
+const instructions=document.getElementById("instructions");
+const quiz=document.getElementById("quiz");
+const result=document.getElementById("result");
+const qTitle=document.getElementById("qTitle");
+const question=document.getElementById("question");
+const options=document.getElementById("options");
+const message=document.getElementById("message");
+const caseBox=document.getElementById("caseBox");
+const assertionBox=document.getElementById("assertionBox");
+const progressText=document.getElementById("progressText");
+const progressBar=document.getElementById("progressBar");
+
+function showInstructions(){
+  intro.classList.add("hidden");
+  instructions.classList.remove("hidden");
+}
 
 function startGame(){
-  intro.classList.add("hidden");
+  questions=shuffleArray(allQuestions).map(function(q){
+    return shuffleOptions(q);
+  });
+
+  instructions.classList.add("hidden");
   quiz.classList.remove("hidden");
   loadQuestion();
+}
+
+function shuffleArray(arr){
+  const copy=arr.slice();
+  for(let i=copy.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    const temp=copy[i];
+    copy[i]=copy[j];
+    copy[j]=temp;
+  }
+  return copy;
+}
+
+function shuffleOptions(q){
+  const correctText=q.o[q.a];
+  const shuffled=shuffleArray(q.o);
+  const newAnswer=shuffled.indexOf(correctText);
+
+  return {
+    q:q.q,
+    o:shuffled,
+    a:newAnswer,
+    e:q.e,
+    caseText:q.caseText || "",
+    assertion:q.assertion || "",
+    reason:q.reason || ""
+  };
 }
 
 function loadQuestion(){
@@ -115,14 +473,21 @@ function loadQuestion(){
   time=45;
   updateTimer();
   clearInterval(timer);
-  timer=setInterval(()=>{
+
+  timer=setInterval(function(){
     time--;
     updateTimer();
-    if(time<=0) showCorrectAnswer();
+    if(time<=0){
+      showCorrectAnswer();
+    }
   },1000);
 
   const item=questions[index];
+
   qTitle.textContent="Question "+(index+1)+" of "+questions.length;
+  progressText.textContent=(index+1)+" / "+questions.length;
+  progressBar.style.width=((index)/questions.length*100)+"%";
+
   question.textContent=item.q;
   message.textContent="";
   options.innerHTML="";
@@ -135,40 +500,48 @@ function loadQuestion(){
   }
 
   if(item.assertion){
-    assertionBox.innerHTML=item.assertion+"<br>"+item.reason;
+    assertionBox.innerHTML="<b>"+item.assertion+"</b><br>"+item.reason;
     assertionBox.classList.remove("hidden");
   }else{
     assertionBox.classList.add("hidden");
   }
 
-  item.o.forEach((opt,i)=>{
+  item.o.forEach(function(opt,i){
     const btn=document.createElement("button");
     btn.textContent=String.fromCharCode(65+i)+". "+opt;
-    btn.onclick=()=>checkAnswer(i,btn);
+    btn.onclick=function(){checkAnswer(i,btn)};
     options.appendChild(btn);
   });
 }
 
-function updateTimer(){document.getElementById("timer").textContent=time;}
+function updateTimer(){
+  document.getElementById("timer").textContent=time;
+}
 
 function checkAnswer(choice,btn){
   const item=questions[index];
+
   if(choice===item.a){
+    clearInterval(timer);
     score++;
     document.getElementById("score").textContent=score;
     btn.classList.add("correct");
     message.textContent="Correct! Great work!";
     playSound("correctSound");
     makeConfetti();
+    disableOptions();
     goNext();
   }else{
     attempt++;
     btn.classList.add("wrong");
+    btn.disabled=true;
     playSound("wrongSound");
     message.innerHTML='<div class="cross">✖</div>';
+
     if(attempt===1){
-      setTimeout(()=>message.textContent="Try once more!",600);
-      btn.disabled=true;
+      setTimeout(function(){
+        message.textContent="Try once more!";
+      },600);
     }else{
       showCorrectAnswer();
     }
@@ -178,89 +551,100 @@ function checkAnswer(choice,btn){
 function showCorrectAnswer(){
   clearInterval(timer);
   const item=questions[index];
+
   message.textContent="Correct answer: "+item.o[item.a]+". "+item.e;
-  [...options.children].forEach((b,i)=>{
+
+  Array.from(options.children).forEach(function(b,i){
     b.disabled=true;
-    if(i===item.a)b.classList.add("correct");
+    if(i===item.a){
+      b.classList.add("correct");
+    }
   });
+
   goNext();
 }
 
-function goNext(){
-  clearInterval(timer);
-  setTimeout(()=>{
-    index++;
-    if(index<questions.length) loadQuestion();
-    else showFinalChallenge();
-  },2400);
-}
-
-function showFinalChallenge(){
-  quiz.classList.add("hidden");
-  finalChallenge.classList.remove("hidden");
-  document.getElementById("timer").textContent="--";
-
-  const opts=["−55 m","−15 m","15 m","55 m"];
-  finalOptions.innerHTML="";
-
-  opts.forEach((op,i)=>{
-    const b=document.createElement("button");
-    b.textContent=String.fromCharCode(65+i)+". "+op;
-    b.onclick=()=>{
-      [...finalOptions.children].forEach(x=>x.disabled=true);
-      if(i===1){
-        score+=2;
-        document.getElementById("score").textContent=score;
-        b.classList.add("correct");
-        finalMessage.textContent="Excellent! −35 + 20 = −15 m.";
-        playSound("clapSound");
-        makeConfetti();
-      }else{
-        b.classList.add("wrong");
-        finalMessage.textContent="Correct answer: −15 m.";
-        playSound("wrongSound");
-      }
-      setTimeout(showResult,2600);
-    };
-    finalOptions.appendChild(b);
+function disableOptions(){
+  Array.from(options.children).forEach(function(b){
+    b.disabled=true;
   });
 }
 
+function goNext(){
+  setTimeout(function(){
+    index++;
+    if(index<questions.length){
+      loadQuestion();
+    }else{
+      showResult();
+    }
+  },2400);
+}
+
 function showResult(){
-  finalChallenge.classList.add("hidden");
+  clearInterval(timer);
+  quiz.classList.add("hidden");
   result.classList.remove("hidden");
-  finalScore.textContent=score+" / 12";
-  resultText.textContent=score>=9
-    ? "Amazing! You are an Integers Star!"
-    : "Good effort! Revise integer addition and negative numbers.";
+  document.getElementById("timer").textContent="--";
+  progressText.textContent=questions.length+" / "+questions.length;
+  progressBar.style.width="100%";
+
+  document.getElementById("finalScore").textContent=score+" / "+questions.length;
+
+  if(score>=8){
+    document.getElementById("resultText").textContent="Excellent! You understand integers very well.";
+  }else if(score>=5){
+    document.getElementById("resultText").textContent="Good effort! Practise integer addition and negative numbers again.";
+  }else{
+    document.getElementById("resultText").textContent="Keep practising. Integers become easier with number line thinking.";
+  }
+
+  playSound("clapSound");
+  makeConfetti();
 }
 
 function playSound(id){
+  if(muted) return;
   const audio=document.getElementById(id);
+  audio.volume=volumeLevel;
   audio.currentTime=0;
-  audio.play().catch(()=>{});
+  audio.play().catch(function(){});
+}
+
+function setVolume(value){
+  volumeLevel=Number(value);
+  ["correctSound","wrongSound","clapSound"].forEach(function(id){
+    document.getElementById(id).volume=volumeLevel;
+  });
+}
+
+function toggleMute(){
+  muted=!muted;
+  document.getElementById("muteBtn").textContent=muted ? "🔇 Muted" : "🔊 Sound";
 }
 
 function makeConfetti(){
-  for(let i=0;i<18;i++){
+  for(let i=0;i<20;i++){
     const s=document.createElement("div");
     s.className="confetti";
     s.textContent="★";
     s.style.left=Math.random()*100+"vw";
     s.style.color=["#ffbf00","#58c7ff","#ff6b9a","#72d572"][Math.floor(Math.random()*4)];
+    s.style.animationDelay=(Math.random()*0.2)+"s";
     document.body.appendChild(s);
-    setTimeout(()=>s.remove(),1500);
+    setTimeout(function(){s.remove()},1500);
   }
 }
 
 for(let i=0;i<26;i++){
   const star=document.createElement("span");
-  star.textContent=i%2?"★":"✦";
+  star.textContent=i%2 ? "★" : "✦";
   star.style.left=Math.random()*100+"vw";
   star.style.fontSize=(14+Math.random()*20)+"px";
   star.style.animationDelay=Math.random()*8+"s";
-  bg.appendChild(star);
+  document.getElementById("bg").appendChild(star);
 }
 </script>
+
 </body>
 </html>
