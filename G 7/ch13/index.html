@@ -1,4 +1,4 @@
-```html
+```html id="p4n6yx"
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +17,7 @@ box-sizing:border-box;
 body{
 font-family:Arial,sans-serif;
 min-height:100vh;
-background:linear-gradient(135deg,#edf6ff,#fff6e6,#f5efff);
+background:linear-gradient(135deg,#eef7ff,#fff4e6,#f3edff);
 overflow-x:hidden;
 color:#1d3557;
 position:relative;
@@ -28,9 +28,9 @@ content:"";
 position:fixed;
 inset:0;
 background:
-radial-gradient(circle at 15% 20%,rgba(255,255,255,.7),transparent 20%),
-radial-gradient(circle at 85% 10%,rgba(255,255,255,.5),transparent 22%),
-radial-gradient(circle at 50% 90%,rgba(255,255,255,.6),transparent 25%);
+radial-gradient(circle at 20% 20%,rgba(255,255,255,.7),transparent 22%),
+radial-gradient(circle at 80% 10%,rgba(255,255,255,.6),transparent 20%),
+radial-gradient(circle at 50% 85%,rgba(255,255,255,.5),transparent 25%);
 pointer-events:none;
 }
 
@@ -46,10 +46,10 @@ z-index:999;
 
 .logo-screen img{
 width:min(250px,70%);
-animation:logoZoom 1s ease;
+animation:logoPop 1s ease;
 }
 
-@keyframes logoZoom{
+@keyframes logoPop{
 from{
 transform:scale(.6);
 opacity:0;
@@ -63,7 +63,7 @@ opacity:1;
 .floating-icons span{
 position:fixed;
 font-size:24px;
-opacity:.25;
+opacity:.22;
 animation:floatUp 12s linear infinite;
 z-index:-1;
 }
@@ -115,16 +115,11 @@ line-height:1.6;
 }
 
 .intro-box{
-background:#fff9db;
-padding:20px;
+background:#fff8db;
+padding:22px;
 border-radius:22px;
-border:2px dashed #f4b400;
+border:2px dashed #f0b400;
 text-align:center;
-}
-
-.intro-logo{
-width:160px;
-margin-bottom:18px;
 }
 
 .start-btn,
@@ -148,7 +143,7 @@ transform:scale(1.03);
 
 .question-card{
 background:#f9fbff;
-border:2px solid #d9e7ff;
+border:2px solid #dbe7ff;
 padding:20px;
 border-radius:22px;
 }
@@ -182,12 +177,12 @@ transform:translateY(-1px);
 }
 
 .correct{
-background:#d9f8df !important;
-border-color:#32b24a !important;
+background:#d8f7df !important;
+border-color:#33b249 !important;
 }
 
 .wrong{
-background:#ffe0e0 !important;
+background:#ffe1e1 !important;
 border-color:#e53935 !important;
 }
 
@@ -222,7 +217,7 @@ display:none;
 }
 
 .final-box{
-background:#fff6cf;
+background:#fff7d1;
 padding:20px;
 border-radius:22px;
 border:2px dashed #f0b400;
@@ -276,6 +271,7 @@ padding:12px;
 
 <body>
 
+<!-- ONLY FIRST 5 SECOND LOGO SCREEN -->
 <div class="logo-screen" id="logoScreen">
 <img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
@@ -306,20 +302,18 @@ padding:12px;
 
 <div class="intro-box">
 
-<img src="assets/innovine-logo.png" class="intro-logo" alt="Innovine Logo">
-
 <h1>Visualising Solid Shapes Adventure</h1>
 
 <p>
-Test your understanding of cubes, cuboids, cylinders, cones, nets, faces, edges, vertices and isometric sketches through competency-based challenges.
+Explore cubes, cuboids, cylinders, cones, nets, vertices, faces and isometric sketches through exciting competency-based challenges.
 </p>
 
 <br>
 
 <p>
-✔ 45 seconds per question<br>
+✔ 45 seconds for each question<br>
 ✔ One retry after the first wrong attempt<br>
-✔ Bonus challenge at the end
+✔ Final bonus challenge included
 </p>
 
 <button class="start-btn" onclick="startQuiz()">
@@ -398,7 +392,7 @@ document.getElementById("logoScreen").style.display="none";
 const questions=[
 
 {
-q:"A dice used in games is an example of which solid shape?",
+q:"A dice used in indoor games is an example of which solid shape?",
 o:["Cuboid","Cube","Cylinder","Cone"],
 a:1,
 e:"A dice has 6 equal square faces, so it is a cube."
@@ -412,45 +406,45 @@ e:"A cuboid has rectangular faces."
 },
 
 {
-q:"A water bottle resembles which solid shape?",
+q:"A cold drink can resembles which solid shape?",
 o:["Cone","Cylinder","Cube","Prism"],
 a:1,
-e:"A cylinder has two circular faces and one curved surface."
+e:"A cylinder has circular faces and one curved surface."
 },
 
 {
 q:"A birthday cap is shaped like a:",
 o:["Cone","Cube","Cylinder","Cuboid"],
 a:0,
-e:"A birthday cap has one circular base and one vertex like a cone."
+e:"A birthday cap resembles a cone."
 },
 
 {
 q:"The flat surface of a solid shape is called:",
 o:["Face","Edge","Vertex","Net"],
 a:0,
-e:"The flat surface of a solid shape is called a face."
+e:"A flat surface is called a face."
 },
 
 {
 q:"The corner point of a solid shape is called:",
-o:["Face","Edge","Vertex","View"],
+o:["Face","Edge","Vertex","Sketch"],
 a:2,
-e:"The corner point where edges meet is called a vertex."
+e:"The point where edges meet is called a vertex."
 },
 
 {
-q:"A solid shape opened flat forms a:",
-o:["Pattern","Net","Sketch","Diagram"],
+q:"When a solid shape is opened flat, the pattern formed is called:",
+o:["Diagram","Net","Outline","View"],
 a:1,
 e:"The flat pattern of a solid shape is called a net."
 },
 
 {
-q:"Which drawing is used to represent a 3D object accurately?",
-o:["Pie chart","Bar graph","Isometric sketch","Line graph"],
+q:"Which drawing method is used to represent 3D objects accurately?",
+o:["Bar graph","Pie chart","Isometric sketch","Line graph"],
 a:2,
-e:"An isometric sketch is used for drawing 3D objects accurately."
+e:"An isometric sketch represents 3D objects accurately."
 },
 
 {
@@ -458,23 +452,23 @@ caseText:"Case Study 1: A solid shape has 6 equal square faces, 12 edges and 8 v
 q:"Identify the solid shape.",
 o:["Cube","Cylinder","Cone","Sphere"],
 a:0,
-e:"A cube has 6 equal square faces."
+e:"A cube has 6 square faces, 12 edges and 8 vertices."
 },
 
 {
 caseText:"Case Study 1: A solid shape has 6 equal square faces, 12 edges and 8 vertices.",
-q:"The faces of this solid are:",
-o:["Circles","Rectangles","Triangles","Squares"],
-a:3,
-e:"Each face of a cube is a square."
+q:"Each face of this solid shape is a:",
+o:["Circle","Rectangle","Square","Triangle"],
+a:2,
+e:"All faces of a cube are squares."
 },
 
 {
 caseText:"Case Study 2: A triangular pyramid has triangular faces.",
 q:"Another name for a triangular pyramid is:",
-o:["Cuboid","Cylinder","Tetrahedron","Prism"],
-a:2,
-e:"A triangular pyramid is also called a tetrahedron."
+o:["Cuboid","Prism","Cylinder","Tetrahedron"],
+a:3,
+e:"A triangular pyramid is called a tetrahedron."
 },
 
 {
@@ -683,13 +677,13 @@ document.getElementById("bonusScreen").classList.remove("hidden");
 
 document.getElementById("timer").textContent="--";
 
-const bonusAnswers=["Cylinder","Cone","Cube","Sphere"];
+const answers=["Cylinder","Cone","Cube","Sphere"];
 
 const container=document.getElementById("bonusOptions");
 
 container.innerHTML="";
 
-bonusAnswers.forEach((option,index)=>{
+answers.forEach((option,index)=>{
 
 const button=document.createElement("button");
 
