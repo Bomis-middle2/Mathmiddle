@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -270,7 +271,7 @@ padding:12px;
 
 <body>
 
-<!-- ONLY FIRST 5 SECOND LOGO SCREEN -->
+<!-- ONLY FIRST PAGE LOGO SCREEN -->
 <div class="logo-screen" id="logoScreen">
 <img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
@@ -489,7 +490,6 @@ let retry=0;
 function startQuiz(){
 
 document.getElementById("introScreen").classList.add("hidden");
-
 document.getElementById("quizScreen").classList.remove("hidden");
 
 loadQuestion();
@@ -499,7 +499,6 @@ loadQuestion();
 function loadQuestion(){
 
 retry=0;
-
 timeLeft=45;
 
 clearInterval(timer);
@@ -513,9 +512,7 @@ timeLeft--;
 updateTimer();
 
 if(timeLeft<=0){
-
 showCorrectAnswer();
-
 }
 
 },1000);
@@ -561,9 +558,7 @@ optionsContainer.appendChild(button);
 }
 
 function updateTimer(){
-
 document.getElementById("timer").textContent=timeLeft;
-
 }
 
 function checkAnswer(choice,button){
