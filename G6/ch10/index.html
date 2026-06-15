@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,11 +67,13 @@ position:relative;
 z-index:2;
 }
 
+/* Hidden */
+
 .hidden{
 display:none;
 }
 
-/* Splash */
+/* Splash Screen */
 
 #splash{
 position:fixed;
@@ -84,7 +85,6 @@ background:white;
 display:flex;
 justify-content:center;
 align-items:center;
-flex-direction:column;
 z-index:9999;
 }
 
@@ -108,18 +108,32 @@ text-align:center;
 .intro h1{
 font-size:2rem;
 color:#6d28d9;
-margin-bottom:15px;
+margin-bottom:20px;
 }
 
 .instructions{
 background:#f8f4ff;
-padding:20px;
+padding:25px;
 border-radius:18px;
-line-height:1.8;
+line-height:1.9;
 margin-top:20px;
 color:#444;
 font-size:1rem;
+text-align:left;
+max-width:650px;
+margin-left:auto;
+margin-right:auto;
 }
+
+.instructions ol{
+padding-left:22px;
+}
+
+.instructions li{
+margin-bottom:10px;
+}
+
+/* Buttons */
 
 button{
 padding:14px 28px;
@@ -251,7 +265,6 @@ table{
 width:100%;
 border-collapse:collapse;
 margin-top:20px;
-overflow-x:auto;
 }
 
 th,td{
@@ -320,19 +333,32 @@ font-size:2rem;
 <img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
+<!-- Main App -->
+
 <div class="container hidden" id="app">
 
-<!-- Intro Screen -->
+<!-- Intro -->
 
 <div id="introScreen" class="intro">
 
 <h1>Interactive Challenge</h1>
 
 <div class="instructions">
-✅ Read each question carefully<br>
-✅ You get only 2 chances per question<br>
-✅ Correct answer will appear after 2 wrong attempts<br>
-✅ Complete all questions and unlock the final celebration
+
+<ol>
+<li>Read every question carefully before answering.</li>
+
+<li>You get only 2 chances for each question.</li>
+
+<li>Correct answer will appear after 2 wrong attempts.</li>
+
+<li>Each question has a 45-second timer.</li>
+
+<li>Complete all questions to unlock the final celebration.</li>
+
+<li>Try to score full marks and become the champion.</li>
+</ol>
+
 </div>
 
 <button onclick="startQuiz()">
@@ -377,7 +403,7 @@ Next Question
 
 </div>
 
-<!-- Final Screen -->
+<!-- Result Screen -->
 
 <div id="resultScreen" class="hidden final-page">
 
@@ -453,11 +479,12 @@ let attempts=0;
 let timer;
 let timeLeft=45;
 
-/* Start */
+/* Start Quiz */
 
 function startQuiz(){
 
 document.getElementById("introScreen").classList.add("hidden");
+
 document.getElementById("quizScreen").classList.remove("hidden");
 
 loadQuestion();
@@ -523,6 +550,7 @@ document.getElementById("timer").innerText=timeLeft;
 if(timeLeft<=0){
 
 clearInterval(timer);
+
 showCorrectAnswer();
 
 }
@@ -612,7 +640,7 @@ document.getElementById("nextBtn").classList.remove("hidden");
 
 }
 
-/* Disable */
+/* Disable Options */
 
 function disableOptions(){
 
@@ -624,7 +652,7 @@ opt.style.pointerEvents="none";
 
 }
 
-/* Next */
+/* Next Question */
 
 function nextQuestion(){
 
@@ -642,7 +670,7 @@ showResults();
 
 }
 
-/* Results */
+/* Show Results */
 
 function showResults(){
 
