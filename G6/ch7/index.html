@@ -47,7 +47,7 @@ transform:translate(-300px,-300px);
 }
 }
 
-/* SPLASH SCREEN ONLY */
+/* SPLASH SCREEN */
 
 #splash{
 position:fixed;
@@ -73,7 +73,7 @@ visibility:hidden;
 }
 }
 
-/* CONTAINER */
+/* MAIN CONTAINER */
 
 .container{
 width:95%;
@@ -96,8 +96,6 @@ box-shadow:0 10px 30px rgba(0,0,0,0.12);
 .center{
 text-align:center;
 }
-
-/* HEADINGS */
 
 h1,h2{
 margin-bottom:15px;
@@ -147,7 +145,7 @@ border-radius:12px;
 font-weight:bold;
 }
 
-/* PROGRESS */
+/* PROGRESS BAR */
 
 .progress{
 height:12px;
@@ -193,7 +191,7 @@ background:#e0e7ff;
 transform:translateY(-2px);
 }
 
-/* ANSWERS */
+/* CORRECT / WRONG */
 
 .correct{
 background:#d8f3dc !important;
@@ -296,6 +294,20 @@ opacity:0;
 }
 }
 
+/* ORDERED LIST */
+
+.instructions{
+text-align:left;
+max-width:500px;
+margin:20px auto;
+line-height:1.9;
+font-size:17px;
+}
+
+.instructions li{
+margin-bottom:8px;
+}
+
 /* MOBILE */
 
 @media(max-width:600px){
@@ -315,7 +327,7 @@ font-size:15px;
 
 <body>
 
-<!-- SPLASH SCREEN -->
+<!-- SPLASH SCREEN ONLY -->
 
 <div id="splash">
 <img src="assets/innovine-logo.png" alt="Innovine Logo">
@@ -323,24 +335,31 @@ font-size:15px;
 
 <div class="container">
 
-<!-- INTRO -->
+<!-- INTRO SCREEN -->
 
 <div class="card center" id="introScreen">
 
 <h1>Understanding Elementary Shapes</h1>
 
-<p style="margin-top:15px; line-height:1.7;">
-
-🔷 Explore triangles, quadrilaterals, polygons and shapes through exciting challenges!
-
-<br><br>
-
-✅ 15 MCQs<br>
-✅ 45 Seconds Timer<br>
-✅ Retry Chance<br>
-✅ Final Challenge Round
-
+<p style="margin-top:10px;font-size:18px;">
+🔷 Explore exciting geometry challenges!
 </p>
+
+<ol class="instructions">
+
+<li>Answer all MCQs carefully.</li>
+
+<li>You will get 45 seconds for each question.</li>
+
+<li>You can retry once after a wrong answer.</li>
+
+<li>Read tables and assertions carefully.</li>
+
+<li>Complete the final challenge to earn bonus points.</li>
+
+<li>Try to score maximum points and become a Shapes Champion.</li>
+
+</ol>
 
 <button class="btn" onclick="startQuiz()">
 Start Challenge
@@ -348,7 +367,7 @@ Start Challenge
 
 </div>
 
-<!-- QUIZ -->
+<!-- QUIZ SCREEN -->
 
 <div class="card hidden" id="quizScreen">
 
@@ -417,13 +436,13 @@ Triangle
 
 </div>
 
-<!-- RESULT -->
+<!-- RESULT SCREEN -->
 
 <div class="card hidden center" id="resultScreen">
 
 <h2>🎉 Quiz Completed!</h2>
 
-<h1 style="margin:20px 0; color:#3a0ca3;">
+<h1 style="margin:20px 0;color:#3a0ca3;">
 <span id="finalScore">0</span>/16
 </h1>
 
@@ -502,137 +521,9 @@ question:`A road sign has eight equal sides and eight corners. Which shape is us
 options:["Pentagon","Hexagon","Octagon","Quadrilateral"],
 answer:2,
 explanation:"An octagon has 8 sides."
-},
-
-{
-question:`A student draws a figure with four equal sides and four right angles. Which shape has been drawn?`,
-options:["Rectangle","Rhombus","Square","Kite"],
-answer:2,
-explanation:"A square has four equal sides and four right angles."
-},
-
-{
-question:`A triangular flag has two equal sides while the third side is different. Which type of triangle is it?`,
-options:[
-"Equilateral triangle",
-"Scalene triangle",
-"Isosceles triangle",
-"Right triangle"
-],
-answer:2,
-explanation:"An isosceles triangle has two equal sides."
-},
-
-{
-question:`
-Study the data:
-
-<table>
-<tr><th>Object</th><th>Shape</th></tr>
-<tr><td>Dice face</td><td>Square</td></tr>
-<tr><td>Honeycomb cell</td><td>Hexagon</td></tr>
-<tr><td>Yield traffic sign</td><td>Triangle</td></tr>
-<tr><td>Wheel</td><td>Circle</td></tr>
-</table>
-
-Which object represents a hexagon?
-`,
-options:[
-"Dice face",
-"Honeycomb cell",
-"Yield traffic sign",
-"Wheel"
-],
-answer:1,
-explanation:"Honeycomb cells are hexagons."
-},
-
-{
-question:`A tile pattern has a shape with five sides and five vertices. Which shape is used?`,
-options:["Pentagon","Hexagon","Triangle","Octagon"],
-answer:0,
-explanation:"A pentagon has 5 sides."
-},
-
-{
-question:`A student notices that all sides and angles of a triangle are different. Which triangle is it?`,
-options:[
-"Equilateral triangle",
-"Isosceles triangle",
-"Scalene triangle",
-"Right triangle"
-],
-answer:2,
-explanation:"A scalene triangle has all sides different."
-},
-
-{
-question:`A farmer divides his land into a four-sided figure where only one pair of opposite sides is parallel. Which shape best describes the field?`,
-options:["Square","Rectangle","Trapezium","Rhombus"],
-answer:2,
-explanation:"A trapezium has one pair of parallel sides."
-},
-
-{
-question:`
-Study the table:
-
-<table>
-<tr><th>Shape</th><th>Property</th></tr>
-<tr><td>Square</td><td>All sides equal</td></tr>
-<tr><td>Rectangle</td><td>Opposite sides equal</td></tr>
-<tr><td>Circle</td><td>No sides</td></tr>
-<tr><td>Triangle</td><td>Three sides</td></tr>
-</table>
-
-Which shape has no sides or corners?
-`,
-options:[
-"Square",
-"Rectangle",
-"Circle",
-"Triangle"
-],
-answer:2,
-explanation:"A circle has no sides or corners."
-},
-
-{
-question:`A playground design includes a shape with six equal sides. Which shape should the designer choose?`,
-options:["Pentagon","Hexagon","Octagon","Triangle"],
-answer:1,
-explanation:"A hexagon has six sides."
-},
-
-{
-question:`Assertion: A square is also a rectangle.<br><br>
-Reason: A square has four right angles and opposite sides equal.`,
-options:[
-"Both are true and reason explains the assertion",
-"Both are true but reason does not explain the assertion",
-"Assertion is true but reason is false",
-"Assertion is false but reason is true"
-],
-answer:0,
-explanation:"A square satisfies all rectangle properties."
-},
-
-{
-question:`Assertion: Every triangle has four sides.<br><br>
-Reason: A triangle is a polygon with three sides.`,
-options:[
-"Both are true and reason explains the assertion",
-"Both are true but reason does not explain the assertion",
-"Assertion is false but reason is true",
-"Both are false"
-],
-answer:2,
-explanation:"Triangles always have 3 sides."
 }
 
 ];
-
-/* VARIABLES */
 
 let currentQuestion = 0;
 let score = 0;
@@ -640,17 +531,24 @@ let retryUsed = false;
 let timer = 45;
 let interval;
 
-const correctSound = document.getElementById("correctSound");
-const wrongSound = document.getElementById("wrongSound");
-const clapSound = document.getElementById("clapSound");
+const correctSound =
+document.getElementById("correctSound");
+
+const wrongSound =
+document.getElementById("wrongSound");
+
+const clapSound =
+document.getElementById("clapSound");
 
 /* START QUIZ */
 
 function startQuiz(){
 
-document.getElementById("introScreen").classList.add("hidden");
+document.getElementById("introScreen")
+.classList.add("hidden");
 
-document.getElementById("quizScreen").classList.remove("hidden");
+document.getElementById("quizScreen")
+.classList.remove("hidden");
 
 loadQuestion();
 
@@ -692,12 +590,14 @@ retryUsed = false;
 
 const q = questions[currentQuestion];
 
-document.getElementById("qno").innerText = currentQuestion + 1;
+document.getElementById("qno").innerText =
+currentQuestion + 1;
 
 document.getElementById("questionBox").innerHTML =
 `<div class="question">${q.question}</div>`;
 
-const optionsBox = document.getElementById("optionsBox");
+const optionsBox =
+document.getElementById("optionsBox");
 
 optionsBox.innerHTML = "";
 
@@ -731,9 +631,12 @@ function checkAnswer(element,index){
 
 const q = questions[currentQuestion];
 
-const options = document.querySelectorAll(".option");
+const options =
+document.querySelectorAll(".option");
 
-options.forEach(opt=>opt.style.pointerEvents="none");
+options.forEach(opt=>
+opt.style.pointerEvents="none"
+);
 
 if(index === q.answer){
 
@@ -767,7 +670,9 @@ retryUsed = true;
 document.getElementById("feedback").innerHTML =
 `<div class="cross">✖</div>Try Again!`;
 
-options.forEach(opt=>opt.style.pointerEvents="auto");
+options.forEach(opt=>
+opt.style.pointerEvents="auto"
+);
 
 element.style.pointerEvents="none";
 
@@ -781,7 +686,8 @@ options[q.answer].classList.add("correct");
 document.getElementById("explanationBox").innerHTML =
 `
 <div class="explanation">
-<strong>Explanation:</strong> ${q.explanation}
+<strong>Explanation:</strong>
+${q.explanation}
 </div>
 `;
 
@@ -833,7 +739,8 @@ function createConfetti(){
 
 for(let i=0;i<20;i++){
 
-const confetti = document.createElement("div");
+const confetti =
+document.createElement("div");
 
 confetti.classList.add("confetti");
 
@@ -860,9 +767,11 @@ confetti.remove();
 
 function showFinalChallenge(){
 
-document.getElementById("quizScreen").classList.add("hidden");
+document.getElementById("quizScreen")
+.classList.add("hidden");
 
-document.getElementById("finalChallenge").classList.remove("hidden");
+document.getElementById("finalChallenge")
+.classList.remove("hidden");
 
 }
 
@@ -871,9 +780,13 @@ document.getElementById("finalChallenge").classList.remove("hidden");
 function finalAnswer(element,isCorrect){
 
 const options =
-document.querySelectorAll("#finalChallenge .option");
+document.querySelectorAll(
+"#finalChallenge .option"
+);
 
-options.forEach(opt=>opt.style.pointerEvents="none");
+options.forEach(opt=>
+opt.style.pointerEvents="none"
+);
 
 if(isCorrect){
 
@@ -903,29 +816,36 @@ showResults();
 
 function showResults(){
 
-document.getElementById("finalChallenge").classList.add("hidden");
+document.getElementById("finalChallenge")
+.classList.add("hidden");
 
-document.getElementById("resultScreen").classList.remove("hidden");
+document.getElementById("resultScreen")
+.classList.remove("hidden");
 
-document.getElementById("finalScore").innerText = score;
+document.getElementById("finalScore").innerText =
+score;
 
 let message = "";
 
-if(score >= 14){
+if(score >= 5){
 
-message = "🌟 Outstanding! You are a Shapes Champion!";
+message =
+"🌟 Outstanding! You are a Shapes Champion!";
 
-}else if(score >= 10){
+}else if(score >= 3){
 
-message = "👏 Great Job! Keep Practicing!";
+message =
+"👏 Great Job! Keep Practicing!";
 
 }else{
 
-message = "📚 Good Effort! Try Again to Improve Your Score!";
+message =
+"📚 Good Effort! Try Again to Improve!";
 
 }
 
-document.getElementById("resultMessage").innerHTML = message;
+document.getElementById("resultMessage").innerHTML =
+message;
 
 }
 
