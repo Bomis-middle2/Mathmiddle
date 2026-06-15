@@ -1,336 +1,276 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Linear Equations MCQ Challenge</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Grade 7 Math - Linear Equations</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:Arial,sans-serif;
-  min-height:100vh;
-  background:linear-gradient(135deg,#eef7ff,#fff3dc);
-  color:#203040;
-  overflow-x:hidden;
-}
-.logo-screen{
-  position:fixed;inset:0;background:#fff;z-index:99;
-  display:flex;align-items:center;justify-content:center;
-}
-.logo-screen img{max-width:220px;animation:pop 1s ease}
-@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
-.bg span{
-  position:fixed;color:rgba(255,180,0,.35);z-index:-1;
-  animation:float 10s linear infinite;
-}
-@keyframes float{
-  from{transform:translateY(100vh) rotate(0)}
-  to{transform:translateY(-10vh) rotate(360deg)}
-}
-.container{
-  width:min(92%,800px);
-  margin:28px auto;
-  background:rgba(255,255,255,.94);
-  border-radius:24px;
-  padding:24px;
-  box-shadow:0 10px 28px rgba(0,0,0,.12);
-}
-.header{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:10px;margin-bottom:18px;
-}
-.header img{height:46px}
-.badge{
-  background:#e8f2ff;
-  padding:8px 12px;
-  border-radius:18px;
-  font-weight:bold;
-}
-h1,h2{text-align:center;margin-bottom:14px}
-p{line-height:1.5}
-.assertion-box{
-  background:#eef7ff;
-  border-left:5px solid #3478f6;
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:12px;
-}
-button{
-  border:0;background:#3478f6;color:white;
-  padding:13px 18px;border-radius:14px;
-  font-size:16px;cursor:pointer;margin-top:14px;
-}
-button:hover{background:#245ed0}
-.options button{
-  width:100%;display:block;background:#fff;color:#203040;
-  border:2px solid #dbe7ff;margin:10px 0;text-align:left;
-}
-.options button:hover{background:#edf5ff}
-.correct{background:#dcf8dc!important;border-color:#36b24a!important}
-.wrong{background:#ffe1e1!important;border-color:#e23b3b!important}
-.message{
-  min-height:50px;text-align:center;font-weight:bold;margin-top:10px;
-}
-.cross{font-size:42px;color:#e23b3b;animation:shake .3s}
-@keyframes shake{
-  0%,100%{transform:translateX(0)}
-  25%{transform:translateX(-6px)}
-  75%{transform:translateX(6px)}
-}
-.confetti{
-  position:fixed;top:-20px;font-size:22px;
-  pointer-events:none;animation:fall 1.4s linear forwards;
-}
-@keyframes fall{
-  to{transform:translateY(100vh) rotate(360deg);opacity:0}
-}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;width:100%;min-height:100%;overflow-x:hidden}
+body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#eef7ff,#fff8e1,#f3e5f5);color:#263238}
+.bg span{position:fixed;top:-30px;font-size:22px;opacity:.22;animation:float 14s linear infinite;z-index:0}
+.bg span:nth-child(1){left:8%;animation-delay:0s}.bg span:nth-child(2){left:28%;animation-delay:3s}.bg span:nth-child(3){left:52%;animation-delay:6s}.bg span:nth-child(4){left:76%;animation-delay:2s}.bg span:nth-child(5){left:92%;animation-delay:5s}
+@keyframes float{from{transform:translateY(-40px) rotate(0deg)}to{transform:translateY(110vh) rotate(180deg)}}
+.screen{display:none;min-height:100vh;padding:16px;position:relative;z-index:1}
+.active{display:flex;align-items:center;justify-content:center}
+.card{width:92vw;max-width:780px;background:rgba(255,255,255,.96);border-radius:26px;padding:22px;box-shadow:0 10px 26px rgba(0,0,0,.13);text-align:center}
+.intro-card{width:86vw;max-width:1170px;border-radius:36px;padding:46px 34px;box-shadow:0 18px 45px rgba(0,0,0,.14)}
+.logo{width:180px;max-width:70%;height:auto;margin-bottom:18px}
+h1{color:#283593;margin:10px 0;font-size:34px;line-height:1.15}
+h2{color:#1565c0;margin:8px 0;font-size:23px}
+p{font-size:18px;line-height:1.45}
+.intro-card h1{margin:0 0 18px;font-size:52px;line-height:1.1}
+.intro-card h2{margin:8px 0 28px;font-size:34px}
+.intro-card p{font-size:28px;line-height:1.45;margin:22px 0}
+button{border:0;border-radius:18px;padding:15px 24px;margin:8px;font-size:18px;font-weight:bold;background:#ffca28;color:#263238;cursor:pointer;box-shadow:0 5px 0 #f9a825;min-height:54px}
+.intro-card button{border-radius:22px;padding:20px 36px;margin-top:18px;font-size:28px;box-shadow:0 7px 0 #f9a825;min-height:70px}
+button:active{transform:translateY(3px);box-shadow:0 2px 0 #f9a825}
+.topbar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;font-weight:bold}
+.badge{background:#e3f2fd;border-radius:16px;padding:10px 8px;text-align:center;font-size:16px}
+.timer{background:#fff3e0}
+.progress-wrap{width:100%;height:12px;background:#e0e0e0;border-radius:20px;overflow:hidden;margin-bottom:16px}
+.progress-bar{height:100%;width:0%;background:#66bb6a;transition:.3s}
+.question{font-size:23px;line-height:1.4;font-weight:bold;margin:22px 0;white-space:pre-line}
+.options{display:grid;grid-template-columns:1fr;gap:12px}
+.option{background:#f1f8e9;border:2px solid #c5e1a5;border-radius:18px;padding:18px;font-size:19px;min-height:66px;display:flex;align-items:center;cursor:pointer;text-align:left;line-height:1.3}
+.option:hover{background:#e8f5e9}
+.correct{background:#c8f7c5!important;border-color:#2e7d32!important;transform:scale(1.01)}
+.wrong{background:#ffcdd2!important;border-color:#c62828!important}
+.feedback{min-height:62px;margin-top:16px;font-size:18px;font-weight:bold}
+.explain{font-size:16px;font-weight:normal;margin-top:6px;line-height:1.4}
 .hidden{display:none}
-.final-box{
-  background:#fff2c7;
-  border:2px dashed #f0b400;
-  padding:18px;
-  border-radius:18px;
-  margin:12px 0;
-}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:3}
+.star{position:absolute;font-size:24px;animation:pop 900ms ease-out forwards}
+@keyframes pop{0%{transform:scale(.3) translateY(0);opacity:1}100%{transform:scale(1.4) translateY(-120px);opacity:0}}
+.cross{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:88px;color:#e53935;opacity:0;z-index:4;animation:crossfade 700ms ease-out}
+@keyframes crossfade{0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}40%{opacity:.85}100%{opacity:0;transform:translate(-50%,-50%) scale(1.2)}}
+.finalbox{background:#fff8e1;border:2px dashed #ffb300;border-radius:20px;padding:16px;margin-top:16px}
+.small{font-size:15px;color:#546e7a}
 @media(max-width:520px){
-  .container{padding:18px;margin:16px auto}
-  .header{flex-direction:column}
-  h1{font-size:24px}
+.screen{padding:10px}.card{width:94vw;padding:16px;border-radius:22px}.intro-card{width:94vw;padding:28px 18px;border-radius:26px}
+h1{font-size:27px}h2{font-size:20px}p{font-size:16px}.intro-card h1{font-size:34px}.intro-card h2{font-size:24px}.intro-card p{font-size:18px}
+.topbar{grid-template-columns:1fr;gap:6px}.badge{font-size:15px;padding:9px 8px}.question{font-size:19px;margin:18px 0}.option{font-size:17px;padding:16px;min-height:62px}
+button{width:100%;font-size:18px;padding:15px 18px}.intro-card button{width:auto;font-size:20px;padding:16px 28px;min-height:58px}.feedback{font-size:17px}.explain{font-size:15px}
 }
+@media(max-height:520px){.active{align-items:flex-start}.screen{padding-top:10px}.card{margin:8px 0}.question{margin:14px 0}.option{min-height:54px;padding:13px}}
+@media(prefers-reduced-motion:reduce){.bg span,.star,.cross{animation:none}}
 </style>
 </head>
+
 <body>
+<div class="bg"><span>⭐</span><span>x</span><span>⭐</span><span>=</span><span>⭐</span></div>
 
-<div class="logo-screen" id="logoScreen">
-  <img src="assets/innovine-logo.png" alt="Innovine Logo">
-</div>
-
-<div class="bg" id="bg"></div>
-
-<audio id="correctSound" src="assets/correct.mp3"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3"></audio>
-<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
-
-<div class="container">
-  <div class="header">
-    <img src="assets/innovine-logo.png" alt="Innovine Logo">
-    <div class="badge">Score: <span id="score">0</span></div>
-    <div class="badge">Time: <span id="timer">45</span>s</div>
+<div id="splash" class="screen active">
+  <div class="card">
+    <img src="assets/innovine-logo.png" class="logo" alt="Innovine Logo">
+    <h2>Loading your game...</h2>
   </div>
-
-  <section id="intro">
-    <h1>Linear Equations Quest</h1>
-    <p>Welcome, equation explorer! Solve questions on forming equations, solving equations and balancing both sides.</p>
-    <p>You get <b>45 seconds</b> for every question and <b>one retry</b> after the first wrong attempt.</p>
-    <button onclick="startGame()">Start Challenge</button>
-  </section>
-
-  <section id="quiz" class="hidden">
-    <h2 id="qTitle"></h2>
-    <div id="assertionBox" class="assertion-box hidden"></div>
-    <p id="question"></p>
-    <div class="options" id="options"></div>
-    <div class="message" id="message"></div>
-  </section>
-
-  <section id="finalChallenge" class="hidden">
-    <h2>Final Challenge</h2>
-    <div class="final-box">
-      A number is multiplied by 5 and the result is 45. What is the number?
-    </div>
-    <div class="options" id="finalOptions"></div>
-    <div class="message" id="finalMessage"></div>
-  </section>
-
-  <section id="result" class="hidden">
-    <h1>Challenge Complete!</h1>
-    <h2>Your Final Score: <span id="finalScore"></span></h2>
-    <p id="resultText"></p>
-    <button onclick="location.reload()">Play Again</button>
-  </section>
 </div>
+
+<div id="intro" class="screen">
+  <div class="card intro-card">
+    <h1>Linear Equations</h1>
+    <h2>Grade 7 Math</h2>
+    <p>Choose the best answer. You get one retry after a wrong answer.</p>
+    <p>Each question has a 45-second timer.</p>
+    <button onclick="startGame()">Start Game</button>
+  </div>
+</div>
+
+<div id="quiz" class="screen">
+  <div class="card">
+    <div class="topbar">
+      <div class="badge" id="qCount">Question 1/11</div>
+      <div class="badge">Score: <span id="score">0</span></div>
+      <div class="badge timer">Time: <span id="time">45</span>s</div>
+    </div>
+    <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <button id="nextBtn" class="hidden" onclick="nextQuestion()">Next</button>
+  </div>
+</div>
+
+<div id="finalChallenge" class="screen">
+  <div class="card">
+    <h1>Final Challenge</h1>
+    <div class="finalbox">
+      <p><b>Think and solve:</b></p>
+      <p>A number is multiplied by 5 and the result is 45. What is the number?</p>
+      <p><b>Answer:</b> 9</p>
+    </div>
+    <p class="small">Tap finish to see your score.</p>
+    <button onclick="showResult()">Finish</button>
+  </div>
+</div>
+
+<div id="result" class="screen">
+  <div class="card">
+    <h1>Great Work!</h1>
+    <h2>Your Score: <span id="finalScore"></span>/11</h2>
+    <p id="resultMsg"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </div>
+</div>
+
+<div class="confetti" id="confetti"></div>
+
+<audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3" preload="auto"></audio>
 
 <script>
-setTimeout(()=>document.getElementById("logoScreen").style.display="none",5000);
-
 const questions=[
-{q:"A shopkeeper sells notebooks for ₹35 each. Riya buys some notebooks and pays ₹210. If the number of notebooks is x, which equation represents this situation?",o:["x + 35 = 210","35x = 210","x − 35 = 210","210x = 35"],a:1,e:"Each notebook costs ₹35, so total cost = 35x. Hence, 35x = 210."},
+{q:"A shopkeeper sells notebooks for ₹35 each. Riya buys some notebooks and pays ₹210. If the number of notebooks is x, which equation represents this situation?",o:["35 + x = 210","35x = 210","x − 35 = 210","210x = 35"],a:1,e:"Each notebook costs ₹35 and x notebooks cost ₹210, so the equation is 35x = 210."},
 {q:"A number is increased by 12 and the result is 30. What is the number?",o:["12","18","30","42"],a:1,e:"Let the number be x. x + 12 = 30, so x = 18."},
 {q:"The cost of one pen is ₹8. If Rohan buys x pens and pays ₹64, find x.",o:["6","7","8","9"],a:2,e:"8x = 64, so x = 64 ÷ 8 = 8."},
-{q:"Anu’s age is x years. Her brother is 5 years older than her. If her brother is 17 years old, which equation is correct?",o:["x + 5 = 17","x − 5 = 17","5x = 17","x + 17 = 5"],a:0,e:"Brother’s age is 5 more than Anu’s age, so x + 5 = 17."},
-{q:"A taxi charges ₹50 fixed charge and ₹12 per kilometre. If the total fare is ₹170, how many kilometres were travelled?",o:["8 km","10 km","12 km","15 km"],a:1,e:"50 + 12x = 170. So 12x = 120 and x = 10 km."},
-{q:"A teacher gives 3 marks for each correct answer in a quiz. Meena scores 45 marks. If she answered x questions correctly, find x.",o:["12","14","15","18"],a:2,e:"3x = 45, so x = 15."},
-{assertion:"Assertion: The solution of x + 7 = 15 is x = 8.",reason:"Reason: To solve x + 7 = 15, we subtract 7 from both sides.",q:"Choose the correct option.",o:["Both Assertion and Reason are true, and Reason is the correct explanation.","Both Assertion and Reason are true, but Reason is not the correct explanation.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:0,e:"Subtracting 7 from both sides gives x = 8."},
-{assertion:"Assertion: The equation 4x = 28 has solution x = 6.",reason:"Reason: To solve 4x = 28, we divide both sides by 4.",q:"Choose the correct option.",o:["Both Assertion and Reason are true, and Reason is the correct explanation.","Both Assertion and Reason are true, but Reason is not the correct explanation.","Assertion is false, but Reason is true.","Both Assertion and Reason are false."],a:2,e:"4x = 28 gives x = 7, not 6. The reason is true."},
-{assertion:"Assertion: 2x + 5 = 17 gives x = 6.",reason:"Reason: First subtract 5 from both sides, then divide by 2.",q:"Choose the correct option.",o:["Both Assertion and Reason are true, and Reason is the correct explanation.","Both Assertion and Reason are true, but Reason is not the correct explanation.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:0,e:"2x + 5 = 17 gives 2x = 12, so x = 6."},
-{assertion:"Assertion: If the same number is added to both sides of an equation, the solution remains unchanged.",reason:"Reason: An equation stays balanced when the same operation is performed on both sides.",q:"Choose the correct option.",o:["Both Assertion and Reason are true, and Reason is the correct explanation.","Both Assertion and Reason are true, but Reason is not the correct explanation.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],a:0,e:"The same operation on both sides keeps an equation balanced."},
-{q:"A fruit seller has some apples. After selling 18 apples, he is left with 27 apples. If he had x apples in the beginning, which equation and solution are correct?",o:["x + 18 = 27, x = 9","x − 18 = 27, x = 45","18x = 27, x = 45","x − 27 = 18, x = 9"],a:1,e:"He sold 18 apples and had 27 left, so x − 18 = 27 and x = 45."}
+{q:"Anu’s age is x years. Her brother is 5 years older than her. If her brother is 17 years old, which equation is correct?",o:["x − 5 = 17","x + 5 = 17","5x = 17","x + 17 = 5"],a:1,e:"Her brother is 5 years older, so x + 5 = 17."},
+{q:"A taxi charges ₹50 fixed charge and ₹12 per kilometre. If the total fare is ₹170, how many kilometres were travelled?",o:["8 km","9 km","10 km","12 km"],a:2,e:"Let distance be x. 50 + 12x = 170. So 12x = 120 and x = 10 km."},
+{q:"A teacher gives 3 marks for each correct answer in a quiz. Meena scores 45 marks. If she answered x questions correctly, find x.",o:["12","15","18","20"],a:1,e:"3x = 45, so x = 45 ÷ 3 = 15."},
+{q:"Assertion: The solution of x + 7 = 15 is x = 8.\nReason: To solve x + 7 = 15, we subtract 7 from both sides.",o:["Both true and Reason explains Assertion","Both true but Reason does not explain Assertion","Assertion true, Reason false","Assertion false, Reason true"],a:0,e:"Both are true. Subtracting 7 from both sides gives x = 8."},
+{q:"Assertion: The equation 4x = 28 has solution x = 6.\nReason: To solve 4x = 28, we divide both sides by 4.",o:["Both true and Reason explains Assertion","Both true but Reason does not explain Assertion","Assertion true, Reason false","Assertion false, Reason true"],a:3,e:"The assertion is false because x = 7. The reason is true because we divide both sides by 4."},
+{q:"Assertion: 2x + 5 = 17 gives x = 6.\nReason: First subtract 5 from both sides, then divide by 2.",o:["Both true and Reason explains Assertion","Both true but Reason does not explain Assertion","Assertion true, Reason false","Assertion false, Reason true"],a:0,e:"Both are true. 2x + 5 = 17 gives 2x = 12, so x = 6."},
+{q:"Assertion: If the same number is added to both sides of an equation, the solution remains unchanged.\nReason: An equation stays balanced when the same operation is performed on both sides.",o:["Both true and Reason explains Assertion","Both true but Reason does not explain Assertion","Assertion true, Reason false","Assertion false, Reason true"],a:0,e:"Both are true. Equations stay balanced when the same operation is done on both sides."},
+{q:"A fruit seller has some apples. After selling 18 apples, he is left with 27 apples. If he had x apples in the beginning, which equation and solution are correct?",o:["x + 18 = 27, x = 9","x − 18 = 27, x = 45","18x = 27, x = 45","x − 27 = 18, x = 27"],a:1,e:"He sold 18 and had 27 left, so x − 18 = 27. Therefore, x = 45."}
 ];
 
-let index=0,score=0,time=45,timer,attempt=0;
+let current=0,score=0,attempts=0,timer,timeLeft=45,locked=false;
+const correctSound=document.getElementById("correctSound");
+const wrongSound=document.getElementById("wrongSound");
+const clapSound=document.getElementById("clapSound");
 
-function startGame(){
-  intro.classList.add("hidden");
-  quiz.classList.remove("hidden");
-  loadQuestion();
+setTimeout(function(){showScreen("intro")},5000);
+
+function showScreen(id){
+  const screens=document.querySelectorAll(".screen");
+  for(let i=0;i<screens.length;i++){screens[i].classList.remove("active")}
+  document.getElementById(id).classList.add("active");
 }
+
+function startGame(){score=0;current=0;showScreen("quiz");loadQuestion()}
 
 function loadQuestion(){
-  attempt=0;
-  time=45;
-  updateTimer();
-  clearInterval(timer);
-  timer=setInterval(()=>{
-    time--;
-    updateTimer();
-    if(time<=0) showCorrectAnswer();
+  locked=false;attempts=0;clearInterval(timer);timeLeft=45;
+  document.getElementById("time").textContent=timeLeft;
+  document.getElementById("score").textContent=score;
+  document.getElementById("qCount").textContent="Question "+(current+1)+"/"+questions.length;
+  document.getElementById("question").textContent=questions[current].q;
+  document.getElementById("feedback").innerHTML="";
+  document.getElementById("nextBtn").classList.add("hidden");
+  document.getElementById("progressBar").style.width=((current)/questions.length)*100+"%";
+
+  const box=document.getElementById("options");
+  box.innerHTML="";
+
+  for(let i=0;i<questions[current].o.length;i++){
+    const div=document.createElement("div");
+    div.className="option";
+    div.textContent=questions[current].o[i];
+    div.onclick=function(){checkAnswer(i,div)};
+    box.appendChild(div);
+  }
+
+  startTimer();
+}
+
+function startTimer(){
+  timer=setInterval(function(){
+    timeLeft--;
+    document.getElementById("time").textContent=timeLeft;
+    if(timeLeft<=0){clearInterval(timer);showAnswer("Time is up!")}
   },1000);
-
-  const item=questions[index];
-  qTitle.textContent="Question "+(index+1)+" of "+questions.length;
-  question.textContent=item.q;
-  message.textContent="";
-  options.innerHTML="";
-
-  if(item.assertion){
-    assertionBox.innerHTML=item.assertion+"<br>"+item.reason;
-    assertionBox.classList.remove("hidden");
-  }else{
-    assertionBox.classList.add("hidden");
-  }
-
-  item.o.forEach((opt,i)=>{
-    const btn=document.createElement("button");
-    btn.textContent=String.fromCharCode(65+i)+". "+opt;
-    btn.onclick=()=>checkAnswer(i,btn);
-    options.appendChild(btn);
-  });
 }
 
-function updateTimer(){
-  document.getElementById("timer").textContent=time;
-}
+function checkAnswer(i,el){
+  if(locked){return}
+  const q=questions[current];
 
-function checkAnswer(choice,btn){
-  const item=questions[index];
-
-  if(choice===item.a){
-    score++;
+  if(i===q.a){
+    locked=true;clearInterval(timer);score++;
     document.getElementById("score").textContent=score;
-    btn.classList.add("correct");
-    message.textContent="Correct! Great work!";
-    playSound("correctSound");
+    el.classList.add("correct");
+    document.getElementById("feedback").innerHTML="Correct!<div class='explain'>"+q.e+"</div>";
+    playSound(correctSound);
     makeConfetti();
-    goNext();
+    document.getElementById("nextBtn").classList.remove("hidden");
   }else{
-    attempt++;
-    btn.classList.add("wrong");
-    playSound("wrongSound");
-    message.innerHTML='<div class="cross">✖</div>';
+    attempts++;
+    el.classList.add("wrong");
+    showCross();
+    playSound(wrongSound);
 
-    if(attempt===1){
-      setTimeout(()=>message.textContent="Try once more!",600);
-      btn.disabled=true;
+    if(attempts===1){
+      document.getElementById("feedback").innerHTML="Try once more.";
+      el.onclick=null;
     }else{
-      showCorrectAnswer();
+      showAnswer("Not quite.");
     }
   }
 }
 
-function showCorrectAnswer(){
-  clearInterval(timer);
-  const item=questions[index];
-  message.textContent="Correct answer: "+item.o[item.a]+". "+item.e;
+function showAnswer(msg){
+  locked=true;clearInterval(timer);
+  const q=questions[current];
+  const options=document.querySelectorAll(".option");
 
-  [...options.children].forEach((b,i)=>{
-    b.disabled=true;
-    if(i===item.a)b.classList.add("correct");
-  });
+  for(let i=0;i<options.length;i++){
+    options[i].onclick=null;
+    if(i===q.a){options[i].classList.add("correct")}
+  }
 
-  goNext();
+  document.getElementById("feedback").innerHTML=msg+"<div class='explain'>Correct answer: <b>"+q.o[q.a]+"</b><br>"+q.e+"</div>";
+  document.getElementById("nextBtn").classList.remove("hidden");
 }
 
-function goNext(){
-  clearInterval(timer);
-  setTimeout(()=>{
-    index++;
-    if(index<questions.length){
-      loadQuestion();
-    }else{
-      showFinalChallenge();
-    }
-  },2400);
-}
-
-function showFinalChallenge(){
-  quiz.classList.add("hidden");
-  finalChallenge.classList.remove("hidden");
-  document.getElementById("timer").textContent="--";
-
-  const opts=["5","8","9","15"];
-  finalOptions.innerHTML="";
-
-  opts.forEach((op,i)=>{
-    const b=document.createElement("button");
-    b.textContent=String.fromCharCode(65+i)+". "+op;
-    b.onclick=()=>{
-      [...finalOptions.children].forEach(x=>x.disabled=true);
-
-      if(i===2){
-        score+=2;
-        document.getElementById("score").textContent=score;
-        b.classList.add("correct");
-        finalMessage.textContent="Excellent! 5x = 45, so x = 9.";
-        playSound("clapSound");
-        makeConfetti();
-      }else{
-        b.classList.add("wrong");
-        finalMessage.textContent="Correct answer: 9. Divide 45 by 5.";
-        playSound("wrongSound");
-      }
-
-      setTimeout(showResult,2600);
-    };
-    finalOptions.appendChild(b);
-  });
+function nextQuestion(){
+  current++;
+  if(current<questions.length){loadQuestion()}
+  else{document.getElementById("progressBar").style.width="100%";showScreen("finalChallenge")}
 }
 
 function showResult(){
-  finalChallenge.classList.add("hidden");
-  result.classList.remove("hidden");
-  finalScore.textContent=score+" / 13";
-  resultText.textContent=score>=10
-    ? "Amazing! You are a Linear Equations Star!"
-    : "Good effort! Revise equation solving and try again.";
-}
+  showScreen("result");
+  document.getElementById("finalScore").textContent=score;
+  playSound(clapSound);
 
-function playSound(id){
-  const audio=document.getElementById(id);
-  audio.currentTime=0;
-  audio.play().catch(()=>{});
+  let msg="Good effort! Keep practising linear equations.";
+  if(score>=10){msg="Excellent! You can form and solve linear equations very well."}
+  else if(score>=8){msg="Well done! A little more practice will make linear equations easier."}
+
+  document.getElementById("resultMsg").textContent=msg;
 }
 
 function makeConfetti(){
+  const box=document.getElementById("confetti");
   for(let i=0;i<18;i++){
     const s=document.createElement("div");
-    s.className="confetti";
-    s.textContent="★";
+    s.className="star";
+    s.textContent="⭐";
     s.style.left=Math.random()*100+"vw";
-    s.style.color=["#ffbf00","#58c7ff","#ff6b9a","#72d572"][Math.floor(Math.random()*4)];
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(),1500);
+    s.style.top=(55+Math.random()*25)+"vh";
+    box.appendChild(s);
+    setTimeout(function(){s.remove()},900);
   }
 }
 
-for(let i=0;i<26;i++){
-  const star=document.createElement("span");
-  star.textContent=i%2?"★":"✦";
-  star.style.left=Math.random()*100+"vw";
-  star.style.fontSize=(14+Math.random()*20)+"px";
-  star.style.animationDelay=Math.random()*8+"s";
-  bg.appendChild(star);
+function showCross(){
+  const x=document.createElement("div");
+  x.className="cross";
+  x.textContent="✕";
+  document.body.appendChild(x);
+  setTimeout(function(){x.remove()},700);
+}
+
+function playSound(sound){
+  if(!sound){return}
+  try{
+    sound.currentTime=0;
+    const p=sound.play();
+    if(p!==undefined){p.catch(function(){})}
+  }catch(error){}
 }
 </script>
+
 </body>
 </html>
