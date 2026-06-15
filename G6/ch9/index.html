@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Algebraic Expressions MCQ Challenge</title>
 
 <style>
+
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial, sans-serif;
+font-family:Arial,sans-serif;
 }
 
 body{
@@ -24,7 +25,8 @@ padding:20px;
 position:relative;
 }
 
-/* Floating stars */
+/* Animated Background */
+
 body::before,
 body::after{
 content:"";
@@ -47,21 +49,15 @@ opacity:0.2;
 }
 
 @keyframes floatStars{
-from{transform:translateY(0);}
-to{transform:translateY(-120px);}
+from{
+transform:translateY(0);
+}
+to{
+transform:translateY(-120px);
+}
 }
 
-.container{
-width:100%;
-max-width:850px;
-background:white;
-border-radius:22px;
-padding:25px;
-box-shadow:0 10px 30px rgba(0,0,0,0.12);
-position:relative;
-z-index:2;
-overflow:hidden;
-}
+/* Splash Screen */
 
 .logo-screen{
 position:fixed;
@@ -82,20 +78,37 @@ width:180px;
 animation:pulse 2s infinite;
 }
 
-.logo-screen h2{
-margin-top:20px;
-color:#444;
-}
-
 @keyframes pulse{
 0%{transform:scale(1);}
 50%{transform:scale(1.08);}
 100%{transform:scale(1);}
 }
 
+/* Main Container */
+
+.container{
+width:100%;
+max-width:850px;
+background:white;
+border-radius:22px;
+padding:25px;
+box-shadow:0 10px 30px rgba(0,0,0,0.12);
+position:relative;
+z-index:2;
+overflow:hidden;
+}
+
+/* Utility */
+
 .hidden{
 display:none;
 }
+
+.center{
+text-align:center;
+}
+
+/* Headings */
 
 h1{
 text-align:center;
@@ -104,11 +117,22 @@ margin-bottom:15px;
 font-size:2rem;
 }
 
-.subtitle{
-text-align:center;
-margin-bottom:25px;
-color:#555;
+/* Instructions */
+
+.instructions{
+text-align:left;
+max-width:550px;
+margin:25px auto;
+line-height:1.9;
+font-size:17px;
+color:#444;
 }
+
+.instructions li{
+margin-bottom:10px;
+}
+
+/* Top Bar */
 
 .top-bar{
 display:flex;
@@ -127,6 +151,8 @@ font-weight:bold;
 color:#333;
 }
 
+/* Questions */
+
 .question-box{
 margin-bottom:20px;
 }
@@ -143,6 +169,8 @@ font-weight:bold;
 line-height:1.6;
 color:#222;
 }
+
+/* Options */
 
 .options{
 display:grid;
@@ -165,6 +193,8 @@ background:#ececff;
 transform:translateY(-2px);
 }
 
+/* Correct Wrong */
+
 .correct{
 background:#d4ffd9 !important;
 border-color:#16a34a !important;
@@ -175,12 +205,16 @@ background:#ffe1e1 !important;
 border-color:#dc2626 !important;
 }
 
+/* Feedback */
+
 .feedback{
 margin-top:18px;
 font-weight:bold;
 font-size:1rem;
 min-height:28px;
 }
+
+/* Explanation */
 
 .explanation{
 margin-top:10px;
@@ -190,6 +224,8 @@ border-radius:12px;
 font-size:0.95rem;
 color:#444;
 }
+
+/* Buttons */
 
 button{
 padding:14px 24px;
@@ -208,9 +244,7 @@ background:#5b21b6;
 transform:scale(1.03);
 }
 
-.center{
-text-align:center;
-}
+/* Final Box */
 
 .challenge-box{
 padding:20px;
@@ -219,11 +253,15 @@ border-radius:18px;
 margin-top:20px;
 }
 
+/* Result */
+
 .result-score{
 font-size:2.3rem;
 color:#6d28d9;
 margin:20px 0;
 }
+
+/* Confetti */
 
 .star-confetti{
 position:fixed;
@@ -243,6 +281,8 @@ transform:translateY(100vh) rotate(720deg);
 opacity:0;
 }
 }
+
+/* Cross Animation */
 
 .cross{
 position:fixed;
@@ -264,65 +304,94 @@ transform:scale(2);
 }
 }
 
+/* Responsive */
+
 @media(max-width:600px){
+
 .question{
 font-size:1.05rem;
 }
+
 .option{
 font-size:0.95rem;
 padding:13px;
 }
+
 h1{
 font-size:1.6rem;
 }
+
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- Logo Splash -->
+<!-- Splash Screen -->
+
 <div class="logo-screen" id="logoScreen">
 <img src="assets/innovine-logo.png" alt="Innovine Logo">
-<h2>Innovine Presents</h2>
 </div>
+
+<!-- Main App -->
 
 <div class="container hidden" id="app">
 
 <!-- Intro Screen -->
+
 <div id="introScreen">
-<h1>Algebraic Expressions</h1>
-<p class="subtitle">
-Grade 6 Interactive MCQ Challenge
-</p>
+
+<h1>Algebraic Expressions Challenge</h1>
 
 <div class="center">
-<p style="margin-bottom:20px;">
-✅ 15 Competency-Based Questions<br>
-✅ Retry Feature<br>
-✅ Timer Challenge<br>
-✅ Final Bonus Round
-</p>
 
-<button onclick="startQuiz()">Start Challenge</button>
+<ol class="instructions">
+
+<li>Answer all algebraic expression questions carefully.</li>
+
+<li>You will get 45 seconds for every question.</li>
+
+<li>You can retry once after a wrong answer.</li>
+
+<li>Read table-based and assertion questions properly.</li>
+
+<li>Complete the final bonus challenge to earn extra points.</li>
+
+<li>Try to score maximum marks and become an Algebra Champion.</li>
+
+</ol>
+
+<button onclick="startQuiz()">
+Start Challenge
+</button>
+
 </div>
+
 </div>
 
 <!-- Quiz Screen -->
+
 <div id="quizScreen" class="hidden">
 
 <div class="top-bar">
+
 <div class="score-box">
-⭐ Score: <span id="score">0</span>
+⭐ Score:
+<span id="score">0</span>
 </div>
 
 <div class="timer-box">
-⏳ Time: <span id="timer">45</span>s
+⏳ Time:
+<span id="timer">45</span>s
 </div>
+
 </div>
 
 <div class="question-box">
+
 <div class="question-number" id="questionNumber"></div>
+
 <div class="question" id="questionText"></div>
 
 <div id="tableArea"></div>
@@ -333,36 +402,62 @@ Grade 6 Interactive MCQ Challenge
 
 <div class="explanation hidden" id="explanation"></div>
 
-<button id="nextBtn" class="hidden" onclick="nextQuestion()">Next</button>
+<button id="nextBtn" class="hidden" onclick="nextQuestion()">
+Next
+</button>
+
 </div>
+
 </div>
 
 <!-- Final Challenge -->
+
 <div id="challengeScreen" class="hidden">
+
 <h1>Final Challenge 🚀</h1>
 
 <div class="challenge-box">
+
 <p style="font-size:1.1rem;line-height:1.7;">
-A school buys <b>x</b> notebooks at ₹20 each and <b>5</b> pens at ₹10 each.<br><br>
+A school buys <b>x</b> notebooks at ₹20 each and 5 pens at ₹10 each.<br><br>
 
 Which expression shows the total cost?
 </p>
 
-<div class="options" style="margin-top:20px;">
-<div class="option" onclick="finalChallenge(this,false)">20x + 10</div>
-<div class="option" onclick="finalChallenge(this,true)">20x + 50</div>
-<div class="option" onclick="finalChallenge(this,false)">50x + 20</div>
-<div class="option" onclick="finalChallenge(this,false)">10x + 20</div>
+<div class="options">
+
+<div class="option" onclick="finalChallenge(this,false)">
+20x + 10
+</div>
+
+<div class="option" onclick="finalChallenge(this,true)">
+20x + 50
+</div>
+
+<div class="option" onclick="finalChallenge(this,false)">
+50x + 20
+</div>
+
+<div class="option" onclick="finalChallenge(this,false)">
+10x + 20
+</div>
+
 </div>
 
 <div id="challengeFeedback" class="feedback"></div>
 
-<button id="finishBtn" class="hidden" onclick="showResults()">Finish Quiz</button>
+<button id="finishBtn" class="hidden" onclick="showResults()">
+Finish Quiz
+</button>
+
 </div>
+
 </div>
 
 <!-- Result Screen -->
+
 <div id="resultScreen" class="hidden center">
+
 <h1>Quiz Completed 🎉</h1>
 
 <div class="result-score">
@@ -371,22 +466,30 @@ Which expression shows the total cost?
 
 <p id="resultMessage" style="font-size:1.1rem;"></p>
 
-<button onclick="location.reload()">Play Again</button>
+<button onclick="location.reload()">
+Play Again
+</button>
+
 </div>
 
 </div>
 
 <!-- AUDIO -->
+
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
 <script>
 
+/* Splash Screen */
+
 setTimeout(()=>{
 document.getElementById("logoScreen").style.display="none";
 document.getElementById("app").classList.remove("hidden");
 },5000);
+
+/* Sample Questions */
 
 const questions = [
 
@@ -401,7 +504,7 @@ explanation:"2 pens cost ₹20 and 3 notebooks cost 3x."
 question:"A bus has 24 students. At every stop, 3 more students enter. Which expression shows the number of students after s stops?",
 options:["24 + s","24 + 3s","3 + 24s","24 − 3s"],
 answer:"24 + 3s",
-explanation:"3 students enter at every stop, so total increase is 3s."
+explanation:"3 students enter at every stop."
 },
 
 {
@@ -409,124 +512,6 @@ question:"A ribbon of length m cm is cut into 4 equal parts. What is the length 
 options:["m + 4","m − 4","m ÷ 4","4m"],
 answer:"m ÷ 4",
 explanation:"Equal division means divide by 4."
-},
-
-{
-question:"A gardener plants flowers in rows.",
-table:`
-<table style="width:100%;margin-top:15px;border-collapse:collapse;">
-<tr style="background:#ececff;">
-<th style="padding:10px;border:1px solid #ccc;">Number of rows</th>
-<th style="padding:10px;border:1px solid #ccc;">Flowers in each row</th>
-</tr>
-<tr>
-<td style="padding:10px;border:1px solid #ccc;text-align:center;">r</td>
-<td style="padding:10px;border:1px solid #ccc;text-align:center;">6</td>
-</tr>
-</table>
-`,
-options:["r + 6","6r","r − 6","6 ÷ r"],
-answer:"6r",
-explanation:"Total flowers = rows × flowers in each row."
-},
-
-{
-question:"A school collects ₹y from each student for a trip. If 40 students pay, what is the total amount collected?",
-options:["y + 40","y − 40","40y","40 ÷ y"],
-answer:"40y",
-explanation:"Total collection = amount per student × number of students."
-},
-
-{
-question:"Aarav had p marbles. He gave 7 marbles to his friend and then got 5 more. Which expression shows the marbles he has now?",
-options:["p + 7 + 5","p − 7 + 5","p − 5 + 7","p + 12"],
-answer:"p − 7 + 5",
-explanation:"First subtract 7, then add 5."
-},
-
-{
-question:"A rectangle has length l and breadth 8 cm. Which expression represents its perimeter?",
-options:["l + 8","2l + 8","2(l + 8)","l × 8"],
-answer:"2(l + 8)",
-explanation:"Perimeter = 2 × (length + breadth)."
-},
-
-{
-question:"Look at the pattern:",
-table:`
-<table style="width:100%;margin-top:15px;border-collapse:collapse;">
-<tr style="background:#ececff;">
-<th style="padding:10px;border:1px solid #ccc;">Figure number</th>
-<th style="padding:10px;border:1px solid #ccc;">Number of sticks</th>
-</tr>
-<tr><td style="padding:10px;border:1px solid #ccc;text-align:center;">1</td><td style="padding:10px;border:1px solid #ccc;text-align:center;">4</td></tr>
-<tr><td style="padding:10px;border:1px solid #ccc;text-align:center;">2</td><td style="padding:10px;border:1px solid #ccc;text-align:center;">8</td></tr>
-<tr><td style="padding:10px;border:1px solid #ccc;text-align:center;">3</td><td style="padding:10px;border:1px solid #ccc;text-align:center;">12</td></tr>
-<tr><td style="padding:10px;border:1px solid #ccc;text-align:center;">n</td><td style="padding:10px;border:1px solid #ccc;text-align:center;">?</td></tr>
-</table>
-`,
-options:["n + 4","4n","4 + n","n − 4"],
-answer:"4n",
-explanation:"Each figure uses 4 sticks."
-},
-
-{
-question:"A shopkeeper packs 5 apples in each box. If he has a apples, which expression shows the number of full boxes?",
-options:["a + 5","5a","a ÷ 5","a − 5"],
-answer:"a ÷ 5",
-explanation:"Divide total apples by apples per box."
-},
-
-{
-question:"Meena is x years old. Her brother is 4 years older than her. What will be their total age?",
-options:["x + 4","2x + 4","2x − 4","x − 4"],
-answer:"2x + 4",
-explanation:"Brother's age = x + 4. Total = x + (x+4)."
-},
-
-{
-question:"Assertion: The expression 5n means 5 multiplied by n.<br><br>Reason: In algebra, a number written before a variable shows multiplication.",
-options:[
-"Both are true and Reason explains Assertion",
-"Both are true but Reason does not explain Assertion",
-"Assertion is true but Reason is false",
-"Assertion is false but Reason is true"
-],
-answer:"Both are true and Reason explains Assertion",
-explanation:"The coefficient before a variable means multiplication."
-},
-
-{
-question:"Assertion: The expression x + x + x can be written as 3x.<br><br>Reason: Like terms can be added by adding their numerical coefficients.",
-options:[
-"Both are true and Reason explains Assertion",
-"Both are true but Reason does not explain Assertion",
-"Assertion is true but Reason is false",
-"Assertion is false but Reason is true"
-],
-answer:"Both are true and Reason explains Assertion",
-explanation:"x + x + x = 3x because coefficients add up."
-},
-
-{
-question:"A parking area charges ₹20 fixed fee and ₹15 per hour. Which expression shows the cost for h hours?",
-options:["20h + 15","20 + 15h","35h","20 − 15h"],
-answer:"20 + 15h",
-explanation:"Fixed fee + hourly fee."
-},
-
-{
-question:"A classroom has b benches. Each bench seats 3 students, but 2 seats are empty. How many students are seated?",
-options:["3b + 2","b + 3 − 2","3b − 2","2b − 3"],
-answer:"3b − 2",
-explanation:"Total seats minus empty seats."
-},
-
-{
-question:"A fruit seller has m mangoes. He sells half of them and then sells 6 more. Which expression shows the mangoes left?",
-options:["m/2 + 6","m/2 − 6","m − 6","2m − 6"],
-answer:"m/2 − 6",
-explanation:"Half remain first, then 6 more are sold."
 }
 
 ];
@@ -537,11 +522,21 @@ let timer;
 let timeLeft = 45;
 let retryUsed = false;
 
+/* Start Quiz */
+
 function startQuiz(){
-document.getElementById("introScreen").classList.add("hidden");
-document.getElementById("quizScreen").classList.remove("hidden");
+
+document.getElementById("introScreen")
+.classList.add("hidden");
+
+document.getElementById("quizScreen")
+.classList.remove("hidden");
+
 loadQuestion();
+
 }
+
+/* Load Question */
 
 function loadQuestion(){
 
@@ -555,43 +550,67 @@ const q = questions[currentQuestion];
 document.getElementById("questionNumber").innerHTML =
 `Question ${currentQuestion+1} of ${questions.length}`;
 
-document.getElementById("questionText").innerHTML = q.question;
+document.getElementById("questionText").innerHTML =
+q.question;
 
-document.getElementById("tableArea").innerHTML = q.table || "";
+const optionsContainer =
+document.getElementById("optionsContainer");
 
-const optionsContainer = document.getElementById("optionsContainer");
 optionsContainer.innerHTML = "";
 
 q.options.forEach(option=>{
+
 const btn = document.createElement("div");
+
 btn.classList.add("option");
+
 btn.innerHTML = option;
 
 btn.onclick = ()=>checkAnswer(btn,option);
 
 optionsContainer.appendChild(btn);
+
 });
 
 document.getElementById("feedback").innerHTML = "";
-document.getElementById("explanation").classList.add("hidden");
-document.getElementById("nextBtn").classList.add("hidden");
+
+document.getElementById("explanation")
+.classList.add("hidden");
+
+document.getElementById("nextBtn")
+.classList.add("hidden");
+
 }
+
+/* Timer */
 
 function startTimer(){
+
 clearInterval(timer);
 
-document.getElementById("timer").innerText = timeLeft;
+document.getElementById("timer").innerText =
+timeLeft;
 
 timer = setInterval(()=>{
+
 timeLeft--;
-document.getElementById("timer").innerText = timeLeft;
+
+document.getElementById("timer").innerText =
+timeLeft;
 
 if(timeLeft <= 0){
+
 clearInterval(timer);
+
 showCorrectAnswer();
+
 }
+
 },1000);
+
 }
+
+/* Check Answer */
 
 function checkAnswer(element,selected){
 
@@ -601,8 +620,11 @@ if(selected === q.answer){
 
 element.classList.add("correct");
 
-document.getElementById("feedback").innerHTML = "✅ Correct!";
-document.getElementById("score").innerText = ++score;
+document.getElementById("feedback").innerHTML =
+"✅ Correct!";
+
+document.getElementById("score").innerText =
+++score;
 
 document.getElementById("correctSound").play();
 
@@ -612,7 +634,8 @@ clearInterval(timer);
 
 disableOptions();
 
-document.getElementById("nextBtn").classList.remove("hidden");
+document.getElementById("nextBtn")
+.classList.remove("hidden");
 
 }else{
 
@@ -636,9 +659,14 @@ element.classList.add("wrong");
 clearInterval(timer);
 
 showCorrectAnswer();
+
 }
+
 }
+
 }
+
+/* Correct Answer */
 
 function showCorrectAnswer(){
 
@@ -647,39 +675,65 @@ const q = questions[currentQuestion];
 disableOptions();
 
 document.querySelectorAll(".option").forEach(opt=>{
+
 if(opt.innerHTML === q.answer){
 opt.classList.add("correct");
 }
+
 });
 
 document.getElementById("feedback").innerHTML =
 `Correct Answer: ${q.answer}`;
 
-const explanation = document.getElementById("explanation");
+const explanation =
+document.getElementById("explanation");
 
-explanation.innerHTML = "💡 " + q.explanation;
+explanation.innerHTML =
+"💡 " + q.explanation;
+
 explanation.classList.remove("hidden");
 
-document.getElementById("nextBtn").classList.remove("hidden");
+document.getElementById("nextBtn")
+.classList.remove("hidden");
+
 }
 
+/* Disable Options */
+
 function disableOptions(){
-document.querySelectorAll(".option").forEach(opt=>{
+
+document.querySelectorAll(".option")
+.forEach(opt=>{
+
 opt.style.pointerEvents = "none";
+
 });
+
 }
+
+/* Next Question */
 
 function nextQuestion(){
 
 currentQuestion++;
 
 if(currentQuestion < questions.length){
+
 loadQuestion();
+
 }else{
-document.getElementById("quizScreen").classList.add("hidden");
-document.getElementById("challengeScreen").classList.remove("hidden");
+
+document.getElementById("quizScreen")
+.classList.add("hidden");
+
+document.getElementById("challengeScreen")
+.classList.remove("hidden");
+
 }
+
 }
+
+/* Final Challenge */
 
 function finalChallenge(element,correct){
 
@@ -691,8 +745,8 @@ element.classList.add("correct");
 
 score++;
 
-document.getElementById("challengeFeedback").innerHTML =
-"🎉 Excellent Final Answer!";
+document.getElementById("challengeFeedback")
+.innerHTML = "🎉 Excellent Final Answer!";
 
 document.getElementById("correctSound").play();
 
@@ -702,45 +756,72 @@ createConfetti();
 
 element.classList.add("wrong");
 
-document.getElementById("challengeFeedback").innerHTML =
-"❌ Oops! Correct answer is 20x + 50";
+document.getElementById("challengeFeedback")
+.innerHTML =
+"❌ Correct answer is 20x + 50";
 
 document.getElementById("wrongSound").play();
 
 showCross();
+
 }
 
-document.getElementById("finishBtn").classList.remove("hidden");
+document.getElementById("finishBtn")
+.classList.remove("hidden");
+
 }
+
+/* Disable Final Options */
 
 function disableChallenge(){
-document.querySelectorAll("#challengeScreen .option").forEach(opt=>{
-opt.style.pointerEvents="none";
+
+document.querySelectorAll(
+"#challengeScreen .option"
+).forEach(opt=>{
+
+opt.style.pointerEvents = "none";
+
 });
+
 }
+
+/* Results */
 
 function showResults(){
 
-document.getElementById("challengeScreen").classList.add("hidden");
-document.getElementById("resultScreen").classList.remove("hidden");
+document.getElementById("challengeScreen")
+.classList.add("hidden");
 
-document.getElementById("finalScore").innerText = score;
+document.getElementById("resultScreen")
+.classList.remove("hidden");
+
+document.getElementById("finalScore").innerText =
+score;
 
 let message = "";
 
-if(score >= 14){
+if(score >= 4){
+
 message = "🌟 Outstanding Work!";
+
 document.getElementById("clapSound").play();
-}
-else if(score >= 10){
+
+}else if(score >= 2){
+
 message = "👏 Great Job!";
-}
-else{
+
+}else{
+
 message = "👍 Keep Practicing!";
+
 }
 
-document.getElementById("resultMessage").innerHTML = message;
+document.getElementById("resultMessage").innerHTML =
+message;
+
 }
+
+/* Confetti */
 
 function createConfetti(){
 
@@ -756,15 +837,20 @@ star.style.left = Math.random()*100 + "vw";
 
 star.style.top = "-20px";
 
-star.style.fontSize = (Math.random()*20 + 15) + "px";
+star.style.fontSize =
+(Math.random()*20 + 15) + "px";
 
 document.body.appendChild(star);
 
 setTimeout(()=>{
 star.remove();
 },2000);
+
 }
+
 }
+
+/* Cross */
 
 function showCross(){
 
@@ -774,18 +860,22 @@ cross.innerHTML = "❌";
 
 cross.classList.add("cross");
 
-cross.style.left = Math.random()*80 + 10 + "vw";
+cross.style.left =
+Math.random()*80 + 10 + "vw";
 
-cross.style.top = Math.random()*60 + 20 + "vh";
+cross.style.top =
+Math.random()*60 + 20 + "vh";
 
 document.body.appendChild(cross);
 
 setTimeout(()=>{
 cross.remove();
 },1000);
+
 }
 
 </script>
 
 </body>
 </html>
+```
