@@ -3,646 +3,312 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Integers Quest</title>
+<title>CBQ MCQ Game</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
 
 body{
-  font-family:Arial,sans-serif;
   min-height:100vh;
   background:linear-gradient(135deg,#eef7ff,#fff3dc);
-  color:#203040;
   overflow-x:hidden;
 }
 
-.logo-screen{
+/* SPLASH */
+#logoScreen{
   position:fixed;
   inset:0;
   background:#fff;
-  z-index:999;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+#logoScreen img{
+  width:60%;
+  max-width:240px;
 }
 
-.logo-screen img{
-  max-width:230px;
-  width:70%;
-  animation:pop 1s ease;
-}
-
-@keyframes pop{
-  from{opacity:0;transform:scale(.75)}
-  to{opacity:1;transform:scale(1)}
-}
-
+/* BACKGROUND */
 .bg span{
   position:fixed;
-  color:rgba(255,180,0,.35);
+  color:rgba(255,180,0,.25);
+  animation:float 12s linear infinite;
   z-index:-1;
-  animation:float 10s linear infinite;
 }
-
 @keyframes float{
-  from{transform:translateY(100vh) rotate(0)}
-  to{transform:translateY(-10vh) rotate(360deg)}
+  from{transform:translateY(100vh)}
+  to{transform:translateY(-10vh)}
 }
 
+/* CONTAINER */
 .container{
-  width:min(94%,850px);
-  margin:24px auto;
-  background:rgba(255,255,255,.95);
-  border-radius:24px;
-  padding:22px;
-  box-shadow:0 10px 28px rgba(0,0,0,.12);
+  width:min(95%,900px);
+  margin:20px auto;
+  background:#fff;
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 8px 25px rgba(0,0,0,.12);
 }
 
+/* HEADER */
 .header{
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  gap:10px;
-  margin-bottom:16px;
   flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
 }
-
-.header img{height:44px}
+.header img{height:42px}
 
 .badge{
   background:#e8f2ff;
-  padding:8px 12px;
-  border-radius:18px;
-  font-weight:bold;
-  font-size:15px;
-}
-
-.controls{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-.controls button{
-  margin-top:0;
-  padding:8px 12px;
-  font-size:14px;
-}
-
-.controls input{
-  width:95px;
-}
-
-h1,h2{
-  text-align:center;
-  margin-bottom:14px;
-}
-
-p{
-  line-height:1.5;
-  font-size:17px;
-}
-
-ul{
-  margin:12px 0 12px 22px;
-  line-height:1.7;
-  font-size:17px;
-}
-
-.case-box{
-  background:#fff6d9;
-  border-left:5px solid #f0b400;
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:12px;
+  padding:6px 12px;
+  border-radius:20px;
   font-weight:bold;
 }
 
-.assertion-box{
-  background:#eef7ff;
-  border-left:5px solid #3478f6;
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:12px;
-  line-height:1.6;
-}
-
+/* BUTTONS */
 button{
-  border:0;
-  background:#3478f6;
-  color:white;
-  padding:13px 18px;
-  border-radius:14px;
-  font-size:16px;
+  background:#2f6fed;
+  color:#fff;
+  border:none;
+  padding:12px 16px;
+  border-radius:12px;
   cursor:pointer;
-  margin-top:14px;
+  margin-top:12px;
 }
+button:hover{background:#1f56c7}
 
-button:hover{background:#245ed0}
-
+/* OPTIONS */
 .options button{
   width:100%;
-  display:block;
-  background:#fff;
-  color:#203040;
-  border:2px solid #dbe7ff;
-  margin:10px 0;
   text-align:left;
+  margin:8px 0;
+  background:#fff;
+  border:2px solid #e3ecff;
+  color:#222;
+}
+.options button:hover{background:#f2f7ff}
+
+.correct{background:#d9f8dd!important;border-color:#2fbf4a!important}
+.wrong{background:#ffdcdc!important;border-color:#e53935!important}
+
+/* BOXES */
+.box{
+  padding:12px;
+  margin:10px 0;
+  border-radius:10px;
+}
+.case{background:#fff6d8;border-left:5px solid #f0b400}
+.assert{background:#eef6ff;border-left:5px solid #3b82f6}
+
+/* TIMER */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:10px;
 }
 
-.options button:hover{background:#edf5ff}
-
-.correct{
-  background:#dcf8dc!important;
-  border-color:#36b24a!important;
-}
-
-.wrong{
-  background:#ffe1e1!important;
-  border-color:#e23b3b!important;
-}
-
-.message{
-  min-height:58px;
-  text-align:center;
-  font-weight:bold;
-  margin-top:10px;
-  font-size:17px;
-}
-
-.cross{
-  font-size:42px;
-  color:#e23b3b;
-  animation:shake .3s;
-}
-
-@keyframes shake{
-  0%,100%{transform:translateX(0)}
-  25%{transform:translateX(-6px)}
-  75%{transform:translateX(6px)}
-}
-
-.confetti{
-  position:fixed;
-  top:-20px;
-  font-size:22px;
-  pointer-events:none;
-  animation:fall 1.4s linear forwards;
-  z-index:1000;
-}
-
-@keyframes fall{
-  to{transform:translateY(100vh) rotate(360deg);opacity:0}
-}
-
-.progress-wrap{
-  width:100%;
-  height:12px;
-  background:#e8eef8;
+/* PROGRESS */
+.progress{
+  height:10px;
+  background:#eee;
   border-radius:20px;
   overflow:hidden;
-  margin:10px 0 16px;
+  margin:10px 0;
 }
-
-.progress-bar{
+.bar{
   height:100%;
   width:0%;
-  background:#3478f6;
+  background:#2f6fed;
   transition:.3s;
+}
+
+/* CONFETTI */
+.star{
+  position:fixed;
+  top:-20px;
+  font-size:20px;
+  animation:fall 1.5s linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(100vh);opacity:0}
 }
 
 .hidden{display:none}
 
-.final-box{
-  background:#fff2c7;
-  border:2px dashed #f0b400;
-  padding:18px;
-  border-radius:18px;
-  margin:12px 0;
-  font-size:18px;
-  font-weight:bold;
-}
-
-.center{text-align:center}
-
-@media(max-width:560px){
-  .container{
-    padding:16px;
-    margin:14px auto;
-    border-radius:18px;
-  }
-
-  .header{
-    flex-direction:column;
-  }
-
-  h1{font-size:24px}
-  h2{font-size:20px}
-  p,ul{font-size:16px}
-  button{font-size:15px}
+@media(max-width:600px){
+  .header{flex-direction:column}
 }
 </style>
 </head>
 
 <body>
 
-<div class="logo-screen" id="logoScreen">
-  <img src="assets/innovine-logo.png" alt="Innovine Logo">
+<!-- SPLASH -->
+<div id="logoScreen">
+  <img src="assets/innovine-logo.png">
 </div>
 
+<!-- BACKGROUND -->
 <div class="bg" id="bg"></div>
 
+<!-- AUDIO -->
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
 <div class="container">
-  <div class="header">
-    <img src="assets/innovine-logo.png" alt="Innovine Logo">
 
+  <div class="topbar">
     <div class="badge">Score: <span id="score">0</span></div>
-    <div class="badge">Question: <span id="progressText">0 / 10</span></div>
-    <div class="badge">Time: <span id="timer">45</span>s</div>
-
-    <div class="controls">
-      <button id="muteBtn" onclick="toggleMute()">🔊 Sound</button>
-      <label for="volume">Volume</label>
-      <input id="volume" type="range" min="0" max="1" step="0.1" value="1" oninput="setVolume(this.value)">
-    </div>
+    <div class="badge">Q: <span id="qno">0</span></div>
+    <div class="badge">Time: <span id="time">45</span>s</div>
   </div>
 
-  <div class="progress-wrap">
-    <div class="progress-bar" id="progressBar"></div>
+  <div class="progress"><div class="bar" id="bar"></div></div>
+
+  <div id="intro">
+    <h2>CBQ Challenge</h2>
+    <button onclick="startGame()">Start</button>
   </div>
 
-  <section id="intro">
-    <h1>Integers Quest</h1>
-    <p>Welcome, integer explorer! You will solve questions about positive and negative numbers in real-life situations.</p>
-    <button onclick="showInstructions()">Continue</button>
-  </section>
+  <div id="quiz" class="hidden">
+    <h3 id="question"></h3>
 
-  <section id="instructions" class="hidden">
-    <h2>How to Play</h2>
-    <ul>
-      <li>Read each question carefully.</li>
-      <li>You will get 45 seconds for each question.</li>
-      <li>You get one more try after the first wrong answer.</li>
-      <li>After the second wrong answer, the correct answer will be shown.</li>
-      <li>Your score will be shown at the end.</li>
-    </ul>
-    <div class="center">
-      <button onclick="startGame()">Start Challenge</button>
-    </div>
-  </section>
+    <div id="caseBox" class="box case hidden"></div>
+    <div id="assertBox" class="box assert hidden"></div>
 
-  <section id="quiz" class="hidden">
-    <h2 id="qTitle"></h2>
-    <div id="caseBox" class="case-box hidden"></div>
-    <div id="assertionBox" class="assertion-box hidden"></div>
-    <p id="question"></p>
     <div class="options" id="options"></div>
-    <div class="message" id="message"></div>
-  </section>
+    <div id="msg"></div>
+  </div>
 
-  <section id="result" class="hidden">
-    <h1>Challenge Complete!</h1>
-    <h2>Your Final Score: <span id="finalScore"></span></h2>
-    <p id="resultText"></p>
+  <div id="result" class="hidden">
+    <h2>Result</h2>
+    <h3 id="finalScore"></h3>
     <button onclick="location.reload()">Play Again</button>
-  </section>
+  </div>
+
 </div>
 
 <script>
-setTimeout(function(){
-  document.getElementById("logoScreen").style.display="none";
-},5000);
+setTimeout(()=>document.getElementById("logoScreen").style.display="none",5000);
 
-const allQuestions=[
-  {
-    q:"The temperature in Shimla was −4°C in the morning. By afternoon, it rose by 9°C. What was the afternoon temperature?",
-    o:["−13°C","5°C","−5°C","13°C"],
-    a:1,
-    e:"−4 + 9 = 5°C."
-  },
-  {
-    q:"In a quiz, +4 marks are given for a correct answer and −2 marks for an incorrect answer. Riya gives 6 correct answers and 4 incorrect answers. What is her total score?",
-    o:["16","20","24","32"],
-    a:0,
-    e:"Score = 6 × 4 + 4 × (−2) = 24 − 8 = 16."
-  },
-  {
-    caseText:"A shopkeeper earns ₹50 profit on one shirt and loses ₹20 on one pair of trousers. On a day, he sells 6 shirts and 8 pairs of trousers.",
-    q:"What is his total profit from shirts?",
-    o:["₹250","₹300","₹350","₹400"],
-    a:1,
-    e:"Profit from shirts = 6 × ₹50 = ₹300."
-  },
-  {
-    caseText:"A shopkeeper earns ₹50 profit on one shirt and loses ₹20 on one pair of trousers. On a day, he sells 6 shirts and 8 pairs of trousers.",
-    q:"What is his overall gain or loss?",
-    o:["₹140 gain","₹160 loss","₹160 gain","₹460 gain"],
-    a:0,
-    e:"Profit = ₹300 and loss = 8 × ₹20 = ₹160. Overall = ₹140 gain."
-  },
-  {
-    assertion:"Assertion: −8 is greater than −12.",
-    reason:"Reason: Among two negative integers, the integer closer to zero is greater.",
-    q:"Choose the correct option.",
-    o:[
-      "Both Assertion and Reason are true, and Reason explains Assertion.",
-      "Both Assertion and Reason are true, but Reason does not explain Assertion.",
-      "Assertion is true, but Reason is false.",
-      "Assertion is false, but Reason is true."
-    ],
-    a:0,
-    e:"−8 is greater because it is closer to zero than −12."
-  },
-  {
-    assertion:"Assertion: 0 is a positive integer.",
-    reason:"Reason: 0 is neither positive nor negative.",
-    q:"Choose the correct option.",
-    o:[
-      "Both Assertion and Reason are true.",
-      "Assertion is true, but Reason is false.",
-      "Assertion is false, but Reason is true.",
-      "Both Assertion and Reason are false."
-    ],
-    a:2,
-    e:"0 is not positive. It is neither positive nor negative."
-  },
-  {
-    assertion:"Assertion: Addition of integers is commutative.",
-    reason:"Reason: For any two integers a and b, a + b = b + a.",
-    q:"Choose the correct option.",
-    o:[
-      "Both Assertion and Reason are true, and Reason explains Assertion.",
-      "Both Assertion and Reason are true, but Reason does not explain Assertion.",
-      "Assertion is true, but Reason is false.",
-      "Assertion is false, but Reason is true."
-    ],
-    a:0,
-    e:"The formula a + b = b + a explains the commutative property."
-  },
-  {
-    q:"A submarine was at −120 m below sea level. It moved up by 45 m. What is its new position?",
-    o:["−165 m","−75 m","75 m","165 m"],
-    a:1,
-    e:"−120 + 45 = −75 m."
-  },
-  {
-    q:"A football team gets +3 points for a win and −1 point for a loss. If the team wins 7 matches and loses 2 matches, what is the total score?",
-    o:["19","20","21","23"],
-    a:0,
-    e:"Score = 7 × 3 + 2 × (−1) = 21 − 2 = 19."
-  },
-  {
-    q:"The temperature of a freezer is −18°C. If the temperature increases by 11°C, what will be the new temperature?",
-    o:["−29°C","−7°C","7°C","29°C"],
-    a:1,
-    e:"−18 + 11 = −7°C."
-  }
+// SAMPLE QUESTIONS (replace with user input)
+const data=[
+ {q:"2 + 3 = ?",o:["4","5","6","7"],a:1,e:"2+3=5"},
+ {q:"5 - 2 = ?",o:["2","3","4","5"],a:1,e:"5-2=3"}
 ];
 
-let questions=[];
-let index=0;
-let score=0;
-let time=45;
-let timer=null;
-let attempt=0;
-let muted=false;
-let volumeLevel=1;
-
-const intro=document.getElementById("intro");
-const instructions=document.getElementById("instructions");
-const quiz=document.getElementById("quiz");
-const result=document.getElementById("result");
-const qTitle=document.getElementById("qTitle");
-const question=document.getElementById("question");
-const options=document.getElementById("options");
-const message=document.getElementById("message");
-const caseBox=document.getElementById("caseBox");
-const assertionBox=document.getElementById("assertionBox");
-const progressText=document.getElementById("progressText");
-const progressBar=document.getElementById("progressBar");
-
-function showInstructions(){
-  intro.classList.add("hidden");
-  instructions.classList.remove("hidden");
-}
+let qSet=[],i=0,score=0,t=45,tm,attempt=0;
 
 function startGame(){
-  questions=shuffleArray(allQuestions).map(function(q){
-    return shuffleOptions(q);
-  });
-
-  instructions.classList.add("hidden");
-  quiz.classList.remove("hidden");
-  loadQuestion();
+  qSet=data;
+  document.getElementById("intro").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  load();
 }
 
-function shuffleArray(arr){
-  const copy=arr.slice();
-  for(let i=copy.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    const temp=copy[i];
-    copy[i]=copy[j];
-    copy[j]=temp;
-  }
-  return copy;
-}
-
-function shuffleOptions(q){
-  const correctText=q.o[q.a];
-  const shuffled=shuffleArray(q.o);
-  const newAnswer=shuffled.indexOf(correctText);
-
-  return {
-    q:q.q,
-    o:shuffled,
-    a:newAnswer,
-    e:q.e,
-    caseText:q.caseText || "",
-    assertion:q.assertion || "",
-    reason:q.reason || ""
-  };
-}
-
-function loadQuestion(){
+function load(){
   attempt=0;
-  time=45;
-  updateTimer();
-  clearInterval(timer);
+  t=45;
+  updateTime();
 
-  timer=setInterval(function(){
-    time--;
-    updateTimer();
-    if(time<=0){
-      showCorrectAnswer();
-    }
+  clearInterval(tm);
+  tm=setInterval(()=>{
+    t--;
+    updateTime();
+    if(t<=0) next();
   },1000);
 
-  const item=questions[index];
+  let q=qSet[i];
 
-  qTitle.textContent="Question "+(index+1)+" of "+questions.length;
-  progressText.textContent=(index+1)+" / "+questions.length;
-  progressBar.style.width=((index)/questions.length*100)+"%";
+  document.getElementById("qno").innerText=(i+1)+"/"+qSet.length;
+  document.getElementById("question").innerText=q.q;
 
-  question.textContent=item.q;
-  message.textContent="";
-  options.innerHTML="";
+  let box=document.getElementById("options");
+  box.innerHTML="";
 
-  if(item.caseText){
-    caseBox.textContent=item.caseText;
-    caseBox.classList.remove("hidden");
-  }else{
-    caseBox.classList.add("hidden");
-  }
-
-  if(item.assertion){
-    assertionBox.innerHTML="<b>"+item.assertion+"</b><br>"+item.reason;
-    assertionBox.classList.remove("hidden");
-  }else{
-    assertionBox.classList.add("hidden");
-  }
-
-  item.o.forEach(function(opt,i){
-    const btn=document.createElement("button");
-    btn.textContent=String.fromCharCode(65+i)+". "+opt;
-    btn.onclick=function(){checkAnswer(i,btn)};
-    options.appendChild(btn);
+  q.o.forEach((x,idx)=>{
+    let b=document.createElement("button");
+    b.innerText=x;
+    b.onclick=()=>check(idx,b);
+    box.appendChild(b);
   });
+
+  document.getElementById("caseBox").classList.add("hidden");
+  document.getElementById("assertBox").classList.add("hidden");
+
+  updateBar();
 }
 
-function updateTimer(){
-  document.getElementById("timer").textContent=time;
-}
+function check(c,b){
+  let q=qSet[i];
 
-function checkAnswer(choice,btn){
-  const item=questions[index];
-
-  if(choice===item.a){
-    clearInterval(timer);
+  if(c===q.a){
     score++;
-    document.getElementById("score").textContent=score;
-    btn.classList.add("correct");
-    message.textContent="Correct! Great work!";
-    playSound("correctSound");
-    makeConfetti();
-    disableOptions();
-    goNext();
+    document.getElementById("score").innerText=score;
+    b.classList.add("correct");
+    play("correctSound");
+    setTimeout(next,800);
   }else{
     attempt++;
-    btn.classList.add("wrong");
-    btn.disabled=true;
-    playSound("wrongSound");
-    message.innerHTML='<div class="cross">✖</div>';
+    b.classList.add("wrong");
+    play("wrongSound");
 
-    if(attempt===1){
-      setTimeout(function(){
-        message.textContent="Try once more!";
-      },600);
-    }else{
-      showCorrectAnswer();
+    if(attempt===2){
+      reveal();
     }
   }
 }
 
-function showCorrectAnswer(){
-  clearInterval(timer);
-  const item=questions[index];
-
-  message.textContent="Correct answer: "+item.o[item.a]+". "+item.e;
-
-  Array.from(options.children).forEach(function(b,i){
-    b.disabled=true;
-    if(i===item.a){
-      b.classList.add("correct");
-    }
-  });
-
-  goNext();
+function reveal(){
+  let q=qSet[i];
+  document.getElementById("msg").innerText="Answer: "+q.o[q.a]+" - "+q.e;
+  setTimeout(next,2000);
 }
 
-function disableOptions(){
-  Array.from(options.children).forEach(function(b){
-    b.disabled=true;
-  });
-}
-
-function goNext(){
-  setTimeout(function(){
-    index++;
-    if(index<questions.length){
-      loadQuestion();
-    }else{
-      showResult();
-    }
-  },2400);
-}
-
-function showResult(){
-  clearInterval(timer);
-  quiz.classList.add("hidden");
-  result.classList.remove("hidden");
-  document.getElementById("timer").textContent="--";
-  progressText.textContent=questions.length+" / "+questions.length;
-  progressBar.style.width="100%";
-
-  document.getElementById("finalScore").textContent=score+" / "+questions.length;
-
-  if(score>=8){
-    document.getElementById("resultText").textContent="Excellent! You understand integers very well.";
-  }else if(score>=5){
-    document.getElementById("resultText").textContent="Good effort! Practise integer addition and negative numbers again.";
-  }else{
-    document.getElementById("resultText").textContent="Keep practising. Integers become easier with number line thinking.";
+function next(){
+  i++;
+  if(i>=qSet.length){
+    end();
+    return;
   }
-
-  playSound("clapSound");
-  makeConfetti();
+  load();
 }
 
-function playSound(id){
-  if(muted) return;
-  const audio=document.getElementById(id);
-  audio.volume=volumeLevel;
-  audio.currentTime=0;
-  audio.play().catch(function(){});
+function end(){
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+  document.getElementById("finalScore").innerText=score+"/"+qSet.length;
+  play("clapSound");
+  star();
 }
 
-function setVolume(value){
-  volumeLevel=Number(value);
-  ["correctSound","wrongSound","clapSound"].forEach(function(id){
-    document.getElementById(id).volume=volumeLevel;
-  });
+function updateTime(){
+  document.getElementById("time").innerText=t;
 }
 
-function toggleMute(){
-  muted=!muted;
-  document.getElementById("muteBtn").textContent=muted ? "🔇 Muted" : "🔊 Sound";
+function updateBar(){
+  document.getElementById("bar").style.width=(i/qSet.length)*100+"%";
 }
 
-function makeConfetti(){
+function play(id){
+  document.getElementById(id).play();
+}
+
+function star(){
   for(let i=0;i<20;i++){
-    const s=document.createElement("div");
-    s.className="confetti";
-    s.textContent="★";
+    let s=document.createElement("div");
+    s.className="star";
+    s.innerText="★";
     s.style.left=Math.random()*100+"vw";
-    s.style.color=["#ffbf00","#58c7ff","#ff6b9a","#72d572"][Math.floor(Math.random()*4)];
-    s.style.animationDelay=(Math.random()*0.2)+"s";
     document.body.appendChild(s);
-    setTimeout(function(){s.remove()},1500);
+    setTimeout(()=>s.remove(),1500);
   }
-}
-
-for(let i=0;i<26;i++){
-  const star=document.createElement("span");
-  star.textContent=i%2 ? "★" : "✦";
-  star.style.left=Math.random()*100+"vw";
-  star.style.fontSize=(14+Math.random()*20)+"px";
-  star.style.animationDelay=Math.random()*8+"s";
-  document.getElementById("bg").appendChild(star);
 }
 </script>
 
