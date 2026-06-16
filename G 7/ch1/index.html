@@ -46,6 +46,8 @@ button:active{transform:translateY(3px);box-shadow:0 2px 0 #f9a825}
 @keyframes crossfade{0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}40%{opacity:.85}100%{opacity:0;transform:translate(-50%,-50%) scale(1.2)}}
 .finalbox{background:#fff8e1;border:2px dashed #ffb300;border-radius:20px;padding:16px;margin-top:16px}
 .small{font-size:15px;color:#546e7a}
+input{width:90%;max-width:280px;padding:14px;border-radius:14px;border:2px solid #90caf9;font-size:18px;text-align:center;margin:10px}
+#challengeFeedback{font-size:18px;margin-top:12px;min-height:28px}
 @media(max-width:520px){
 .screen{padding:10px}.card{width:94vw;padding:16px;border-radius:22px}.intro-card{width:94vw;padding:28px 18px;border-radius:26px}
 h1{font-size:27px}h2{font-size:20px}p{font-size:16px}.intro-card h1{font-size:34px}.intro-card h2{font-size:24px}.intro-card p{font-size:18px}
@@ -96,12 +98,14 @@ button{width:100%;font-size:18px;padding:15px 18px}.intro-card button{width:auto
   <div class="card">
     <h1>Final Challenge</h1>
     <div class="finalbox">
-      <p><b>Think and solve:</b></p>
+      <p><b>Think and Solve:</b></p>
       <p>A lift is at floor −3. It moves up 8 floors and then comes down 2 floors. Which floor is it on?</p>
-      <p><b>Answer:</b> 3</p>
+      <input type="number" id="challengeAns" placeholder="Enter your answer">
+      <button onclick="checkChallenge()">Submit</button>
+      <div id="challengeFeedback"></div>
     </div>
-    <p class="small">Tap finish to see your score.</p>
-    <button onclick="showResult()">Finish</button>
+    <p class="small">Submit your answer first, then tap Finish to see your score.</p>
+    <button id="finishBtn" class="hidden" onclick="showResult()">Finish</button>
   </div>
 </div>
 
@@ -121,15 +125,22 @@ button{width:100%;font-size:18px;padding:15px 18px}.intro-card button{width:auto
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3" preload="auto"></audio>
 
 <script>
+const assertionReasonOptions=[
+"(A) Both Assertion (A) and Reason (R) are true and Reason (R) is the correct explanation of Assertion (A).",
+"(B) Both Assertion (A) and Reason (R) are true but Reason (R) is not the correct explanation of Assertion (A).",
+"(C) Assertion (A) is true but Reason (R) is false.",
+"(D) Assertion (A) is false but Reason (R) is true."
+];
+
 const questions=[
 {q:"The temperature in Shimla was −4°C in the morning. By afternoon, it rose by 9°C. What was the afternoon temperature?",o:["−13°C","5°C","−5°C","13°C"],a:1,e:"−4 + 9 = 5°C."},
 {q:"In a quiz, +4 marks are given for a correct answer and −2 for an incorrect answer. Riya gives 6 correct answers and 4 incorrect answers. What is her total score?",o:["16","20","24","32"],a:0,e:"Correct answers: 6 × 4 = 24. Incorrect answers: 4 × 2 = 8. Total = 24 − 8 = 16."},
-{q:"Case: A shopkeeper earns ₹50 profit on one shirt and loses ₹20 on one pair of trousers. On a day, he sells 6 shirts and 8 trousers.\n\nWhat is his total profit from shirts?",o:["₹250","₹300","₹350","₹400"],a:1,e:"Profit from shirts = 6 × 50 = ₹300."},
-{q:"Same case:\nA shopkeeper earns ₹50 profit on one shirt and loses ₹20 on one pair of trousers. On a day, he sells 6 shirts and 8 trousers.\n\nWhat is his overall gain or loss?",o:["₹140 gain","₹160 loss","₹160 gain","₹460 gain"],a:0,e:"Profit from shirts = ₹300. Loss from trousers = 8 × 20 = ₹160. Overall = 300 − 160 = ₹140 gain."},
-{q:"Assertion: −8 is greater than −12.\nReason: Among two negative integers, the number closer to zero is greater.",o:["Both true and Reason explains Assertion","Both true but Reason does not explain Assertion","Assertion true, Reason false","Assertion false, Reason true"],a:0,e:"−8 is closer to zero than −12, so −8 is greater."},
-{q:"Assertion: 0 is a positive integer.\nReason: 0 is neither positive nor negative.",o:["Both true and Reason explains Assertion","Both true but Reason does not explain Assertion","Assertion true, Reason false","Assertion false, Reason true"],a:3,e:"The assertion is false because 0 is not positive. The reason is true because 0 is neither positive nor negative."},
-{q:"Assertion: Addition of integers is commutative.\nReason: a + b = b + a.",o:["Both true and Reason explains Assertion","Both true but Reason does not explain Assertion","Assertion true, Reason false","Assertion false, Reason true"],a:0,e:"Addition is commutative because changing the order does not change the sum."},
-{q:"A submarine was at −120 m below sea level. It moved up by 45 m. What is its new position?",o:["−165 m","−75 m","75 m","165 m"],a:1,e:"Moving up means adding 45. −120 + 45 = −75 m."},
+{q:"A shopkeeper earns ₹50 profit on one shirt and loses ₹20 on one pair of trousers. On a day, he sells 6 shirts and 8 trousers.\n\nWhat is his total profit from shirts?",o:["₹250","₹300","₹350","₹400"],a:1,e:"Profit from shirts = 6 × ₹50 = ₹300."},
+{q:"A shopkeeper earns ₹50 profit on one shirt and loses ₹20 on one pair of trousers. On a day, he sells 6 shirts and 8 trousers.\n\nWhat is his overall gain or loss?",o:["₹140 gain","₹160 loss","₹160 gain","₹460 gain"],a:0,e:"Profit from shirts = ₹300. Loss from trousers = 8 × ₹20 = ₹160. Overall = ₹300 − ₹160 = ₹140 gain."},
+{q:"Assertion (A): −8 is greater than −12.\n\nReason (R): Among two negative integers, the integer closer to zero is greater.",o:assertionReasonOptions,a:0,e:"−8 is closer to zero than −12, so −8 is greater. Hence, Reason correctly explains Assertion."},
+{q:"Assertion (A): The additive inverse of −9 is 9.\n\nReason (R): The sum of a number and its additive inverse is 0.",o:assertionReasonOptions,a:0,e:"−9 + 9 = 0. So, 9 is the additive inverse of −9 and the Reason correctly explains the Assertion."},
+{q:"Assertion (A): Addition of integers is commutative.\n\nReason (R): A bank account balance changes by +₹500 and then +₹300, giving the same result as +₹300 and then +₹500.",o:assertionReasonOptions,a:0,e:"Changing the order of addition does not change the sum. So, the real-life example supports commutative addition."},
+{q:"A submarine is at −120 m below sea level. It moves upward by 45 m. What is its new position relative to sea level?",o:["−165 m","−75 m","75 m","165 m"],a:1,e:"Moving upward means adding 45. −120 + 45 = −75 m."},
 {q:"A football team gets +3 for a win and −1 for a loss. It wins 7 matches and loses 2. What is the total score?",o:["19","20","21","23"],a:0,e:"Wins: 7 × 3 = 21. Losses: 2 × −1 = −2. Total = 21 − 2 = 19."},
 {q:"The temperature of a freezer is −18°C. If it increases by 11°C, what is the new temperature?",o:["−29°C","−7°C","7°C","29°C"],a:1,e:"−18 + 11 = −7°C."}
 ];
@@ -174,8 +185,15 @@ function startTimer(){
   timer=setInterval(function(){
     timeLeft--;
     document.getElementById("time").textContent=timeLeft;
-    if(timeLeft<=0){clearInterval(timer);showAnswer("Time is up!")}
+    if(timeLeft<=0){clearInterval(timer);timeUpMoveNext()}
   },1000);
+}
+
+function timeUpMoveNext(){
+  locked=true;
+  document.getElementById("feedback").innerHTML="Time is up! Moving to the next question.";
+  document.getElementById("options").innerHTML="";
+  setTimeout(function(){nextQuestion()},1200);
 }
 
 function checkAnswer(i,el){
@@ -219,6 +237,20 @@ function nextQuestion(){
   current++;
   if(current<questions.length){loadQuestion()}
   else{document.getElementById("progressBar").style.width="100%";showScreen("finalChallenge")}
+}
+
+function checkChallenge(){
+  const ans=document.getElementById("challengeAns").value.trim();
+  const fb=document.getElementById("challengeFeedback");
+  if(ans==="3"){
+    fb.innerHTML="<b>Correct!</b> −3 + 8 − 2 = 3.";
+    playSound(correctSound);
+    makeConfetti();
+  }else{
+    fb.innerHTML="<b>Incorrect.</b> Correct Answer: 3<br>Explanation: −3 + 8 − 2 = 3.";
+    playSound(wrongSound);
+  }
+  document.getElementById("finishBtn").classList.remove("hidden");
 }
 
 function showResult(){
