@@ -46,6 +46,8 @@ button:active{transform:translateY(3px);box-shadow:0 2px 0 #f9a825}
 @keyframes crossfade{0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}40%{opacity:.85}100%{opacity:0;transform:translate(-50%,-50%) scale(1.2)}}
 .finalbox{background:#fff8e1;border:2px dashed #ffb300;border-radius:20px;padding:16px;margin-top:16px}
 .small{font-size:15px;color:#546e7a}
+input{width:90%;max-width:280px;padding:14px;border-radius:14px;border:2px solid #90caf9;font-size:18px;text-align:center;margin:10px}
+#challengeFeedback{font-size:18px;margin-top:12px;min-height:28px}
 @media(max-width:520px){
 .screen{padding:10px}.card{width:94vw;padding:16px;border-radius:22px}.intro-card{width:94vw;padding:28px 18px;border-radius:26px}
 h1{font-size:27px}h2{font-size:20px}p{font-size:16px}.intro-card h1{font-size:34px}.intro-card h2{font-size:24px}.intro-card p{font-size:18px}
@@ -98,10 +100,12 @@ button{width:100%;font-size:18px;padding:15px 18px}.intro-card button{width:auto
     <div class="finalbox">
       <p><b>Think and solve:</b></p>
       <p>A number is multiplied by 5 and the result is 45. What is the number?</p>
-      <p><b>Answer:</b> 9</p>
+      <input type="number" id="challengeAns" placeholder="Enter your answer">
+      <button onclick="checkChallenge()">Submit</button>
+      <div id="challengeFeedback"></div>
     </div>
-    <p class="small">Tap finish to see your score.</p>
-    <button onclick="showResult()">Finish</button>
+    <p class="small">Submit your answer first, then tap Finish to see your score.</p>
+    <button id="finishBtn" class="hidden" onclick="showResult()">Finish</button>
   </div>
 </div>
 
@@ -121,6 +125,13 @@ button{width:100%;font-size:18px;padding:15px 18px}.intro-card button{width:auto
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3" preload="auto"></audio>
 
 <script>
+const assertionReasonOptions=[
+"(A) Both Assertion (A) and Reason (R) are true and Reason (R) is the correct explanation of Assertion (A).",
+"(B) Both Assertion (A) and Reason (R) are true but Reason (R) is not the correct explanation of Assertion (A).",
+"(C) Assertion (A) is true but Reason (R) is false.",
+"(D) Assertion (A) is false but Reason (R) is true."
+];
+
 const questions=[
 {q:"A shopkeeper sells notebooks for ₹35 each. Riya buys some notebooks and pays ₹210. If the number of notebooks is x, which equation represents this situation?",o:["35 + x = 210","35x = 210","x − 35 = 210","210x = 35"],a:1,e:"Each notebook costs ₹35 and x notebooks cost ₹210, so the equation is 35x = 210."},
 {q:"A number is increased by 12 and the result is 30. What is the number?",o:["12","18","30","42"],a:1,e:"Let the number be x. x + 12 = 30, so x = 18."},
@@ -128,10 +139,10 @@ const questions=[
 {q:"Anu’s age is x years. Her brother is 5 years older than her. If her brother is 17 years old, which equation is correct?",o:["x − 5 = 17","x + 5 = 17","5x = 17","x + 17 = 5"],a:1,e:"Her brother is 5 years older, so x + 5 = 17."},
 {q:"A taxi charges ₹50 fixed charge and ₹12 per kilometre. If the total fare is ₹170, how many kilometres were travelled?",o:["8 km","9 km","10 km","12 km"],a:2,e:"Let distance be x. 50 + 12x = 170. So 12x = 120 and x = 10 km."},
 {q:"A teacher gives 3 marks for each correct answer in a quiz. Meena scores 45 marks. If she answered x questions correctly, find x.",o:["12","15","18","20"],a:1,e:"3x = 45, so x = 45 ÷ 3 = 15."},
-{q:"Assertion: The solution of x + 7 = 15 is x = 8.\nReason: To solve x + 7 = 15, we subtract 7 from both sides.",o:["Both true and Reason explains Assertion","Both true but Reason does not explain Assertion","Assertion true, Reason false","Assertion false, Reason true"],a:0,e:"Both are true. Subtracting 7 from both sides gives x = 8."},
-{q:"Assertion: The equation 4x = 28 has solution x = 6.\nReason: To solve 4x = 28, we divide both sides by 4.",o:["Both true and Reason explains Assertion","Both true but Reason does not explain Assertion","Assertion true, Reason false","Assertion false, Reason true"],a:3,e:"The assertion is false because x = 7. The reason is true because we divide both sides by 4."},
-{q:"Assertion: 2x + 5 = 17 gives x = 6.\nReason: First subtract 5 from both sides, then divide by 2.",o:["Both true and Reason explains Assertion","Both true but Reason does not explain Assertion","Assertion true, Reason false","Assertion false, Reason true"],a:0,e:"Both are true. 2x + 5 = 17 gives 2x = 12, so x = 6."},
-{q:"Assertion: If the same number is added to both sides of an equation, the solution remains unchanged.\nReason: An equation stays balanced when the same operation is performed on both sides.",o:["Both true and Reason explains Assertion","Both true but Reason does not explain Assertion","Assertion true, Reason false","Assertion false, Reason true"],a:0,e:"Both are true. Equations stay balanced when the same operation is done on both sides."},
+{q:"Assertion (A): The solution of x + 7 = 15 is x = 8.\n\nReason (R): To solve x + 7 = 15, we subtract 7 from both sides.",o:assertionReasonOptions,a:0,e:"Both Assertion and Reason are true. Subtracting 7 from both sides gives x = 8, so Reason correctly explains Assertion."},
+{q:"Assertion (A): The equation 4x = 28 has solution x = 6.\n\nReason (R): To solve 4x = 28, we divide both sides by 4.",o:assertionReasonOptions,a:3,e:"Assertion is false because x = 7. Reason is true because we divide both sides by 4."},
+{q:"Assertion (A): 2x + 5 = 17 gives x = 6.\n\nReason (R): First subtract 5 from both sides, then divide by 2.",o:assertionReasonOptions,a:0,e:"Both Assertion and Reason are true. 2x + 5 = 17 gives 2x = 12, so x = 6."},
+{q:"Assertion (A): If the same number is added to both sides of an equation, the solution remains unchanged.\n\nReason (R): An equation stays balanced when the same operation is performed on both sides.",o:assertionReasonOptions,a:0,e:"Both Assertion and Reason are true. Equations stay balanced when the same operation is done on both sides."},
 {q:"A fruit seller has some apples. After selling 18 apples, he is left with 27 apples. If he had x apples in the beginning, which equation and solution are correct?",o:["x + 18 = 27, x = 9","x − 18 = 27, x = 45","18x = 27, x = 45","x − 27 = 18, x = 27"],a:1,e:"He sold 18 and had 27 left, so x − 18 = 27. Therefore, x = 45."}
 ];
 
@@ -178,8 +189,15 @@ function startTimer(){
   timer=setInterval(function(){
     timeLeft--;
     document.getElementById("time").textContent=timeLeft;
-    if(timeLeft<=0){clearInterval(timer);showAnswer("Time is up!")}
+    if(timeLeft<=0){clearInterval(timer);timeUpMoveNext()}
   },1000);
+}
+
+function timeUpMoveNext(){
+  locked=true;
+  document.getElementById("feedback").innerHTML="Time is up! Moving to the next question.";
+  document.getElementById("options").innerHTML="";
+  setTimeout(function(){nextQuestion()},1200);
 }
 
 function checkAnswer(i,el){
@@ -227,6 +245,22 @@ function nextQuestion(){
   current++;
   if(current<questions.length){loadQuestion()}
   else{document.getElementById("progressBar").style.width="100%";showScreen("finalChallenge")}
+}
+
+function checkChallenge(){
+  const ans=document.getElementById("challengeAns").value.trim();
+  const fb=document.getElementById("challengeFeedback");
+
+  if(ans==="9"){
+    fb.innerHTML="<b>Correct!</b> 5x = 45, so x = 9.";
+    playSound(correctSound);
+    makeConfetti();
+  }else{
+    fb.innerHTML="<b>Incorrect.</b> Correct Answer: 9<br>Explanation: 5x = 45, so x = 45 ÷ 5 = 9.";
+    playSound(wrongSound);
+  }
+
+  document.getElementById("finishBtn").classList.remove("hidden");
 }
 
 function showResult(){
