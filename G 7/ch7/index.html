@@ -1,842 +1,379 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Comparing Quantities MCQ Challenge</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 7 Comparing Quantities - Innovine Game</title>
 <style>
-
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
+:root{
+  --ink:#17324d;
+  --card:#ffffffee;
+  --mint:#2ec4b6;
+  --blue:#3a86ff;
+  --purple:#8338ec;
+  --orange:#ff9f1c;
+  --green:#06d6a0;
+  --red:#ef476f;
+  --soft:#f7fbff;
 }
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-font-family:Arial,sans-serif;
-min-height:100vh;
-background:linear-gradient(135deg,#eef7ff,#fff3dc);
-color:#203040;
-overflow-x:hidden;
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  min-height:100vh;
+  color:var(--ink);
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at 12% 18%, #caffbf 0 8%, transparent 9%),
+    radial-gradient(circle at 88% 16%, #ffd6a5 0 8%, transparent 9%),
+    radial-gradient(circle at 16% 86%, #bde0fe 0 9%, transparent 10%),
+    linear-gradient(135deg,#073b4c 0%,#118ab2 45%,#ffd166 100%);
 }
-
-/* LOGO SCREEN ONLY */
-
-.logo-screen{
-position:fixed;
-inset:0;
-background:#fff;
-z-index:99;
-display:flex;
-align-items:center;
-justify-content:center;
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  opacity:.22;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255,255,255,.7) 0 2px, transparent 2px 58px),
+    repeating-linear-gradient(135deg, rgba(255,255,255,.45) 0 2px, transparent 2px 58px);
+  animation:bgMove 38s linear infinite;
 }
-
-.logo-screen img{
-max-width:220px;
-animation:pop 1s ease;
+@keyframes bgMove{to{transform:translate(-120px,-120px)}}
+#splash{
+  position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,#ffffff,#efffff);
+  animation:splashFade .8s forwards; animation-delay:5s;
 }
-
-@keyframes pop{
-from{
-opacity:0;
-transform:scale(.7);
+#splash img{width:230px; max-width:78%; animation:logoPulse 1.4s ease-in-out infinite alternate}
+@keyframes logoPulse{from{transform:scale(.95)}to{transform:scale(1.05)}}
+@keyframes splashFade{to{opacity:0;visibility:hidden}}
+.float{
+  position:fixed; z-index:-1; pointer-events:none; color:#fff; opacity:.25;
+  font-size:38px; font-weight:900; animation:floaty 8s ease-in-out infinite;
 }
-to{
-opacity:1;
-transform:scale(1);
+@keyframes floaty{50%{transform:translateY(-28px) rotate(8deg)}}
+.wrap{width:min(980px,94%);margin:0 auto;padding:24px 0}
+.card{
+  margin-top:24px; padding:26px; border-radius:30px; background:var(--card);
+  border:2px solid rgba(255,255,255,.65); box-shadow:0 22px 60px rgba(2,8,23,.3);
+  backdrop-filter:blur(12px);
 }
+.center{text-align:center}.hidden{display:none!important}
+.hero{min-height:430px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px}
+.title{font-size:clamp(31px,6vw,54px); line-height:1.05; color:#073b4c}
+.subtitle{max-width:760px; font-size:clamp(16px,3vw,20px); line-height:1.55}
+.instructions{display:grid; gap:11px; width:min(720px,100%); margin:14px auto 8px; text-align:left}
+.inst{padding:13px 15px; border-radius:16px; background:#f8fbff; border-left:8px solid var(--mint); line-height:1.45; font-size:17px}
+.btn{
+  border:0; border-radius:17px; padding:14px 25px; font-size:17px; font-weight:900; cursor:pointer;
+  color:white; background:linear-gradient(135deg,var(--mint),var(--blue),var(--purple));
+  box-shadow:0 12px 24px rgba(58,134,255,.28); transition:.2s;
 }
-
-/* FLOATING BACKGROUND */
-
-.bg span{
-position:fixed;
-color:rgba(255,180,0,.35);
-z-index:-1;
-animation:float 10s linear infinite;
-}
-
-@keyframes float{
-from{
-transform:translateY(100vh) rotate(0);
-}
-to{
-transform:translateY(-10vh) rotate(360deg);
-}
-}
-
-/* MAIN CONTAINER */
-
-.container{
-width:min(92%,800px);
-margin:28px auto;
-background:rgba(255,255,255,.94);
-border-radius:24px;
-padding:24px;
-box-shadow:0 10px 28px rgba(0,0,0,.12);
-}
-
-/* HEADER */
-
-.header{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-margin-bottom:18px;
-flex-wrap:wrap;
-}
-
-/* BADGES */
-
+.btn:hover{transform:translateY(-2px) scale(1.02)}
+.topbar{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:18px}
 .badge{
-background:#e8f2ff;
-padding:8px 12px;
-border-radius:18px;
-font-weight:bold;
+  padding:10px 14px; border-radius:16px; background:#fff; border:3px solid #c6f7f1;
+  box-shadow:0 8px 16px rgba(23,50,77,.08); font-weight:900;
 }
-
-/* TEXT */
-
-h1,h2{
-text-align:center;
-margin-bottom:14px;
+.progress{height:15px; background:#def7f4; border-radius:100px; overflow:hidden; margin-bottom:18px}
+#progressBar{height:100%; width:0; background:linear-gradient(90deg,var(--mint),var(--blue),var(--orange)); transition:.35s}
+.mission{
+  background:linear-gradient(135deg,#fff,#f2fffd); border:3px dashed var(--mint); border-radius:24px;
+  padding:16px; display:flex; gap:15px; align-items:flex-start; margin-bottom:16px;
 }
-
-p{
-line-height:1.5;
+.icon{
+  width:68px; height:68px; border-radius:21px; display:grid; place-items:center; font-size:36px;
+  background:linear-gradient(135deg,#caffbf,#bde0fe); box-shadow:inset 0 0 0 4px white; flex:0 0 auto;
 }
-
-/* CASE BOX */
-
-.case-box{
-background:#fff6d9;
-border-left:5px solid #f0b400;
-padding:12px;
-border-radius:12px;
-margin-bottom:12px;
-font-weight:bold;
+.question{font-size:clamp(18px,3vw,22px); font-weight:900; line-height:1.55}
+.infoBox{
+  margin-top:12px; background:#fff; border:2px solid #c6f7f1; border-radius:17px;
+  padding:12px; line-height:1.55; overflow-x:auto;
 }
-
-/* BUTTONS */
-
-button{
-border:0;
-background:#3478f6;
-color:white;
-padding:13px 18px;
-border-radius:14px;
-font-size:16px;
-cursor:pointer;
-margin-top:14px;
-transition:.2s;
+table{border-collapse:collapse;width:100%;min-width:390px}
+td,th{border:1px solid #a6e9e1;padding:8px 10px;text-align:center}
+th{background:#e9fffc}
+.options{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; margin-top:17px}
+.option{
+  min-height:64px; padding:15px; border-radius:20px; background:#fff; border:3px solid #c6f7f1;
+  display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer;
+  font-size:17px; font-weight:900; transition:.18s; user-select:none;
 }
-
-button:hover{
-background:#245ed0;
-transform:translateY(-1px);
-}
-
-/* OPTIONS */
-
-.options button{
-width:100%;
-display:block;
-background:#fff;
-color:#203040;
-border:2px solid #dbe7ff;
-margin:10px 0;
-text-align:left;
-}
-
-.options button:hover{
-background:#edf5ff;
-}
-
-/* ANSWER STATES */
-
-.correct{
-background:#dcf8dc !important;
-border-color:#36b24a !important;
-}
-
-.wrong{
-background:#ffe1e1 !important;
-border-color:#e23b3b !important;
-}
-
-/* MESSAGE */
-
-.message{
-min-height:50px;
-text-align:center;
-font-weight:bold;
-margin-top:10px;
-}
-
-/* CROSS */
-
-.cross{
-font-size:42px;
-color:#e23b3b;
-animation:shake .3s;
-}
-
-@keyframes shake{
-0%,100%{
-transform:translateX(0);
-}
-25%{
-transform:translateX(-6px);
-}
-75%{
-transform:translateX(6px);
-}
-}
-
-/* CONFETTI */
-
+.option:hover{transform:translateY(-2px); border-color:var(--blue); background:#f8fbff}
+.option.clicked{box-shadow:0 0 0 4px rgba(46,196,182,.14)}
+.option.correct{background:#dcfff7!important; border-color:var(--green)!important; animation:pop .38s}
+.option.wrong{background:#ffe1ea!important; border-color:var(--red)!important; animation:shake .38s}
+@keyframes pop{50%{transform:scale(1.05)}}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.feedback{margin-top:16px; min-height:45px; text-align:center; font-size:19px; font-weight:900}
+.explain{margin-top:10px; padding:13px 15px; border-radius:16px; background:#f8fbff; border-left:8px solid var(--blue); line-height:1.45}
+.nextRow{text-align:center;margin-top:12px}
 .confetti{
-position:fixed;
-top:-20px;
-font-size:22px;
-pointer-events:none;
-animation:fall 1.4s linear forwards;
+  position:fixed; top:-30px; width:13px; height:13px; z-index:999; pointer-events:none;
+  clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  animation:fall 2.4s linear forwards;
 }
-
-@keyframes fall{
-to{
-transform:translateY(100vh) rotate(360deg);
-opacity:0;
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
+.resultEmoji{font-size:76px;margin:12px 0}
+@media(max-width:660px){
+  .card{padding:18px;border-radius:24px}
+  .topbar{display:grid;grid-template-columns:1fr 1fr}
+  .badge{text-align:center;font-size:14px}
+  .options{grid-template-columns:1fr}
+  .mission{gap:11px}.icon{width:56px;height:56px;font-size:30px}
 }
-}
-
-/* HIDDEN */
-
-.hidden{
-display:none;
-}
-
-/* FINAL BOX */
-
-.final-box{
-background:#fff2c7;
-border:2px dashed #f0b400;
-padding:18px;
-border-radius:18px;
-margin:12px 0;
-}
-
-/* MOBILE */
-
-@media(max-width:520px){
-
-.container{
-padding:18px;
-margin:16px auto;
-}
-
-.header{
-flex-direction:column;
-}
-
-h1{
-font-size:24px;
-}
-
-}
-
 </style>
 </head>
-
 <body>
+<div id="splash"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
 
-<!-- LOGO ONLY FOR FIRST 5 SECONDS -->
+<span class="float" style="left:5%;top:18%">%</span>
+<span class="float" style="left:88%;top:20%;animation-delay:1s">₹</span>
+<span class="float" style="left:9%;top:76%;animation-delay:2s">½</span>
+<span class="float" style="left:82%;top:73%;animation-delay:3s">↗</span>
 
-<div class="logo-screen" id="logoScreen">
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
+<div class="wrap">
+  <section id="intro" class="card center hero">
+    <h1 class="title">Smart Shopper Challenge</h1>
+    <p class="subtitle">Use percentages, fractions, ratios, discounts, profit, loss and simple interest to make smart real-life decisions.</p>
+    <div class="instructions">
+      <div class="inst">Tap one answer for each situation. No option is selected before you choose.</div>
+      <div class="inst">You get two attempts. After the second wrong attempt, the correct answer is shown with a short reason.</div>
+      <div class="inst">Complete all 10 competency-based challenges and check your final score.</div>
+    </div>
+    <button class="btn" onclick="startGame()">Start Smart Challenge</button>
+  </section>
+
+  <section id="quiz" class="card hidden">
+    <div class="topbar">
+      <div class="badge">⭐ Score: <span id="score">0</span></div>
+      <div class="badge">🛒 Mission: <span id="qno">1</span>/10</div>
+      <div class="badge">⏳ Time: <span id="time">45</span>s</div>
+    </div>
+    <div class="progress"><div id="progressBar"></div></div>
+
+    <div class="mission">
+      <div class="icon" id="sceneIcon">🛒</div>
+      <div>
+        <div class="question" id="questionText"></div>
+        <div id="infoBox" class="infoBox hidden"></div>
+      </div>
+    </div>
+
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <div id="explainBox"></div>
+    <div id="nextRow" class="nextRow hidden"><button class="btn" onclick="nextQuestion()">Next Mission</button></div>
+  </section>
+
+  <section id="result" class="card center hero hidden">
+    <h2>Challenge Completed!</h2>
+    <div id="resultEmoji" class="resultEmoji">🏆</div>
+    <h1><span id="finalScore">0</span>/10</h1>
+    <p id="resultText" class="subtitle"></p>
+    <button class="btn" onclick="restartGame()">Play Again</button>
+  </section>
 </div>
 
-<!-- FLOATING STARS -->
-
-<div class="bg" id="bg"></div>
-
-<!-- AUDIO -->
-
-<audio id="correctSound" src="assets/correct.mp3"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3"></audio>
-<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
-
-<!-- MAIN CONTAINER -->
-
-<div class="container">
-
-<!-- HEADER WITHOUT LOGO -->
-
-<div class="header">
-
-<div class="badge">
-⭐ Score:
-<span id="score">0</span>
-</div>
-
-<div class="badge">
-⏳ Time:
-<span id="timer">45</span>s
-</div>
-
-</div>
-
-<!-- INTRO -->
-
-<section id="intro">
-
-<h1>Comparing Quantities Quest</h1>
-
-<p>
-Welcome, smart shopper! Solve questions on percentage, profit, loss, discount and simple interest.
-</p>
-
-<br>
-
-<p>
-✔ 45 seconds for each question<br>
-✔ One retry after first wrong attempt<br>
-✔ Final bonus challenge included
-</p>
-
-<button onclick="startGame()">
-Start Challenge
-</button>
-
-</section>
-
-<!-- QUIZ -->
-
-<section id="quiz" class="hidden">
-
-<h2 id="qTitle"></h2>
-
-<div id="caseBox" class="case-box hidden"></div>
-
-<p id="question"></p>
-
-<div class="options" id="options"></div>
-
-<div class="message" id="message"></div>
-
-</section>
-
-<!-- FINAL CHALLENGE -->
-
-<section id="finalChallenge" class="hidden">
-
-<h2>🏆 Final Challenge</h2>
-
-<div class="final-box">
-A product costs ₹1,000 and is sold at 15% discount. What is the selling price?
-</div>
-
-<div class="options" id="finalOptions"></div>
-
-<div class="message" id="finalMessage"></div>
-
-</section>
-
-<!-- RESULT -->
-
-<section id="result" class="hidden">
-
-<h1>🎉 Challenge Complete!</h1>
-
-<h2>
-Your Final Score:
-<span id="finalScore"></span>
-</h2>
-
-<p id="resultText"></p>
-
-<button onclick="location.reload()">
-Play Again
-</button>
-
-</section>
-
-</div>
+<audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3" preload="auto"></audio>
 
 <script>
-
-/* REMOVE LOGO AFTER 5 SECONDS */
-
-setTimeout(()=>{
-document.getElementById("logoScreen").style.display="none";
-},5000);
-
-/* QUESTIONS */
-
-const questions=[
-
-{
-q:"A class has 40 students. 25% of them are absent. How many students are absent?",
-o:["5","10","15","20"],
-a:1,
-e:"25% of 40 = 10."
-},
-
-{
-q:"A shirt marked ₹800 is sold at 10% discount. What is the discount amount?",
-o:["₹40","₹80","₹720","₹880"],
-a:1,
-e:"10% of ₹800 = ₹80."
-},
-
-{
-q:"A fruit seller buys mangoes for ₹500 and sells them for ₹650. What is his profit?",
-o:["₹100","₹150","₹250","₹1150"],
-a:1,
-e:"Profit = Selling Price − Cost Price = ₹150."
-},
-
-{
-q:"Rohan scored 45 marks out of 60. What is his percentage?",
-o:["65%","70%","75%","80%"],
-a:2,
-e:"45/60 × 100 = 75%."
-},
-
-{
-q:"A bicycle costs ₹4,000. Its price increases by 20%. What is the new price?",
-o:["₹4,200","₹4,400","₹4,600","₹4,800"],
-a:3,
-e:"20% increase = ₹800. New price = ₹4800."
-},
-
-{
-q:"Simple interest on ₹2,000 at 5% per annum for 2 years is:",
-o:["₹100","₹200","₹300","₹400"],
-a:1,
-e:"SI = ₹200."
-},
-
-{
-caseText:"Case 1: A shopkeeper bought a bag for ₹900 and sold it for ₹1,080.",
-q:"What is the profit?",
-o:["₹90","₹108","₹180","₹200"],
-a:2,
-e:"Profit = ₹180."
-},
-
-{
-caseText:"Case 1: A shopkeeper bought a bag for ₹900 and sold it for ₹1,080.",
-q:"What is the profit percentage?",
-o:["10%","15%","20%","25%"],
-a:2,
-e:"Profit % = 20%."
-},
-
-{
-q:"Assertion: 25% means 25 out of 100. Reason: Percent means per hundred.",
-o:[
-"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
-"Both Assertion and Reason are true, but Reason does not explain Assertion.",
-"Assertion is true, but Reason is false.",
-"Assertion is false, but Reason is true."
-],
-a:0,
-e:"Percent means per hundred."
-},
-
-{
-q:"Assertion: If cost price is ₹500 and selling price is ₹600, there is a loss. Reason: Loss occurs when selling price is less than cost price.",
-o:[
-"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
-"Both Assertion and Reason are true, but Reason does not explain Assertion.",
-"Assertion is true, but Reason is false.",
-"Assertion is false, but Reason is true."
-],
-a:3,
-e:"SP is greater than CP, so there is profit."
-},
-
-{
-q:"Assertion: 0.75 can be written as 75%. Reason: To convert decimal into percentage, multiply by 100.",
-o:[
-"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
-"Both Assertion and Reason are true, but Reason does not explain Assertion.",
-"Assertion is true, but Reason is false.",
-"Assertion is false, but Reason is true."
-],
-a:0,
-e:"0.75 × 100 = 75%."
-},
-
-{
-q:"Assertion: Discount is always calculated on the marked price. Reason: Selling price = Marked price + Discount.",
-o:[
-"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
-"Both Assertion and Reason are true, but Reason does not explain Assertion.",
-"Assertion is true, but Reason is false.",
-"Assertion is false, but Reason is true."
-],
-a:2,
-e:"Selling price = Marked price − Discount."
-},
-
-{
-q:"Assertion: Simple interest depends on principal, rate and time. Reason: SI = (P × R × T)/100.",
-o:[
-"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
-"Both Assertion and Reason are true, but Reason does not explain Assertion.",
-"Assertion is true, but Reason is false.",
-"Assertion is false, but Reason is true."
-],
-a:0,
-e:"Simple interest depends on P, R and T."
-}
-
+const questions = [
+  {
+    icon:"🛍️",
+    q:"A bag is priced at ₹800. During a school fair sale, the shop gives 25% off. How much should a student pay?",
+    options:["₹200","₹600","₹700","₹1,000"],
+    answer:1,
+    exp:"25% of ₹800 is ₹200. Discounted price = ₹800 − ₹200 = ₹600."
+  },
+  {
+    icon:"🎮",
+    q:"A game controller bought for ₹1,200 is sold for ₹1,500. What kind of result did the seller make?",
+    options:["₹300 profit","₹300 loss","₹500 profit","No profit, no loss"],
+    answer:0,
+    exp:"Selling price is greater than cost price by ₹300, so the seller made ₹300 profit."
+  },
+  {
+    icon:"📚",
+    q:"A bookstore offers these deals. Which gives the largest discount amount?",
+    info:"<table><tr><th>Item</th><th>Marked Price</th><th>Discount</th></tr><tr><td>Atlas</td><td>₹400</td><td>10%</td></tr><tr><td>Dictionary</td><td>₹600</td><td>20%</td></tr><tr><td>Notebook Set</td><td>₹300</td><td>25%</td></tr><tr><td>Storybook</td><td>₹500</td><td>15%</td></tr></table>",
+    options:["Atlas","Dictionary","Notebook Set","Storybook"],
+    answer:1,
+    exp:"Discounts are ₹40, ₹120, ₹75 and ₹75. The Dictionary has the largest discount amount."
+  },
+  {
+    icon:"🥤",
+    q:"In a juice recipe, 3 out of every 5 parts are orange juice. What percentage of the drink is orange juice?",
+    options:["30%","40%","60%","80%"],
+    answer:2,
+    exp:"3 out of 5 = 3/5 = 60%."
+  },
+  {
+    icon:"🏦",
+    q:"Riya deposits ₹2,000 in a simple-interest scheme at 5% per year for 2 years. How much interest will she earn?",
+    options:["₹100","₹200","₹250","₹400"],
+    answer:1,
+    exp:"Simple interest = (2000 × 5 × 2)/100 = ₹200."
+  },
+  {
+    icon:"👟",
+    q:"Two shops sell the same pair of shoes for ₹1,000. Shop A offers 10% discount. Shop B offers a flat ₹80 discount. A student wants to spend the least amount of money. Which option should the student choose?",
+    options:["Shop A","Shop B","Both shops charge ₹900","Both shops charge ₹920"],
+    answer:0,
+    exp:"10% of ₹1,000 is ₹100. Shop A price is ₹900. Shop B price is ₹920. Therefore, Shop A is cheaper."
+  },
+  {
+    icon:"🍫",
+    q:"A chocolate box has 40 chocolates. 30% are dark chocolates. How many dark chocolates are in the box?",
+    options:["10","12","20","30"],
+    answer:1,
+    exp:"30% of 40 = 12."
+  },
+  {
+    icon:"🚲",
+    q:"A cycle bought for ₹4,000 is sold at a loss of 10%. What is its selling price?",
+    options:["₹3,600","₹3,900","₹4,100","₹4,400"],
+    answer:0,
+    exp:"10% of ₹4,000 is ₹400. Selling price = ₹4,000 − ₹400 = ₹3,600."
+  },
+  {
+    icon:"📊",
+    q:"In a class of 50 students, 40% chose football as their favourite sport. How many students chose football?",
+    options:["10","20","25","40"],
+    answer:1,
+    exp:"40% of 50 = 20 students."
+  },
+  {
+    icon:"🎟️",
+    q:"A movie ticket price increased from ₹200 to ₹250. What is the percentage increase?",
+    options:["20%","25%","30%","50%"],
+    answer:1,
+    exp:"Increase = ₹50. Percentage increase = 50/200 × 100 = 25%."
+  }
 ];
 
-/* VARIABLES */
+let order=[], current=0, score=0, attempts=0, locked=false, timer=45, tick=null;
+const $=id=>document.getElementById(id);
 
-let index=0;
-let score=0;
-let time=45;
-let timer;
-let attempt=0;
-
-/* START GAME */
-
+function shuffle(arr){return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);}
+function safePlay(id){const a=$(id); a.currentTime=0; a.play().catch(()=>{});}
 function startGame(){
-
-intro.classList.add("hidden");
-
-quiz.classList.remove("hidden");
-
-loadQuestion();
-
+  order=shuffle([...Array(questions.length).keys()]);
+  current=0; score=0;
+  $("score").textContent=score;
+  $("intro").classList.add("hidden");
+  $("quiz").classList.remove("hidden");
+  loadQuestion();
 }
-
-/* LOAD QUESTION */
-
 function loadQuestion(){
-
-attempt=0;
-
-time=45;
-
-updateTimer();
-
-clearInterval(timer);
-
-timer=setInterval(()=>{
-
-time--;
-
-updateTimer();
-
-if(time<=0){
-
-showCorrectAnswer();
-
+  clearInterval(tick);
+  attempts=0; locked=false; timer=45;
+  const q=questions[order[current]];
+  $("qno").textContent=current+1;
+  $("time").textContent=timer;
+  $("sceneIcon").textContent=q.icon;
+  $("questionText").textContent=q.q;
+  $("feedback").innerHTML="";
+  $("explainBox").innerHTML="";
+  $("nextRow").classList.add("hidden");
+  $("progressBar").style.width=(current/questions.length*100)+"%";
+  if(q.info){
+    $("infoBox").innerHTML=q.info;
+    $("infoBox").classList.remove("hidden");
+  }else{
+    $("infoBox").innerHTML="";
+    $("infoBox").classList.add("hidden");
+  }
+  const box=$("options");
+  box.innerHTML="";
+  q.options.forEach((txt,i)=>{
+    const opt=document.createElement("div");
+    opt.className="option";
+    opt.textContent=txt;
+    opt.onclick=()=>choose(opt,i);
+    box.appendChild(opt);
+  });
+  tick=setInterval(()=>{
+    timer--;
+    $("time").textContent=timer;
+    if(timer<=0){
+      clearInterval(tick);
+      reveal("Time is up. The correct answer is shown below.");
+    }
+  },1000);
 }
-
-},1000);
-
-const item=questions[index];
-
-qTitle.textContent=
-"Question "+(index+1)+" of "+questions.length;
-
-question.textContent=item.q;
-
-message.textContent="";
-
-options.innerHTML="";
-
-if(item.caseText){
-
-caseBox.textContent=item.caseText;
-
-caseBox.classList.remove("hidden");
-
-}else{
-
-caseBox.classList.add("hidden");
-
+function choose(el,i){
+  if(locked) return;
+  const q=questions[order[current]];
+  el.classList.add("clicked");
+  if(i===q.answer){
+    locked=true; clearInterval(tick); score++;
+    $("score").textContent=score;
+    el.classList.add("correct");
+    $("feedback").textContent="Correct! Smart comparison made.";
+    safePlay("correctSound"); safePlay("clapSound"); confetti();
+    setTimeout(nextQuestion,1400);
+  }else{
+    attempts++;
+    el.classList.add("wrong");
+    safePlay("wrongSound");
+    if(attempts<2){
+      $("feedback").textContent="Try once more. Compare the quantities carefully.";
+      el.style.pointerEvents="none";
+    }else{
+      reveal("Incorrect after two attempts.");
+    }
+  }
 }
-
-item.o.forEach((opt,i)=>{
-
-const btn=document.createElement("button");
-
-btn.textContent=
-String.fromCharCode(65+i)+". "+opt;
-
-btn.onclick=()=>checkAnswer(i,btn);
-
-options.appendChild(btn);
-
-});
-
+function reveal(msg){
+  locked=true; clearInterval(tick);
+  const q=questions[order[current]];
+  document.querySelectorAll(".option").forEach((opt,i)=>{
+    opt.style.pointerEvents="none";
+    if(i===q.answer) opt.classList.add("correct");
+  });
+  $("feedback").textContent=msg;
+  $("explainBox").innerHTML=`<div class="explain"><b>Reason:</b> ${q.exp}</div>`;
+  $("nextRow").classList.remove("hidden");
 }
-
-/* TIMER */
-
-function updateTimer(){
-
-document.getElementById("timer").textContent=time;
-
+function nextQuestion(){
+  clearInterval(tick);
+  current++;
+  if(current<questions.length) loadQuestion(); else showResult();
 }
-
-/* CHECK ANSWER */
-
-function checkAnswer(choice,btn){
-
-const item=questions[index];
-
-if(choice===item.a){
-
-score++;
-
-document.getElementById("score").textContent=score;
-
-btn.classList.add("correct");
-
-message.textContent="Correct! Great work!";
-
-playSound("correctSound");
-
-makeConfetti();
-
-goNext();
-
-}else{
-
-attempt++;
-
-btn.classList.add("wrong");
-
-playSound("wrongSound");
-
-message.innerHTML='<div class="cross">✖</div>';
-
-if(attempt===1){
-
-setTimeout(()=>{
-message.textContent="Try once more!";
-},600);
-
-btn.disabled=true;
-
-}else{
-
-showCorrectAnswer();
-
-}
-
-}
-
-}
-
-/* SHOW CORRECT ANSWER */
-
-function showCorrectAnswer(){
-
-clearInterval(timer);
-
-const item=questions[index];
-
-message.textContent=
-"Correct answer: "+
-item.o[item.a]+". "+item.e;
-
-[...options.children].forEach((b,i)=>{
-
-b.disabled=true;
-
-if(i===item.a){
-
-b.classList.add("correct");
-
-}
-
-});
-
-goNext();
-
-}
-
-/* NEXT */
-
-function goNext(){
-
-clearInterval(timer);
-
-setTimeout(()=>{
-
-index++;
-
-if(index<questions.length){
-
-loadQuestion();
-
-}else{
-
-showFinalChallenge();
-
-}
-
-},2400);
-
-}
-
-/* FINAL CHALLENGE */
-
-function showFinalChallenge(){
-
-quiz.classList.add("hidden");
-
-finalChallenge.classList.remove("hidden");
-
-document.getElementById("timer").textContent="--";
-
-const opts=[
-"₹850",
-"₹900",
-"₹1,150",
-"₹750"
-];
-
-finalOptions.innerHTML="";
-
-opts.forEach((op,i)=>{
-
-const b=document.createElement("button");
-
-b.textContent=
-String.fromCharCode(65+i)+". "+op;
-
-b.onclick=()=>{
-
-[...finalOptions.children].forEach(x=>x.disabled=true);
-
-if(i===0){
-
-score+=2;
-
-document.getElementById("score").textContent=score;
-
-b.classList.add("correct");
-
-finalMessage.textContent=
-"Excellent! Discount = ₹150, so selling price = ₹850.";
-
-playSound("clapSound");
-
-makeConfetti();
-
-}else{
-
-b.classList.add("wrong");
-
-finalMessage.textContent=
-"Correct answer: ₹850.";
-
-playSound("wrongSound");
-
-}
-
-setTimeout(showResult,2600);
-
-};
-
-finalOptions.appendChild(b);
-
-});
-
-}
-
-/* RESULT */
-
 function showResult(){
-
-finalChallenge.classList.add("hidden");
-
-result.classList.remove("hidden");
-
-finalScore.textContent=score+" / 15";
-
-resultText.textContent=
-score>=12
-?"Amazing! You are a Comparing Quantities Star!"
-:"Good effort! Revise percentage, profit, discount and simple interest.";
-
+  $("quiz").classList.add("hidden");
+  $("result").classList.remove("hidden");
+  $("finalScore").textContent=score;
+  if(score>=9){
+    $("resultEmoji").textContent="🏆";
+    $("resultText").textContent="Excellent! You compared quantities like a smart decision-maker.";
+  }else if(score>=6){
+    $("resultEmoji").textContent="🌟";
+    $("resultText").textContent="Good work! Keep practising percentages, discounts, profit, loss and interest.";
+  }else{
+    $("resultEmoji").textContent="🛒";
+    $("resultText").textContent="Nice effort! Replay and focus on the quantity being compared in each situation.";
+  }
 }
-
-/* AUDIO */
-
-function playSound(id){
-
-const audio=document.getElementById(id);
-
-audio.currentTime=0;
-
-audio.play().catch(()=>{});
-
+function restartGame(){
+  $("result").classList.add("hidden");
+  $("intro").classList.remove("hidden");
 }
-
-/* CONFETTI */
-
-function makeConfetti(){
-
-for(let i=0;i<18;i++){
-
-const s=document.createElement("div");
-
-s.className="confetti";
-
-s.textContent="★";
-
-s.style.left=Math.random()*100+"vw";
-
-s.style.color=
-["#ffbf00","#58c7ff","#ff6b9a","#72d572"]
-[Math.floor(Math.random()*4)];
-
-document.body.appendChild(s);
-
-setTimeout(()=>{
-s.remove();
-},1500);
-
+function confetti(){
+  for(let i=0;i<24;i++){
+    const c=document.createElement("span");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.background=`hsl(${Math.random()*360},90%,58%)`;
+    c.style.animationDuration=(1.8+Math.random()*1.5)+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3300);
+  }
 }
-
-}
-
-/* FLOATING STARS */
-
-for(let i=0;i<26;i++){
-
-const star=document.createElement("span");
-
-star.textContent=i%2?"★":"✦";
-
-star.style.left=Math.random()*100+"vw";
-
-star.style.fontSize=
-(14+Math.random()*20)+"px";
-
-star.style.animationDelay=
-Math.random()*8+"s";
-
-bg.appendChild(star);
-
-}
-
 </script>
-
 </body>
 </html>
-```
