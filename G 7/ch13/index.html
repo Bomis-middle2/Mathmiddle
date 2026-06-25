@@ -1,803 +1,379 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Visualising Solid Shapes Adventure</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 7 Visualising Solid Shapes - Innovine Game</title>
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+:root{
+  --ink:#172033;
+  --card:#ffffffee;
+  --blue:#2563eb;
+  --cyan:#06b6d4;
+  --violet:#7c3aed;
+  --orange:#f97316;
+  --green:#22c55e;
+  --red:#ef4444;
+  --gold:#facc15;
 }
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-font-family:Arial,sans-serif;
-min-height:100vh;
-background:linear-gradient(135deg,#eef7ff,#fff4e6,#f3edff);
-overflow-x:hidden;
-color:#1d3557;
-position:relative;
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  min-height:100vh;
+  color:var(--ink);
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at 12% 18%, #bae6fd 0 8%, transparent 9%),
+    radial-gradient(circle at 86% 17%, #ddd6fe 0 8%, transparent 9%),
+    radial-gradient(circle at 15% 84%, #fed7aa 0 9%, transparent 10%),
+    linear-gradient(135deg,#0f172a 0%,#1e3a8a 45%,#06b6d4 100%);
 }
-
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background:
-radial-gradient(circle at 20% 20%,rgba(255,255,255,.7),transparent 22%),
-radial-gradient(circle at 80% 10%,rgba(255,255,255,.6),transparent 20%),
-radial-gradient(circle at 50% 85%,rgba(255,255,255,.5),transparent 25%);
-pointer-events:none;
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  opacity:.22;
+  background-image:
+    linear-gradient(30deg, rgba(255,255,255,.62) 1px, transparent 1px),
+    linear-gradient(150deg, rgba(255,255,255,.38) 1px, transparent 1px);
+  background-size:78px 78px;
+  animation:bgMove 42s linear infinite;
 }
-
-.logo-screen{
-position:fixed;
-inset:0;
-background:white;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:999;
+@keyframes bgMove{to{transform:translate(-156px,-78px)}}
+#splash{
+  position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,#ffffff,#eff6ff);
+  animation:splashFade .8s forwards; animation-delay:5s;
 }
-
-.logo-screen img{
-width:min(250px,70%);
-animation:logoPop 1s ease;
+#splash img{width:230px; max-width:78%; animation:logoPulse 1.4s ease-in-out infinite alternate}
+@keyframes logoPulse{from{transform:scale(.95)}to{transform:scale(1.05)}}
+@keyframes splashFade{to{opacity:0;visibility:hidden}}
+.float{
+  position:fixed; z-index:-1; pointer-events:none; color:#fff; opacity:.25;
+  font-size:40px; font-weight:900; animation:floaty 8s ease-in-out infinite;
 }
-
-@keyframes logoPop{
-from{
-transform:scale(.6);
-opacity:0;
+@keyframes floaty{50%{transform:translateY(-28px) rotate(8deg)}}
+.wrap{width:min(980px,94%);margin:0 auto;padding:24px 0}
+.card{
+  margin-top:24px; padding:26px; border-radius:30px; background:var(--card);
+  border:2px solid rgba(255,255,255,.65); box-shadow:0 22px 60px rgba(2,8,23,.34);
+  backdrop-filter:blur(12px);
 }
-to{
-transform:scale(1);
-opacity:1;
+.center{text-align:center}.hidden{display:none!important}
+.hero{min-height:430px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px}
+.title{font-size:clamp(31px,6vw,54px); line-height:1.05; color:#1e3a8a}
+.subtitle{max-width:790px; font-size:clamp(16px,3vw,20px); line-height:1.55}
+.instructions{display:grid; gap:11px; width:min(720px,100%); margin:14px auto 8px; text-align:left}
+.inst{padding:13px 15px; border-radius:16px; background:#f8fbff; border-left:8px solid var(--cyan); line-height:1.45; font-size:17px}
+.btn{
+  border:0; border-radius:17px; padding:14px 25px; font-size:17px; font-weight:900; cursor:pointer;
+  color:white; background:linear-gradient(135deg,var(--blue),var(--violet),var(--cyan));
+  box-shadow:0 12px 24px rgba(37,99,235,.28); transition:.2s;
 }
-}
-
-.floating-icons span{
-position:fixed;
-font-size:24px;
-opacity:.22;
-animation:floatUp 12s linear infinite;
-z-index:-1;
-}
-
-@keyframes floatUp{
-from{
-transform:translateY(100vh) rotate(0deg);
-}
-to{
-transform:translateY(-20vh) rotate(360deg);
-}
-}
-
-.container{
-width:min(92%,850px);
-margin:30px auto;
-background:rgba(255,255,255,.96);
-padding:24px;
-border-radius:28px;
-box-shadow:0 12px 35px rgba(0,0,0,.12);
-backdrop-filter:blur(8px);
-}
-
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:12px;
-margin-bottom:20px;
-flex-wrap:wrap;
-}
-
+.btn:hover{transform:translateY(-2px) scale(1.02)}
+.topbar{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:18px}
 .badge{
-background:#edf5ff;
-padding:10px 15px;
-border-radius:18px;
-font-weight:bold;
-font-size:15px;
-box-shadow:0 2px 6px rgba(0,0,0,.08);
+  padding:10px 14px; border-radius:16px; background:#fff; border:3px solid #bfdbfe;
+  box-shadow:0 8px 16px rgba(23,32,51,.08); font-weight:900;
 }
-
-h1,h2{
-text-align:center;
-margin-bottom:16px;
+.progress{height:15px; background:#dbeafe; border-radius:100px; overflow:hidden; margin-bottom:18px}
+#progressBar{height:100%; width:0; background:linear-gradient(90deg,var(--orange),var(--blue),var(--cyan)); transition:.35s}
+.mission{
+  background:linear-gradient(135deg,#fff,#f3f8ff); border:3px dashed var(--blue); border-radius:24px;
+  padding:16px; display:flex; gap:15px; align-items:flex-start; margin-bottom:16px;
 }
-
-p{
-line-height:1.6;
+.icon{
+  width:68px; height:68px; border-radius:21px; display:grid; place-items:center; font-size:36px;
+  background:linear-gradient(135deg,#bae6fd,#ddd6fe); box-shadow:inset 0 0 0 4px white; flex:0 0 auto;
 }
-
-.intro-box{
-background:#fff8db;
-padding:22px;
-border-radius:22px;
-border:2px dashed #f0b400;
-text-align:center;
+.question{font-size:clamp(18px,3vw,22px); font-weight:900; line-height:1.55}
+.infoBox{
+  margin-top:12px; background:#fff; border:2px solid #bfdbfe; border-radius:17px;
+  padding:12px; line-height:1.55; overflow-x:auto;
 }
-
-.start-btn,
-.restart-btn{
-background:#2563eb;
-color:white;
-border:none;
-padding:14px 24px;
-font-size:16px;
-border-radius:16px;
-cursor:pointer;
-margin-top:18px;
-transition:.3s;
+table{border-collapse:collapse;width:100%;min-width:390px}
+td,th{border:1px solid #bfdbfe;padding:8px 10px;text-align:center}
+th{background:#eff6ff}
+.options{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; margin-top:17px}
+.option{
+  min-height:64px; padding:15px; border-radius:20px; background:#fff; border:3px solid #bfdbfe;
+  display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer;
+  font-size:17px; font-weight:900; transition:.18s; user-select:none;
 }
-
-.start-btn:hover,
-.restart-btn:hover{
-background:#1d4ed8;
-transform:scale(1.03);
-}
-
-.question-card{
-background:#f9fbff;
-border:2px solid #dbe7ff;
-padding:20px;
-border-radius:22px;
-}
-
-.case-box{
-background:#fff4d8;
-padding:14px;
-border-left:6px solid #f0b400;
-border-radius:14px;
-margin-bottom:14px;
-font-weight:bold;
-}
-
-.options button{
-width:100%;
-margin:10px 0;
-padding:14px;
-border-radius:14px;
-border:2px solid #dbe7ff;
-background:white;
-cursor:pointer;
-font-size:15px;
-text-align:left;
-transition:.2s;
-color:#1d3557;
-}
-
-.options button:hover{
-background:#eef5ff;
-transform:translateY(-1px);
-}
-
-.correct{
-background:#d8f7df !important;
-border-color:#33b249 !important;
-}
-
-.wrong{
-background:#ffe1e1 !important;
-border-color:#e53935 !important;
-}
-
-.feedback{
-min-height:55px;
-font-weight:bold;
-text-align:center;
-margin-top:12px;
-font-size:17px;
-}
-
-.cross{
-font-size:44px;
-color:#e53935;
-animation:shake .3s;
-}
-
-@keyframes shake{
-0%,100%{
-transform:translateX(0);
-}
-25%{
-transform:translateX(-5px);
-}
-75%{
-transform:translateX(5px);
-}
-}
-
-.hidden{
-display:none;
-}
-
-.final-box{
-background:#fff7d1;
-padding:20px;
-border-radius:22px;
-border:2px dashed #f0b400;
-}
-
-.result-box{
-text-align:center;
-padding:18px;
-}
-
+.option:hover{transform:translateY(-2px); border-color:var(--blue); background:#f8fbff}
+.option.clicked{box-shadow:0 0 0 4px rgba(37,99,235,.14)}
+.option.correct{background:#dcfff0!important; border-color:var(--green)!important; animation:pop .38s}
+.option.wrong{background:#ffe1e1!important; border-color:var(--red)!important; animation:shake .38s}
+@keyframes pop{50%{transform:scale(1.05)}}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.feedback{margin-top:16px; min-height:45px; text-align:center; font-size:19px; font-weight:900}
+.explain{margin-top:10px; padding:13px 15px; border-radius:16px; background:#f8fbff; border-left:8px solid var(--cyan); line-height:1.45}
+.nextRow{text-align:center;margin-top:12px}
 .confetti{
-position:fixed;
-top:-10px;
-font-size:22px;
-animation:fall 1.5s linear forwards;
-pointer-events:none;
-z-index:999;
+  position:fixed; top:-30px; width:13px; height:13px; z-index:999; pointer-events:none;
+  clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  animation:fall 2.4s linear forwards;
 }
-
-@keyframes fall{
-to{
-transform:translateY(110vh) rotate(360deg);
-opacity:0;
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
+.resultEmoji{font-size:76px;margin:12px 0}
+@media(max-width:660px){
+  .card{padding:18px;border-radius:24px}
+  .topbar{display:grid;grid-template-columns:1fr 1fr}
+  .badge{text-align:center;font-size:14px}
+  .options{grid-template-columns:1fr}
+  .mission{gap:11px}.icon{width:56px;height:56px;font-size:30px}
 }
-}
-
-@media(max-width:600px){
-
-.container{
-padding:18px;
-margin:18px auto;
-}
-
-.topbar{
-justify-content:center;
-}
-
-h1{
-font-size:26px;
-}
-
-.options button{
-font-size:14px;
-padding:12px;
-}
-
-}
-
 </style>
 </head>
-
 <body>
+<div id="splash"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
 
-<!-- ONLY FIRST PAGE LOGO SCREEN -->
-<div class="logo-screen" id="logoScreen">
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
+<span class="float" style="left:5%;top:18%">▣</span>
+<span class="float" style="left:86%;top:20%;animation-delay:1s">⬡</span>
+<span class="float" style="left:9%;top:76%;animation-delay:2s">◼</span>
+<span class="float" style="left:82%;top:73%;animation-delay:3s">3D</span>
+
+<div class="wrap">
+  <section id="intro" class="card center hero">
+    <h1 class="title">3D Architect Studio</h1>
+    <p class="subtitle">Visualise solid shapes through nets, faces, edges, vertices, views, real-life objects and cube arrangements.</p>
+    <div class="instructions">
+      <div class="inst">Tap one answer for each 3D design mission. No answer is selected before you choose.</div>
+      <div class="inst">You get two attempts. After the second wrong attempt, the correct answer is revealed with a short reason.</div>
+      <div class="inst">Complete all 10 competency-based challenges and check your final score.</div>
+    </div>
+    <button class="btn" onclick="startGame()">Start 3D Mission</button>
+  </section>
+
+  <section id="quiz" class="card hidden">
+    <div class="topbar">
+      <div class="badge">⭐ Score: <span id="score">0</span></div>
+      <div class="badge">🧊 Mission: <span id="qno">1</span>/10</div>
+      <div class="badge">⏳ Time: <span id="time">45</span>s</div>
+    </div>
+    <div class="progress"><div id="progressBar"></div></div>
+
+    <div class="mission">
+      <div class="icon" id="sceneIcon">🧊</div>
+      <div>
+        <div class="question" id="questionText"></div>
+        <div id="infoBox" class="infoBox hidden"></div>
+      </div>
+    </div>
+
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <div id="explainBox"></div>
+    <div id="nextRow" class="nextRow hidden"><button class="btn" onclick="nextQuestion()">Next Mission</button></div>
+  </section>
+
+  <section id="result" class="card center hero hidden">
+    <h2>3D Mission Completed!</h2>
+    <div id="resultEmoji" class="resultEmoji">🏆</div>
+    <h1><span id="finalScore">0</span>/10</h1>
+    <p id="resultText" class="subtitle"></p>
+    <button class="btn" onclick="restartGame()">Play Again</button>
+  </section>
 </div>
 
-<div class="floating-icons" id="floatingIcons"></div>
-
-<audio id="correctSound" src="assets/correct.mp3"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3"></audio>
-<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
-
-<div class="container">
-
-<div class="topbar">
-
-<div class="badge">
-⭐ Score:
-<span id="score">0</span>
-</div>
-
-<div class="badge">
-⏳ Time:
-<span id="timer">45</span>s
-</div>
-
-</div>
-
-<section id="introScreen">
-
-<div class="intro-box">
-
-<h1>Visualising Solid Shapes Adventure</h1>
-
-<p>
-Explore cubes, cuboids, cylinders, cones, nets, vertices, faces and isometric sketches through exciting competency-based challenges.
-</p>
-
-<br>
-
-<p>
-✔ 45 seconds for each question<br>
-✔ One retry after the first wrong attempt<br>
-✔ Final bonus challenge included
-</p>
-
-<button class="start-btn" onclick="startQuiz()">
-Start Adventure
-</button>
-
-</div>
-
-</section>
-
-<section id="quizScreen" class="hidden">
-
-<div class="question-card">
-
-<h2 id="questionNumber"></h2>
-
-<div id="caseBox" class="case-box hidden"></div>
-
-<p id="questionText"></p>
-
-<div class="options" id="optionsContainer"></div>
-
-<div class="feedback" id="feedback"></div>
-
-</div>
-
-</section>
-
-<section id="bonusScreen" class="hidden">
-
-<h2>🏆 Final Bonus Challenge</h2>
-
-<div class="final-box">
-
-<p>
-Which solid shape has one circular base, one curved surface and one vertex?
-</p>
-
-<div class="options" id="bonusOptions"></div>
-
-<div class="feedback" id="bonusFeedback"></div>
-
-</div>
-
-</section>
-
-<section id="resultScreen" class="hidden">
-
-<div class="result-box">
-
-<h1>🎉 Challenge Complete!</h1>
-
-<h2>
-Final Score:
-<span id="finalScore"></span>
-</h2>
-
-<p id="resultText"></p>
-
-<button class="restart-btn" onclick="location.reload()">
-Play Again
-</button>
-
-</div>
-
-</section>
-
-</div>
+<audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3" preload="auto"></audio>
 
 <script>
-
-setTimeout(()=>{
-document.getElementById("logoScreen").style.display="none";
-},5000);
-
-const questions=[
-
-{
-q:"A dice used in indoor games is an example of which solid shape?",
-o:["Cuboid","Cube","Cylinder","Cone"],
-a:1,
-e:"A dice has 6 equal square faces, so it is a cube."
-},
-
-{
-q:"A lunch box with rectangular faces is an example of:",
-o:["Cube","Cuboid","Cone","Sphere"],
-a:1,
-e:"A cuboid has rectangular faces."
-},
-
-{
-q:"A cold drink can resembles which solid shape?",
-o:["Cone","Cylinder","Cube","Prism"],
-a:1,
-e:"A cylinder has circular faces and one curved surface."
-},
-
-{
-q:"A birthday cap is shaped like a:",
-o:["Cone","Cube","Cylinder","Cuboid"],
-a:0,
-e:"A birthday cap resembles a cone."
-},
-
-{
-q:"The flat surface of a solid shape is called:",
-o:["Face","Edge","Vertex","Net"],
-a:0,
-e:"A flat surface is called a face."
-},
-
-{
-q:"The corner point of a solid shape is called:",
-o:["Face","Edge","Vertex","Sketch"],
-a:2,
-e:"The point where edges meet is called a vertex."
-},
-
-{
-q:"When a solid shape is opened flat, the pattern formed is called:",
-o:["Diagram","Net","Outline","View"],
-a:1,
-e:"The flat pattern of a solid shape is called a net."
-},
-
-{
-q:"Which drawing method is used to represent 3D objects accurately?",
-o:["Bar graph","Pie chart","Isometric sketch","Line graph"],
-a:2,
-e:"An isometric sketch represents 3D objects accurately."
-},
-
-{
-caseText:"Case Study 1: A solid shape has 6 equal square faces, 12 edges and 8 vertices.",
-q:"Identify the solid shape.",
-o:["Cube","Cylinder","Cone","Sphere"],
-a:0,
-e:"A cube has 6 square faces, 12 edges and 8 vertices."
-},
-
-{
-caseText:"Case Study 1: A solid shape has 6 equal square faces, 12 edges and 8 vertices.",
-q:"Each face of this solid shape is a:",
-o:["Circle","Rectangle","Square","Triangle"],
-a:2,
-e:"All faces of a cube are squares."
-},
-
-{
-caseText:"Case Study 2: A triangular pyramid has triangular faces.",
-q:"Another name for a triangular pyramid is:",
-o:["Cuboid","Prism","Cylinder","Tetrahedron"],
-a:3,
-e:"A triangular pyramid is called a tetrahedron."
-},
-
-{
-caseText:"Case Study 2: A triangular pyramid has triangular faces.",
-q:"The faces of this solid are:",
-o:["Triangles","Squares","Circles","Rectangles"],
-a:0,
-e:"A triangular pyramid has triangular faces."
-}
-
+const questions = [
+  {
+    icon:"🎁",
+    q:"A gift box has six equal square faces. Which solid shape should the packaging designer choose for this box?",
+    options:["Cube","Cylinder","Cone","Triangular pyramid"],
+    answer:0,
+    exp:"A cube has 6 equal square faces, so it is suitable for this gift box."
+  },
+  {
+    icon:"🥫",
+    q:"A food company wants a container with two flat circular faces and one curved surface. Which solid matches this requirement?",
+    options:["Cone","Cylinder","Sphere","Cube"],
+    answer:1,
+    exp:"A cylinder has two circular faces and one curved surface."
+  },
+  {
+    icon:"🏠",
+    q:"An architect makes a roof model with one square base and four triangular faces meeting at one point. Which solid is being modelled?",
+    options:["Cube","Square pyramid","Cylinder","Cuboid"],
+    answer:1,
+    exp:"A square pyramid has a square base and four triangular faces that meet at a vertex."
+  },
+  {
+    icon:"📦",
+    q:"A courier box has rectangular faces, not all equal. Which solid best represents the box?",
+    options:["Cube","Cuboid","Sphere","Cone"],
+    answer:1,
+    exp:"A cuboid has rectangular faces and is commonly used to model a courier box."
+  },
+  {
+    icon:"🧊",
+    q:"A student stacks 3 cubes in a straight row. From the front, the stack looks like three squares side by side. What is the top view most likely to show?",
+    options:["Three squares in a row","One circle","A triangle","A single square only"],
+    answer:0,
+    exp:"If cubes are arranged in a straight row, the top view also shows three square tops in a row."
+  },
+  {
+    icon:"🗺️",
+    q:"A map-view drawing shows only the top of a round water tank. The drawing looks like a circle. Which solid could the tank be?",
+    options:["Cylinder","Cube","Triangular prism","Square pyramid"],
+    answer:0,
+    exp:"The top view of a vertical cylindrical tank is a circle."
+  },
+  {
+    icon:"✂️",
+    q:"A paper net has six equal squares arranged so they can fold into a closed box. Which solid can this net form?",
+    options:["Cube","Cone","Sphere","Cylinder"],
+    answer:0,
+    exp:"Six equal square faces can fold to form a cube."
+  },
+  {
+    icon:"🔺",
+    q:"A party hat has a circular base and a curved surface that meets at one point. Which solid does it resemble?",
+    options:["Cone","Cylinder","Cuboid","Sphere"],
+    answer:0,
+    exp:"A cone has a circular base and one curved surface ending at a vertex."
+  },
+  {
+    icon:"🧱",
+    q:"A builder uses a brick model to explain edges and vertices. The model has 8 vertices and 12 edges with rectangular faces. Which solid is it?",
+    options:["Cuboid","Cylinder","Cone","Sphere"],
+    answer:0,
+    exp:"A cuboid has 8 vertices, 12 edges and rectangular faces."
+  },
+  {
+    icon:"🎲",
+    q:"A game dice is observed from different sides. It has equal square faces and sharp corners. Which statement is true about its shape?",
+    options:["It is a cube with 6 square faces","It is a cylinder with circular faces","It is a sphere with no edges","It is a cone with one vertex"],
+    answer:0,
+    exp:"A dice is a cube, and a cube has 6 square faces."
+  }
 ];
 
-let currentQuestion=0;
-let score=0;
-let timeLeft=45;
-let timer;
-let retry=0;
+let order=[], current=0, score=0, attempts=0, locked=false, timer=45, tick=null;
+const $=id=>document.getElementById(id);
 
-function startQuiz(){
-
-document.getElementById("introScreen").classList.add("hidden");
-document.getElementById("quizScreen").classList.remove("hidden");
-
-loadQuestion();
-
+function shuffle(arr){return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);}
+function safePlay(id){const a=$(id); a.currentTime=0; a.play().catch(()=>{});}
+function startGame(){
+  order=shuffle([...Array(questions.length).keys()]);
+  current=0; score=0;
+  $("score").textContent=score;
+  $("intro").classList.add("hidden");
+  $("quiz").classList.remove("hidden");
+  loadQuestion();
 }
-
 function loadQuestion(){
-
-retry=0;
-timeLeft=45;
-
-clearInterval(timer);
-
-updateTimer();
-
-timer=setInterval(()=>{
-
-timeLeft--;
-
-updateTimer();
-
-if(timeLeft<=0){
-showCorrectAnswer();
+  clearInterval(tick);
+  attempts=0; locked=false; timer=45;
+  const q=questions[order[current]];
+  $("qno").textContent=current+1;
+  $("time").textContent=timer;
+  $("sceneIcon").textContent=q.icon;
+  $("questionText").textContent=q.q;
+  $("feedback").innerHTML="";
+  $("explainBox").innerHTML="";
+  $("nextRow").classList.add("hidden");
+  $("progressBar").style.width=(current/questions.length*100)+"%";
+  if(q.info){
+    $("infoBox").innerHTML=q.info;
+    $("infoBox").classList.remove("hidden");
+  }else{
+    $("infoBox").innerHTML="";
+    $("infoBox").classList.add("hidden");
+  }
+  const box=$("options");
+  box.innerHTML="";
+  q.options.forEach((txt,i)=>{
+    const opt=document.createElement("div");
+    opt.className="option";
+    opt.textContent=txt;
+    opt.onclick=()=>choose(opt,i);
+    box.appendChild(opt);
+  });
+  tick=setInterval(()=>{
+    timer--;
+    $("time").textContent=timer;
+    if(timer<=0){
+      clearInterval(tick);
+      reveal("Time is up. The correct answer is shown below.");
+    }
+  },1000);
 }
-
-},1000);
-
-const item=questions[currentQuestion];
-
-document.getElementById("questionNumber").textContent=
-"Question "+(currentQuestion+1)+" of "+questions.length;
-
-document.getElementById("questionText").textContent=item.q;
-
-document.getElementById("feedback").textContent="";
-
-const optionsContainer=document.getElementById("optionsContainer");
-
-optionsContainer.innerHTML="";
-
-if(item.caseText){
-
-document.getElementById("caseBox").textContent=item.caseText;
-
-document.getElementById("caseBox").classList.remove("hidden");
-
-}else{
-
-document.getElementById("caseBox").classList.add("hidden");
-
+function choose(el,i){
+  if(locked) return;
+  const q=questions[order[current]];
+  el.classList.add("clicked");
+  if(i===q.answer){
+    locked=true; clearInterval(tick); score++;
+    $("score").textContent=score;
+    el.classList.add("correct");
+    $("feedback").textContent="Correct! 3D design solved.";
+    safePlay("correctSound"); safePlay("clapSound"); confetti();
+    setTimeout(nextQuestion,1400);
+  }else{
+    attempts++;
+    el.classList.add("wrong");
+    safePlay("wrongSound");
+    if(attempts<2){
+      $("feedback").textContent="Try once more. Think about faces, edges, vertices or views.";
+      el.style.pointerEvents="none";
+    }else{
+      reveal("Incorrect after two attempts.");
+    }
+  }
 }
-
-item.o.forEach((option,index)=>{
-
-const button=document.createElement("button");
-
-button.textContent=
-String.fromCharCode(65+index)+". "+option;
-
-button.onclick=()=>checkAnswer(index,button);
-
-optionsContainer.appendChild(button);
-
-});
-
+function reveal(msg){
+  locked=true; clearInterval(tick);
+  const q=questions[order[current]];
+  document.querySelectorAll(".option").forEach((opt,i)=>{
+    opt.style.pointerEvents="none";
+    if(i===q.answer) opt.classList.add("correct");
+  });
+  $("feedback").textContent=msg;
+  $("explainBox").innerHTML=`<div class="explain"><b>Reason:</b> ${q.exp}</div>`;
+  $("nextRow").classList.remove("hidden");
 }
-
-function updateTimer(){
-document.getElementById("timer").textContent=timeLeft;
-}
-
-function checkAnswer(choice,button){
-
-const item=questions[currentQuestion];
-
-if(choice===item.a){
-
-score++;
-
-document.getElementById("score").textContent=score;
-
-button.classList.add("correct");
-
-document.getElementById("feedback").textContent=
-"✅ Correct! Excellent work.";
-
-playAudio("correctSound");
-
-createConfetti();
-
-nextQuestion();
-
-}else{
-
-retry++;
-
-button.classList.add("wrong");
-
-playAudio("wrongSound");
-
-document.getElementById("feedback").innerHTML=
-'<div class="cross">✖</div>';
-
-if(retry===1){
-
-button.disabled=true;
-
-setTimeout(()=>{
-
-document.getElementById("feedback").textContent=
-"Try once more!";
-
-},500);
-
-}else{
-
-showCorrectAnswer();
-
-}
-
-}
-
-}
-
-function showCorrectAnswer(){
-
-clearInterval(timer);
-
-const item=questions[currentQuestion];
-
-document.getElementById("feedback").textContent=
-"Correct Answer: "+item.o[item.a]+". "+item.e;
-
-const buttons=document.querySelectorAll("#optionsContainer button");
-
-buttons.forEach((btn,index)=>{
-
-btn.disabled=true;
-
-if(index===item.a){
-
-btn.classList.add("correct");
-
-}
-
-});
-
-nextQuestion();
-
-}
-
 function nextQuestion(){
-
-clearInterval(timer);
-
-setTimeout(()=>{
-
-currentQuestion++;
-
-if(currentQuestion<questions.length){
-
-loadQuestion();
-
-}else{
-
-showBonusChallenge();
-
+  clearInterval(tick);
+  current++;
+  if(current<questions.length) loadQuestion(); else showResult();
 }
-
-},2400);
-
+function showResult(){
+  $("quiz").classList.add("hidden");
+  $("result").classList.remove("hidden");
+  $("finalScore").textContent=score;
+  if(score>=9){
+    $("resultEmoji").textContent="🏆";
+    $("resultText").textContent="Excellent! You visualised solid shapes like a 3D architect.";
+  }else if(score>=6){
+    $("resultEmoji").textContent="🌟";
+    $("resultText").textContent="Good work! Keep practising nets, views, faces, edges and vertices.";
+  }else{
+    $("resultEmoji").textContent="🧊";
+    $("resultText").textContent="Nice effort! Replay and focus on the shape features in each situation.";
+  }
 }
-
-function showBonusChallenge(){
-
-document.getElementById("quizScreen").classList.add("hidden");
-
-document.getElementById("bonusScreen").classList.remove("hidden");
-
-document.getElementById("timer").textContent="--";
-
-const answers=["Cylinder","Cone","Cube","Sphere"];
-
-const container=document.getElementById("bonusOptions");
-
-container.innerHTML="";
-
-answers.forEach((option,index)=>{
-
-const button=document.createElement("button");
-
-button.textContent=
-String.fromCharCode(65+index)+". "+option;
-
-button.onclick=()=>{
-
-document.querySelectorAll("#bonusOptions button")
-.forEach(btn=>btn.disabled=true);
-
-if(index===1){
-
-score+=2;
-
-document.getElementById("score").textContent=score;
-
-button.classList.add("correct");
-
-document.getElementById("bonusFeedback").textContent=
-"Excellent! A cone has one circular base, one curved surface and one vertex.";
-
-playAudio("clapSound");
-
-createConfetti();
-
-}else{
-
-button.classList.add("wrong");
-
-document.getElementById("bonusFeedback").textContent=
-"Correct Answer: Cone.";
-
-playAudio("wrongSound");
-
+function restartGame(){
+  $("result").classList.add("hidden");
+  $("intro").classList.remove("hidden");
 }
-
-setTimeout(showResults,2600);
-
-};
-
-container.appendChild(button);
-
-});
-
+function confetti(){
+  for(let i=0;i<24;i++){
+    const c=document.createElement("span");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.background=`hsl(${Math.random()*360},90%,58%)`;
+    c.style.animationDuration=(1.8+Math.random()*1.5)+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3300);
+  }
 }
-
-function showResults(){
-
-document.getElementById("bonusScreen").classList.add("hidden");
-
-document.getElementById("resultScreen").classList.remove("hidden");
-
-document.getElementById("finalScore").textContent=
-score+" / 14";
-
-document.getElementById("resultText").textContent=
-score>=11
-? "Amazing! You are a Solid Shapes Champion!"
-: "Good effort! Revise faces, edges, vertices and nets.";
-
-}
-
-function playAudio(id){
-
-const audio=document.getElementById(id);
-
-audio.currentTime=0;
-
-audio.play().catch(()=>{});
-
-}
-
-function createConfetti(){
-
-for(let i=0;i<18;i++){
-
-const confetti=document.createElement("div");
-
-confetti.className="confetti";
-
-confetti.textContent=
-["★","✦","⬢","✧"][Math.floor(Math.random()*4)];
-
-confetti.style.left=Math.random()*100+"vw";
-
-confetti.style.color=
-["#ffbf00","#58c7ff","#ff6b9a","#72d572"]
-[Math.floor(Math.random()*4)];
-
-document.body.appendChild(confetti);
-
-setTimeout(()=>{
-confetti.remove();
-},1500);
-
-}
-
-}
-
-const floatingIcons=document.getElementById("floatingIcons");
-
-for(let i=0;i<28;i++){
-
-const icon=document.createElement("span");
-
-icon.textContent=i%2===0?"⬡":"✦";
-
-icon.style.left=Math.random()*100+"vw";
-
-icon.style.fontSize=(14+Math.random()*24)+"px";
-
-icon.style.animationDelay=Math.random()*8+"s";
-
-floatingIcons.appendChild(icon);
-
-}
-
 </script>
-
 </body>
 </html>
-```
