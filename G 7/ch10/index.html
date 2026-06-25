@@ -1,760 +1,377 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Algebra MCQ Challenge</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 7 Algebraic Expressions - Innovine Game</title>
 <style>
-
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
+:root{
+  --ink:#22223b;
+  --card:#ffffffee;
+  --purple:#7c3aed;
+  --pink:#ec4899;
+  --cyan:#06b6d4;
+  --yellow:#fbbf24;
+  --green:#22c55e;
+  --red:#ef4444;
 }
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-font-family:Arial,sans-serif;
-min-height:100vh;
-background:linear-gradient(135deg,#eef7ff,#fff7d6);
-overflow-x:hidden;
-color:#203040;
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  min-height:100vh;
+  color:var(--ink);
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at 12% 18%, #fbcfe8 0 8%, transparent 9%),
+    radial-gradient(circle at 86% 17%, #bae6fd 0 8%, transparent 9%),
+    radial-gradient(circle at 15% 84%, #fde68a 0 9%, transparent 10%),
+    linear-gradient(135deg,#312e81 0%,#7c3aed 45%,#06b6d4 100%);
 }
-
-/* LOGO SCREEN ONLY FOR FIRST 5 SECONDS */
-
-.logo-screen{
-position:fixed;
-inset:0;
-background:white;
-z-index:99;
-display:flex;
-align-items:center;
-justify-content:center;
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  opacity:.22;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255,255,255,.7) 0 2px, transparent 2px 62px),
+    repeating-linear-gradient(135deg, rgba(255,255,255,.45) 0 2px, transparent 2px 62px);
+  animation:bgMove 40s linear infinite;
 }
-
-.logo-screen img{
-max-width:220px;
-animation:pop 1s ease;
+@keyframes bgMove{to{transform:translate(-124px,-124px)}}
+#splash{
+  position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,#ffffff,#f5f3ff);
+  animation:splashFade .8s forwards; animation-delay:5s;
 }
-
-@keyframes pop{
-from{
-transform:scale(.7);
-opacity:0;
+#splash img{width:230px; max-width:78%; animation:logoPulse 1.4s ease-in-out infinite alternate}
+@keyframes logoPulse{from{transform:scale(.95)}to{transform:scale(1.05)}}
+@keyframes splashFade{to{opacity:0;visibility:hidden}}
+.float{
+  position:fixed; z-index:-1; pointer-events:none; color:#fff; opacity:.25;
+  font-size:38px; font-weight:900; animation:floaty 8s ease-in-out infinite;
 }
-to{
-transform:scale(1);
-opacity:1;
+@keyframes floaty{50%{transform:translateY(-28px) rotate(8deg)}}
+.wrap{width:min(980px,94%);margin:0 auto;padding:24px 0}
+.card{
+  margin-top:24px; padding:26px; border-radius:30px; background:var(--card);
+  border:2px solid rgba(255,255,255,.65); box-shadow:0 22px 60px rgba(2,8,23,.3);
+  backdrop-filter:blur(12px);
 }
+.center{text-align:center}.hidden{display:none!important}
+.hero{min-height:430px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px}
+.title{font-size:clamp(31px,6vw,54px); line-height:1.05; color:#312e81}
+.subtitle{max-width:780px; font-size:clamp(16px,3vw,20px); line-height:1.55}
+.instructions{display:grid; gap:11px; width:min(720px,100%); margin:14px auto 8px; text-align:left}
+.inst{padding:13px 15px; border-radius:16px; background:#fbfaff; border-left:8px solid var(--purple); line-height:1.45; font-size:17px}
+.btn{
+  border:0; border-radius:17px; padding:14px 25px; font-size:17px; font-weight:900; cursor:pointer;
+  color:white; background:linear-gradient(135deg,var(--purple),var(--pink),var(--cyan));
+  box-shadow:0 12px 24px rgba(124,58,237,.28); transition:.2s;
 }
-
-/* FLOATING STARS */
-
-.bg span{
-position:fixed;
-color:rgba(255,174,0,.35);
-animation:float 10s linear infinite;
-z-index:-1;
-}
-
-@keyframes float{
-from{
-transform:translateY(100vh) rotate(0);
-}
-to{
-transform:translateY(-10vh) rotate(360deg);
-}
-}
-
-/* MAIN CONTAINER */
-
-.container{
-width:min(92%,760px);
-margin:30px auto;
-background:rgba(255,255,255,.92);
-border-radius:24px;
-padding:24px;
-box-shadow:0 10px 30px rgba(0,0,0,.12);
-}
-
-/* HEADER */
-
-.header{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-margin-bottom:18px;
-flex-wrap:wrap;
-}
-
-/* BADGES */
-
+.btn:hover{transform:translateY(-2px) scale(1.02)}
+.topbar{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:18px}
 .badge{
-background:#e7f1ff;
-padding:8px 12px;
-border-radius:20px;
-font-weight:bold;
+  padding:10px 14px; border-radius:16px; background:#fff; border:3px solid #ddd6fe;
+  box-shadow:0 8px 16px rgba(34,34,59,.08); font-weight:900;
 }
-
-/* TEXT */
-
-h1,h2{
-text-align:center;
-margin-bottom:15px;
+.progress{height:15px; background:#ede9fe; border-radius:100px; overflow:hidden; margin-bottom:18px}
+#progressBar{height:100%; width:0; background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink)); transition:.35s}
+.mission{
+  background:linear-gradient(135deg,#fff,#fbfaff); border:3px dashed var(--purple); border-radius:24px;
+  padding:16px; display:flex; gap:15px; align-items:flex-start; margin-bottom:16px;
 }
-
-p{
-line-height:1.5;
+.icon{
+  width:68px; height:68px; border-radius:21px; display:grid; place-items:center; font-size:36px;
+  background:linear-gradient(135deg,#fbcfe8,#bae6fd); box-shadow:inset 0 0 0 4px white; flex:0 0 auto;
 }
-
-/* BUTTONS */
-
-button{
-border:0;
-background:#3478f6;
-color:white;
-padding:13px 18px;
-border-radius:14px;
-font-size:16px;
-cursor:pointer;
-margin-top:14px;
-transition:.2s;
+.question{font-size:clamp(18px,3vw,22px); font-weight:900; line-height:1.55}
+.infoBox{
+  margin-top:12px; background:#fff; border:2px solid #ddd6fe; border-radius:17px;
+  padding:12px; line-height:1.55; overflow-x:auto;
 }
-
-button:hover{
-background:#245ed0;
-transform:translateY(-1px);
+table{border-collapse:collapse;width:100%;min-width:390px}
+td,th{border:1px solid #c4b5fd;padding:8px 10px;text-align:center}
+th{background:#f5f3ff}
+.options{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; margin-top:17px}
+.option{
+  min-height:64px; padding:15px; border-radius:20px; background:#fff; border:3px solid #ddd6fe;
+  display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer;
+  font-size:17px; font-weight:900; transition:.18s; user-select:none;
 }
-
-.options button{
-width:100%;
-display:block;
-background:white;
-color:#203040;
-border:2px solid #dbe7ff;
-margin:10px 0;
-text-align:left;
-}
-
-.options button:hover{
-background:#edf5ff;
-}
-
-/* ANSWER STATES */
-
-.correct{
-background:#dff8df !important;
-border-color:#36b24a !important;
-}
-
-.wrong{
-background:#ffe2e2 !important;
-border-color:#e23b3b !important;
-}
-
-/* MESSAGE */
-
-.message{
-min-height:48px;
-font-weight:bold;
-text-align:center;
-margin-top:10px;
-}
-
-/* HIDDEN */
-
-.hidden{
-display:none;
-}
-
-/* WRONG CROSS */
-
-.cross{
-font-size:42px;
-color:#e23b3b;
-animation:shake .3s;
-}
-
-@keyframes shake{
-0%,100%{
-transform:translateX(0);
-}
-25%{
-transform:translateX(-6px);
-}
-75%{
-transform:translateX(6px);
-}
-}
-
-/* CONFETTI */
-
+.option:hover{transform:translateY(-2px); border-color:var(--purple); background:#fbfaff}
+.option.clicked{box-shadow:0 0 0 4px rgba(124,58,237,.14)}
+.option.correct{background:#dcfff0!important; border-color:var(--green)!important; animation:pop .38s}
+.option.wrong{background:#ffe1e1!important; border-color:var(--red)!important; animation:shake .38s}
+@keyframes pop{50%{transform:scale(1.05)}}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.feedback{margin-top:16px; min-height:45px; text-align:center; font-size:19px; font-weight:900}
+.explain{margin-top:10px; padding:13px 15px; border-radius:16px; background:#fbfaff; border-left:8px solid var(--cyan); line-height:1.45}
+.nextRow{text-align:center;margin-top:12px}
 .confetti{
-position:fixed;
-top:-20px;
-font-size:22px;
-animation:fall 1.4s linear forwards;
-pointer-events:none;
+  position:fixed; top:-30px; width:13px; height:13px; z-index:999; pointer-events:none;
+  clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  animation:fall 2.4s linear forwards;
 }
-
-@keyframes fall{
-to{
-transform:translateY(100vh) rotate(360deg);
-opacity:0;
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
+.resultEmoji{font-size:76px;margin:12px 0}
+@media(max-width:660px){
+  .card{padding:18px;border-radius:24px}
+  .topbar{display:grid;grid-template-columns:1fr 1fr}
+  .badge{text-align:center;font-size:14px}
+  .options{grid-template-columns:1fr}
+  .mission{gap:11px}.icon{width:56px;height:56px;font-size:30px}
 }
-}
-
-/* FINAL CHALLENGE */
-
-.final-box{
-background:#fff4cb;
-border:2px dashed #f0b400;
-padding:18px;
-border-radius:18px;
-margin-top:10px;
-}
-
-/* MOBILE */
-
-@media(max-width:520px){
-
-.container{
-padding:18px;
-margin:16px auto;
-}
-
-h1{
-font-size:24px;
-}
-
-.header{
-flex-direction:column;
-}
-
-}
-
 </style>
 </head>
-
 <body>
+<div id="splash"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
 
-<!-- ONLY FIRST PAGE LOGO -->
+<span class="float" style="left:5%;top:18%">x</span>
+<span class="float" style="left:86%;top:20%;animation-delay:1s">2a</span>
+<span class="float" style="left:9%;top:76%;animation-delay:2s">+</span>
+<span class="float" style="left:82%;top:73%;animation-delay:3s">y−3</span>
 
-<div class="logo-screen" id="logoScreen">
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
+<div class="wrap">
+  <section id="intro" class="card center hero">
+    <h1 class="title">Expression Builder Lab</h1>
+    <p class="subtitle">Translate real-life situations into algebraic expressions, compare rules, and interpret what terms mean in context.</p>
+    <div class="instructions">
+      <div class="inst">Tap one answer for each real-life expression mission. No option is selected before you choose.</div>
+      <div class="inst">You get two attempts. After the second wrong attempt, the correct answer is shown with a short reason.</div>
+      <div class="inst">Complete 10 competency-based challenges and check your final score.</div>
+    </div>
+    <button class="btn" onclick="startGame()">Start Expression Mission</button>
+  </section>
+
+  <section id="quiz" class="card hidden">
+    <div class="topbar">
+      <div class="badge">⭐ Score: <span id="score">0</span></div>
+      <div class="badge">🧪 Mission: <span id="qno">1</span>/10</div>
+      <div class="badge">⏳ Time: <span id="time">45</span>s</div>
+    </div>
+    <div class="progress"><div id="progressBar"></div></div>
+
+    <div class="mission">
+      <div class="icon" id="sceneIcon">🧪</div>
+      <div>
+        <div class="question" id="questionText"></div>
+        <div id="infoBox" class="infoBox hidden"></div>
+      </div>
+    </div>
+
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <div id="explainBox"></div>
+    <div id="nextRow" class="nextRow hidden"><button class="btn" onclick="nextQuestion()">Next Mission</button></div>
+  </section>
+
+  <section id="result" class="card center hero hidden">
+    <h2>Expression Mission Completed!</h2>
+    <div id="resultEmoji" class="resultEmoji">🏆</div>
+    <h1><span id="finalScore">0</span>/10</h1>
+    <p id="resultText" class="subtitle"></p>
+    <button class="btn" onclick="restartGame()">Play Again</button>
+  </section>
 </div>
 
-<!-- FLOATING BACKGROUND -->
-
-<div class="bg" id="bg"></div>
-
-<!-- AUDIO -->
-
-<audio id="correctSound" src="assets/correct.mp3"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3"></audio>
-<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
-
-<!-- MAIN CONTENT -->
-
-<div class="container">
-
-<!-- HEADER WITHOUT LOGO -->
-
-<div class="header">
-
-<div class="badge">
-⭐ Score:
-<span id="score">0</span>
-</div>
-
-<div class="badge">
-⏳ Time:
-<span id="timer">45</span>s
-</div>
-
-</div>
-
-<!-- INTRO -->
-
-<section id="intro">
-
-<h1>Algebra Adventure</h1>
-
-<p>
-Welcome, young algebra explorer! Solve MCQs on variables, expressions, coefficients, like terms and degree of expressions.
-</p>
-
-<br>
-
-<p>
-✔ 45 seconds for each question<br>
-✔ One retry after first wrong attempt<br>
-✔ Final bonus challenge included
-</p>
-
-<button onclick="startGame()">
-Start Challenge
-</button>
-
-</section>
-
-<!-- QUIZ -->
-
-<section id="quiz" class="hidden">
-
-<h2 id="qTitle"></h2>
-
-<p id="question"></p>
-
-<div class="options" id="options"></div>
-
-<div class="message" id="message"></div>
-
-</section>
-
-<!-- FINAL CHALLENGE -->
-
-<section id="finalChallenge" class="hidden">
-
-<h2>🏆 Final Challenge</h2>
-
-<div class="final-box">
-
-Rohan buys 5 pens of ₹x each and 3 pencils of ₹y each.
-Which expression shows the total cost?
-
-</div>
-
-<div class="options" id="finalOptions"></div>
-
-<div class="message" id="finalMessage"></div>
-
-</section>
-
-<!-- RESULT -->
-
-<section id="result" class="hidden">
-
-<h1>🎉 Challenge Complete!</h1>
-
-<h2>
-Your Final Score:
-<span id="finalScore"></span>
-</h2>
-
-<p id="resultText"></p>
-
-<button onclick="location.reload()">
-Play Again
-</button>
-
-</section>
-
-</div>
+<audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3" preload="auto"></audio>
 
 <script>
-
-/* REMOVE LOGO AFTER 5 SECONDS */
-
-setTimeout(()=>{
-document.getElementById("logoScreen").style.display="none";
-},5000);
-
-/* QUESTIONS */
-
-const questions=[
-
-{
-q:"Riya has x stickers. Her friend gives her 8 more stickers. Total stickers can be written as:",
-o:["8x","x + 8","x − 8","8 − x"],
-a:1,
-e:"Adding 8 more means x + 8."
-},
-
-{
-q:"A notebook costs ₹p. Cost of 6 notebooks is:",
-o:["p + 6","p − 6","6p","p/6"],
-a:2,
-e:"Cost of 6 notebooks = 6 × p = 6p."
-},
-
-{
-q:"In the expression 7x + 12, the constant is:",
-o:["7","x","7x","12"],
-a:3,
-e:"A constant has no variable. So, 12 is the constant."
-},
-
-{
-q:"The coefficient of y in −9y is:",
-o:["9","−9","y","−y"],
-a:1,
-e:"The number multiplied with y is −9."
-},
-
-{
-q:"Which pair has like terms?",
-o:["4x and 7y","6ab and −3ab","5x² and 5x","8m and 8n"],
-a:1,
-e:"Like terms have same variables with same powers."
-},
-
-{
-q:"The expression 3a + 5b − 2 is a:",
-o:["Monomial","Binomial","Trinomial","Constant"],
-a:2,
-e:"It has three terms: 3a, 5b and −2."
-},
-
-{
-q:"The degree of 5x³ + 2x² − 7 is:",
-o:["1","2","3","7"],
-a:2,
-e:"The highest power of x is 3."
-},
-
-{
-q:"If x = 4, then 3x + 5 =",
-o:["12","17","20","35"],
-a:1,
-e:"3 × 4 + 5 = 12 + 5 = 17."
-},
-
-{
-q:"Expression for cost of 5 pens is:",
-o:["5 + x","5x","x/5","x − 5"],
-a:1,
-e:"Cost of 5 pens = 5 × x = 5x."
-}
-
+const questions = [
+  {
+    icon:"🎟️",
+    q:"At a school fair, each game ticket costs ₹x. Riya buys 6 tickets and also pays ₹20 for entry. Which expression represents her total spending?",
+    options:["6x + 20","20x + 6","6(x + 20)","x + 26"],
+    answer:0,
+    exp:"Six tickets cost 6x and the entry fee adds ₹20. Total = 6x + 20."
+  },
+  {
+    icon:"📚",
+    q:"A library packs n books in each box. Five full boxes are ready, and 12 books are kept on the display table. Which expression shows the total books?",
+    options:["5n + 12","5(n + 12)","12n + 5","n + 17"],
+    answer:0,
+    exp:"Five boxes contain 5n books, and 12 more books are on display. Total = 5n + 12."
+  },
+  {
+    icon:"🧃",
+    q:"A juice stall sells p glasses every hour. During a festival, it sells 18 extra glasses in the first hour. Which expression shows the first-hour sales?",
+    options:["18p","p + 18","p − 18","18 − p"],
+    answer:1,
+    exp:"Regular sales are p glasses, and 18 extra glasses are added. Total = p + 18."
+  },
+  {
+    icon:"🎁",
+    q:"A shop packs r chocolates in each gift box. For a festival offer, 3 extra chocolates are added to every box. What does one box contain?",
+    options:["3r","r + 3","r − 3","r/3"],
+    answer:1,
+    exp:"Each box has the original r chocolates plus 3 extra chocolates. So one box contains r + 3."
+  },
+  {
+    icon:"🚌",
+    q:"Each school bus carries b students. Four buses are full, but 9 students travel separately in a van. Which expression gives the total students travelling?",
+    options:["4b + 9","4(b + 9)","9b + 4","b + 13"],
+    answer:0,
+    exp:"Four full buses carry 4b students, and the van has 9 more students. Total = 4b + 9."
+  },
+  {
+    icon:"🏏",
+    q:"A cricket academy makes practice kits. Each kit has 2 bats and x balls. If 7 kits are prepared, which expression shows the total number of items?",
+    options:["7x + 2","7(x + 2)","2x + 7","14x"],
+    answer:1,
+    exp:"One kit has x + 2 items. Seven kits have 7(x + 2) items."
+  },
+  {
+    icon:"🛍️",
+    q:"A store bill is represented by 4a + 50. The customer bought 4 identical items and paid a fixed delivery charge. What does 50 most likely represent?",
+    options:["Price of one item","Number of items","Fixed delivery charge","Total item cost"],
+    answer:2,
+    exp:"In 4a + 50, 4a represents four item costs and 50 is a fixed added amount."
+  },
+  {
+    icon:"📦",
+    q:"A warehouse has two packing plans. Plan A uses 3x + 15 boxes. Plan B uses 3x + 10 boxes. Which plan uses fewer boxes for the same value of x?",
+    options:["Plan A","Plan B","Both are equal","Cannot be compared"],
+    answer:1,
+    exp:"Both have 3x, but Plan B adds 10 instead of 15. So Plan B uses 5 fewer boxes."
+  },
+  {
+    icon:"🎨",
+    q:"An art teacher gives each group k colour sheets. There are 8 groups, and 6 sheets are left unused. Which expression represents the sheets prepared?",
+    options:["8k + 6","8(k + 6)","6k + 8","k + 14"],
+    answer:0,
+    exp:"Sheets distributed = 8k. Unused sheets = 6. Total prepared = 8k + 6."
+  },
+  {
+    icon:"🚴",
+    q:"A cyclist covers y km in the morning and twice that distance in the evening. Which expression represents the total distance covered?",
+    options:["y + 2","2y","3y","y/2"],
+    answer:2,
+    exp:"Morning distance is y and evening distance is 2y. Total = y + 2y = 3y."
+  }
 ];
 
-/* VARIABLES */
+let order=[], current=0, score=0, attempts=0, locked=false, timer=45, tick=null;
+const $=id=>document.getElementById(id);
 
-let index=0;
-let score=0;
-let time=45;
-let timer;
-let attempt=0;
-
-/* START GAME */
-
+function shuffle(arr){return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);}
+function safePlay(id){const a=$(id); a.currentTime=0; a.play().catch(()=>{});}
 function startGame(){
-
-intro.classList.add("hidden");
-
-quiz.classList.remove("hidden");
-
-loadQuestion();
-
+  order=shuffle([...Array(questions.length).keys()]);
+  current=0; score=0;
+  $("score").textContent=score;
+  $("intro").classList.add("hidden");
+  $("quiz").classList.remove("hidden");
+  loadQuestion();
 }
-
-/* LOAD QUESTION */
-
 function loadQuestion(){
-
-attempt=0;
-
-time=45;
-
-updateTimer();
-
-clearInterval(timer);
-
-timer=setInterval(()=>{
-
-time--;
-
-updateTimer();
-
-if(time<=0){
-
-showCorrectAnswer();
-
+  clearInterval(tick);
+  attempts=0; locked=false; timer=45;
+  const q=questions[order[current]];
+  $("qno").textContent=current+1;
+  $("time").textContent=timer;
+  $("sceneIcon").textContent=q.icon;
+  $("questionText").textContent=q.q;
+  $("feedback").innerHTML="";
+  $("explainBox").innerHTML="";
+  $("nextRow").classList.add("hidden");
+  $("progressBar").style.width=(current/questions.length*100)+"%";
+  if(q.info){
+    $("infoBox").innerHTML=q.info;
+    $("infoBox").classList.remove("hidden");
+  }else{
+    $("infoBox").innerHTML="";
+    $("infoBox").classList.add("hidden");
+  }
+  const box=$("options");
+  box.innerHTML="";
+  q.options.forEach((txt,i)=>{
+    const opt=document.createElement("div");
+    opt.className="option";
+    opt.textContent=txt;
+    opt.onclick=()=>choose(opt,i);
+    box.appendChild(opt);
+  });
+  tick=setInterval(()=>{
+    timer--;
+    $("time").textContent=timer;
+    if(timer<=0){
+      clearInterval(tick);
+      reveal("Time is up. The correct answer is shown below.");
+    }
+  },1000);
 }
-
-},1000);
-
-const item=questions[index];
-
-qTitle.textContent=
-"Question "+(index+1)+" of "+questions.length;
-
-question.textContent=item.q;
-
-message.textContent="";
-
-options.innerHTML="";
-
-item.o.forEach((opt,i)=>{
-
-const btn=document.createElement("button");
-
-btn.textContent=
-String.fromCharCode(65+i)+". "+opt;
-
-btn.onclick=()=>checkAnswer(i,btn);
-
-options.appendChild(btn);
-
-});
-
+function choose(el,i){
+  if(locked) return;
+  const q=questions[order[current]];
+  el.classList.add("clicked");
+  if(i===q.answer){
+    locked=true; clearInterval(tick); score++;
+    $("score").textContent=score;
+    el.classList.add("correct");
+    $("feedback").textContent="Correct! Expression built successfully.";
+    safePlay("correctSound"); safePlay("clapSound"); confetti();
+    setTimeout(nextQuestion,1400);
+  }else{
+    attempts++;
+    el.classList.add("wrong");
+    safePlay("wrongSound");
+    if(attempts<2){
+      $("feedback").textContent="Try once more. Identify groups, extra amounts, or fixed charges.";
+      el.style.pointerEvents="none";
+    }else{
+      reveal("Incorrect after two attempts.");
+    }
+  }
 }
-
-/* UPDATE TIMER */
-
-function updateTimer(){
-
-document.getElementById("timer").textContent=time;
-
+function reveal(msg){
+  locked=true; clearInterval(tick);
+  const q=questions[order[current]];
+  document.querySelectorAll(".option").forEach((opt,i)=>{
+    opt.style.pointerEvents="none";
+    if(i===q.answer) opt.classList.add("correct");
+  });
+  $("feedback").textContent=msg;
+  $("explainBox").innerHTML=`<div class="explain"><b>Reason:</b> ${q.exp}</div>`;
+  $("nextRow").classList.remove("hidden");
 }
-
-/* CHECK ANSWER */
-
-function checkAnswer(choice,btn){
-
-const item=questions[index];
-
-if(choice===item.a){
-
-score++;
-
-document.getElementById("score").textContent=score;
-
-btn.classList.add("correct");
-
-message.textContent="Great job!";
-
-play("correctSound");
-
-confetti();
-
-next();
-
-}else{
-
-attempt++;
-
-btn.classList.add("wrong");
-
-play("wrongSound");
-
-message.innerHTML='<div class="cross">✖</div>';
-
-if(attempt===1){
-
-setTimeout(()=>{
-message.textContent="Try once more!";
-},600);
-
-btn.disabled=true;
-
-}else{
-
-showCorrectAnswer();
-
+function nextQuestion(){
+  clearInterval(tick);
+  current++;
+  if(current<questions.length) loadQuestion(); else showResult();
 }
-
-}
-
-}
-
-/* SHOW CORRECT ANSWER */
-
-function showCorrectAnswer(){
-
-clearInterval(timer);
-
-const item=questions[index];
-
-message.textContent=
-"Correct answer: "+
-item.o[item.a]+". "+item.e;
-
-[...options.children].forEach((b,i)=>{
-
-b.disabled=true;
-
-if(i===item.a){
-
-b.classList.add("correct");
-
-}
-
-});
-
-next();
-
-}
-
-/* NEXT QUESTION */
-
-function next(){
-
-clearInterval(timer);
-
-setTimeout(()=>{
-
-index++;
-
-if(index<questions.length){
-
-loadQuestion();
-
-}else{
-
-showFinal();
-
-}
-
-},2200);
-
-}
-
-/* FINAL CHALLENGE */
-
-function showFinal(){
-
-quiz.classList.add("hidden");
-
-finalChallenge.classList.remove("hidden");
-
-document.getElementById("timer").textContent="--";
-
-const opts=[
-"5x + 3y",
-"3x + 5y",
-"8xy",
-"x + y + 8"
-];
-
-finalOptions.innerHTML="";
-
-opts.forEach((op,i)=>{
-
-const b=document.createElement("button");
-
-b.textContent=
-String.fromCharCode(65+i)+". "+op;
-
-b.onclick=()=>{
-
-if(i===0){
-
-score+=2;
-
-document.getElementById("score").textContent=score;
-
-b.classList.add("correct");
-
-finalMessage.textContent=
-"Excellent! You earned 2 bonus points.";
-
-confetti();
-
-play("clapSound");
-
-}else{
-
-b.classList.add("wrong");
-
-finalMessage.textContent=
-"Correct answer: 5x + 3y. Pens cost 5x and pencils cost 3y.";
-
-play("wrongSound");
-
-}
-
-setTimeout(showResult,2500);
-
-};
-
-finalOptions.appendChild(b);
-
-});
-
-}
-
-/* SHOW RESULT */
-
 function showResult(){
-
-finalChallenge.classList.add("hidden");
-
-result.classList.remove("hidden");
-
-finalScore.textContent=score+" / 11";
-
-resultText.textContent=
-score>=9
-?"Algebra Star!"
-:"Good effort! Revise expressions and try again.";
-
+  $("quiz").classList.add("hidden");
+  $("result").classList.remove("hidden");
+  $("finalScore").textContent=score;
+  if(score>=9){
+    $("resultEmoji").textContent="🏆";
+    $("resultText").textContent="Excellent! You translated situations into algebraic expressions confidently.";
+  }else if(score>=6){
+    $("resultEmoji").textContent="🌟";
+    $("resultText").textContent="Good work! Keep practising variables, terms and real-life expression rules.";
+  }else{
+    $("resultEmoji").textContent="🧪";
+    $("resultText").textContent="Nice effort! Replay and focus on what is repeated and what is extra.";
+  }
 }
-
-/* PLAY AUDIO */
-
-function play(id){
-
-const audio=document.getElementById(id);
-
-audio.currentTime=0;
-
-audio.play().catch(()=>{});
-
+function restartGame(){
+  $("result").classList.add("hidden");
+  $("intro").classList.remove("hidden");
 }
-
-/* CONFETTI */
-
 function confetti(){
-
-for(let i=0;i<18;i++){
-
-const s=document.createElement("div");
-
-s.className="confetti";
-
-s.textContent="★";
-
-s.style.left=Math.random()*100+"vw";
-
-s.style.color=
-["#ffbf00","#58c7ff","#ff6b9a","#72d572"]
-[Math.floor(Math.random()*4)];
-
-document.body.appendChild(s);
-
-setTimeout(()=>{
-s.remove();
-},1500);
-
+  for(let i=0;i<24;i++){
+    const c=document.createElement("span");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.background=`hsl(${Math.random()*360},90%,58%)`;
+    c.style.animationDuration=(1.8+Math.random()*1.5)+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3300);
+  }
 }
-
-}
-
-/* FLOATING STARS */
-
-for(let i=0;i<25;i++){
-
-const star=document.createElement("span");
-
-star.textContent=i%2?"★":"✦";
-
-star.style.left=Math.random()*100+"vw";
-
-star.style.animationDelay=Math.random()*8+"s";
-
-star.style.fontSize=
-(14+Math.random()*20)+"px";
-
-bg.appendChild(star);
-
-}
-
 </script>
-
 </body>
 </html>
-```
