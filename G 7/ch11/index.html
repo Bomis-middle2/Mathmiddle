@@ -1,820 +1,380 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Exponents & Powers Challenge</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 7 Exponents and Powers - Innovine Game</title>
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+:root{
+  --ink:#102033;
+  --card:#ffffffee;
+  --electric:#00e5ff;
+  --blue:#2563eb;
+  --violet:#7c3aed;
+  --lime:#a3e635;
+  --green:#22c55e;
+  --red:#ef4444;
+  --orange:#fb923c;
 }
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-font-family:Arial,sans-serif;
-background:linear-gradient(135deg,#eef7ff,#fff7ed);
-overflow-x:hidden;
-min-height:100vh;
-color:#1f2937;
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  min-height:100vh;
+  color:var(--ink);
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at 10% 17%, #a7f3d0 0 8%, transparent 9%),
+    radial-gradient(circle at 88% 16%, #bfdbfe 0 8%, transparent 9%),
+    radial-gradient(circle at 16% 86%, #ddd6fe 0 9%, transparent 10%),
+    linear-gradient(135deg,#020617 0%,#1e1b4b 45%,#0891b2 100%);
 }
-
-/* BACKGROUND STARS */
-
-.background-stars span{
-position:fixed;
-width:10px;
-height:10px;
-background:#facc15;
-clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
-opacity:.25;
-animation:float 10s linear infinite;
-z-index:0;
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  opacity:.24;
+  background-image:
+    linear-gradient(90deg, rgba(0,229,255,.65) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(163,230,53,.35) 1px, transparent 1px);
+  background-size:74px 74px;
+  animation:bgMove 36s linear infinite;
 }
-
-@keyframes float{
-from{
-transform:translateY(100vh) rotate(0deg);
+@keyframes bgMove{to{transform:translate(-148px,-74px)}}
+#splash{
+  position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,#ffffff,#ecfeff);
+  animation:splashFade .8s forwards; animation-delay:5s;
 }
-to{
-transform:translateY(-20vh) rotate(360deg);
+#splash img{width:230px; max-width:78%; animation:logoPulse 1.4s ease-in-out infinite alternate}
+@keyframes logoPulse{from{transform:scale(.95)}to{transform:scale(1.05)}}
+@keyframes splashFade{to{opacity:0;visibility:hidden}}
+.float{
+  position:fixed; z-index:-1; pointer-events:none; color:#fff; opacity:.28;
+  font-size:40px; font-weight:900; animation:floaty 8s ease-in-out infinite;
 }
-}
-
-/* ONLY FIRST PAGE LOGO SCREEN */
-
-.logo-screen{
-position:fixed;
-inset:0;
-background:white;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:100;
-}
-
-.logo-screen img{
-width:220px;
-max-width:80%;
-animation:logoZoom 1s ease;
-}
-
-@keyframes logoZoom{
-from{
-opacity:0;
-transform:scale(.6);
-}
-to{
-opacity:1;
-transform:scale(1);
-}
-}
-
-/* MAIN CONTAINER */
-
-.container{
-position:relative;
-z-index:1;
-max-width:760px;
-margin:auto;
-padding:18px;
-}
-
-/* CARD */
-
+@keyframes floaty{50%{transform:translateY(-28px) rotate(8deg)}}
+.wrap{width:min(980px,94%);margin:0 auto;padding:24px 0}
 .card{
-background:rgba(255,255,255,.95);
-padding:24px;
-border-radius:24px;
-box-shadow:0 10px 30px rgba(0,0,0,.12);
-margin-top:24px;
+  margin-top:24px; padding:26px; border-radius:30px; background:var(--card);
+  border:2px solid rgba(255,255,255,.65); box-shadow:0 22px 60px rgba(2,8,23,.35);
+  backdrop-filter:blur(12px);
 }
-
-/* HEADER */
-
-.header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-flex-wrap:wrap;
+.center{text-align:center}.hidden{display:none!important}
+.hero{min-height:430px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px}
+.title{font-size:clamp(31px,6vw,54px); line-height:1.05; color:#1e1b4b}
+.subtitle{max-width:790px; font-size:clamp(16px,3vw,20px); line-height:1.55}
+.instructions{display:grid; gap:11px; width:min(720px,100%); margin:14px auto 8px; text-align:left}
+.inst{padding:13px 15px; border-radius:16px; background:#f8fdff; border-left:8px solid var(--electric); line-height:1.45; font-size:17px}
+.btn{
+  border:0; border-radius:17px; padding:14px 25px; font-size:17px; font-weight:900; cursor:pointer;
+  color:white; background:linear-gradient(135deg,var(--blue),var(--violet),#06b6d4);
+  box-shadow:0 12px 24px rgba(37,99,235,.28); transition:.2s;
 }
-
-/* BADGE */
-
+.btn:hover{transform:translateY(-2px) scale(1.02)}
+.topbar{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:18px}
 .badge{
-background:#dbeafe;
-padding:10px 16px;
-border-radius:999px;
-font-weight:bold;
+  padding:10px 14px; border-radius:16px; background:#fff; border:3px solid #cffafe;
+  box-shadow:0 8px 16px rgba(16,32,51,.08); font-weight:900;
 }
-
-/* TEXT */
-
-h1,h2{
-text-align:center;
-margin-bottom:12px;
+.progress{height:15px; background:#e0f7ff; border-radius:100px; overflow:hidden; margin-bottom:18px}
+#progressBar{height:100%; width:0; background:linear-gradient(90deg,var(--lime),var(--electric),var(--violet)); transition:.35s}
+.mission{
+  background:linear-gradient(135deg,#fff,#f0fdff); border:3px dashed #0891b2; border-radius:24px;
+  padding:16px; display:flex; gap:15px; align-items:flex-start; margin-bottom:16px;
 }
-
-.small{
-text-align:center;
-color:#64748b;
-margin-bottom:12px;
+.icon{
+  width:68px; height:68px; border-radius:21px; display:grid; place-items:center; font-size:36px;
+  background:linear-gradient(135deg,#cffafe,#ddd6fe); box-shadow:inset 0 0 0 4px white; flex:0 0 auto;
 }
-
-p{
-line-height:1.6;
+.question{font-size:clamp(18px,3vw,22px); font-weight:900; line-height:1.55}
+.infoBox{
+  margin-top:12px; background:#fff; border:2px solid #cffafe; border-radius:17px;
+  padding:12px; line-height:1.55; overflow-x:auto;
 }
-
-/* BUTTONS */
-
-button{
-width:100%;
-padding:14px;
-margin-top:10px;
-border:none;
-border-radius:16px;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-transition:.2s;
-}
-
+table{border-collapse:collapse;width:100%;min-width:390px}
+td,th{border:1px solid #a5f3fc;padding:8px 10px;text-align:center}
+th{background:#ecfeff}
+.options{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; margin-top:17px}
 .option{
-background:#f8fafc;
-border:2px solid #dbeafe;
-text-align:left;
+  min-height:64px; padding:15px; border-radius:20px; background:#fff; border:3px solid #cffafe;
+  display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer;
+  font-size:17px; font-weight:900; transition:.18s; user-select:none;
 }
-
-.option:hover{
-background:#dbeafe;
-}
-
-.primary{
-background:#2563eb;
-color:white;
-}
-
-.primary:hover{
-filter:brightness(.95);
-transform:translateY(-1px);
-}
-
-/* ANSWER STATES */
-
-.correct{
-background:#dcfce7 !important;
-border-color:#22c55e !important;
-}
-
-.wrong{
-background:#fee2e2 !important;
-border-color:#ef4444 !important;
-}
-
-/* HIDDEN */
-
-.hidden{
-display:none;
-}
-
-/* FEEDBACK */
-
-.feedback{
-min-height:50px;
-margin-top:12px;
-font-weight:bold;
-text-align:center;
-}
-
-/* TIMER */
-
-.timer{
-height:12px;
-background:#e5e7eb;
-border-radius:20px;
-overflow:hidden;
-margin:15px 0;
-}
-
-.timer-fill{
-height:100%;
-width:100%;
-background:#22c55e;
-transition:width 1s linear;
-}
-
-/* WRONG CROSS */
-
-.cross{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:90px;
-color:#ef4444;
-opacity:0;
-pointer-events:none;
-z-index:50;
-}
-
-.cross.show{
-animation:crossPop .6s;
-}
-
-@keyframes crossPop{
-0%{
-opacity:0;
-transform:translate(-50%,-50%) scale(.4);
-}
-40%{
-opacity:1;
-transform:translate(-50%,-50%) scale(1.1);
-}
-100%{
-opacity:0;
-transform:translate(-50%,-50%) scale(1);
-}
-}
-
-/* CONFETTI */
-
+.option:hover{transform:translateY(-2px); border-color:var(--blue); background:#f8fdff}
+.option.clicked{box-shadow:0 0 0 4px rgba(0,229,255,.14)}
+.option.correct{background:#dcfff0!important; border-color:var(--green)!important; animation:pop .38s}
+.option.wrong{background:#ffe1e1!important; border-color:var(--red)!important; animation:shake .38s}
+@keyframes pop{50%{transform:scale(1.05)}}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.feedback{margin-top:16px; min-height:45px; text-align:center; font-size:19px; font-weight:900}
+.explain{margin-top:10px; padding:13px 15px; border-radius:16px; background:#f8fdff; border-left:8px solid var(--violet); line-height:1.45}
+.nextRow{text-align:center;margin-top:12px}
 .confetti{
-position:fixed;
-top:-20px;
-width:14px;
-height:14px;
-background:#facc15;
-clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
-animation:fall 1.5s linear forwards;
-z-index:40;
+  position:fixed; top:-30px; width:13px; height:13px; z-index:999; pointer-events:none;
+  clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  animation:fall 2.4s linear forwards;
 }
-
-@keyframes fall{
-to{
-transform:translateY(110vh) rotate(360deg);
-opacity:0;
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
+.resultEmoji{font-size:76px;margin:12px 0}
+sup{font-size:.7em}
+@media(max-width:660px){
+  .card{padding:18px;border-radius:24px}
+  .topbar{display:grid;grid-template-columns:1fr 1fr}
+  .badge{text-align:center;font-size:14px}
+  .options{grid-template-columns:1fr}
+  .mission{gap:11px}.icon{width:56px;height:56px;font-size:30px}
 }
-}
-
-/* FINAL CHALLENGE */
-
-.challenge-box{
-background:#fff7ed;
-padding:18px;
-border-radius:18px;
-border:2px dashed #fb923c;
-margin-top:10px;
-}
-
-/* MOBILE */
-
-@media(max-width:600px){
-
-.card{
-padding:18px;
-}
-
-h1{
-font-size:26px;
-}
-
-button{
-font-size:15px;
-}
-
-}
-
 </style>
 </head>
-
 <body>
+<div id="splash"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
 
-<!-- LOGO ONLY FOR FIRST 5 SECONDS -->
+<span class="float" style="left:5%;top:18%">10³</span>
+<span class="float" style="left:84%;top:20%;animation-delay:1s">2⁵</span>
+<span class="float" style="left:9%;top:76%;animation-delay:2s">a²</span>
+<span class="float" style="left:80%;top:73%;animation-delay:3s">×10</span>
 
-<div class="logo-screen" id="logoScreen">
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
+<div class="wrap">
+  <section id="intro" class="card center hero">
+    <h1 class="title">Power Grid Challenge</h1>
+    <p class="subtitle">Use exponents and powers to decode real-life patterns in energy grids, storage, population growth, astronomy and game rewards.</p>
+    <div class="instructions">
+      <div class="inst">Tap one answer for each power mission. No answer is selected before you choose.</div>
+      <div class="inst">You get two attempts. After the second wrong attempt, the correct answer is revealed with a short reason.</div>
+      <div class="inst">Complete all 10 competency-based challenges and check your final score.</div>
+    </div>
+    <button class="btn" onclick="startGame()">Start Power Mission</button>
+  </section>
+
+  <section id="quiz" class="card hidden">
+    <div class="topbar">
+      <div class="badge">⭐ Score: <span id="score">0</span></div>
+      <div class="badge">⚡ Mission: <span id="qno">1</span>/10</div>
+      <div class="badge">⏳ Time: <span id="time">45</span>s</div>
+    </div>
+    <div class="progress"><div id="progressBar"></div></div>
+
+    <div class="mission">
+      <div class="icon" id="sceneIcon">⚡</div>
+      <div>
+        <div class="question" id="questionText"></div>
+        <div id="infoBox" class="infoBox hidden"></div>
+      </div>
+    </div>
+
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <div id="explainBox"></div>
+    <div id="nextRow" class="nextRow hidden"><button class="btn" onclick="nextQuestion()">Next Mission</button></div>
+  </section>
+
+  <section id="result" class="card center hero hidden">
+    <h2>Power Mission Completed!</h2>
+    <div id="resultEmoji" class="resultEmoji">🏆</div>
+    <h1><span id="finalScore">0</span>/10</h1>
+    <p id="resultText" class="subtitle"></p>
+    <button class="btn" onclick="restartGame()">Play Again</button>
+  </section>
 </div>
 
-<!-- FLOATING STARS -->
-
-<div class="background-stars" id="stars"></div>
-
-<!-- WRONG CROSS -->
-
-<div class="cross" id="cross">✖</div>
-
-<!-- AUDIO -->
-
-<audio id="correctSound" src="assets/freesound_community-claps-44774.mp3"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3"></audio>
-
-<!-- MAIN CONTENT -->
-
-<div class="container">
-
-<!-- INTRO -->
-
-<div class="card" id="intro">
-
-<h1>🚀 Exponents & Powers Challenge</h1>
-
-<p style="text-align:center;margin-top:10px;">
-Answer the MCQs before the timer ends and become the Power Master!
-</p>
-
-<button class="primary" onclick="startQuiz()">
-Start Quiz
-</button>
-
-</div>
-
-<!-- QUIZ -->
-
-<div class="card hidden" id="quiz">
-
-<div class="header">
-
-<div class="badge">
-Question <span id="qNum">1</span>/10
-</div>
-
-<div class="badge">
-⏳ <span id="time">45</span>s
-</div>
-
-<div class="badge">
-⭐ Score: <span id="score">0</span>
-</div>
-
-</div>
-
-<div class="timer">
-<div class="timer-fill" id="timerFill"></div>
-</div>
-
-<h2 id="question"></h2>
-
-<div id="options"></div>
-
-<div class="feedback" id="feedback"></div>
-
-</div>
-
-<!-- FINAL CHALLENGE -->
-
-<div class="card hidden" id="finalChallenge">
-
-<h1>🏆 Final Challenge</h1>
-
-<div class="challenge-box">
-
-<p>
-If a number doubles 6 times starting from 1, which expression represents it?
-</p>
-
-</div>
-
-<button class="option" onclick="checkFinal(0)">
-2 × 6
-</button>
-
-<button class="option" onclick="checkFinal(1)">
-2<sup>6</sup>
-</button>
-
-<button class="option" onclick="checkFinal(2)">
-6<sup>2</sup>
-</button>
-
-<div class="feedback" id="finalFeedback"></div>
-
-</div>
-
-<!-- RESULT -->
-
-<div class="card hidden" id="result">
-
-<h1>🎉 Quiz Complete!</h1>
-
-<h2>
-Final Score:
-<span id="finalScore"></span>
-</h2>
-
-<p class="small" id="resultMsg"></p>
-
-<button class="primary" onclick="restartQuiz()">
-Play Again
-</button>
-
-</div>
-
-</div>
+<audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3" preload="auto"></audio>
 
 <script>
-
-/* REMOVE LOGO AFTER 5 SECONDS */
-
-setTimeout(()=>{
-document.getElementById("logoScreen").style.display="none";
-},5000);
-
-/* CREATE FLOATING STARS */
-
-const stars=document.getElementById("stars");
-
-for(let i=0;i<28;i++){
-
-const star=document.createElement("span");
-
-star.style.left=Math.random()*100+"vw";
-star.style.animationDelay=Math.random()*8+"s";
-
-stars.appendChild(star);
-
-}
-
-/* QUESTIONS */
-
-const questions=[
-
-{
-q:"A paper is folded again and again. After each fold, the number of parts doubles. After 4 folds, the number of parts is:",
-o:["4","8","16","32"],
-a:2,
-e:"Each fold doubles the number of parts. 2⁴ = 16."
-},
-
-{
-q:"A bacteria doubles every hour. If there is 1 bacterium at first, the number after 5 hours can be written as:",
-o:["2 × 5","2⁵","5²","10⁵"],
-a:1,
-e:"Doubling 5 times means multiplying by 2 five times → 2⁵."
-},
-
-{
-q:"In 7⁴, the base is:",
-o:["4","7","11","28"],
-a:1,
-e:"The base is the repeated multiplying number."
-},
-
-{
-q:"In 5³, the exponent is:",
-o:["5","3","15","125"],
-a:1,
-e:"The exponent tells how many times the base is multiplied."
-},
-
-{
-q:"The value of 10⁴ is:",
-o:["40","100","1000","10000"],
-a:3,
-e:"10 × 10 × 10 × 10 = 10000."
-},
-
-{
-q:"The scientific notation of 9000000 is:",
-o:["9 × 10⁵","9 × 10⁶","90 × 10⁵","0.9 × 10⁷"],
-a:1,
-e:"Move the decimal after 9 → 9 × 10⁶."
-},
-
-{
-q:"The value of 3² × 3⁴ is:",
-o:["3⁶","3⁸","9⁶","6⁶"],
-a:0,
-e:"Same bases are added in exponents → 3²⁺⁴ = 3⁶."
-},
-
-{
-q:"The value of 8⁵ ÷ 8² is:",
-o:["8⁷","8³","1³","8¹⁰"],
-a:1,
-e:"Subtract exponents for division → 8⁵⁻² = 8³."
-},
-
-{
-q:"In 2⁶, the base is:",
-o:["2","6","8","12"],
-a:0,
-e:"The base is the number being multiplied repeatedly."
-},
-
-{
-q:"The value of 2⁶ is:",
-o:["12","32","64","128"],
-a:2,
-e:"2 × 2 × 2 × 2 × 2 × 2 = 64."
-}
-
+const questions = [
+  {
+    icon:"☀️",
+    q:"A solar farm has 5 rows of panels. Each row has 5 groups, and each group has 5 panels. Which expression best represents the total number of panels?",
+    options:["5 + 5 + 5","3 × 5","5³","5 × 3"],
+    answer:2,
+    exp:"There are 5 × 5 × 5 panels, which is written as 5³."
+  },
+  {
+    icon:"💾",
+    q:"A memory card stores 10 × 10 × 10 photos in one folder system. Which power notation should the designer use?",
+    options:["10²","10³","3¹⁰","10 + 3"],
+    answer:1,
+    exp:"10 multiplied by itself three times is written as 10³."
+  },
+  {
+    icon:"🎮",
+    q:"In a game, the reward doubles at every level. Level 1 gives 2 coins, Level 2 gives 4 coins, Level 3 gives 8 coins. Which expression shows the reward at Level 5?",
+    options:["2 + 5","5²","2⁵","2 × 5"],
+    answer:2,
+    exp:"Doubling each level follows powers of 2. Level 5 reward is 2⁵ coins."
+  },
+  {
+    icon:"🦠",
+    q:"A science model shows bacteria groups multiplying as 3 × 3 × 3 × 3 after four rounds. Which notation records this growth clearly?",
+    options:["3⁴","4³","3 + 4","12"],
+    answer:0,
+    exp:"3 is repeated as a factor four times, so the notation is 3⁴."
+  },
+  {
+    icon:"🏟️",
+    q:"An auditorium plan has 8 sections. Each section has 8 rows, and each row has 8 seats. Which expression helps count the seats quickly?",
+    options:["8²","8³","3⁸","8 + 8 + 8"],
+    answer:1,
+    exp:"Seats = 8 × 8 × 8, which is 8³."
+  },
+  {
+    icon:"🌌",
+    q:"An astronomy club writes 1,000,000 as a power of 10 for a display board. Which option is correct?",
+    options:["10³","10⁴","10⁵","10⁶"],
+    answer:3,
+    exp:"1,000,000 has six zeros, so it is 10⁶."
+  },
+  {
+    icon:"📦",
+    q:"A warehouse stacks boxes in a cube shape with 4 boxes along the length, 4 along the width, and 4 along the height. Which expression shows the total boxes?",
+    options:["4³","3⁴","4 + 4 + 4","4²"],
+    answer:0,
+    exp:"A cube stack has 4 × 4 × 4 boxes, which is 4³."
+  },
+  {
+    icon:"🚀",
+    q:"A space app shows distance as 6.4 × 10³ km. What does 10³ tell the user to do with 6.4?",
+    options:["Divide 6.4 by 3","Multiply 6.4 by 1000","Add 1000 to 6.4","Multiply 6.4 by 3"],
+    answer:1,
+    exp:"10³ = 1000, so 6.4 × 10³ means 6.4 × 1000."
+  },
+  {
+    icon:"🏆",
+    q:"A quiz app gives points using the rule 10² for a bonus round. What does this mean in the scoring system?",
+    options:["10 + 2 points","10 × 2 points","10 × 10 points","2 × 2 × 2 × 2 × 2 × 2 × 2 × 2 × 2 × 2 points"],
+    answer:2,
+    exp:"10² means 10 multiplied by itself twice, so it is 10 × 10."
+  },
+  {
+    icon:"🌱",
+    q:"A plant nursery arranges saplings in 7 equal trays, each tray has 7 rows, and each row has 7 saplings. Which power notation represents this arrangement?",
+    options:["7²","7³","3⁷","7 + 3"],
+    answer:1,
+    exp:"The arrangement is 7 × 7 × 7, which is written as 7³."
+  }
 ];
 
-/* VARIABLES */
+let order=[], current=0, score=0, attempts=0, locked=false, timer=45, tick=null;
+const $=id=>document.getElementById(id);
 
-let current=0;
-let score=0;
-let attempts=0;
-let timer;
-let timeLeft=45;
-
-/* START QUIZ */
-
-function startQuiz(){
-
-document.getElementById("intro").classList.add("hidden");
-
-document.getElementById("quiz").classList.remove("hidden");
-
-loadQuestion();
-
+function shuffle(arr){return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);}
+function safePlay(id){const a=$(id); a.currentTime=0; a.play().catch(()=>{});}
+function startGame(){
+  order=shuffle([...Array(questions.length).keys()]);
+  current=0; score=0;
+  $("score").textContent=score;
+  $("intro").classList.add("hidden");
+  $("quiz").classList.remove("hidden");
+  loadQuestion();
 }
-
-/* LOAD QUESTION */
-
 function loadQuestion(){
-
-clearInterval(timer);
-
-attempts=0;
-
-timeLeft=45;
-
-document.getElementById("time").textContent=timeLeft;
-
-document.getElementById("timerFill").style.width="100%";
-
-document.getElementById("feedback").textContent="";
-
-const q=questions[current];
-
-document.getElementById("qNum").textContent=current+1;
-
-document.getElementById("question").innerHTML=q.q;
-
-const optionsDiv=document.getElementById("options");
-
-optionsDiv.innerHTML="";
-
-q.o.forEach((opt,index)=>{
-
-const btn=document.createElement("button");
-
-btn.className="option";
-
-btn.innerHTML=
-String.fromCharCode(65+index)+". "+opt;
-
-btn.onclick=()=>checkAnswer(index,btn);
-
-optionsDiv.appendChild(btn);
-
-});
-
-timer=setInterval(()=>{
-
-timeLeft--;
-
-document.getElementById("time").textContent=timeLeft;
-
-document.getElementById("timerFill").style.width=
-(timeLeft/45*100)+"%";
-
-if(timeLeft<=0){
-
-clearInterval(timer);
-
-showCorrect("Time up!");
-
+  clearInterval(tick);
+  attempts=0; locked=false; timer=45;
+  const q=questions[order[current]];
+  $("qno").textContent=current+1;
+  $("time").textContent=timer;
+  $("sceneIcon").textContent=q.icon;
+  $("questionText").textContent=q.q;
+  $("feedback").innerHTML="";
+  $("explainBox").innerHTML="";
+  $("nextRow").classList.add("hidden");
+  $("progressBar").style.width=(current/questions.length*100)+"%";
+  if(q.info){
+    $("infoBox").innerHTML=q.info;
+    $("infoBox").classList.remove("hidden");
+  }else{
+    $("infoBox").innerHTML="";
+    $("infoBox").classList.add("hidden");
+  }
+  const box=$("options");
+  box.innerHTML="";
+  q.options.forEach((txt,i)=>{
+    const opt=document.createElement("div");
+    opt.className="option";
+    opt.innerHTML=txt;
+    opt.onclick=()=>choose(opt,i);
+    box.appendChild(opt);
+  });
+  tick=setInterval(()=>{
+    timer--;
+    $("time").textContent=timer;
+    if(timer<=0){
+      clearInterval(tick);
+      reveal("Time is up. The correct answer is shown below.");
+    }
+  },1000);
 }
-
-},1000);
-
+function choose(el,i){
+  if(locked) return;
+  const q=questions[order[current]];
+  el.classList.add("clicked");
+  if(i===q.answer){
+    locked=true; clearInterval(tick); score++;
+    $("score").textContent=score;
+    el.classList.add("correct");
+    $("feedback").textContent="Correct! Power mission solved.";
+    safePlay("correctSound"); safePlay("clapSound"); confetti();
+    setTimeout(nextQuestion,1400);
+  }else{
+    attempts++;
+    el.classList.add("wrong");
+    safePlay("wrongSound");
+    if(attempts<2){
+      $("feedback").textContent="Try once more. Look for the repeated factor and number of times.";
+      el.style.pointerEvents="none";
+    }else{
+      reveal("Incorrect after two attempts.");
+    }
+  }
 }
-
-/* CHECK ANSWER */
-
-function checkAnswer(choice,btn){
-
-const q=questions[current];
-
-if(choice===q.a){
-
-clearInterval(timer);
-
-btn.classList.add("correct");
-
-score++;
-
-document.getElementById("score").textContent=score;
-
-document.getElementById("feedback").textContent=
-"Correct! Excellent!";
-
-playSound("correctSound");
-
-createConfetti();
-
-setTimeout(nextQuestion,1300);
-
-}else{
-
-attempts++;
-
-btn.classList.add("wrong");
-
-playSound("wrongSound");
-
-showCross();
-
-if(attempts===1){
-
-document.getElementById("feedback").textContent=
-"Try once more!";
-
-btn.disabled=true;
-
-}else{
-
-clearInterval(timer);
-
-showCorrect("Incorrect.");
-
+function reveal(msg){
+  locked=true; clearInterval(tick);
+  const q=questions[order[current]];
+  document.querySelectorAll(".option").forEach((opt,i)=>{
+    opt.style.pointerEvents="none";
+    if(i===q.answer) opt.classList.add("correct");
+  });
+  $("feedback").textContent=msg;
+  $("explainBox").innerHTML=`<div class="explain"><b>Reason:</b> ${q.exp}</div>`;
+  $("nextRow").classList.remove("hidden");
 }
-
-}
-
-}
-
-/* SHOW CORRECT ANSWER */
-
-function showCorrect(prefix){
-
-const q=questions[current];
-
-const buttons=document.querySelectorAll(".option");
-
-buttons.forEach((b,i)=>{
-
-b.disabled=true;
-
-if(i===q.a){
-
-b.classList.add("correct");
-
-}
-
-});
-
-document.getElementById("feedback").textContent=
-prefix+" Correct Answer: "+q.o[q.a]+". "+q.e;
-
-setTimeout(nextQuestion,3000);
-
-}
-
-/* NEXT QUESTION */
-
 function nextQuestion(){
-
-current++;
-
-if(current<questions.length){
-
-loadQuestion();
-
-}else{
-
-document.getElementById("quiz").classList.add("hidden");
-
-document.getElementById("finalChallenge").classList.remove("hidden");
-
+  clearInterval(tick);
+  current++;
+  if(current<questions.length) loadQuestion(); else showResult();
 }
-
-}
-
-/* FINAL CHALLENGE */
-
-function checkFinal(choice){
-
-if(choice===1){
-
-score++;
-
-document.getElementById("score").textContent=score;
-
-document.getElementById("finalFeedback").textContent=
-"Correct! Doubling 6 times is written as 2⁶.";
-
-playSound("correctSound");
-
-createConfetti();
-
-}else{
-
-document.getElementById("finalFeedback").textContent=
-"Incorrect. The correct answer is 2⁶.";
-
-playSound("wrongSound");
-
-showCross();
-
-}
-
-setTimeout(showResult,1800);
-
-}
-
-/* SHOW RESULT */
-
 function showResult(){
-
-document.getElementById("finalChallenge").classList.add("hidden");
-
-document.getElementById("result").classList.remove("hidden");
-
-document.getElementById("finalScore").textContent=
-score+" / 11";
-
-let msg="Good effort!";
-
-if(score>=9){
-
-msg="Outstanding! You are an Exponents Master!";
-
-}else if(score>=6){
-
-msg="Well done! Keep practising powers and exponents.";
-
+  $("quiz").classList.add("hidden");
+  $("result").classList.remove("hidden");
+  $("finalScore").textContent=score;
+  if(score>=9){
+    $("resultEmoji").textContent="🏆";
+    $("resultText").textContent="Excellent! You decoded powers and exponents like an energy-grid expert.";
+  }else if(score>=6){
+    $("resultEmoji").textContent="🌟";
+    $("resultText").textContent="Good work! Keep practising repeated multiplication and powers of 10.";
+  }else{
+    $("resultEmoji").textContent="⚡";
+    $("resultText").textContent="Nice effort! Replay and focus on the repeated factor in each situation.";
+  }
 }
-
-document.getElementById("resultMsg").textContent=msg;
-
+function restartGame(){
+  $("result").classList.add("hidden");
+  $("intro").classList.remove("hidden");
 }
-
-/* RESTART */
-
-function restartQuiz(){
-
-location.reload();
-
+function confetti(){
+  for(let i=0;i<24;i++){
+    const c=document.createElement("span");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.background=`hsl(${Math.random()*360},90%,58%)`;
+    c.style.animationDuration=(1.8+Math.random()*1.5)+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3300);
+  }
 }
-
-/* CONFETTI */
-
-function createConfetti(){
-
-for(let i=0;i<25;i++){
-
-const star=document.createElement("div");
-
-star.className="confetti";
-
-star.style.left=Math.random()*100+"vw";
-
-star.style.animationDelay=Math.random()*0.3+"s";
-
-document.body.appendChild(star);
-
-setTimeout(()=>{
-star.remove();
-},1500);
-
-}
-
-}
-
-/* WRONG CROSS */
-
-function showCross(){
-
-const cross=document.getElementById("cross");
-
-cross.classList.remove("show");
-
-void cross.offsetWidth;
-
-cross.classList.add("show");
-
-}
-
-/* AUDIO */
-
-function playSound(id){
-
-const audio=document.getElementById(id);
-
-audio.currentTime=0;
-
-audio.play().catch(()=>{});
-
-}
-
 </script>
-
 </body>
 </html>
-```
