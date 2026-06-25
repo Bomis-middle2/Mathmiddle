@@ -1,824 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ratio and Proportion Adventure</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 6 Ratio & Proportion Mission</title>
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#172033;--card:rgba(255,255,255,.92);--blue:#3157d5;--blue2:#63d2ff;--green:#28b463;--red:#e63946;--gold:#ffd166;--purple:#7b2ff7;
 }
-
 body{
-font-family:Arial,sans-serif;
-background:linear-gradient(135deg,#dff6ff,#fff4e6,#f3e8ff);
-min-height:100vh;
-overflow-x:hidden;
-position:relative;
-color:#222;
+  min-height:100vh;font-family:"Trebuchet MS",Arial,sans-serif;color:var(--ink);overflow-x:hidden;
+  background:linear-gradient(135deg,#c9f4ff 0%,#fff0c8 42%,#ead7ff 100%);
 }
-
-/* Animated Background */
-
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background-image:
-radial-gradient(#ffffff 1px, transparent 1px),
-radial-gradient(#ffd166 1px, transparent 1px),
-radial-gradient(#90e0ef 1px, transparent 1px);
-background-size:120px 120px;
-opacity:0.25;
-animation:bgmove 70s linear infinite;
-z-index:-1;
-}
-
-@keyframes bgmove{
-from{
-transform:translate(0,0);
-}
-to{
-transform:translate(-300px,-300px);
-}
-}
-
-/* Splash Screen */
-
-#splash{
-position:fixed;
-inset:0;
-background:white;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
-animation:fadeout 1s forwards;
-animation-delay:5s;
-}
-
-#splash img{
-width:220px;
-max-width:80%;
-}
-
-@keyframes fadeout{
-to{
-opacity:0;
-visibility:hidden;
-}
-}
-
-/* Main Container */
-
-.container{
-width:95%;
-max-width:900px;
-margin:auto;
-padding:20px;
-}
-
-/* Card */
-
-.card{
-background:rgba(255,255,255,0.95);
-backdrop-filter:blur(10px);
-border-radius:25px;
-padding:25px;
-margin-top:30px;
-box-shadow:0 10px 30px rgba(0,0,0,0.12);
-}
-
-.center{
-text-align:center;
-}
-
-h1,h2{
-margin-bottom:15px;
-}
-
-/* Instructions */
-
-.instructions{
-text-align:left;
-max-width:550px;
-margin:20px auto;
-line-height:1.9;
-font-size:17px;
-}
-
-.instructions li{
-margin-bottom:10px;
-}
-
-/* Button */
-
-.btn{
-background:#4361ee;
-color:white;
-border:none;
-padding:14px 24px;
-font-size:16px;
-border-radius:12px;
-cursor:pointer;
-transition:0.3s;
-margin-top:15px;
-}
-
-.btn:hover{
-background:#3a0ca3;
-transform:scale(1.03);
-}
-
-/* Hidden */
-
-.hidden{
-display:none;
-}
-
-/* Top Bar */
-
-.topbar{
-display:flex;
-justify-content:space-between;
-gap:10px;
-flex-wrap:wrap;
-margin-bottom:20px;
-}
-
-/* Badge */
-
-.badge{
-background:#edf2ff;
-padding:10px 15px;
-border-radius:12px;
-font-weight:bold;
-}
-
-/* Progress */
-
-.progress{
-height:12px;
-background:#ddd;
-border-radius:10px;
-overflow:hidden;
-margin-bottom:20px;
-}
-
-.progress-bar{
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#4cc9f0,#4361ee);
-transition:0.3s;
-}
-
-/* Question */
-
-.question{
-font-size:20px;
-line-height:1.6;
-margin-bottom:20px;
-}
-
-/* Options */
-
-.options{
-display:grid;
-gap:14px;
-}
-
-.option{
-padding:15px;
-background:#f7f7ff;
-border-radius:14px;
-cursor:pointer;
-border:2px solid transparent;
-transition:0.3s;
-}
-
-.option:hover{
-background:#e0e7ff;
-transform:translateY(-2px);
-}
-
-/* Correct */
-
-.correct{
-background:#d8f3dc !important;
-border-color:#2d6a4f !important;
-}
-
-/* Wrong */
-
-.wrong{
-background:#ffe5e5 !important;
-border-color:#d00000 !important;
-}
-
-/* Feedback */
-
-.feedback{
-margin-top:18px;
-text-align:center;
-font-size:18px;
-font-weight:bold;
-min-height:30px;
-}
-
-/* Explanation */
-
-.explanation{
-margin-top:15px;
-padding:12px;
-background:#f8f9fa;
-border-left:5px solid #4361ee;
-border-radius:10px;
-}
-
-/* Cross */
-
-.cross{
-font-size:55px;
-color:red;
-animation:shake 0.5s;
-}
-
-@keyframes shake{
-0%,100%{
-transform:translateX(0);
-}
-25%{
-transform:translateX(-5px);
-}
-75%{
-transform:translateX(5px);
-}
-}
-
-/* Tables */
-
-table{
-width:100%;
-border-collapse:collapse;
-margin:15px 0;
-}
-
-table,th,td{
-border:1px solid #ccc;
-}
-
-th,td{
-padding:10px;
-text-align:center;
-}
-
-/* Confetti */
-
-.confetti{
-position:fixed;
-width:12px;
-height:12px;
-background:gold;
-clip-path:polygon(
-50% 0%,
-61% 35%,
-98% 35%,
-68% 57%,
-79% 91%,
-50% 70%,
-21% 91%,
-32% 57%,
-2% 35%,
-39% 35%
-);
-animation:fall 2.5s linear forwards;
-z-index:999;
-}
-
-@keyframes fall{
-from{
-transform:translateY(-100px) rotate(0deg);
-opacity:1;
-}
-to{
-transform:translateY(100vh) rotate(720deg);
-opacity:0;
-}
-}
-
-/* Mobile */
-
-@media(max-width:600px){
-
-.question{
-font-size:18px;
-}
-
-.option{
-font-size:15px;
-}
-
-}
-
+body::before,body::after{content:"";position:fixed;inset:-20%;z-index:-2;background-repeat:repeat;opacity:.24;animation:floatBg 55s linear infinite}
+body::before{background-image:radial-gradient(circle,#fff 2px,transparent 3px),radial-gradient(circle,#3157d5 1px,transparent 3px);background-size:90px 90px,140px 140px}
+body::after{z-index:-1;opacity:.16;background-image:linear-gradient(45deg,transparent 46%,#7b2ff7 47%,#7b2ff7 53%,transparent 54%),linear-gradient(-45deg,transparent 46%,#00a896 47%,#00a896 53%,transparent 54%);background-size:110px 110px;animation-duration:80s}
+@keyframes floatBg{to{transform:translate(-260px,-220px)}}
+#splash{position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;z-index:99;animation:hideSplash .7s forwards;animation-delay:5s}
+#splash img{width:min(250px,76vw);animation:pop .9s ease both}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes hideSplash{to{opacity:0;visibility:hidden;pointer-events:none}}
+.wrap{width:min(940px,94vw);margin:0 auto;padding:22px 0 28px}
+.card{margin-top:22px;background:var(--card);border:1px solid rgba(255,255,255,.75);box-shadow:0 18px 45px rgba(31,47,92,.18);backdrop-filter:blur(12px);border-radius:28px;padding:24px;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 12% 10%,rgba(255,209,102,.38),transparent 22%),radial-gradient(circle at 90% 15%,rgba(99,210,255,.36),transparent 22%);pointer-events:none}
+.card>*{position:relative}.center{text-align:center}.hidden{display:none!important}
+h1{font-size:clamp(30px,6vw,54px);line-height:1.05;color:#26316f;margin-bottom:12px}h2{font-size:clamp(24px,4vw,36px);color:#26316f;margin-bottom:10px}.subtitle{font-size:clamp(16px,2.4vw,20px);line-height:1.45;margin:10px auto 18px;max-width:720px}.mission-strip{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:18px 0}.chip{background:#fff;border:2px solid rgba(49,87,213,.14);border-radius:999px;padding:10px 14px;font-weight:800;box-shadow:0 8px 18px rgba(0,0,0,.07)}
+.instructions{max-width:700px;margin:18px auto;text-align:left;display:grid;gap:10px}.rule{background:rgba(255,255,255,.82);padding:12px 14px;border-radius:16px;border-left:6px solid var(--blue);font-size:16px;line-height:1.35}.btn{border:0;border-radius:16px;padding:14px 22px;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;font-size:17px;font-weight:900;cursor:pointer;box-shadow:0 12px 22px rgba(49,87,213,.28);transition:.2s;margin-top:10px}.btn:hover,.btn:focus{transform:translateY(-2px);outline:none}.topbar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}.badge{background:rgba(255,255,255,.82);border-radius:16px;padding:10px 12px;text-align:center;font-weight:900;box-shadow:inset 0 0 0 1px rgba(49,87,213,.1)}.badge span{color:#26316f}.progress{height:13px;background:rgba(23,32,51,.12);border-radius:999px;overflow:hidden;margin:12px 0 18px}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--blue2),var(--blue));transition:.4s}
+.scene{display:flex;align-items:center;gap:16px;margin-bottom:16px}.iconBubble{min-width:72px;height:72px;border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:38px;background:linear-gradient(135deg,#fff,#e7f8ff);box-shadow:0 12px 25px rgba(0,0,0,.09);animation:bob 2.4s ease-in-out infinite}.missionTitle{font-size:16px;font-weight:900;color:#3157d5;text-transform:uppercase;letter-spacing:.8px}.question{font-size:clamp(18px,2.7vw,23px);line-height:1.45;font-weight:800;margin-top:6px}.options{display:grid;grid-template-columns:1fr 1fr;gap:13px}.option{background:#fff;border:3px solid transparent;border-radius:18px;padding:15px;min-height:58px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:17px;font-weight:900;cursor:pointer;transition:.18s;box-shadow:0 10px 20px rgba(31,47,92,.1);user-select:none}.option:hover{transform:translateY(-2px);border-color:rgba(49,87,213,.28)}.option.selected{border-color:#3157d5;background:#eef4ff}.option.correct{border-color:var(--green)!important;background:#dff8e9!important;animation:pulse .45s}.option.wrong{border-color:var(--red)!important;background:#ffe4e8!important;animation:shake .38s}.feedback{min-height:42px;text-align:center;margin-top:16px;font-size:19px;font-weight:900}.explain{margin-top:10px;background:#fff;border-left:7px solid #3157d5;border-radius:16px;padding:13px 15px;font-size:16px;line-height:1.45}.nextRow{text-align:center}.small{font-size:14px;opacity:.8;margin-top:8px}.finalScore{font-size:clamp(46px,9vw,78px);font-weight:1000;color:#26316f;margin:12px 0}.stars{font-size:38px;letter-spacing:4px;margin:12px 0}.confetti{position:fixed;top:-20px;width:12px;height:12px;background:gold;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);animation:fall 2.6s linear forwards;z-index:80}@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}@keyframes bob{50%{transform:translateY(-7px)}}@keyframes pulse{50%{transform:scale(1.04)}}@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@media(max-width:720px){.card{padding:18px;border-radius:22px}.topbar{grid-template-columns:1fr 1fr}.options{grid-template-columns:1fr}.scene{align-items:flex-start}.iconBubble{min-width:58px;height:58px;font-size:30px}.option{font-size:16px;padding:14px}.badge{font-size:14px}}
 </style>
 </head>
-
 <body>
-
-<!-- Splash Screen -->
-
-<div id="splash">
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
-</div>
-
-<div class="container">
-
-<!-- Intro Screen -->
-
-<div class="card center" id="introScreen">
-
-<h1>Ratio and Proportion Adventure</h1>
-
-<p style="margin-top:10px;font-size:18px;">
-⚖️ Explore exciting ratio and proportion challenges!
-</p>
-
-<ol class="instructions">
-
-<li>Answer all MCQs carefully.</li>
-
-<li>You will get 45 seconds for each question.</li>
-
-<li>You can retry once after a wrong answer.</li>
-
-<li>Read tables and assertion questions carefully.</li>
-
-<li>Complete the final challenge to earn bonus points.</li>
-
-<li>Try to score maximum points and become a Ratio Champion.</li>
-
-</ol>
-
-<button class="btn" onclick="startQuiz()">
-Start Challenge
-</button>
-
-</div>
-
-<!-- Quiz Screen -->
-
-<div class="card hidden" id="quizScreen">
-
-<div class="topbar">
-
-<div class="badge">
-⭐ Score:
-<span id="score">0</span>
-</div>
-
-<div class="badge">
-📘 Question:
-<span id="qno">1</span>/15
-</div>
-
-<div class="badge">
-⏳ Time:
-<span id="timer">45</span>s
-</div>
-
-</div>
-
-<div class="progress">
-<div class="progress-bar" id="progressBar"></div>
-</div>
-
-<div id="questionBox"></div>
-
-<div class="options" id="optionsBox"></div>
-
-<div class="feedback" id="feedback"></div>
-
-<div id="explanationBox"></div>
-
-</div>
-
-<!-- Final Challenge -->
-
-<div class="card hidden center" id="finalChallenge">
-
-<h2>🏆 Final Ratio Challenge</h2>
-
-<p style="margin:20px 0;">
-Which ratio is equivalent to 2 : 4 ?
-</p>
-
-<div class="options">
-
-<div class="option" onclick="finalAnswer(this,false)">
-3 : 5
-</div>
-
-<div class="option" onclick="finalAnswer(this,true)">
-1 : 2
-</div>
-
-<div class="option" onclick="finalAnswer(this,false)">
-4 : 5
-</div>
-
-<div class="option" onclick="finalAnswer(this,false)">
-2 : 5
-</div>
-
-</div>
-
-</div>
-
-<!-- Result Screen -->
-
-<div class="card hidden center" id="resultScreen">
-
-<h2>🎉 Quiz Completed!</h2>
-
-<h1 style="margin:20px 0;color:#3a0ca3;">
-<span id="finalScore">0</span>/16
-</h1>
-
-<p id="resultMessage"></p>
-
-<button class="btn" onclick="location.reload()">
-Play Again
-</button>
-
-</div>
-
-</div>
-
-<!-- AUDIO -->
-
-<audio id="correctSound" src="assets/correct.mp3"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3"></audio>
-<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
-
+<div id="splash"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
+<main class="wrap">
+<section id="intro" class="card center">
+  <h1>Ratio Mission Control</h1>
+  <p class="subtitle">Solve real-life Ratio and Proportion missions. Read carefully, tap your answer, and try to complete all 10 missions.</p>
+  <div class="mission-strip"><span class="chip">🛒 Shopping</span><span class="chip">🍹 Recipes</span><span class="chip">🗺️ Maps</span><span class="chip">🎨 Mixing</span></div>
+  <div class="instructions">
+    <div class="rule">You will get 10 competency-based questions.</div>
+    <div class="rule">Each question has 4 options. Tap only after reading fully.</div>
+    <div class="rule">You get 2 attempts for each question.</div>
+    <div class="rule">After the second wrong attempt, the correct answer and explanation will be shown.</div>
+    <div class="rule">A scoreboard and progress bar will track your mission.</div>
+  </div>
+  <button class="btn" onclick="startGame()">Start Mission</button>
+</section>
+<section id="quiz" class="card hidden">
+  <div class="topbar">
+    <div class="badge">⭐ Score<br><span id="score">0</span></div>
+    <div class="badge">📍 Mission<br><span id="qno">1</span>/10</div>
+    <div class="badge">⏳ Time<br><span id="time">45</span>s</div>
+    <div class="badge">🔁 Attempts<br><span id="attempts">2</span></div>
+  </div>
+  <div class="progress"><div id="bar" class="bar"></div></div>
+  <div class="scene"><div id="icon" class="iconBubble">⚖️</div><div><div id="mission" class="missionTitle">Mission</div><div id="question" class="question"></div></div></div>
+  <div id="options" class="options"></div>
+  <div id="feedback" class="feedback"></div>
+  <div id="explain"></div>
+  <div class="nextRow"><button id="nextBtn" class="btn hidden" onclick="nextQuestion()">Next Mission</button></div>
+</section>
+<section id="result" class="card center hidden">
+  <h2>Mission Completed!</h2>
+  <div class="stars" id="stars">⭐⭐⭐</div>
+  <div class="finalScore"><span id="finalScore">0</span>/10</div>
+  <p class="subtitle" id="message"></p>
+  <button class="btn" onclick="restartGame()">Play Again</button>
+</section>
+</main>
+<audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3" preload="auto"></audio>
 <script>
-
-/* Sample Questions */
-
-const questions = [
-
-{
-question:"A fruit basket has 6 apples and 3 oranges. What is the ratio of apples to oranges?",
-options:["1 : 2","2 : 1","3 : 1","6 : 1"],
-answer:1,
-explanation:"6 : 3 simplifies to 2 : 1."
-},
-
-{
-question:"A classroom has 12 boys and 18 girls. What is the ratio of boys to girls in simplest form?",
-options:["2 : 3","3 : 2","12 : 18","1 : 2"],
-answer:0,
-explanation:"12 : 18 simplifies to 2 : 3."
-},
-
-{
-question:"A map scale shows 1 cm represents 5 km. What distance does 4 cm represent?",
-options:["5 km","10 km","15 km","20 km"],
-answer:3,
-explanation:"4 × 5 = 20 km."
-}
-
+const bank=[
+{icon:'🛒',mission:'Grocery Mission',q:'A shopkeeper packs 8 red apples and 12 green apples in a basket. What is the ratio of red apples to green apples in simplest form?',o:['2 : 3','3 : 2','8 : 20','4 : 3'],a:0,e:'8 : 12 is divided by 4, so the simplest ratio is 2 : 3.'},
+{icon:'🍹',mission:'Juice Recipe Mission',q:'A juice recipe uses 2 cups of syrup for 5 cups of water. How many cups of syrup are needed for 15 cups of water?',o:['4 cups','5 cups','6 cups','8 cups'],a:2,e:'Water is multiplied by 3, so syrup is also multiplied by 3: 2 × 3 = 6 cups.'},
+{icon:'🗺️',mission:'Map Reading Mission',q:'On a map, 1 cm represents 4 km. If the distance between two towns is 7 cm on the map, what is the actual distance?',o:['11 km','21 km','28 km','32 km'],a:2,e:'1 cm = 4 km, so 7 cm = 7 × 4 = 28 km.'},
+{icon:'🎨',mission:'Paint Mixing Mission',q:'Blue and yellow paint are mixed in the ratio 3 : 2. If 9 litres of blue paint are used, how much yellow paint is needed?',o:['4 litres','5 litres','6 litres','8 litres'],a:2,e:'Blue changes from 3 to 9, which is ×3. Yellow = 2 × 3 = 6 litres.'},
+{icon:'⚽',mission:'Sports Team Mission',q:'In a sports club, the ratio of football players to basketball players is 4 : 5. If there are 20 football players, how many basketball players are there?',o:['16','20','24','25'],a:3,e:'4 parts become 20, so 1 part is 5. Basketball = 5 parts = 25.'},
+{icon:'📚',mission:'Library Mission',q:'A library shelf has storybooks and science books in the ratio 7 : 3. If there are 21 storybooks, how many science books are there?',o:['6','9','12','18'],a:1,e:'7 parts become 21, so 1 part is 3. Science books = 3 × 3 = 9.'},
+{icon:'🚲',mission:'Cycling Mission',q:'Ria cycles 12 km in 3 hours at a steady speed. At the same speed, how far will she cycle in 5 hours?',o:['15 km','18 km','20 km','24 km'],a:2,e:'12 km in 3 hours means 4 km per hour. In 5 hours, she cycles 4 × 5 = 20 km.'},
+{icon:'🥛',mission:'Milk Shop Mission',q:'The cost of 6 milk packets is ₹180. What will be the cost of 10 such packets?',o:['₹240','₹270','₹300','₹360'],a:2,e:'One packet costs ₹180 ÷ 6 = ₹30. Ten packets cost ₹30 × 10 = ₹300.'},
+{icon:'📦',mission:'Packing Mission',q:'A factory packs 45 pencils in 5 boxes equally. How many pencils will be packed in 8 such boxes?',o:['64','72','80','90'],a:1,e:'5 boxes have 45 pencils, so 1 box has 9 pencils. 8 boxes have 8 × 9 = 72 pencils.'},
+{icon:'🍕',mission:'Pizza Party Mission',q:'For a class party, pizzas are ordered in the ratio 1 pizza for every 4 students. How many pizzas are needed for 28 students?',o:['6','7','8','9'],a:1,e:'28 ÷ 4 = 7, so 7 pizzas are needed.'}
 ];
-
-let currentQuestion = 0;
-let score = 0;
-let retryUsed = false;
-let timer = 45;
-let interval;
-
-const correctSound =
-document.getElementById("correctSound");
-
-const wrongSound =
-document.getElementById("wrongSound");
-
-const clapSound =
-document.getElementById("clapSound");
-
-/* Start Quiz */
-
-function startQuiz(){
-
-document.getElementById("introScreen")
-.classList.add("hidden");
-
-document.getElementById("quizScreen")
-.classList.remove("hidden");
-
-loadQuestion();
-
-}
-
-/* Timer */
-
-function startTimer(){
-
-timer = 45;
-
-document.getElementById("timer").innerText = timer;
-
-clearInterval(interval);
-
-interval = setInterval(()=>{
-
-timer--;
-
-document.getElementById("timer").innerText = timer;
-
-if(timer <= 0){
-
-clearInterval(interval);
-
-nextQuestion();
-
-}
-
-},1000);
-
-}
-
-/* Load Question */
-
-function loadQuestion(){
-
-retryUsed = false;
-
-const q = questions[currentQuestion];
-
-document.getElementById("qno").innerText =
-currentQuestion + 1;
-
-document.getElementById("questionBox").innerHTML =
-`<div class="question">${q.question}</div>`;
-
-const optionsBox =
-document.getElementById("optionsBox");
-
-optionsBox.innerHTML = "";
-
-q.options.forEach((option,index)=>{
-
-const btn = document.createElement("div");
-
-btn.classList.add("option");
-
-btn.innerText = option;
-
-btn.onclick = ()=>checkAnswer(btn,index);
-
-optionsBox.appendChild(btn);
-
-});
-
-document.getElementById("feedback").innerHTML = "";
-
-document.getElementById("explanationBox").innerHTML = "";
-
-updateProgress();
-
-startTimer();
-
-}
-
-/* Check Answer */
-
-function checkAnswer(element,index){
-
-const q = questions[currentQuestion];
-
-const options =
-document.querySelectorAll(".option");
-
-options.forEach(opt=>
-opt.style.pointerEvents="none"
-);
-
-if(index === q.answer){
-
-correctSound.play();
-
-element.classList.add("correct");
-
-document.getElementById("feedback").innerHTML =
-"⭐ Correct Answer!";
-
-createConfetti();
-
-score++;
-
-document.getElementById("score").innerText = score;
-
-setTimeout(()=>{
-nextQuestion();
-},1500);
-
-}else{
-
-wrongSound.play();
-
-element.classList.add("wrong");
-
-if(!retryUsed){
-
-retryUsed = true;
-
-document.getElementById("feedback").innerHTML =
-`<div class="cross">✖</div>Try Again!`;
-
-options.forEach(opt=>
-opt.style.pointerEvents="auto"
-);
-
-element.style.pointerEvents="none";
-
-}else{
-
-document.getElementById("feedback").innerHTML =
-`<div class="cross">✖</div>Incorrect`;
-
-options[q.answer].classList.add("correct");
-
-document.getElementById("explanationBox").innerHTML =
-`
-<div class="explanation">
-<strong>Explanation:</strong>
-${q.explanation}
-</div>
-`;
-
-setTimeout(()=>{
-nextQuestion();
-},3500);
-
-}
-
-}
-
-}
-
-/* Next Question */
-
-function nextQuestion(){
-
-clearInterval(interval);
-
-currentQuestion++;
-
-if(currentQuestion < questions.length){
-
-loadQuestion();
-
-}else{
-
-showFinalChallenge();
-
-}
-
-}
-
-/* Progress */
-
-function updateProgress(){
-
-const percent =
-(currentQuestion/questions.length)*100;
-
-document.getElementById("progressBar").style.width =
-percent + "%";
-
-}
-
-/* Confetti */
-
-function createConfetti(){
-
-for(let i=0;i<20;i++){
-
-const confetti =
-document.createElement("div");
-
-confetti.classList.add("confetti");
-
-confetti.style.left =
-Math.random()*100 + "vw";
-
-confetti.style.background =
-`hsl(${Math.random()*360},100%,50%)`;
-
-confetti.style.animationDuration =
-(Math.random()*2 + 2) + "s";
-
-document.body.appendChild(confetti);
-
-setTimeout(()=>{
-confetti.remove();
-},3000);
-
-}
-
-}
-
-/* Final Challenge */
-
-function showFinalChallenge(){
-
-document.getElementById("quizScreen")
-.classList.add("hidden");
-
-document.getElementById("finalChallenge")
-.classList.remove("hidden");
-
-}
-
-/* Final Answer */
-
-function finalAnswer(element,isCorrect){
-
-const options =
-document.querySelectorAll(
-"#finalChallenge .option"
-);
-
-options.forEach(opt=>
-opt.style.pointerEvents="none"
-);
-
-if(isCorrect){
-
-clapSound.play();
-
-element.classList.add("correct");
-
-score++;
-
-createConfetti();
-
-}else{
-
-wrongSound.play();
-
-element.classList.add("wrong");
-
-}
-
-setTimeout(()=>{
-showResults();
-},2000);
-
-}
-
-/* Results */
-
-function showResults(){
-
-document.getElementById("finalChallenge")
-.classList.add("hidden");
-
-document.getElementById("resultScreen")
-.classList.remove("hidden");
-
-document.getElementById("finalScore").innerText =
-score;
-
-let message = "";
-
-if(score >= 4){
-
-message =
-"🌟 Outstanding! You are a Ratio Champion!";
-
-}else if(score >= 2){
-
-message =
-"👏 Great Job! Keep Practicing!";
-
-}else{
-
-message =
-"📚 Good Effort! Try Again to Improve!";
-
-}
-
-document.getElementById("resultMessage").innerHTML =
-message;
-
-}
-
+let questions=[],current=0,score=0,attemptsLeft=2,timer=45,tick=null,locked=false;
+const $=id=>document.getElementById(id);
+function shuffle(arr){return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]);}
+function startGame(){questions=shuffle(bank);current=0;score=0;$('score').textContent=0;$('intro').classList.add('hidden');$('result').classList.add('hidden');$('quiz').classList.remove('hidden');loadQuestion();}
+function loadQuestion(){clearInterval(tick);locked=false;attemptsLeft=2;timer=45;let q=questions[current];$('qno').textContent=current+1;$('time').textContent=timer;$('attempts').textContent=attemptsLeft;$('bar').style.width=(current/questions.length*100)+'%';$('icon').textContent=q.icon;$('mission').textContent=q.mission;$('question').textContent=q.q;$('feedback').innerHTML='';$('explain').innerHTML='';$('nextBtn').classList.add('hidden');let opts=q.o.map((text,i)=>({text,i}));opts=shuffle(opts);$('options').innerHTML='';opts.forEach(item=>{let d=document.createElement('button');d.className='option';d.type='button';d.textContent=item.text;d.onclick=()=>choose(d,item.i);$('options').appendChild(d);});startTimer();}
+function startTimer(){tick=setInterval(()=>{timer--;$('time').textContent=timer;if(timer<=0){clearInterval(tick);reveal('Time is up. Moving to the next mission.',false);setTimeout(nextQuestion,1500);}},1000);}
+function choose(el,index){if(locked)return;let q=questions[current];document.querySelectorAll('.option').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');if(index===q.a){locked=true;clearInterval(tick);el.classList.add('correct');score++;$('score').textContent=score;play('correctSound');play('clapSound');$('feedback').textContent='Correct! Mission cleared.';confetti(24);$('bar').style.width=((current+1)/questions.length*100)+'%';setTimeout(nextQuestion,1500);}else{attemptsLeft--;$('attempts').textContent=attemptsLeft;play('wrongSound');el.classList.add('wrong');if(attemptsLeft>0){$('feedback').textContent='Not quite. Try once more.';el.disabled=true;}else{locked=true;clearInterval(tick);reveal('Second attempt used. Correct answer revealed.',true);}}}
+function reveal(text,show){let q=questions[current];$('feedback').textContent=text;document.querySelectorAll('.option').forEach(btn=>{btn.disabled=true;if(btn.textContent===q.o[q.a])btn.classList.add('correct');});if(show){$('explain').innerHTML='<div class="explain"><b>Explanation:</b> '+q.e+'</div>';$('nextBtn').classList.remove('hidden');}}
+function nextQuestion(){current++;if(current<questions.length){loadQuestion();}else{showResult();}}
+function showResult(){clearInterval(tick);$('quiz').classList.add('hidden');$('result').classList.remove('hidden');$('finalScore').textContent=score;let msg='',stars='';if(score>=9){msg='Outstanding! You are a Ratio Master.';stars='⭐⭐⭐';confetti(45);play('clapSound');}else if(score>=6){msg='Great work! You understand ratios well. Keep practising proportions.';stars='⭐⭐';}else{msg='Good effort! Revise equivalent ratios and unitary method, then try again.';stars='⭐';}$('message').textContent=msg;$('stars').textContent=stars;}
+function restartGame(){startGame();}
+function play(id){let a=$(id);try{a.currentTime=0;a.play();}catch(e){}}
+function confetti(n){for(let i=0;i<n;i++){let c=document.createElement('div');c.className='confetti';c.style.left=Math.random()*100+'vw';c.style.background=['#ffd166','#63d2ff','#28b463','#e63946','#7b2ff7'][Math.floor(Math.random()*5)];c.style.animationDuration=(1.8+Math.random()*1.5)+'s';document.body.appendChild(c);setTimeout(()=>c.remove(),3200);}}
 </script>
-
 </body>
 </html>
-```
