@@ -1,801 +1,379 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mensuration MCQ Challenge</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 7 Perimeter and Area - Innovine Game</title>
 <style>
-
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
+:root{
+  --ink:#19324a;
+  --card:#ffffffee;
+  --green:#2dd4bf;
+  --forest:#15803d;
+  --blue:#2563eb;
+  --orange:#f97316;
+  --gold:#facc15;
+  --red:#ef4444;
 }
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-font-family:Arial,sans-serif;
-min-height:100vh;
-background:linear-gradient(135deg,#eaf7ff,#fff4d8);
-color:#203040;
-overflow-x:hidden;
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  min-height:100vh;
+  color:var(--ink);
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at 12% 18%, #bbf7d0 0 8%, transparent 9%),
+    radial-gradient(circle at 86% 17%, #fed7aa 0 8%, transparent 9%),
+    radial-gradient(circle at 15% 84%, #bfdbfe 0 9%, transparent 10%),
+    linear-gradient(135deg,#064e3b 0%,#0f766e 45%,#facc15 100%);
 }
-
-/* LOGO SCREEN ONLY */
-
-.logo-screen{
-position:fixed;
-inset:0;
-background:#fff;
-z-index:99;
-display:flex;
-align-items:center;
-justify-content:center;
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  opacity:.20;
+  background-image:
+    linear-gradient(90deg, rgba(255,255,255,.65) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255,255,255,.45) 1px, transparent 1px);
+  background-size:80px 80px;
+  animation:bgMove 38s linear infinite;
 }
-
-.logo-screen img{
-max-width:220px;
-animation:pop 1s ease;
+@keyframes bgMove{to{transform:translate(-160px,-80px)}}
+#splash{
+  position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,#ffffff,#f0fff7);
+  animation:splashFade .8s forwards; animation-delay:5s;
 }
-
-@keyframes pop{
-from{
-opacity:0;
-transform:scale(.7);
+#splash img{width:230px; max-width:78%; animation:logoPulse 1.4s ease-in-out infinite alternate}
+@keyframes logoPulse{from{transform:scale(.95)}to{transform:scale(1.05)}}
+@keyframes splashFade{to{opacity:0;visibility:hidden}}
+.float{
+  position:fixed; z-index:-1; pointer-events:none; color:#fff; opacity:.25;
+  font-size:38px; font-weight:900; animation:floaty 8s ease-in-out infinite;
 }
-to{
-opacity:1;
-transform:scale(1);
+@keyframes floaty{50%{transform:translateY(-28px) rotate(8deg)}}
+.wrap{width:min(980px,94%);margin:0 auto;padding:24px 0}
+.card{
+  margin-top:24px; padding:26px; border-radius:30px; background:var(--card);
+  border:2px solid rgba(255,255,255,.65); box-shadow:0 22px 60px rgba(2,8,23,.3);
+  backdrop-filter:blur(12px);
 }
+.center{text-align:center}.hidden{display:none!important}
+.hero{min-height:430px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px}
+.title{font-size:clamp(31px,6vw,54px); line-height:1.05; color:#064e3b}
+.subtitle{max-width:780px; font-size:clamp(16px,3vw,20px); line-height:1.55}
+.instructions{display:grid; gap:11px; width:min(720px,100%); margin:14px auto 8px; text-align:left}
+.inst{padding:13px 15px; border-radius:16px; background:#f8fffb; border-left:8px solid var(--green); line-height:1.45; font-size:17px}
+.btn{
+  border:0; border-radius:17px; padding:14px 25px; font-size:17px; font-weight:900; cursor:pointer;
+  color:white; background:linear-gradient(135deg,var(--forest),var(--green),var(--blue));
+  box-shadow:0 12px 24px rgba(21,128,61,.28); transition:.2s;
 }
-
-/* FLOATING BACKGROUND */
-
-.bg span{
-position:fixed;
-color:rgba(255,180,0,.35);
-z-index:-1;
-animation:float 10s linear infinite;
-}
-
-@keyframes float{
-from{
-transform:translateY(100vh) rotate(0);
-}
-to{
-transform:translateY(-10vh) rotate(360deg);
-}
-}
-
-/* MAIN CONTAINER */
-
-.container{
-width:min(92%,780px);
-margin:28px auto;
-background:rgba(255,255,255,.93);
-border-radius:24px;
-padding:24px;
-box-shadow:0 10px 28px rgba(0,0,0,.12);
-}
-
-/* HEADER */
-
-.header{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-margin-bottom:18px;
-flex-wrap:wrap;
-}
-
-/* BADGES */
-
+.btn:hover{transform:translateY(-2px) scale(1.02)}
+.topbar{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:18px}
 .badge{
-background:#e8f2ff;
-padding:8px 12px;
-border-radius:18px;
-font-weight:bold;
+  padding:10px 14px; border-radius:16px; background:#fff; border:3px solid #bbf7d0;
+  box-shadow:0 8px 16px rgba(25,50,74,.08); font-weight:900;
 }
-
-/* TEXT */
-
-h1,h2{
-text-align:center;
-margin-bottom:14px;
+.progress{height:15px; background:#dcfce7; border-radius:100px; overflow:hidden; margin-bottom:18px}
+#progressBar{height:100%; width:0; background:linear-gradient(90deg,var(--green),var(--blue),var(--gold)); transition:.35s}
+.mission{
+  background:linear-gradient(135deg,#fff,#f0fff7); border:3px dashed var(--forest); border-radius:24px;
+  padding:16px; display:flex; gap:15px; align-items:flex-start; margin-bottom:16px;
 }
-
-p{
-line-height:1.5;
+.icon{
+  width:68px; height:68px; border-radius:21px; display:grid; place-items:center; font-size:36px;
+  background:linear-gradient(135deg,#bbf7d0,#fed7aa); box-shadow:inset 0 0 0 4px white; flex:0 0 auto;
 }
-
-/* BUTTONS */
-
-button{
-border:0;
-background:#3478f6;
-color:white;
-padding:13px 18px;
-border-radius:14px;
-font-size:16px;
-cursor:pointer;
-margin-top:14px;
-transition:.2s;
+.question{font-size:clamp(18px,3vw,22px); font-weight:900; line-height:1.55}
+.infoBox{
+  margin-top:12px; background:#fff; border:2px solid #bbf7d0; border-radius:17px;
+  padding:12px; line-height:1.55; overflow-x:auto;
 }
-
-button:hover{
-background:#245ed0;
-transform:translateY(-1px);
+table{border-collapse:collapse;width:100%;min-width:390px}
+td,th{border:1px solid #86efac;padding:8px 10px;text-align:center}
+th{background:#ecfdf5}
+.options{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; margin-top:17px}
+.option{
+  min-height:64px; padding:15px; border-radius:20px; background:#fff; border:3px solid #bbf7d0;
+  display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer;
+  font-size:17px; font-weight:900; transition:.18s; user-select:none;
 }
-
-/* OPTIONS */
-
-.options button{
-width:100%;
-display:block;
-background:#fff;
-color:#203040;
-border:2px solid #dbe7ff;
-margin:10px 0;
-text-align:left;
-}
-
-.options button:hover{
-background:#edf5ff;
-}
-
-/* ANSWER STATES */
-
-.correct{
-background:#dcf8dc !important;
-border-color:#36b24a !important;
-}
-
-.wrong{
-background:#ffe1e1 !important;
-border-color:#e23b3b !important;
-}
-
-/* MESSAGE */
-
-.message{
-min-height:50px;
-text-align:center;
-font-weight:bold;
-margin-top:10px;
-}
-
-/* WRONG CROSS */
-
-.cross{
-font-size:42px;
-color:#e23b3b;
-animation:shake .3s;
-}
-
-@keyframes shake{
-0%,100%{
-transform:translateX(0);
-}
-25%{
-transform:translateX(-6px);
-}
-75%{
-transform:translateX(6px);
-}
-}
-
-/* CONFETTI */
-
+.option:hover{transform:translateY(-2px); border-color:var(--forest); background:#f8fffb}
+.option.clicked{box-shadow:0 0 0 4px rgba(45,212,191,.14)}
+.option.correct{background:#dcfff7!important; border-color:var(--green)!important; animation:pop .38s}
+.option.wrong{background:#ffe1e1!important; border-color:var(--red)!important; animation:shake .38s}
+@keyframes pop{50%{transform:scale(1.05)}}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.feedback{margin-top:16px; min-height:45px; text-align:center; font-size:19px; font-weight:900}
+.explain{margin-top:10px; padding:13px 15px; border-radius:16px; background:#f8fffb; border-left:8px solid var(--blue); line-height:1.45}
+.nextRow{text-align:center;margin-top:12px}
 .confetti{
-position:fixed;
-top:-20px;
-font-size:22px;
-pointer-events:none;
-animation:fall 1.4s linear forwards;
+  position:fixed; top:-30px; width:13px; height:13px; z-index:999; pointer-events:none;
+  clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  animation:fall 2.4s linear forwards;
 }
-
-@keyframes fall{
-to{
-transform:translateY(100vh) rotate(360deg);
-opacity:0;
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
+.resultEmoji{font-size:76px;margin:12px 0}
+@media(max-width:660px){
+  .card{padding:18px;border-radius:24px}
+  .topbar{display:grid;grid-template-columns:1fr 1fr}
+  .badge{text-align:center;font-size:14px}
+  .options{grid-template-columns:1fr}
+  .mission{gap:11px}.icon{width:56px;height:56px;font-size:30px}
 }
-}
-
-/* HIDDEN */
-
-.hidden{
-display:none;
-}
-
-/* FINAL BOX */
-
-.final-box{
-background:#fff2c7;
-border:2px dashed #f0b400;
-padding:18px;
-border-radius:18px;
-margin:12px 0;
-}
-
-/* MOBILE */
-
-@media(max-width:520px){
-
-.container{
-padding:18px;
-margin:16px auto;
-}
-
-.header{
-flex-direction:column;
-}
-
-h1{
-font-size:24px;
-}
-
-}
-
 </style>
 </head>
-
 <body>
+<div id="splash"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
 
-<!-- LOGO ONLY FOR FIRST 5 SECONDS -->
+<span class="float" style="left:5%;top:18%">m²</span>
+<span class="float" style="left:86%;top:20%;animation-delay:1s">cm</span>
+<span class="float" style="left:9%;top:76%;animation-delay:2s">□</span>
+<span class="float" style="left:82%;top:73%;animation-delay:3s">P</span>
 
-<div class="logo-screen" id="logoScreen">
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
+<div class="wrap">
+  <section id="intro" class="card center hero">
+    <h1 class="title">Park Planner Challenge</h1>
+    <p class="subtitle">Use perimeter and area to make practical decisions for gardens, tiles, fencing, painting, carpets and layouts.</p>
+    <div class="instructions">
+      <div class="inst">Tap one answer for each real-life planning mission. No option is selected before you choose.</div>
+      <div class="inst">You get two attempts. After the second wrong attempt, the correct answer is shown with a short reason.</div>
+      <div class="inst">Complete all 10 competency-based challenges and check your final score.</div>
+    </div>
+    <button class="btn" onclick="startGame()">Start Planning Mission</button>
+  </section>
+
+  <section id="quiz" class="card hidden">
+    <div class="topbar">
+      <div class="badge">⭐ Score: <span id="score">0</span></div>
+      <div class="badge">🌳 Mission: <span id="qno">1</span>/10</div>
+      <div class="badge">⏳ Time: <span id="time">45</span>s</div>
+    </div>
+    <div class="progress"><div id="progressBar"></div></div>
+
+    <div class="mission">
+      <div class="icon" id="sceneIcon">🌳</div>
+      <div>
+        <div class="question" id="questionText"></div>
+        <div id="infoBox" class="infoBox hidden"></div>
+      </div>
+    </div>
+
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <div id="explainBox"></div>
+    <div id="nextRow" class="nextRow hidden"><button class="btn" onclick="nextQuestion()">Next Mission</button></div>
+  </section>
+
+  <section id="result" class="card center hero hidden">
+    <h2>Planning Mission Completed!</h2>
+    <div id="resultEmoji" class="resultEmoji">🏆</div>
+    <h1><span id="finalScore">0</span>/10</h1>
+    <p id="resultText" class="subtitle"></p>
+    <button class="btn" onclick="restartGame()">Play Again</button>
+  </section>
 </div>
 
-<!-- FLOATING STARS -->
-
-<div class="bg" id="bg"></div>
-
-<!-- AUDIO -->
-
-<audio id="correctSound" src="assets/correct.mp3"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3"></audio>
-<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
-
-<!-- MAIN CONTAINER -->
-
-<div class="container">
-
-<!-- HEADER WITHOUT LOGO/TITLE -->
-
-<div class="header">
-
-<div class="badge">
-⭐ Score:
-<span id="score">0</span>
-</div>
-
-<div class="badge">
-⏳ Time:
-<span id="timer">45</span>s
-</div>
-
-</div>
-
-<!-- INTRO -->
-
-<section id="intro">
-
-<h1>Mensuration Mission</h1>
-
-<p>
-Welcome, shape explorer! Solve questions on perimeter, area, squares, rectangles, triangles and parallelograms.
-</p>
-
-<br>
-
-<p>
-✔ 45 seconds for each question<br>
-✔ One retry after first wrong attempt<br>
-✔ Final bonus challenge included
-</p>
-
-<button onclick="startGame()">
-Start Challenge
-</button>
-
-</section>
-
-<!-- QUIZ -->
-
-<section id="quiz" class="hidden">
-
-<h2 id="qTitle"></h2>
-
-<p id="question"></p>
-
-<div class="options" id="options"></div>
-
-<div class="message" id="message"></div>
-
-</section>
-
-<!-- FINAL CHALLENGE -->
-
-<section id="finalChallenge" class="hidden">
-
-<h2>🏆 Final Challenge</h2>
-
-<div class="final-box">
-A square garden has side 12 m. What is its area?
-</div>
-
-<div class="options" id="finalOptions"></div>
-
-<div class="message" id="finalMessage"></div>
-
-</section>
-
-<!-- RESULT -->
-
-<section id="result" class="hidden">
-
-<h1>🎉 Challenge Complete!</h1>
-
-<h2>
-Your Final Score:
-<span id="finalScore"></span>
-</h2>
-
-<p id="resultText"></p>
-
-<button onclick="location.reload()">
-Play Again
-</button>
-
-</section>
-
-</div>
+<audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3" preload="auto"></audio>
 
 <script>
-
-/* REMOVE LOGO AFTER 5 SECONDS */
-
-setTimeout(()=>{
-document.getElementById("logoScreen").style.display="none";
-},5000);
-
-/* QUESTIONS */
-
-const questions=[
-
-{
-q:"Riya wants to put lace around a square table cloth of side 18 cm. How much lace is needed?",
-o:["36 cm","54 cm","72 cm","324 cm"],
-a:2,
-e:"Perimeter of square = 4 × side = 4 × 18 = 72 cm."
-},
-
-{
-q:"A rectangular garden is 30 m long and 18 m wide. A gardener wants to fence it. What length of fencing is required?",
-o:["48 m","96 m","540 m","24 m"],
-a:1,
-e:"Perimeter of rectangle = 2 × (30 + 18) = 96 m."
-},
-
-{
-q:"A painter paints a rectangular wall of length 12 m and height 8 m. What area will be painted?",
-o:["20 m²","40 m²","96 m²","192 m²"],
-a:2,
-e:"Area of rectangle = 12 × 8 = 96 m²."
-},
-
-{
-q:"A triangular banner has base 10 cm and height 7 cm. Find its area.",
-o:["17 cm²","35 cm²","70 cm²","140 cm²"],
-a:1,
-e:"Area of triangle = ½ × 10 × 7 = 35 cm²."
-},
-
-{
-q:"A parallelogram-shaped tile has base 16 cm and height 9 cm. What is its area?",
-o:["25 cm²","72 cm²","144 cm²","288 cm²"],
-a:2,
-e:"Area of parallelogram = base × height = 144 cm²."
-},
-
-{
-q:"A square park has perimeter 80 m. What is the length of one side?",
-o:["10 m","20 m","40 m","160 m"],
-a:1,
-e:"Side = perimeter ÷ 4 = 20 m."
-},
-
-{
-q:"Assertion: The perimeter of a square of side 9 cm is 36 cm. Reason: Perimeter of square = 4 × side.",
-o:[
-"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
-"Both Assertion and Reason are true, but Reason does not explain Assertion.",
-"Assertion is true, but Reason is false.",
-"Assertion is false, but Reason is true."
-],
-a:0,
-e:"4 × 9 = 36 cm."
-},
-
-{
-q:"Assertion: The area of a rectangle of length 12 cm and breadth 5 cm is 34 cm². Reason: Area = length × breadth.",
-o:[
-"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
-"Both Assertion and Reason are true, but Reason does not explain Assertion.",
-"Assertion is true, but Reason is false.",
-"Assertion is false, but Reason is true."
-],
-a:3,
-e:"Actual area = 12 × 5 = 60 cm²."
-},
-
-{
-q:"Assertion: Area tells the space occupied by a figure. Reason: Perimeter tells the boundary length.",
-o:[
-"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
-"Both Assertion and Reason are true, but Reason does not explain Assertion.",
-"Assertion is true, but Reason is false.",
-"Assertion is false, but Reason is true."
-],
-a:1,
-e:"Both are true but explain different concepts."
-},
-
-{
-q:"Assertion: Area of a parallelogram with base 10 cm and height 6 cm is 60 cm². Reason: Area = base × height.",
-o:[
-"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
-"Both Assertion and Reason are true, but Reason does not explain Assertion.",
-"Assertion is true, but Reason is false.",
-"Assertion is false, but Reason is true."
-],
-a:0,
-e:"10 × 6 = 60 cm²."
-},
-
-{
-q:"Assertion: If side of a square doubles, area doubles. Reason: Area = side × side.",
-o:[
-"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
-"Both Assertion and Reason are true, but Reason does not explain Assertion.",
-"Assertion is true, but Reason is false.",
-"Assertion is false, but Reason is true."
-],
-a:3,
-e:"If side doubles, area becomes 4 times."
-}
-
+const questions = [
+  {
+    icon:"🌳",
+    q:"A gardener wants to put a fence around a rectangular flower bed that is 12 m long and 8 m wide. How much fencing should she buy?",
+    options:["20 m","40 m","96 m","48 m"],
+    answer:1,
+    exp:"Fencing goes around the boundary. Perimeter = 2 × (12 + 8) = 40 m."
+  },
+  {
+    icon:"🧱",
+    q:"A classroom floor is 9 m long and 6 m wide. The school wants to cover the whole floor with mats. What area must be covered?",
+    options:["15 m²","30 m²","54 m²","60 m²"],
+    answer:2,
+    exp:"Covering the floor means area. Area = 9 × 6 = 54 m²."
+  },
+  {
+    icon:"🎨",
+    q:"A wall poster board is 5 m long and 3 m wide. Paint is needed only for the front surface. How much surface area will be painted?",
+    options:["8 m²","15 m²","16 m²","30 m²"],
+    answer:1,
+    exp:"Painting the front surface uses area. Area = 5 × 3 = 15 m²."
+  },
+  {
+    icon:"🏃",
+    q:"A sports coach marks a rectangular running track of length 30 m and width 20 m. One warm-up lap is around the track. How far is one lap?",
+    options:["50 m","60 m","100 m","600 m"],
+    answer:2,
+    exp:"A lap is around the boundary. Perimeter = 2 × (30 + 20) = 100 m."
+  },
+  {
+    icon:"🪟",
+    q:"A carpenter adds a wooden border around a square notice board of side 7 cm. What length of wooden border is needed?",
+    options:["14 cm","28 cm","49 cm","56 cm"],
+    answer:1,
+    exp:"The border is the perimeter of the square. Perimeter = 4 × 7 = 28 cm."
+  },
+  {
+    icon:"🧩",
+    q:"Two rectangular garden designs are shown. Which garden needs more grass to cover its full surface?",
+    info:"<table><tr><th>Garden</th><th>Length</th><th>Width</th></tr><tr><td>A</td><td>10 m</td><td>6 m</td></tr><tr><td>B</td><td>12 m</td><td>5 m</td></tr></table>",
+    options:["Garden A","Garden B","Both need the same grass","Cannot be decided"],
+    answer:2,
+    exp:"Grass coverage means area. A = 10 × 6 = 60 m² and B = 12 × 5 = 60 m², so both need the same grass."
+  },
+  {
+    icon:"🚪",
+    q:"A school gate design uses a rectangle of length 11 m and width 4 m. A decorative strip is fixed only around the outside edge. What length of strip is needed?",
+    options:["15 m","30 m","44 m","60 m"],
+    answer:1,
+    exp:"A strip around the outside edge is perimeter. Perimeter = 2 × (11 + 4) = 30 m."
+  },
+  {
+    icon:"🪴",
+    q:"A square herb patch has an area of 64 m². The gardener wants to know the length of one side to place labels equally along it. What is one side?",
+    options:["6 m","8 m","16 m","32 m"],
+    answer:1,
+    exp:"For a square, area = side × side. 8 × 8 = 64, so one side is 8 m."
+  },
+  {
+    icon:"🧵",
+    q:"A craft teacher wants students to paste ribbon around a rectangular card of length 18 cm and width 12 cm. How much ribbon is needed for one card?",
+    options:["30 cm","60 cm","216 cm","72 cm"],
+    answer:1,
+    exp:"Ribbon around the card means perimeter. Perimeter = 2 × (18 + 12) = 60 cm."
+  },
+  {
+    icon:"🛋️",
+    q:"A family wants to buy a carpet for a room that is 14 m long and 9 m wide. Carpet is sold by square metres. How many square metres are needed?",
+    options:["23 m²","46 m²","126 m²","252 m²"],
+    answer:2,
+    exp:"Carpet covers the floor area. Area = 14 × 9 = 126 m²."
+  }
 ];
 
-/* VARIABLES */
+let order=[], current=0, score=0, attempts=0, locked=false, timer=45, tick=null;
+const $=id=>document.getElementById(id);
 
-let index=0;
-let score=0;
-let time=45;
-let timer;
-let attempt=0;
-
-/* START GAME */
-
+function shuffle(arr){return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);}
+function safePlay(id){const a=$(id); a.currentTime=0; a.play().catch(()=>{});}
 function startGame(){
-
-intro.classList.add("hidden");
-
-quiz.classList.remove("hidden");
-
-loadQuestion();
-
+  order=shuffle([...Array(questions.length).keys()]);
+  current=0; score=0;
+  $("score").textContent=score;
+  $("intro").classList.add("hidden");
+  $("quiz").classList.remove("hidden");
+  loadQuestion();
 }
-
-/* LOAD QUESTION */
-
 function loadQuestion(){
-
-attempt=0;
-
-time=45;
-
-updateTimer();
-
-clearInterval(timer);
-
-timer=setInterval(()=>{
-
-time--;
-
-updateTimer();
-
-if(time<=0){
-
-showCorrectAnswer();
-
+  clearInterval(tick);
+  attempts=0; locked=false; timer=45;
+  const q=questions[order[current]];
+  $("qno").textContent=current+1;
+  $("time").textContent=timer;
+  $("sceneIcon").textContent=q.icon;
+  $("questionText").textContent=q.q;
+  $("feedback").innerHTML="";
+  $("explainBox").innerHTML="";
+  $("nextRow").classList.add("hidden");
+  $("progressBar").style.width=(current/questions.length*100)+"%";
+  if(q.info){
+    $("infoBox").innerHTML=q.info;
+    $("infoBox").classList.remove("hidden");
+  }else{
+    $("infoBox").innerHTML="";
+    $("infoBox").classList.add("hidden");
+  }
+  const box=$("options");
+  box.innerHTML="";
+  q.options.forEach((txt,i)=>{
+    const opt=document.createElement("div");
+    opt.className="option";
+    opt.textContent=txt;
+    opt.onclick=()=>choose(opt,i);
+    box.appendChild(opt);
+  });
+  tick=setInterval(()=>{
+    timer--;
+    $("time").textContent=timer;
+    if(timer<=0){
+      clearInterval(tick);
+      reveal("Time is up. The correct answer is shown below.");
+    }
+  },1000);
 }
-
-},1000);
-
-const item=questions[index];
-
-qTitle.textContent=
-"Question "+(index+1)+" of "+questions.length;
-
-question.textContent=item.q;
-
-message.textContent="";
-
-options.innerHTML="";
-
-item.o.forEach((opt,i)=>{
-
-const btn=document.createElement("button");
-
-btn.textContent=
-String.fromCharCode(65+i)+". "+opt;
-
-btn.onclick=()=>checkAnswer(i,btn);
-
-options.appendChild(btn);
-
-});
-
+function choose(el,i){
+  if(locked) return;
+  const q=questions[order[current]];
+  el.classList.add("clicked");
+  if(i===q.answer){
+    locked=true; clearInterval(tick); score++;
+    $("score").textContent=score;
+    el.classList.add("correct");
+    $("feedback").textContent="Correct! Planning decision solved.";
+    safePlay("correctSound"); safePlay("clapSound"); confetti();
+    setTimeout(nextQuestion,1400);
+  }else{
+    attempts++;
+    el.classList.add("wrong");
+    safePlay("wrongSound");
+    if(attempts<2){
+      $("feedback").textContent="Try once more. Decide whether the situation needs boundary or surface.";
+      el.style.pointerEvents="none";
+    }else{
+      reveal("Incorrect after two attempts.");
+    }
+  }
 }
-
-/* TIMER */
-
-function updateTimer(){
-
-document.getElementById("timer").textContent=time;
-
+function reveal(msg){
+  locked=true; clearInterval(tick);
+  const q=questions[order[current]];
+  document.querySelectorAll(".option").forEach((opt,i)=>{
+    opt.style.pointerEvents="none";
+    if(i===q.answer) opt.classList.add("correct");
+  });
+  $("feedback").textContent=msg;
+  $("explainBox").innerHTML=`<div class="explain"><b>Reason:</b> ${q.exp}</div>`;
+  $("nextRow").classList.remove("hidden");
 }
-
-/* CHECK ANSWER */
-
-function checkAnswer(choice,btn){
-
-const item=questions[index];
-
-if(choice===item.a){
-
-score++;
-
-document.getElementById("score").textContent=score;
-
-btn.classList.add("correct");
-
-message.textContent="Correct! Great work!";
-
-playSound("correctSound");
-
-makeConfetti();
-
-goNext();
-
-}else{
-
-attempt++;
-
-btn.classList.add("wrong");
-
-playSound("wrongSound");
-
-message.innerHTML='<div class="cross">✖</div>';
-
-if(attempt===1){
-
-setTimeout(()=>{
-message.textContent="Try once more!";
-},600);
-
-btn.disabled=true;
-
-}else{
-
-showCorrectAnswer();
-
+function nextQuestion(){
+  clearInterval(tick);
+  current++;
+  if(current<questions.length) loadQuestion(); else showResult();
 }
-
-}
-
-}
-
-/* SHOW CORRECT */
-
-function showCorrectAnswer(){
-
-clearInterval(timer);
-
-const item=questions[index];
-
-message.textContent=
-"Correct answer: "+
-item.o[item.a]+". "+item.e;
-
-[...options.children].forEach((b,i)=>{
-
-b.disabled=true;
-
-if(i===item.a){
-
-b.classList.add("correct");
-
-}
-
-});
-
-goNext();
-
-}
-
-/* NEXT */
-
-function goNext(){
-
-clearInterval(timer);
-
-setTimeout(()=>{
-
-index++;
-
-if(index<questions.length){
-
-loadQuestion();
-
-}else{
-
-showFinalChallenge();
-
-}
-
-},2400);
-
-}
-
-/* FINAL CHALLENGE */
-
-function showFinalChallenge(){
-
-quiz.classList.add("hidden");
-
-finalChallenge.classList.remove("hidden");
-
-document.getElementById("timer").textContent="--";
-
-const opts=[
-"24 m²",
-"48 m²",
-"144 m²",
-"120 m²"
-];
-
-finalOptions.innerHTML="";
-
-opts.forEach((op,i)=>{
-
-const b=document.createElement("button");
-
-b.textContent=
-String.fromCharCode(65+i)+". "+op;
-
-b.onclick=()=>{
-
-[...finalOptions.children].forEach(x=>x.disabled=true);
-
-if(i===2){
-
-score+=2;
-
-document.getElementById("score").textContent=score;
-
-b.classList.add("correct");
-
-finalMessage.textContent=
-"Excellent! Area = 12 × 12 = 144 m².";
-
-playSound("clapSound");
-
-makeConfetti();
-
-}else{
-
-b.classList.add("wrong");
-
-finalMessage.textContent=
-"Correct answer: 144 m².";
-
-playSound("wrongSound");
-
-}
-
-setTimeout(showResult,2600);
-
-};
-
-finalOptions.appendChild(b);
-
-});
-
-}
-
-/* RESULT */
-
 function showResult(){
-
-finalChallenge.classList.add("hidden");
-
-result.classList.remove("hidden");
-
-finalScore.textContent=score+" / 13";
-
-resultText.textContent=
-score>=10
-?"Amazing! You are a Mensuration Star!"
-:"Good effort! Revise area and perimeter formulas.";
-
+  $("quiz").classList.add("hidden");
+  $("result").classList.remove("hidden");
+  $("finalScore").textContent=score;
+  if(score>=9){
+    $("resultEmoji").textContent="🏆";
+    $("resultText").textContent="Excellent! You used perimeter and area like a smart planner.";
+  }else if(score>=6){
+    $("resultEmoji").textContent="🌟";
+    $("resultText").textContent="Good work! Keep practising when to use boundary and when to use surface area.";
+  }else{
+    $("resultEmoji").textContent="🌳";
+    $("resultText").textContent="Nice effort! Replay and focus on whether the task asks for covering or going around.";
+  }
 }
-
-/* AUDIO */
-
-function playSound(id){
-
-const audio=document.getElementById(id);
-
-audio.currentTime=0;
-
-audio.play().catch(()=>{});
-
+function restartGame(){
+  $("result").classList.add("hidden");
+  $("intro").classList.remove("hidden");
 }
-
-/* CONFETTI */
-
-function makeConfetti(){
-
-for(let i=0;i<18;i++){
-
-const s=document.createElement("div");
-
-s.className="confetti";
-
-s.textContent="★";
-
-s.style.left=Math.random()*100+"vw";
-
-s.style.color=
-["#ffbf00","#58c7ff","#ff6b9a","#72d572"]
-[Math.floor(Math.random()*4)];
-
-document.body.appendChild(s);
-
-setTimeout(()=>{
-s.remove();
-},1500);
-
+function confetti(){
+  for(let i=0;i<24;i++){
+    const c=document.createElement("span");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.background=`hsl(${Math.random()*360},90%,58%)`;
+    c.style.animationDuration=(1.8+Math.random()*1.5)+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3300);
+  }
 }
-
-}
-
-/* FLOATING STARS */
-
-for(let i=0;i<26;i++){
-
-const star=document.createElement("span");
-
-star.textContent=i%2?"★":"✦";
-
-star.style.left=Math.random()*100+"vw";
-
-star.style.fontSize=
-(14+Math.random()*20)+"px";
-
-star.style.animationDelay=
-Math.random()*8+"s";
-
-bg.appendChild(star);
-
-}
-
 </script>
-
 </body>
 </html>
-```
