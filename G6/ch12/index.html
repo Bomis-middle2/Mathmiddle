@@ -1,812 +1,552 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Interactive MCQ Challenge</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 6 Playing with Numbers - Innovine Game</title>
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
+:root{
+  --deep:#102a43;
+  --card:#fffaf0ee;
+  --sun:#ffb703;
+  --orange:#fb8500;
+  --teal:#219ebc;
+  --green:#2a9d8f;
+  --red:#e63946;
+  --cream:#fff7df;
 }
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-min-height:100vh;
-background:linear-gradient(135deg,#dff6ff,#fff4e6,#f3e8ff);
-display:flex;
-justify-content:center;
-align-items:center;
-padding:20px;
-overflow-x:hidden;
-position:relative;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  min-height:100vh;
+  color:var(--deep);
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at 12% 18%, #ffd166 0 7%, transparent 8%),
+    radial-gradient(circle at 88% 17%, #8ecae6 0 8%, transparent 9%),
+    radial-gradient(circle at 12% 84%, #95d5b2 0 8%, transparent 9%),
+    linear-gradient(135deg,#063047 0%,#0b7285 42%,#ffb703 100%);
 }
-
-body::before,
-body::after{
-content:"";
-position:fixed;
-inset:0;
-background-image:
-radial-gradient(#ffffff 1px, transparent 1px),
-radial-gradient(#ffd54f 1px, transparent 1px);
-background-size:120px 120px;
-opacity:0.25;
-animation:starsMove 40s linear infinite;
-z-index:0;
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  opacity:.22;
+  background-image:
+    repeating-linear-gradient(30deg, rgba(255,255,255,.7) 0 2px, transparent 2px 52px),
+    repeating-linear-gradient(120deg, rgba(255,255,255,.45) 0 2px, transparent 2px 56px);
+  animation:bgDrift 35s linear infinite;
 }
-
-body::after{
-animation-duration:60s;
-opacity:0.15;
-}
-
-@keyframes starsMove{
-from{transform:translateY(0);}
-to{transform:translateY(-120px);}
-}
-
-/* Splash */
-
+@keyframes bgDrift{to{transform:translate(-140px,-90px)}}
 #splash{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:white;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#fff7df,#e0fbfc);
+  animation:splashAway .8s forwards;
+  animation-delay:5s;
 }
-
 #splash img{
-width:180px;
-animation:pulse 2s infinite;
+  width:230px;
+  max-width:78%;
+  animation:logoBeat 1.4s ease-in-out infinite alternate;
 }
-
-@keyframes pulse{
-0%{transform:scale(1);}
-50%{transform:scale(1.08);}
-100%{transform:scale(1);}
+@keyframes logoBeat{from{transform:scale(.95)}to{transform:scale(1.05)}}
+@keyframes splashAway{to{opacity:0;visibility:hidden}}
+.floating{
+  position:fixed;
+  z-index:-1;
+  color:#fff;
+  opacity:.26;
+  font-size:34px;
+  font-weight:900;
+  animation:floatNum 8s ease-in-out infinite;
+  pointer-events:none;
 }
-
-/* Container */
-
-.container{
-position:relative;
-z-index:2;
-width:100%;
-max-width:900px;
-background:white;
-padding:25px;
-border-radius:24px;
-box-shadow:0 10px 30px rgba(0,0,0,0.15);
+@keyframes floatNum{50%{transform:translateY(-28px) rotate(7deg)}}
+.wrap{
+  width:min(980px,94%);
+  margin:0 auto;
+  padding:24px 0;
 }
-
-.hidden{
-display:none;
+.card{
+  margin-top:24px;
+  padding:26px;
+  border-radius:30px;
+  background:var(--card);
+  border:2px solid rgba(255,255,255,.6);
+  box-shadow:0 20px 55px rgba(3,24,38,.3);
+  backdrop-filter:blur(12px);
 }
-
-/* Intro */
-
-.intro{
-text-align:center;
+.center{text-align:center}
+.hidden{display:none!important}
+.hero{
+  min-height:430px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:14px;
 }
-
-.intro h1{
-color:#5b21b6;
-margin-bottom:20px;
-font-size:2rem;
+.title{
+  font-size:clamp(31px,6vw,54px);
+  line-height:1.04;
+  color:#073b4c;
 }
-
+.subtitle{
+  max-width:760px;
+  font-size:clamp(16px,3vw,20px);
+  line-height:1.55;
+}
 .instructions{
-background:#f5f3ff;
-padding:25px;
-border-radius:18px;
-text-align:left;
-line-height:1.8;
-max-width:650px;
-margin:20px auto;
-color:#444;
+  display:grid;
+  gap:11px;
+  width:min(720px,100%);
+  margin:14px auto 8px;
+  text-align:left;
 }
-
-.instructions ol{
-padding-left:22px;
+.inst{
+  padding:13px 15px;
+  border-radius:16px;
+  background:#ffffff;
+  border-left:8px solid var(--orange);
+  line-height:1.45;
+  font-size:17px;
 }
-
-.instructions li{
-margin-bottom:10px;
+.btn{
+  border:0;
+  border-radius:17px;
+  padding:14px 25px;
+  font-size:17px;
+  font-weight:900;
+  cursor:pointer;
+  color:white;
+  background:linear-gradient(135deg,var(--orange),#ef476f);
+  box-shadow:0 12px 24px rgba(239,71,111,.28);
+  transition:.2s;
 }
-
-/* Quiz */
-
+.btn:hover{transform:translateY(-2px) scale(1.02)}
 .topbar{
-display:flex;
-justify-content:space-between;
-gap:10px;
-flex-wrap:wrap;
-margin-bottom:20px;
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:18px;
 }
-
-.box{
-background:#f3f4ff;
-padding:12px 18px;
-border-radius:12px;
-font-weight:bold;
+.badge{
+  padding:10px 14px;
+  border-radius:16px;
+  background:#fff;
+  border:3px solid #ffdda1;
+  box-shadow:0 8px 16px rgba(2,48,71,.08);
+  font-weight:900;
 }
-
+.progress{
+  height:15px;
+  background:#ffe8b6;
+  border-radius:100px;
+  overflow:hidden;
+  margin-bottom:18px;
+}
+#progressBar{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#2a9d8f,#ffb703,#fb8500);
+  transition:.35s;
+}
+.mission{
+  background:linear-gradient(135deg,#fff,#fff4d6);
+  border:3px dashed #fb8500;
+  border-radius:24px;
+  padding:16px;
+  display:flex;
+  gap:15px;
+  align-items:flex-start;
+  margin-bottom:16px;
+}
+.icon{
+  width:66px;
+  height:66px;
+  border-radius:21px;
+  display:grid;
+  place-items:center;
+  font-size:35px;
+  background:linear-gradient(135deg,#8ecae6,#ffd166);
+  box-shadow:inset 0 0 0 4px white;
+  flex:0 0 auto;
+}
 .question{
-font-size:1.15rem;
-line-height:1.6;
-font-weight:bold;
-margin-top:10px;
-color:#222;
+  font-size:clamp(18px,3vw,22px);
+  font-weight:900;
+  line-height:1.55;
 }
-
-.options{
-display:grid;
-gap:14px;
-margin-top:22px;
+.dataBox{
+  margin-top:12px;
+  background:#fff;
+  border:2px solid #ffd166;
+  border-radius:17px;
+  padding:12px;
+  overflow-x:auto;
 }
-
-.option{
-background:#f8f8ff;
-padding:14px;
-border-radius:14px;
-border:2px solid transparent;
-cursor:pointer;
-transition:0.25s;
-}
-
-.option:hover{
-background:#ececff;
-transform:translateY(-2px);
-}
-
-.correct{
-background:#d4ffd9 !important;
-border-color:#16a34a !important;
-}
-
-.wrong{
-background:#ffe0e0 !important;
-border-color:#dc2626 !important;
-}
-
-.feedback{
-margin-top:18px;
-font-weight:bold;
-min-height:28px;
-}
-
-.explanation{
-margin-top:10px;
-padding:12px;
-background:#f5f5f5;
-border-radius:12px;
-color:#444;
-}
-
-button{
-margin-top:20px;
-padding:14px 24px;
-border:none;
-border-radius:14px;
-background:#6d28d9;
-color:white;
-font-size:1rem;
-cursor:pointer;
-transition:0.3s;
-}
-
-button:hover{
-background:#5b21b6;
-transform:scale(1.03);
-}
-
 table{
-width:100%;
-border-collapse:collapse;
-margin-top:15px;
+  border-collapse:collapse;
+  width:100%;
+  min-width:390px;
 }
-
-th,td{
-border:1px solid #ccc;
-padding:10px;
-text-align:center;
+td,th{
+  border:1px solid #f4b942;
+  padding:8px 10px;
+  text-align:center;
 }
-
-th{
-background:#ececff;
+th{background:#fff3c4}
+.options{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
+  margin-top:17px;
 }
-
-/* Result */
-
-.result{
-text-align:center;
-}
-
-.score-circle{
-width:170px;
-height:170px;
-margin:25px auto;
-border-radius:50%;
-background:linear-gradient(135deg,#7c3aed,#60a5fa);
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:2.5rem;
-font-weight:bold;
-color:white;
-}
-
-/* Animation */
-
-.star{
-position:fixed;
-font-size:24px;
-pointer-events:none;
-z-index:999;
-animation:fall 2s linear forwards;
-}
-
-@keyframes fall{
-to{
-transform:translateY(100vh) rotate(720deg);
-opacity:0;
-}
-}
-
-.cross{
-position:fixed;
-font-size:28px;
-pointer-events:none;
-z-index:999;
-animation:fadeCross 1s ease forwards;
-}
-
-@keyframes fadeCross{
-to{
-transform:scale(2);
-opacity:0;
-}
-}
-
-@media(max-width:600px){
-
-.question{
-font-size:1rem;
-}
-
 .option{
-font-size:0.95rem;
+  min-height:64px;
+  padding:15px;
+  border-radius:20px;
+  background:#fff;
+  border:3px solid #ffdda1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  cursor:pointer;
+  font-size:17px;
+  font-weight:900;
+  transition:.18s;
+  user-select:none;
 }
-
-.intro h1{
-font-size:1.6rem;
+.option:hover{
+  transform:translateY(-2px);
+  border-color:#fb8500;
+  background:#fff8e6;
 }
-
-button{
-width:100%;
+.option.clicked{box-shadow:0 0 0 4px rgba(251,133,0,.14)}
+.option.correct{
+  background:#dcfff7!important;
+  border-color:#2a9d8f!important;
+  animation:pop .38s;
 }
-
+.option.wrong{
+  background:#ffe1e5!important;
+  border-color:#e63946!important;
+  animation:shake .38s;
 }
-
+@keyframes pop{50%{transform:scale(1.05)}}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.feedback{
+  margin-top:16px;
+  min-height:45px;
+  text-align:center;
+  font-size:19px;
+  font-weight:900;
+}
+.explain{
+  margin-top:10px;
+  padding:13px 15px;
+  border-radius:16px;
+  background:#fff;
+  border-left:8px solid var(--green);
+  line-height:1.45;
+}
+.nextRow{text-align:center;margin-top:12px}
+.confetti{
+  position:fixed;
+  top:-30px;
+  width:13px;
+  height:13px;
+  z-index:999;
+  pointer-events:none;
+  clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  animation:fall 2.4s linear forwards;
+}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
+.resultEmoji{font-size:76px;margin:12px 0}
+@media(max-width:660px){
+  .card{padding:18px;border-radius:24px}
+  .topbar{display:grid;grid-template-columns:1fr 1fr}
+  .badge{text-align:center;font-size:14px}
+  .options{grid-template-columns:1fr}
+  .mission{gap:11px}
+  .icon{width:54px;height:54px;font-size:29px}
+}
 </style>
 </head>
-
 <body>
+<div id="splash"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
 
-<!-- Splash -->
+<span class="floating" style="left:5%;top:18%">2</span>
+<span class="floating" style="left:88%;top:20%;animation-delay:1s">5</span>
+<span class="floating" style="left:9%;top:76%;animation-delay:2s">×</span>
+<span class="floating" style="left:82%;top:73%;animation-delay:3s">÷</span>
+<span class="floating" style="left:50%;top:9%;animation-delay:4s">?</span>
 
-<div id="splash">
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
+<div class="wrap">
+  <section id="intro" class="card center hero">
+    <h1 class="title">Number Quest Arena</h1>
+    <p class="subtitle">Solve real-life number challenges using factors, multiples, divisibility, prime and composite numbers, common factors and common multiples.</p>
+    <div class="instructions">
+      <div class="inst">Tap one option for each mission. No option is selected before your choice.</div>
+      <div class="inst">You get two attempts. After the second wrong attempt, the correct answer is revealed with a reason.</div>
+      <div class="inst">Complete 10 competency-based challenges and check your final score.</div>
+    </div>
+    <button class="btn" onclick="startGame()">Start Number Quest</button>
+  </section>
+
+  <section id="quiz" class="card hidden">
+    <div class="topbar">
+      <div class="badge">⭐ Score: <span id="score">0</span></div>
+      <div class="badge">🎯 Mission: <span id="qno">1</span>/10</div>
+      <div class="badge">⏳ Time: <span id="time">45</span>s</div>
+    </div>
+    <div class="progress"><div id="progressBar"></div></div>
+
+    <div class="mission">
+      <div class="icon" id="sceneIcon">🧩</div>
+      <div>
+        <div class="question" id="questionText"></div>
+        <div id="dataBox" class="dataBox hidden"></div>
+      </div>
+    </div>
+
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <div id="explainBox"></div>
+    <div id="nextRow" class="nextRow hidden"><button class="btn" onclick="nextQuestion()">Next Mission</button></div>
+  </section>
+
+  <section id="result" class="card center hero hidden">
+    <h2>Number Quest Completed!</h2>
+    <div id="resultEmoji" class="resultEmoji">🏆</div>
+    <h1><span id="finalScore">0</span>/10</h1>
+    <p id="resultText" class="subtitle"></p>
+    <button class="btn" onclick="restartGame()">Play Again</button>
+  </section>
 </div>
 
-<!-- App -->
-
-<div class="container hidden" id="app">
-
-<!-- Intro -->
-
-<div id="introScreen" class="intro">
-
-<h1>Playing with Numbers</h1>
-
-<div class="instructions">
-
-<ol>
-<li>Read each question carefully.</li>
-<li>You get one retry for every question.</li>
-<li>Each question has a 45-second timer.</li>
-<li>Correct answer appears after wrong attempts.</li>
-<li>Complete all questions to unlock the final challenge.</li>
-<li>Try to score maximum marks and become the champion.</li>
-</ol>
-
-</div>
-
-<button onclick="startQuiz()">
-Start Challenge
-</button>
-
-</div>
-
-<!-- Quiz -->
-
-<div id="quizScreen" class="hidden">
-
-<div class="topbar">
-
-<div class="box">
-⭐ Score:
-<span id="score">0</span>
-</div>
-
-<div class="box">
-⏳ Time:
-<span id="timer">45</span>s
-</div>
-
-</div>
-
-<div id="questionNumber"></div>
-
-<div class="question" id="questionText"></div>
-
-<div id="tableArea"></div>
-
-<div class="options" id="optionsContainer"></div>
-
-<div class="feedback" id="feedback"></div>
-
-<div class="explanation hidden" id="explanation"></div>
-
-<button id="nextBtn" class="hidden" onclick="nextQuestion()">
-Next Question
-</button>
-
-</div>
-
-<!-- Final Challenge -->
-
-<div id="challengeScreen" class="hidden">
-
-<h1>Final Challenge 🚀</h1>
-
-<div class="question">
-A number is divisible by both 2 and 5. Which number could it be?
-</div>
-
-<div class="options">
-
-<div class="option" onclick="finalChallenge(this,false)">
-45
-</div>
-
-<div class="option" onclick="finalChallenge(this,true)">
-60
-</div>
-
-<div class="option" onclick="finalChallenge(this,false)">
-73
-</div>
-
-<div class="option" onclick="finalChallenge(this,false)">
-91
-</div>
-
-</div>
-
-<div class="feedback" id="challengeFeedback"></div>
-
-<button id="finishBtn" class="hidden" onclick="showResults()">
-Finish Quiz
-</button>
-
-</div>
-
-<!-- Result -->
-
-<div id="resultScreen" class="hidden result">
-
-<h1>🎉 Quiz Completed 🎉</h1>
-
-<div class="score-circle">
-<span id="finalScore"></span>
-</div>
-
-<p id="resultMessage"></p>
-
-<button onclick="location.reload()">
-Play Again
-</button>
-
-</div>
-
-</div>
-
-<!-- Audio -->
-
-<audio id="correctSound" src="assets/correct.mp3"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3"></audio>
-<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
+<audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3" preload="auto"></audio>
 
 <script>
-
-/* Splash */
-
-setTimeout(()=>{
-
-document.getElementById("splash").style.display="none";
-
-document.getElementById("app").classList.remove("hidden");
-
-},5000);
-
-/* Questions */
-
-const questions=[
-
-{
-question:"A bakery packs cupcakes in groups of 2, 3 and 5 without leftovers. Which number could it be?",
-options:["20","25","30","35"],
-answer:"30",
-explanation:"30 is divisible by 2, 3 and 5."
-},
-
-{
-question:"A student writes all factors of 16. Which number is NOT a factor?",
-options:["1","2","8","10"],
-answer:"10",
-explanation:"16 is not divisible by 10."
-}
-
+const questions = [
+  {
+    icon:"🎁",
+    q:"A teacher has 24 pencils and 36 erasers. She wants to make identical prize packs with no item left over. What is the greatest number of packs she can make?",
+    options:["6 packs","8 packs","12 packs","24 packs"],
+    answer:2,
+    exp:"The greatest number that divides both 24 and 36 is 12, so she can make 12 identical packs."
+  },
+  {
+    icon:"🚌",
+    q:"A picnic bus leaves every 15 minutes and a snack van leaves every 20 minutes from the same gate. They leave together at 9:00 a.m. When will they next leave together?",
+    options:["9:30 a.m.","9:40 a.m.","10:00 a.m.","10:20 a.m."],
+    answer:2,
+    exp:"The common multiple of 15 and 20 that comes first is 60 minutes. So they next leave together at 10:00 a.m."
+  },
+  {
+    icon:"📦",
+    q:"A shopkeeper wants to arrange 48 juice boxes equally in rows. Which row arrangement will not leave any box unused?",
+    options:["5 rows","7 rows","8 rows","10 rows"],
+    answer:2,
+    exp:"48 is divisible by 8, so 8 equal rows are possible without any box left over."
+  },
+  {
+    icon:"🏏",
+    q:"A coach forms teams with the same number of players. He has 30 players. Which team size will create teams with no player left out?",
+    options:["4 players in each team","6 players in each team","7 players in each team","8 players in each team"],
+    answer:1,
+    exp:"30 ÷ 6 = 5 teams exactly. The other given team sizes leave players unused."
+  },
+  {
+    icon:"🍪",
+    q:"A baker packs cookies in boxes of 9. Which order can be packed exactly without opening an extra box?",
+    options:["46 cookies","54 cookies","62 cookies","73 cookies"],
+    answer:1,
+    exp:"54 is a multiple of 9 because 9 × 6 = 54."
+  },
+  {
+    icon:"🎨",
+    q:"For an art display, students number posters from 1 to 40. Which poster number should be placed in the section marked 'prime numbers only'?",
+    options:["21","29","33","39"],
+    answer:1,
+    exp:"29 has only two factors: 1 and 29. The others have more than two factors."
+  },
+  {
+    icon:"🪑",
+    q:"A hall has 42 chairs. The helper wants to place them in equal rows with more than 1 chair in each row. Which plan is not possible?",
+    options:["6 rows of 7 chairs","7 rows of 6 chairs","3 rows of 14 chairs","5 rows of 8 chairs"],
+    answer:3,
+    exp:"5 × 8 = 40, not 42, so that plan is not possible."
+  },
+  {
+    icon:"🧃",
+    q:"A juice stall gives one free cup on every number that is divisible by both 2 and 3. Which token wins the free cup?",
+    options:["Token 14","Token 21","Token 24","Token 25"],
+    answer:2,
+    exp:"A number divisible by both 2 and 3 is divisible by 6. 24 is divisible by 6."
+  },
+  {
+    icon:"🏠",
+    q:"Four houses collect bottle caps for recycling. Which house collected a composite number of caps?",
+    data:"<table><tr><th>House</th><th>Caps Collected</th></tr><tr><td>Blue</td><td>17</td></tr><tr><td>Green</td><td>23</td></tr><tr><td>Yellow</td><td>27</td></tr><tr><td>Red</td><td>31</td></tr></table>",
+    options:["Blue House","Green House","Yellow House","Red House"],
+    answer:2,
+    exp:"27 is composite because it has factors other than 1 and itself, such as 3 and 9."
+  },
+  {
+    icon:"🎟️",
+    q:"A school fair gives bonus stickers on stall numbers that are multiples of 4 but not multiples of 8. Which stall gets a bonus sticker?",
+    options:["Stall 12","Stall 16","Stall 24","Stall 32"],
+    answer:0,
+    exp:"12 is a multiple of 4, but it is not a multiple of 8. The others are multiples of 8."
+  }
 ];
 
-/* Variables */
+let order=[], current=0, score=0, attempts=0, locked=false, timer=45, tick=null;
 
-let currentQuestion=0;
-let score=0;
-let timeLeft=45;
-let timer;
-let retryUsed=false;
+const $ = id => document.getElementById(id);
 
-/* Start Quiz */
-
-function startQuiz(){
-
-document.getElementById("introScreen").classList.add("hidden");
-
-document.getElementById("quizScreen").classList.remove("hidden");
-
-loadQuestion();
-
+function shuffle(arr){
+  return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
 }
-
-/* Load Question */
-
+function safePlay(id){
+  const audio=$(id);
+  audio.currentTime=0;
+  audio.play().catch(()=>{});
+}
+function startGame(){
+  order=shuffle([...Array(questions.length).keys()]);
+  current=0; score=0;
+  $("score").textContent=score;
+  $("intro").classList.add("hidden");
+  $("quiz").classList.remove("hidden");
+  loadQuestion();
+}
 function loadQuestion(){
-
-retryUsed=false;
-
-timeLeft=45;
-
-clearInterval(timer);
-
-document.getElementById("timer").innerText=timeLeft;
-
-const q=questions[currentQuestion];
-
-document.getElementById("questionNumber").innerHTML=
-`Question ${currentQuestion+1} of ${questions.length}`;
-
-document.getElementById("questionText").innerHTML=q.question;
-
-document.getElementById("tableArea").innerHTML=q.table || "";
-
-document.getElementById("optionsContainer").innerHTML="";
-
-document.getElementById("feedback").innerHTML="";
-
-document.getElementById("explanation").classList.add("hidden");
-
-document.getElementById("nextBtn").classList.add("hidden");
-
-q.options.forEach(option=>{
-
-const div=document.createElement("div");
-
-div.className="option";
-
-div.innerHTML=option;
-
-div.onclick=()=>checkAnswer(div,option);
-
-document.getElementById("optionsContainer").appendChild(div);
-
-});
-
-timer=setInterval(()=>{
-
-timeLeft--;
-
-document.getElementById("timer").innerText=timeLeft;
-
-if(timeLeft<=0){
-
-clearInterval(timer);
-
-showCorrectAnswer();
-
+  clearInterval(tick);
+  attempts=0; locked=false; timer=45;
+  const q=questions[order[current]];
+  $("qno").textContent=current+1;
+  $("time").textContent=timer;
+  $("sceneIcon").textContent=q.icon;
+  $("questionText").textContent=q.q;
+  $("feedback").innerHTML="";
+  $("explainBox").innerHTML="";
+  $("nextRow").classList.add("hidden");
+  $("progressBar").style.width=(current/questions.length*100)+"%";
+  if(q.data){
+    $("dataBox").innerHTML=q.data;
+    $("dataBox").classList.remove("hidden");
+  }else{
+    $("dataBox").innerHTML="";
+    $("dataBox").classList.add("hidden");
+  }
+  const optionsBox=$("options");
+  optionsBox.innerHTML="";
+  q.options.forEach((txt,i)=>{
+    const opt=document.createElement("div");
+    opt.className="option";
+    opt.textContent=txt;
+    opt.onclick=()=>choose(opt,i);
+    optionsBox.appendChild(opt);
+  });
+  tick=setInterval(()=>{
+    timer--;
+    $("time").textContent=timer;
+    if(timer<=0){
+      clearInterval(tick);
+      reveal("Time is up. The correct answer is shown below.");
+    }
+  },1000);
 }
-
-},1000);
-
+function choose(el,i){
+  if(locked) return;
+  const q=questions[order[current]];
+  el.classList.add("clicked");
+  if(i===q.answer){
+    locked=true;
+    clearInterval(tick);
+    score++;
+    $("score").textContent=score;
+    el.classList.add("correct");
+    $("feedback").textContent="Correct! Number mission solved.";
+    safePlay("correctSound");
+    safePlay("clapSound");
+    confetti();
+    setTimeout(nextQuestion,1400);
+  }else{
+    attempts++;
+    el.classList.add("wrong");
+    safePlay("wrongSound");
+    if(attempts<2){
+      $("feedback").textContent="Try once more. Think about factors, multiples or divisibility.";
+      el.style.pointerEvents="none";
+    }else{
+      reveal("Incorrect after two attempts.");
+    }
+  }
 }
-
-/* Check */
-
-function checkAnswer(element,selected){
-
-const q=questions[currentQuestion];
-
-if(selected===q.answer){
-
-element.classList.add("correct");
-
-score++;
-
-document.getElementById("score").innerText=score;
-
-document.getElementById("feedback").innerHTML="✅ Correct!";
-
-playSound("correctSound");
-
-confetti();
-
-clearInterval(timer);
-
-disableOptions();
-
-document.getElementById("nextBtn").classList.remove("hidden");
-
-}else{
-
-element.classList.add("wrong");
-
-playSound("wrongSound");
-
-showCross();
-
-if(!retryUsed){
-
-retryUsed=true;
-
-document.getElementById("feedback").innerHTML=
-"❌ Try Again! One retry left.";
-
-element.style.pointerEvents="none";
-
-}else{
-
-clearInterval(timer);
-
-showCorrectAnswer();
-
+function reveal(msg){
+  locked=true;
+  clearInterval(tick);
+  const q=questions[order[current]];
+  document.querySelectorAll(".option").forEach((opt,i)=>{
+    opt.style.pointerEvents="none";
+    if(i===q.answer) opt.classList.add("correct");
+  });
+  $("feedback").textContent=msg;
+  $("explainBox").innerHTML=`<div class="explain"><b>Reason:</b> ${q.exp}</div>`;
+  $("nextRow").classList.remove("hidden");
 }
-
-}
-
-}
-
-/* Show Correct */
-
-function showCorrectAnswer(){
-
-const q=questions[currentQuestion];
-
-disableOptions();
-
-document.querySelectorAll(".option").forEach(opt=>{
-
-if(opt.innerHTML===q.answer){
-
-opt.classList.add("correct");
-
-}
-
-});
-
-document.getElementById("feedback").innerHTML=
-`Correct Answer: ${q.answer}`;
-
-const explanation=document.getElementById("explanation");
-
-explanation.innerHTML="💡 "+q.explanation;
-
-explanation.classList.remove("hidden");
-
-document.getElementById("nextBtn").classList.remove("hidden");
-
-}
-
-/* Disable */
-
-function disableOptions(){
-
-document.querySelectorAll(".option").forEach(opt=>{
-
-opt.style.pointerEvents="none";
-
-});
-
-}
-
-/* Next */
-
 function nextQuestion(){
-
-currentQuestion++;
-
-if(currentQuestion<questions.length){
-
-loadQuestion();
-
-}else{
-
-document.getElementById("quizScreen").classList.add("hidden");
-
-document.getElementById("challengeScreen").classList.remove("hidden");
-
+  clearInterval(tick);
+  current++;
+  if(current<questions.length){
+    loadQuestion();
+  }else{
+    showResult();
+  }
 }
-
+function showResult(){
+  $("quiz").classList.add("hidden");
+  $("result").classList.remove("hidden");
+  $("finalScore").textContent=score;
+  if(score>=9){
+    $("resultEmoji").textContent="🏆";
+    $("resultText").textContent="Excellent! You used number properties like a true Number Champion.";
+  }else if(score>=6){
+    $("resultEmoji").textContent="🌟";
+    $("resultText").textContent="Good work! Keep practising factors, multiples and divisibility decisions.";
+  }else{
+    $("resultEmoji").textContent="🧩";
+    $("resultText").textContent="Nice effort! Replay and look carefully for factors, multiples and exact sharing.";
+  }
 }
-
-/* Final */
-
-function finalChallenge(element,correct){
-
-document.querySelectorAll("#challengeScreen .option").forEach(opt=>{
-
-opt.style.pointerEvents="none";
-
-});
-
-if(correct){
-
-element.classList.add("correct");
-
-score++;
-
-document.getElementById("challengeFeedback").innerHTML=
-"🎉 Excellent!";
-
-playSound("correctSound");
-
-playSound("clapSound");
-
-confetti();
-
-}else{
-
-element.classList.add("wrong");
-
-document.getElementById("challengeFeedback").innerHTML=
-"❌ Correct answer is 60.";
-
-playSound("wrongSound");
-
-showCross();
-
+function restartGame(){
+  $("result").classList.add("hidden");
+  $("intro").classList.remove("hidden");
 }
-
-document.getElementById("finishBtn").classList.remove("hidden");
-
-}
-
-/* Result */
-
-function showResults(){
-
-document.getElementById("challengeScreen").classList.add("hidden");
-
-document.getElementById("resultScreen").classList.remove("hidden");
-
-document.getElementById("finalScore").innerText=score+"/3";
-
-let message="";
-
-if(score===3){
-
-message="🌟 Outstanding Work!";
-
-}else if(score>=2){
-
-message="👏 Great Job!";
-
-}else{
-
-message="👍 Keep Practicing!";
-
-}
-
-document.getElementById("resultMessage").innerHTML=message;
-
-}
-
-/* Audio */
-
-function playSound(id){
-
-const sound=document.getElementById(id);
-
-sound.currentTime=0;
-
-sound.play().catch(()=>{});
-
-}
-
-/* Confetti */
-
 function confetti(){
-
-for(let i=0;i<20;i++){
-
-const star=document.createElement("div");
-
-star.className="star";
-
-star.innerHTML="⭐";
-
-star.style.left=Math.random()*100+"vw";
-
-star.style.top="-20px";
-
-document.body.appendChild(star);
-
-setTimeout(()=>{
-
-star.remove();
-
-},2000);
-
+  for(let i=0;i<24;i++){
+    const c=document.createElement("span");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.background=`hsl(${Math.random()*360},90%,55%)`;
+    c.style.animationDuration=(1.8+Math.random()*1.5)+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3300);
+  }
 }
-
-}
-
-/* Cross */
-
-function showCross(){
-
-const cross=document.createElement("div");
-
-cross.className="cross";
-
-cross.innerHTML="❌";
-
-cross.style.left=Math.random()*80+10+"vw";
-
-cross.style.top=Math.random()*60+20+"vh";
-
-document.body.appendChild(cross);
-
-setTimeout(()=>{
-
-cross.remove();
-
-},1000);
-
-}
-
 </script>
-
 </body>
 </html>
-```
