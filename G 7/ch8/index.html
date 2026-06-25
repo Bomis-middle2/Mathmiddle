@@ -1,801 +1,380 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rational Numbers MCQ Challenge</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 7 Rational Numbers - Innovine Game</title>
 <style>
-
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
+:root{
+  --ink:#20304f;
+  --card:#ffffffee;
+  --indigo:#4f46e5;
+  --sky:#38bdf8;
+  --lime:#84cc16;
+  --amber:#f59e0b;
+  --green:#22c55e;
+  --red:#ef4444;
+  --soft:#f8fbff;
 }
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-font-family:Arial,sans-serif;
-min-height:100vh;
-background:linear-gradient(135deg,#eef7ff,#fff3dc);
-color:#203040;
-overflow-x:hidden;
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  min-height:100vh;
+  color:var(--ink);
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at 10% 18%, #fde68a 0 8%, transparent 9%),
+    radial-gradient(circle at 88% 17%, #bfdbfe 0 8%, transparent 9%),
+    radial-gradient(circle at 18% 86%, #bbf7d0 0 9%, transparent 10%),
+    linear-gradient(135deg,#111827 0%,#312e81 48%,#38bdf8 100%);
 }
-
-/* LOGO SCREEN ONLY FOR FIRST 5 SECONDS */
-
-.logo-screen{
-position:fixed;
-inset:0;
-background:#fff;
-z-index:99;
-display:flex;
-align-items:center;
-justify-content:center;
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  opacity:.20;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.7) 0 2px, transparent 2px 70px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.45) 0 2px, transparent 2px 70px);
+  animation:bgMove 40s linear infinite;
 }
-
-.logo-screen img{
-max-width:220px;
-animation:pop 1s ease;
+@keyframes bgMove{to{transform:translate(-140px,-140px)}}
+#splash{
+  position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,#ffffff,#eef7ff);
+  animation:splashFade .8s forwards; animation-delay:5s;
 }
-
-@keyframes pop{
-from{
-opacity:0;
-transform:scale(.7);
+#splash img{width:230px; max-width:78%; animation:logoPulse 1.4s ease-in-out infinite alternate}
+@keyframes logoPulse{from{transform:scale(.95)}to{transform:scale(1.05)}}
+@keyframes splashFade{to{opacity:0;visibility:hidden}}
+.float{
+  position:fixed; z-index:-1; pointer-events:none; color:#fff; opacity:.26;
+  font-size:38px; font-weight:900; animation:floaty 8s ease-in-out infinite;
 }
-to{
-opacity:1;
-transform:scale(1);
+@keyframes floaty{50%{transform:translateY(-28px) rotate(8deg)}}
+.wrap{width:min(980px,94%);margin:0 auto;padding:24px 0}
+.card{
+  margin-top:24px; padding:26px; border-radius:30px; background:var(--card);
+  border:2px solid rgba(255,255,255,.65); box-shadow:0 22px 60px rgba(2,8,23,.32);
+  backdrop-filter:blur(12px);
 }
+.center{text-align:center}.hidden{display:none!important}
+.hero{min-height:430px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px}
+.title{font-size:clamp(31px,6vw,54px); line-height:1.05; color:#1e1b4b}
+.subtitle{max-width:760px; font-size:clamp(16px,3vw,20px); line-height:1.55}
+.instructions{display:grid; gap:11px; width:min(720px,100%); margin:14px auto 8px; text-align:left}
+.inst{padding:13px 15px; border-radius:16px; background:#f8fbff; border-left:8px solid var(--indigo); line-height:1.45; font-size:17px}
+.btn{
+  border:0; border-radius:17px; padding:14px 25px; font-size:17px; font-weight:900; cursor:pointer;
+  color:white; background:linear-gradient(135deg,var(--indigo),var(--sky));
+  box-shadow:0 12px 24px rgba(79,70,229,.28); transition:.2s;
 }
-
-/* FLOATING STARS */
-
-.bg span{
-position:fixed;
-color:rgba(255,180,0,.35);
-z-index:-1;
-animation:float 10s linear infinite;
-}
-
-@keyframes float{
-from{
-transform:translateY(100vh) rotate(0);
-}
-to{
-transform:translateY(-10vh) rotate(360deg);
-}
-}
-
-/* CONTAINER */
-
-.container{
-width:min(92%,780px);
-margin:28px auto;
-background:rgba(255,255,255,.94);
-border-radius:24px;
-padding:24px;
-box-shadow:0 10px 28px rgba(0,0,0,.12);
-}
-
-/* HEADER */
-
-.header{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-margin-bottom:18px;
-flex-wrap:wrap;
-}
-
-/* BADGES */
-
+.btn:hover{transform:translateY(-2px) scale(1.02)}
+.topbar{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:18px}
 .badge{
-background:#e8f2ff;
-padding:8px 12px;
-border-radius:18px;
-font-weight:bold;
+  padding:10px 14px; border-radius:16px; background:#fff; border:3px solid #dbeafe;
+  box-shadow:0 8px 16px rgba(32,48,79,.08); font-weight:900;
 }
-
-/* TEXT */
-
-h1,h2{
-text-align:center;
-margin-bottom:14px;
+.progress{height:15px; background:#e0e7ff; border-radius:100px; overflow:hidden; margin-bottom:18px}
+#progressBar{height:100%; width:0; background:linear-gradient(90deg,var(--lime),var(--sky),var(--indigo)); transition:.35s}
+.mission{
+  background:linear-gradient(135deg,#fff,#f5f8ff); border:3px dashed var(--indigo); border-radius:24px;
+  padding:16px; display:flex; gap:15px; align-items:flex-start; margin-bottom:16px;
 }
-
-p{
-line-height:1.5;
+.icon{
+  width:68px; height:68px; border-radius:21px; display:grid; place-items:center; font-size:36px;
+  background:linear-gradient(135deg,#bfdbfe,#fde68a); box-shadow:inset 0 0 0 4px white; flex:0 0 auto;
 }
-
-/* BUTTONS */
-
-button{
-border:0;
-background:#3478f6;
-color:white;
-padding:13px 18px;
-border-radius:14px;
-font-size:16px;
-cursor:pointer;
-margin-top:14px;
-transition:.2s;
+.question{font-size:clamp(18px,3vw,22px); font-weight:900; line-height:1.55}
+.infoBox{
+  margin-top:12px; background:#fff; border:2px solid #dbeafe; border-radius:17px;
+  padding:12px; line-height:1.55; overflow-x:auto;
 }
-
-button:hover{
-background:#245ed0;
-transform:translateY(-1px);
+table{border-collapse:collapse;width:100%;min-width:390px}
+td,th{border:1px solid #bfdbfe;padding:8px 10px;text-align:center}
+th{background:#eff6ff}
+.options{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; margin-top:17px}
+.option{
+  min-height:64px; padding:15px; border-radius:20px; background:#fff; border:3px solid #dbeafe;
+  display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer;
+  font-size:17px; font-weight:900; transition:.18s; user-select:none;
 }
-
-/* OPTIONS */
-
-.options button{
-width:100%;
-display:block;
-background:#fff;
-color:#203040;
-border:2px solid #dbe7ff;
-margin:10px 0;
-text-align:left;
-}
-
-.options button:hover{
-background:#edf5ff;
-}
-
-/* ANSWER STATES */
-
-.correct{
-background:#dcf8dc !important;
-border-color:#36b24a !important;
-}
-
-.wrong{
-background:#ffe1e1 !important;
-border-color:#e23b3b !important;
-}
-
-/* FEEDBACK */
-
-.message{
-min-height:50px;
-text-align:center;
-font-weight:bold;
-margin-top:10px;
-}
-
-/* CROSS */
-
-.cross{
-font-size:42px;
-color:#e23b3b;
-animation:shake .3s;
-}
-
-@keyframes shake{
-0%,100%{
-transform:translateX(0);
-}
-25%{
-transform:translateX(-6px);
-}
-75%{
-transform:translateX(6px);
-}
-}
-
-/* CONFETTI */
-
+.option:hover{transform:translateY(-2px); border-color:var(--indigo); background:#f8fbff}
+.option.clicked{box-shadow:0 0 0 4px rgba(79,70,229,.14)}
+.option.correct{background:#dcfff0!important; border-color:var(--green)!important; animation:pop .38s}
+.option.wrong{background:#ffe1e1!important; border-color:var(--red)!important; animation:shake .38s}
+@keyframes pop{50%{transform:scale(1.05)}}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.feedback{margin-top:16px; min-height:45px; text-align:center; font-size:19px; font-weight:900}
+.explain{margin-top:10px; padding:13px 15px; border-radius:16px; background:#f8fbff; border-left:8px solid var(--sky); line-height:1.45}
+.nextRow{text-align:center;margin-top:12px}
 .confetti{
-position:fixed;
-top:-20px;
-font-size:22px;
-pointer-events:none;
-animation:fall 1.4s linear forwards;
+  position:fixed; top:-30px; width:13px; height:13px; z-index:999; pointer-events:none;
+  clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  animation:fall 2.4s linear forwards;
 }
-
-@keyframes fall{
-to{
-transform:translateY(100vh) rotate(360deg);
-opacity:0;
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
+.resultEmoji{font-size:76px;margin:12px 0}
+@media(max-width:660px){
+  .card{padding:18px;border-radius:24px}
+  .topbar{display:grid;grid-template-columns:1fr 1fr}
+  .badge{text-align:center;font-size:14px}
+  .options{grid-template-columns:1fr}
+  .mission{gap:11px}.icon{width:56px;height:56px;font-size:30px}
 }
-}
-
-/* HIDDEN */
-
-.hidden{
-display:none;
-}
-
-/* FINAL BOX */
-
-.final-box{
-background:#fff2c7;
-border:2px dashed #f0b400;
-padding:18px;
-border-radius:18px;
-margin:12px 0;
-}
-
-/* MOBILE */
-
-@media(max-width:520px){
-
-.container{
-padding:18px;
-margin:16px auto;
-}
-
-.header{
-flex-direction:column;
-}
-
-h1{
-font-size:24px;
-}
-
-}
-
 </style>
 </head>
-
 <body>
+<div id="splash"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
 
-<!-- LOGO ONLY ON FIRST SCREEN -->
+<span class="float" style="left:5%;top:18%">−½</span>
+<span class="float" style="left:86%;top:20%;animation-delay:1s">¾</span>
+<span class="float" style="left:9%;top:76%;animation-delay:2s">0.25</span>
+<span class="float" style="left:82%;top:73%;animation-delay:3s">−2</span>
 
-<div class="logo-screen" id="logoScreen">
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
+<div class="wrap">
+  <section id="intro" class="card center hero">
+    <h1 class="title">Rational Number Quest</h1>
+    <p class="subtitle">Use rational numbers to solve real-life situations involving temperature, money, distance, sharing, comparison and movement on a number line.</p>
+    <div class="instructions">
+      <div class="inst">Tap one answer for each situation. No answer is selected before you choose.</div>
+      <div class="inst">You get two attempts. After the second wrong attempt, the correct answer is revealed with a short reason.</div>
+      <div class="inst">Complete 10 competency-based missions and check your final score.</div>
+    </div>
+    <button class="btn" onclick="startGame()">Start Rational Quest</button>
+  </section>
+
+  <section id="quiz" class="card hidden">
+    <div class="topbar">
+      <div class="badge">⭐ Score: <span id="score">0</span></div>
+      <div class="badge">🧭 Mission: <span id="qno">1</span>/10</div>
+      <div class="badge">⏳ Time: <span id="time">45</span>s</div>
+    </div>
+    <div class="progress"><div id="progressBar"></div></div>
+
+    <div class="mission">
+      <div class="icon" id="sceneIcon">🧭</div>
+      <div>
+        <div class="question" id="questionText"></div>
+        <div id="infoBox" class="infoBox hidden"></div>
+      </div>
+    </div>
+
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <div id="explainBox"></div>
+    <div id="nextRow" class="nextRow hidden"><button class="btn" onclick="nextQuestion()">Next Mission</button></div>
+  </section>
+
+  <section id="result" class="card center hero hidden">
+    <h2>Rational Quest Completed!</h2>
+    <div id="resultEmoji" class="resultEmoji">🏆</div>
+    <h1><span id="finalScore">0</span>/10</h1>
+    <p id="resultText" class="subtitle"></p>
+    <button class="btn" onclick="restartGame()">Play Again</button>
+  </section>
 </div>
 
-<!-- BACKGROUND -->
-
-<div class="bg" id="bg"></div>
-
-<!-- AUDIO -->
-
-<audio id="correctSound" src="assets/correct.mp3"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3"></audio>
-<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
-
-<!-- MAIN CONTAINER -->
-
-<div class="container">
-
-<!-- HEADER WITHOUT LOGO/TITLE -->
-
-<div class="header">
-
-<div class="badge">
-⭐ Score:
-<span id="score">0</span>
-</div>
-
-<div class="badge">
-⏳ Time:
-<span id="timer">45</span>s
-</div>
-
-</div>
-
-<!-- INTRO -->
-
-<section id="intro">
-
-<h1>Rational Numbers Quest</h1>
-
-<p>
-Welcome, number explorer! Solve questions on rational numbers, fractions, equivalent forms, signs and identities.
-</p>
-
-<br>
-
-<p>
-✔ 45 seconds for each question<br>
-✔ One retry after first wrong attempt<br>
-✔ Final bonus challenge included
-</p>
-
-<button onclick="startGame()">
-Start Challenge
-</button>
-
-</section>
-
-<!-- QUIZ -->
-
-<section id="quiz" class="hidden">
-
-<h2 id="qTitle"></h2>
-
-<p id="question"></p>
-
-<div class="options" id="options"></div>
-
-<div class="message" id="message"></div>
-
-</section>
-
-<!-- FINAL CHALLENGE -->
-
-<section id="finalChallenge" class="hidden">
-
-<h2>🏆 Final Challenge</h2>
-
-<div class="final-box">
-Which rational number is the additive identity?
-</div>
-
-<div class="options" id="finalOptions"></div>
-
-<div class="message" id="finalMessage"></div>
-
-</section>
-
-<!-- RESULT -->
-
-<section id="result" class="hidden">
-
-<h1>🎉 Challenge Complete!</h1>
-
-<h2>
-Your Final Score:
-<span id="finalScore"></span>
-</h2>
-
-<p id="resultText"></p>
-
-<button onclick="location.reload()">
-Play Again
-</button>
-
-</section>
-
-</div>
+<audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3" preload="auto"></audio>
 
 <script>
-
-/* REMOVE LOGO AFTER 5 SECONDS */
-
-setTimeout(()=>{
-document.getElementById("logoScreen").style.display="none";
-},5000);
-
-/* QUESTIONS */
-
-const questions=[
-
-{
-q:"A lift goes down 3/4 of a floor every second. Which rational number represents this movement?",
-o:["3/4","−3/4","4/3","−4/3"],
-a:1,
-e:"Going down is represented by a negative number."
-},
-
-{
-q:"Riya drank 2/5 litre of juice in the morning and 1/5 litre in the evening. How much juice did she drink in all?",
-o:["1/5 litre","2/10 litre","3/5 litre","3/10 litre"],
-a:2,
-e:"2/5 + 1/5 = 3/5 litre."
-},
-
-{
-q:"A submarine is at −7/8 km below sea level. Which statement is correct?",
-o:["It is above sea level.","It is below sea level.","It is at sea level.","It cannot be represented by a rational number."],
-a:1,
-e:"Negative value means below sea level."
-},
-
-{
-q:"A recipe needs 3/4 cup of milk. Meera makes 1/2 of the recipe. How much milk is needed?",
-o:["3/8 cup","3/4 cup","1/4 cup","2/3 cup"],
-a:0,
-e:"1/2 × 3/4 = 3/8 cup."
-},
-
-{
-q:"A shopkeeper gives a discount of 1/5 of the marked price. What fraction of the marked price is paid?",
-o:["1/5","4/5","5/4","6/5"],
-a:1,
-e:"Paid fraction = 1 − 1/5 = 4/5."
-},
-
-{
-q:"Which rational number lies between −1/2 and 1/2?",
-o:["−3/4","2/3","1/3","−5/6"],
-a:2,
-e:"1/3 lies between −1/2 and 1/2."
-},
-
-{
-q:"Assertion: Every integer is a rational number. Reason: Every integer can be written in the form p/q where q ≠ 0.",
-o:[
-"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
-"Both Assertion and Reason are true, but Reason does not explain Assertion.",
-"Assertion is true, but Reason is false.",
-"Assertion is false, but Reason is true."
-],
-a:0,
-e:"Every integer can be written as n/1."
-},
-
-{
-q:"Assertion: 0 is neither positive nor negative. Reason: 0 has no sign.",
-o:[
-"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
-"Both Assertion and Reason are true, but Reason does not explain Assertion.",
-"Assertion is true, but Reason is false.",
-"Assertion is false, but Reason is true."
-],
-a:0,
-e:"0 is neither positive nor negative."
-},
-
-{
-q:"Assertion: 5/7 and 15/21 are equivalent rational numbers. Reason: Multiplying numerator and denominator by same non-zero number gives equivalent rational numbers.",
-o:[
-"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
-"Both Assertion and Reason are true, but Reason does not explain Assertion.",
-"Assertion is true, but Reason is false.",
-"Assertion is false, but Reason is true."
-],
-a:0,
-e:"5/7 × 3/3 = 15/21."
-},
-
-{
-q:"Assertion: 1 is the additive identity of rational numbers. Reason: Adding 1 to any rational number gives the same number.",
-o:[
-"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
-"Both Assertion and Reason are true, but Reason does not explain Assertion.",
-"Assertion is true, but Reason is false.",
-"Assertion is false, but Reason is true."
-],
-a:3,
-e:"0 is the additive identity."
-},
-
-{
-q:"Assertion: −3/4 is a negative rational number. Reason: A rational number is negative when numerator and denominator have opposite signs.",
-o:[
-"Both Assertion and Reason are true, and Reason correctly explains Assertion.",
-"Both Assertion and Reason are true, but Reason does not explain Assertion.",
-"Assertion is true, but Reason is false.",
-"Assertion is false, but Reason is true."
-],
-a:0,
-e:"−3/4 has opposite signs."
-}
-
+const questions = [
+  {
+    icon:"🌡️",
+    q:"At 6 a.m., the temperature in a hill station was −3°C. By noon, it increased by 7°C. What was the temperature at noon?",
+    options:["−10°C","−4°C","4°C","10°C"],
+    answer:2,
+    exp:"−3 + 7 = 4, so the noon temperature was 4°C."
+  },
+  {
+    icon:"🍕",
+    q:"Four friends share pizzas. They finish 2½ pizzas in total. If each friend eats the same amount, how much pizza does each friend eat?",
+    options:["1/2 pizza","5/8 pizza","3/4 pizza","2/5 pizza"],
+    answer:1,
+    exp:"2½ = 5/2. Dividing by 4 gives 5/2 × 1/4 = 5/8 pizza."
+  },
+  {
+    icon:"🏦",
+    q:"A student has ₹150 in a wallet app. He spends ₹220 on books. Which rational number best represents his balance in rupees?",
+    options:["₹70","−₹70","₹370","−₹370"],
+    answer:1,
+    exp:"150 − 220 = −70. A negative balance means he owes ₹70."
+  },
+  {
+    icon:"🚶",
+    q:"On a number-line game, Anaya starts at −1/2. She moves 3/4 unit to the right. Where does she land?",
+    options:["−5/4","−1/4","1/4","5/4"],
+    answer:2,
+    exp:"−1/2 + 3/4 = −2/4 + 3/4 = 1/4."
+  },
+  {
+    icon:"🥛",
+    q:"A recipe uses 3/4 litre of milk. Rohan has only 1/2 litre. How much more milk does he need?",
+    options:["1/4 litre","1/2 litre","5/4 litres","1/8 litre"],
+    answer:0,
+    exp:"3/4 − 1/2 = 3/4 − 2/4 = 1/4 litre."
+  },
+  {
+    icon:"📏",
+    q:"A ribbon strip of length 5/6 metre is cut from a longer strip. Then another 1/3 metre is cut. What total length has been cut?",
+    options:["1/2 metre","7/6 metres","1 metre","2/9 metre"],
+    answer:1,
+    exp:"5/6 + 1/3 = 5/6 + 2/6 = 7/6 metres."
+  },
+  {
+    icon:"📊",
+    q:"Four students record their quiz score changes compared to last week. Who improved the most?",
+    info:"<table><tr><th>Student</th><th>Change in Score</th></tr><tr><td>Arya</td><td>+3/4</td></tr><tr><td>Dev</td><td>+1/2</td></tr><tr><td>Mira</td><td>−1/4</td></tr><tr><td>Kabir</td><td>+2/3</td></tr></table>",
+    options:["Arya","Dev","Mira","Kabir"],
+    answer:0,
+    exp:"+3/4 is greater than +2/3 and +1/2, so Arya improved the most."
+  },
+  {
+    icon:"🧃",
+    q:"A juice bottle is 3/5 full. After pouring some juice, it becomes 1/5 full. What fraction of the bottle was poured out?",
+    options:["1/5","2/5","3/5","4/5"],
+    answer:1,
+    exp:"3/5 − 1/5 = 2/5 of the bottle was poured out."
+  },
+  {
+    icon:"🧗",
+    q:"A climber is at −2.5 m relative to a checkpoint. He climbs up 1.75 m. What is his new position?",
+    options:["−4.25 m","−0.75 m","0.75 m","4.25 m"],
+    answer:1,
+    exp:"−2.5 + 1.75 = −0.75 m."
+  },
+  {
+    icon:"🛒",
+    q:"A shopkeeper records profit and loss using rational numbers. Which entry shows the greatest loss?",
+    info:"<table><tr><th>Item</th><th>Entry</th></tr><tr><td>Notebook</td><td>−1/2</td></tr><tr><td>Pen Set</td><td>−3/4</td></tr><tr><td>Folder</td><td>+1/4</td></tr><tr><td>Marker</td><td>−1/3</td></tr></table>",
+    options:["Notebook","Pen Set","Folder","Marker"],
+    answer:1,
+    exp:"The greatest loss is the most negative value. −3/4 is less than −1/2 and −1/3."
+  }
 ];
 
-/* VARIABLES */
+let order=[], current=0, score=0, attempts=0, locked=false, timer=45, tick=null;
+const $=id=>document.getElementById(id);
 
-let index=0;
-let score=0;
-let time=45;
-let timer;
-let attempt=0;
-
-/* START */
-
+function shuffle(arr){return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);}
+function safePlay(id){const a=$(id); a.currentTime=0; a.play().catch(()=>{});}
 function startGame(){
-
-intro.classList.add("hidden");
-
-quiz.classList.remove("hidden");
-
-loadQuestion();
-
+  order=shuffle([...Array(questions.length).keys()]);
+  current=0; score=0;
+  $("score").textContent=score;
+  $("intro").classList.add("hidden");
+  $("quiz").classList.remove("hidden");
+  loadQuestion();
 }
-
-/* LOAD QUESTION */
-
 function loadQuestion(){
-
-attempt=0;
-
-time=45;
-
-updateTimer();
-
-clearInterval(timer);
-
-timer=setInterval(()=>{
-
-time--;
-
-updateTimer();
-
-if(time<=0){
-
-showCorrectAnswer();
-
+  clearInterval(tick);
+  attempts=0; locked=false; timer=45;
+  const q=questions[order[current]];
+  $("qno").textContent=current+1;
+  $("time").textContent=timer;
+  $("sceneIcon").textContent=q.icon;
+  $("questionText").textContent=q.q;
+  $("feedback").innerHTML="";
+  $("explainBox").innerHTML="";
+  $("nextRow").classList.add("hidden");
+  $("progressBar").style.width=(current/questions.length*100)+"%";
+  if(q.info){
+    $("infoBox").innerHTML=q.info;
+    $("infoBox").classList.remove("hidden");
+  }else{
+    $("infoBox").innerHTML="";
+    $("infoBox").classList.add("hidden");
+  }
+  const box=$("options");
+  box.innerHTML="";
+  q.options.forEach((txt,i)=>{
+    const opt=document.createElement("div");
+    opt.className="option";
+    opt.textContent=txt;
+    opt.onclick=()=>choose(opt,i);
+    box.appendChild(opt);
+  });
+  tick=setInterval(()=>{
+    timer--;
+    $("time").textContent=timer;
+    if(timer<=0){
+      clearInterval(tick);
+      reveal("Time is up. The correct answer is shown below.");
+    }
+  },1000);
 }
-
-},1000);
-
-const item=questions[index];
-
-qTitle.textContent=
-"Question "+(index+1)+" of "+questions.length;
-
-question.textContent=item.q;
-
-message.textContent="";
-
-options.innerHTML="";
-
-item.o.forEach((opt,i)=>{
-
-const btn=document.createElement("button");
-
-btn.textContent=
-String.fromCharCode(65+i)+". "+opt;
-
-btn.onclick=()=>checkAnswer(i,btn);
-
-options.appendChild(btn);
-
-});
-
+function choose(el,i){
+  if(locked) return;
+  const q=questions[order[current]];
+  el.classList.add("clicked");
+  if(i===q.answer){
+    locked=true; clearInterval(tick); score++;
+    $("score").textContent=score;
+    el.classList.add("correct");
+    $("feedback").textContent="Correct! Rational mission solved.";
+    safePlay("correctSound"); safePlay("clapSound"); confetti();
+    setTimeout(nextQuestion,1400);
+  }else{
+    attempts++;
+    el.classList.add("wrong");
+    safePlay("wrongSound");
+    if(attempts<2){
+      $("feedback").textContent="Try once more. Think about the direction, sign or fraction operation.";
+      el.style.pointerEvents="none";
+    }else{
+      reveal("Incorrect after two attempts.");
+    }
+  }
 }
-
-/* TIMER */
-
-function updateTimer(){
-
-document.getElementById("timer").textContent=time;
-
+function reveal(msg){
+  locked=true; clearInterval(tick);
+  const q=questions[order[current]];
+  document.querySelectorAll(".option").forEach((opt,i)=>{
+    opt.style.pointerEvents="none";
+    if(i===q.answer) opt.classList.add("correct");
+  });
+  $("feedback").textContent=msg;
+  $("explainBox").innerHTML=`<div class="explain"><b>Reason:</b> ${q.exp}</div>`;
+  $("nextRow").classList.remove("hidden");
 }
-
-/* CHECK ANSWER */
-
-function checkAnswer(choice,btn){
-
-const item=questions[index];
-
-if(choice===item.a){
-
-score++;
-
-document.getElementById("score").textContent=score;
-
-btn.classList.add("correct");
-
-message.textContent="Correct! Great work!";
-
-playSound("correctSound");
-
-makeConfetti();
-
-goNext();
-
-}else{
-
-attempt++;
-
-btn.classList.add("wrong");
-
-playSound("wrongSound");
-
-message.innerHTML='<div class="cross">✖</div>';
-
-if(attempt===1){
-
-setTimeout(()=>{
-message.textContent="Try once more!";
-},600);
-
-btn.disabled=true;
-
-}else{
-
-showCorrectAnswer();
-
+function nextQuestion(){
+  clearInterval(tick);
+  current++;
+  if(current<questions.length) loadQuestion(); else showResult();
 }
-
-}
-
-}
-
-/* SHOW CORRECT */
-
-function showCorrectAnswer(){
-
-clearInterval(timer);
-
-const item=questions[index];
-
-message.textContent=
-"Correct answer: "+
-item.o[item.a]+". "+item.e;
-
-[...options.children].forEach((b,i)=>{
-
-b.disabled=true;
-
-if(i===item.a){
-
-b.classList.add("correct");
-
-}
-
-});
-
-goNext();
-
-}
-
-/* NEXT */
-
-function goNext(){
-
-clearInterval(timer);
-
-setTimeout(()=>{
-
-index++;
-
-if(index<questions.length){
-
-loadQuestion();
-
-}else{
-
-showFinalChallenge();
-
-}
-
-},2400);
-
-}
-
-/* FINAL CHALLENGE */
-
-function showFinalChallenge(){
-
-quiz.classList.add("hidden");
-
-finalChallenge.classList.remove("hidden");
-
-document.getElementById("timer").textContent="--";
-
-const opts=[
-"1",
-"0",
-"−1",
-"1/2"
-];
-
-finalOptions.innerHTML="";
-
-opts.forEach((op,i)=>{
-
-const b=document.createElement("button");
-
-b.textContent=
-String.fromCharCode(65+i)+". "+op;
-
-b.onclick=()=>{
-
-[...finalOptions.children].forEach(x=>x.disabled=true);
-
-if(i===1){
-
-score+=2;
-
-document.getElementById("score").textContent=score;
-
-b.classList.add("correct");
-
-finalMessage.textContent=
-"Excellent! 0 is the additive identity because a + 0 = a.";
-
-playSound("clapSound");
-
-makeConfetti();
-
-}else{
-
-b.classList.add("wrong");
-
-finalMessage.textContent=
-"Correct answer: 0.";
-
-playSound("wrongSound");
-
-}
-
-setTimeout(showResult,2600);
-
-};
-
-finalOptions.appendChild(b);
-
-});
-
-}
-
-/* RESULT */
-
 function showResult(){
-
-finalChallenge.classList.add("hidden");
-
-result.classList.remove("hidden");
-
-finalScore.textContent=score+" / 13";
-
-resultText.textContent=
-score>=10
-?"Amazing! You are a Rational Numbers Star!"
-:"Good effort! Revise rational numbers and try again.";
-
+  $("quiz").classList.add("hidden");
+  $("result").classList.remove("hidden");
+  $("finalScore").textContent=score;
+  if(score>=9){
+    $("resultEmoji").textContent="🏆";
+    $("resultText").textContent="Excellent! You used rational numbers confidently in real-life situations.";
+  }else if(score>=6){
+    $("resultEmoji").textContent="🌟";
+    $("resultText").textContent="Good work! Keep practising signs, comparison and fraction operations.";
+  }else{
+    $("resultEmoji").textContent="🧭";
+    $("resultText").textContent="Nice effort! Replay and focus on whether the value increases, decreases or is shared.";
+  }
 }
-
-/* AUDIO */
-
-function playSound(id){
-
-const audio=document.getElementById(id);
-
-audio.currentTime=0;
-
-audio.play().catch(()=>{});
-
+function restartGame(){
+  $("result").classList.add("hidden");
+  $("intro").classList.remove("hidden");
 }
-
-/* CONFETTI */
-
-function makeConfetti(){
-
-for(let i=0;i<18;i++){
-
-const s=document.createElement("div");
-
-s.className="confetti";
-
-s.textContent="★";
-
-s.style.left=Math.random()*100+"vw";
-
-s.style.color=
-["#ffbf00","#58c7ff","#ff6b9a","#72d572"]
-[Math.floor(Math.random()*4)];
-
-document.body.appendChild(s);
-
-setTimeout(()=>{
-s.remove();
-},1500);
-
+function confetti(){
+  for(let i=0;i<24;i++){
+    const c=document.createElement("span");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.background=`hsl(${Math.random()*360},90%,58%)`;
+    c.style.animationDuration=(1.8+Math.random()*1.5)+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3300);
+  }
 }
-
-}
-
-/* FLOATING STARS */
-
-for(let i=0;i<26;i++){
-
-const star=document.createElement("span");
-
-star.textContent=i%2?"★":"✦";
-
-star.style.left=Math.random()*100+"vw";
-
-star.style.fontSize=
-(14+Math.random()*20)+"px";
-
-star.style.animationDelay=
-Math.random()*8+"s";
-
-bg.appendChild(star);
-
-}
-
 </script>
-
 </body>
 </html>
-```
