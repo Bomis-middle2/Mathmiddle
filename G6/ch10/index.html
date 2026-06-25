@@ -1,738 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Interactive Challenge</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 6 Perimeter and Area Mission</title>
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
+:root{
+  --ink:#182033;--card:#ffffffee;--blue:#2477ff;--deep:#18356b;--green:#17a673;--red:#e74b4b;--gold:#ffbd3b;--soft:#eef6ff;
 }
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-background:linear-gradient(135deg,#dff6ff,#fff7ed,#f3e8ff);
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-padding:15px;
-overflow-x:hidden;
-position:relative;
+  min-height:100vh;font-family:Arial,Helvetica,sans-serif;color:var(--ink);overflow-x:hidden;
+  background:linear-gradient(135deg,#dff7ff 0%,#eaf1ff 35%,#fff4dc 70%,#f5e9ff 100%);
 }
-
-/* Background Glow */
-
-body::before{
-content:"";
-position:absolute;
-width:300px;
-height:300px;
-background:#c084fc;
-border-radius:50%;
-filter:blur(120px);
-top:-80px;
-left:-80px;
-opacity:0.3;
-}
-
-body::after{
-content:"";
-position:absolute;
-width:300px;
-height:300px;
-background:#60a5fa;
-border-radius:50%;
-filter:blur(120px);
-bottom:-80px;
-right:-80px;
-opacity:0.3;
-}
-
-/* Main Container */
-
-.container{
-width:100%;
-max-width:900px;
-background:white;
-border-radius:25px;
-padding:25px;
-box-shadow:0 10px 30px rgba(0,0,0,0.15);
-position:relative;
-z-index:2;
-}
-
-/* Hidden */
-
-.hidden{
-display:none;
-}
-
-/* Splash Screen */
-
-#splash{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:white;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
-}
-
-#splash img{
-width:180px;
-animation:pulse 2s infinite;
-}
-
-@keyframes pulse{
-0%{transform:scale(1);}
-50%{transform:scale(1.08);}
-100%{transform:scale(1);}
-}
-
-/* Intro */
-
-.intro{
-text-align:center;
-}
-
-.intro h1{
-font-size:2rem;
-color:#6d28d9;
-margin-bottom:20px;
-}
-
-.instructions{
-background:#f8f4ff;
-padding:25px;
-border-radius:18px;
-line-height:1.9;
-margin-top:20px;
-color:#444;
-font-size:1rem;
-text-align:left;
-max-width:650px;
-margin-left:auto;
-margin-right:auto;
-}
-
-.instructions ol{
-padding-left:22px;
-}
-
-.instructions li{
-margin-bottom:10px;
-}
-
-/* Buttons */
-
-button{
-padding:14px 28px;
-border:none;
-border-radius:14px;
-background:#6d28d9;
-color:white;
-font-size:1rem;
-cursor:pointer;
-margin-top:25px;
-transition:0.3s;
-}
-
-button:hover{
-transform:scale(1.04);
-background:#5b21b6;
-}
-
-/* Quiz */
-
-.topbar{
-display:flex;
-justify-content:space-between;
-gap:10px;
-flex-wrap:wrap;
-margin-bottom:20px;
-}
-
-.box{
-background:#f3f4ff;
-padding:12px 18px;
-border-radius:14px;
-font-weight:bold;
-}
-
-.question-number{
-color:#777;
-margin-bottom:10px;
-}
-
-.question{
-font-size:1.2rem;
-font-weight:bold;
-line-height:1.6;
-color:#222;
-}
-
-.options{
-display:grid;
-gap:14px;
-margin-top:25px;
-}
-
-.option{
-padding:15px;
-background:#f8f8ff;
-border-radius:15px;
-cursor:pointer;
-transition:0.3s;
-border:2px solid transparent;
-}
-
-.option:hover{
-transform:translateY(-2px);
-background:#ececff;
-}
-
-.correct{
-background:#d1fae5 !important;
-border-color:#16a34a !important;
-}
-
-.wrong{
-background:#fee2e2 !important;
-border-color:#dc2626 !important;
-}
-
-.feedback{
-margin-top:18px;
-font-weight:bold;
-min-height:30px;
-}
-
-.explanation{
-margin-top:15px;
-background:#f5f5f5;
-padding:15px;
-border-radius:14px;
-line-height:1.6;
-}
-
-/* Final Page */
-
-.final-page{
-text-align:center;
-padding:20px;
-}
-
-.final-page h1{
-font-size:2.4rem;
-color:#6d28d9;
-margin-bottom:20px;
-}
-
-.score-circle{
-width:170px;
-height:170px;
-border-radius:50%;
-background:linear-gradient(135deg,#7c3aed,#60a5fa);
-margin:25px auto;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:2.5rem;
-font-weight:bold;
-color:white;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-}
-
-.final-message{
-font-size:1.1rem;
-line-height:1.8;
-color:#444;
-}
-
-/* Table */
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
-}
-
-th,td{
-border:1px solid #ccc;
-padding:10px;
-text-align:center;
-}
-
-th{
-background:#ececff;
-}
-
-/* Stars */
-
-.star{
-position:fixed;
-font-size:24px;
-animation:fall 2s linear forwards;
-pointer-events:none;
-z-index:999;
-}
-
-@keyframes fall{
-0%{
-transform:translateY(-20px) rotate(0deg);
-opacity:1;
-}
-100%{
-transform:translateY(100vh) rotate(720deg);
-opacity:0;
-}
-}
-
-/* Responsive */
-
-@media(max-width:768px){
-
-.container{
-padding:20px;
-}
-
-.question{
-font-size:1.05rem;
-}
-
-button{
-width:100%;
-}
-
-.score-circle{
-width:140px;
-height:140px;
-font-size:2rem;
-}
-
-}
-
+body:before{content:"";position:fixed;inset:0;z-index:-2;background-image:radial-gradient(circle at 20% 20%,rgba(36,119,255,.18),transparent 24%),radial-gradient(circle at 80% 10%,rgba(255,189,59,.22),transparent 22%),radial-gradient(circle at 70% 80%,rgba(23,166,115,.17),transparent 26%)}
+.float{position:fixed;z-index:-1;opacity:.18;font-weight:900;color:#18356b;animation:drift 18s linear infinite;user-select:none}.f1{left:8%;top:18%;font-size:38px}.f2{left:86%;top:22%;font-size:44px;animation-delay:-5s}.f3{left:18%;top:78%;font-size:48px;animation-delay:-8s}.f4{left:76%;top:72%;font-size:36px;animation-delay:-12s}
+@keyframes drift{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-28px) rotate(8deg)}100%{transform:translateY(0) rotate(0)}}
+#splash{position:fixed;inset:0;background:linear-gradient(135deg,#ffffff,#eef7ff);display:flex;align-items:center;justify-content:center;z-index:9999;animation:splashOut .8s forwards;animation-delay:5s}#splash img{width:230px;max-width:78%;filter:drop-shadow(0 12px 24px #0002)}@keyframes splashOut{to{opacity:0;visibility:hidden}}
+.wrap{width:min(940px,94vw);margin:auto;padding:22px}.card{background:var(--card);border:1px solid #fff;border-radius:28px;padding:26px;box-shadow:0 18px 48px #12345624;backdrop-filter:blur(10px);margin-top:28px}.center{text-align:center}.hidden{display:none!important}
+h1{font-size:clamp(28px,5vw,46px);color:var(--deep);margin-bottom:10px}.tagline{font-size:18px;line-height:1.6}.instructionBox{max-width:650px;margin:22px auto;text-align:left;background:#f8fbff;border-radius:20px;padding:18px 22px;border:2px dashed #b7d5ff}.instructionBox p{margin:10px 0;line-height:1.55}.btn{border:0;background:linear-gradient(135deg,var(--blue),#6c4dff);color:white;font-weight:800;font-size:17px;padding:14px 24px;border-radius:16px;cursor:pointer;box-shadow:0 10px 22px #2477ff42;transition:.2s}.btn:hover{transform:translateY(-2px) scale(1.02)}
+.city{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px auto;max-width:620px}.plot{height:70px;border-radius:16px;background:linear-gradient(135deg,#c7f0d8,#88d8ff);border:3px solid #fff;box-shadow:inset 0 0 0 2px #00000010;display:flex;align-items:center;justify-content:center;font-size:28px}
+.topbar{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;margin-bottom:18px}.badge{background:#eef5ff;border:1px solid #cfe2ff;border-radius:15px;padding:10px 14px;font-weight:900;color:#18356b}.progress{height:13px;background:#dbe7f7;border-radius:20px;overflow:hidden;margin-bottom:20px}.bar{height:100%;width:0%;background:linear-gradient(90deg,#17a673,#2477ff);transition:.35s}
+.scene{display:flex;gap:15px;align-items:center;margin-bottom:14px}.icon{min-width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,#fff1bd,#bdeeff);display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:inset 0 0 0 2px #fff}.question{font-size:clamp(18px,3.4vw,23px);line-height:1.55;font-weight:800;color:#1d2b4f}.options{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}.option{background:#f7fbff;border:3px solid transparent;border-radius:18px;padding:16px;min-height:64px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:17px;font-weight:800;cursor:pointer;transition:.2s;box-shadow:0 6px 15px #00000010}.option:hover{transform:translateY(-2px);background:#eaf4ff}.option.selected{border-color:#2477ff;background:#e9f2ff}.option.correct{background:#dff8ec!important;border-color:#17a673!important}.option.wrong{background:#ffe8e8!important;border-color:#e74b4b!important;animation:shake .38s}.disabled{pointer-events:none}.feedback{min-height:34px;text-align:center;margin-top:16px;font-size:18px;font-weight:900}.explain{margin-top:12px;background:#fff9e9;border-left:6px solid var(--gold);padding:13px 15px;border-radius:12px;line-height:1.5;font-weight:700}.nextRow{text-align:center;margin-top:14px}.tick{animation:pop .45s}.cross{font-size:38px;color:var(--red);display:inline-block}.tickMark{font-size:38px;color:var(--green);display:inline-block}@keyframes pop{50%{transform:scale(1.22)}}@keyframes shake{25%{transform:translateX(-7px)}50%{transform:translateX(7px)}75%{transform:translateX(-4px)}}
+.star{position:fixed;width:13px;height:13px;background:gold;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);animation:fall 2.6s linear forwards;z-index:999}@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
+.resultTitle{font-size:44px}.scoreBig{font-size:52px;color:#2477ff;margin:16px 0;font-weight:900}.medal{font-size:82px;margin:10px}.small{font-size:15px;color:#52627b;margin-top:12px;line-height:1.5}
+@media(max-width:680px){.wrap{padding:12px}.card{padding:19px;border-radius:22px}.options{grid-template-columns:1fr}.scene{align-items:flex-start}.icon{min-width:54px;height:54px;font-size:30px}.city{grid-template-columns:repeat(2,1fr)}.badge{font-size:14px}.option{font-size:16px;padding:14px}}
 </style>
 </head>
-
 <body>
-
-<!-- Splash -->
-
-<div id="splash">
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
+<div id="splash"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
+<div class="float f1">▭</div><div class="float f2">□</div><div class="float f3">m²</div><div class="float f4">cm</div>
+<div class="wrap">
+  <section class="card center" id="intro">
+    <h1>Perimeter & Area City Mission</h1>
+    <p class="tagline">Design parks, rooms, fields and displays by choosing the most sensible mathematical decision.</p>
+    <div class="city"><div class="plot">🏡</div><div class="plot">🌳</div><div class="plot">🏫</div><div class="plot">⚽</div></div>
+    <div class="instructionBox">
+      <p>✅ Read each real-life situation carefully.</p>
+      <p>✅ Tap one option. You get one more try if your first answer is wrong.</p>
+      <p>✅ Correct choices add points. After two wrong attempts, the correct answer is shown.</p>
+      <p>✅ Complete all 10 challenges to see your final score.</p>
+    </div>
+    <button class="btn" onclick="startGame()">Start Mission</button>
+  </section>
+  <section class="card hidden" id="game">
+    <div class="topbar"><div class="badge">⭐ Score: <span id="score">0</span></div><div class="badge">🧭 Mission: <span id="qNum">1</span>/10</div><div class="badge">⏳ Time: <span id="time">45</span>s</div></div>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <div class="scene"><div class="icon" id="icon">🌳</div><div class="question" id="question"></div></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <div id="explainBox"></div>
+    <div class="nextRow hidden" id="nextRow"><button class="btn" onclick="nextQuestion()">Next</button></div>
+  </section>
+  <section class="card center hidden" id="result">
+    <div class="medal" id="medal">🏆</div>
+    <h2 class="resultTitle">Mission Completed!</h2>
+    <div class="scoreBig"><span id="finalScore">0</span>/10</div>
+    <p class="tagline" id="message"></p>
+    <p class="small">Upload this file as <b>index.html</b> inside <b>Mathmiddle/G6/ch10/</b>. Keep the same <b>assets</b> folder beside it.</p>
+    <button class="btn" onclick="restartGame()">Play Again</button>
+  </section>
 </div>
-
-<!-- Main App -->
-
-<div class="container hidden" id="app">
-
-<!-- Intro -->
-
-<div id="introScreen" class="intro">
-
-<h1>Interactive Challenge</h1>
-
-<div class="instructions">
-
-<ol>
-<li>Read every question carefully before answering.</li>
-
-<li>You get only 2 chances for each question.</li>
-
-<li>Correct answer will appear after 2 wrong attempts.</li>
-
-<li>Each question has a 45-second timer.</li>
-
-<li>Complete all questions to unlock the final celebration.</li>
-
-<li>Try to score full marks and become the champion.</li>
-</ol>
-
-</div>
-
-<button onclick="startQuiz()">
-Start Game
-</button>
-
-</div>
-
-<!-- Quiz Screen -->
-
-<div id="quizScreen" class="hidden">
-
-<div class="topbar">
-
-<div class="box">
-⭐ Score:
-<span id="score">0</span>
-</div>
-
-<div class="box">
-⏳ Time:
-<span id="timer">45</span>s
-</div>
-
-</div>
-
-<div class="question-number" id="questionNumber"></div>
-
-<div class="question" id="questionText"></div>
-
-<div id="tableArea"></div>
-
-<div class="options" id="optionsContainer"></div>
-
-<div class="feedback" id="feedback"></div>
-
-<div class="explanation hidden" id="explanation"></div>
-
-<button id="nextBtn" class="hidden" onclick="nextQuestion()">
-Next Question
-</button>
-
-</div>
-
-<!-- Result Screen -->
-
-<div id="resultScreen" class="hidden final-page">
-
-<h1>🎉 Congratulations 🎉</h1>
-
-<p>You completed the challenge successfully!</p>
-
-<div class="score-circle">
-<span id="finalScore"></span>
-</div>
-
-<div class="final-message" id="finalMessage"></div>
-
-<button onclick="location.reload()">
-Play Again
-</button>
-
-</div>
-
-</div>
-
-<!-- Sounds -->
-
-<audio id="correctSound" src="assets/correct.mp3"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3"></audio>
-
+<audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3" preload="auto"></audio>
 <script>
-
-/* Splash */
-
-setTimeout(()=>{
-document.getElementById("splash").style.display="none";
-document.getElementById("app").classList.remove("hidden");
-},5000);
-
-/* Questions */
-
-const questions=[
-
-{
-question:"A rectangular garden is 12 m long and 8 m wide. A fence is put around it. What length of fence is needed?",
-options:["20 m","40 m","96 m","48 m"],
-answer:"40 m",
-explanation:"Perimeter = 2 × (12 + 8)"
-},
-
-{
-question:"A square tile has side 9 cm. What is the area covered by one tile?",
-options:["18 cm²","36 cm²","81 cm²","90 cm²"],
-answer:"81 cm²",
-explanation:"Area of square = side × side"
-},
-
-{
-question:"A rectangular carpet has length 7 m and breadth 5 m. What area of the floor will it cover?",
-options:["12 m²","24 m²","35 m²","70 m²"],
-answer:"35 m²",
-explanation:"Area = length × breadth"
-},
-
-{
-question:"A square park has a perimeter of 48 m. What is the length of one side?",
-options:["8 m","10 m","12 m","24 m"],
-answer:"12 m",
-explanation:"Side = perimeter ÷ 4"
-}
-
+const baseQuestions=[
+{icon:"🌳",q:"A school wants to put a rope boundary around a rectangular garden that is 12 m long and 8 m wide. Which plan shows the correct length of rope needed?",options:["12 × 8 = 96 m","12 + 8 = 20 m","2 × (12 + 8) = 40 m","12 + 12 + 8 = 32 m"],answer:2,explain:"A boundary means perimeter. Add all four sides: 12 + 8 + 12 + 8 = 40 m."},
+{icon:"🧱",q:"A classroom floor is 9 m long and 6 m wide. The school wants to cover the whole floor with mats. Which measurement should they use to decide how many mats are needed?",options:["Perimeter, because mats go around the room","Area, because mats cover the surface","Only the length of the room","Only the width of the room"],answer:1,explain:"Covering a surface needs area, not perimeter."},
+{icon:"🎨",q:"A notice board is 5 m long and 3 m wide. The teacher wants to decorate only its border with ribbon. Which expression matches the ribbon length?",options:["5 × 3","2 × (5 + 3)","5 + 3","5 × 5 + 3 × 3"],answer:1,explain:"Ribbon on the border means perimeter: 2 × (length + width)."},
+{icon:"⚽",q:"A rectangular play area is 20 m long and 15 m wide. The sports teacher wants to spread grass on the full play area. What should be calculated?",options:["20 + 15","2 × (20 + 15)","20 × 15","20 − 15"],answer:2,explain:"Grass covers the inside surface, so calculate area: length × width."},
+{icon:"🖼️",q:"A picture frame has a square photo of side 18 cm. A designer needs a thin strip around the photo. Which calculation is useful?",options:["18 × 18","4 × 18","18 + 18","18 ÷ 4"],answer:1,explain:"A strip around a square photo means its perimeter: 4 × side."},
+{icon:"🧩",q:"A square tile has side 10 cm. Riya uses 6 such tiles to make a rectangular pattern without gaps. Which statement is correct?",options:["Each tile covers 40 cm²","Total covered area is 600 cm²","Only perimeter is needed to find covered space","Total covered area is 60 cm²"],answer:1,explain:"Each tile area is 10 × 10 = 100 cm². Six tiles cover 600 cm²."},
+{icon:"🪴",q:"Two garden designs have the same area. Garden A is 6 m by 4 m. Garden B is 8 m by 3 m. What can we say?",options:["Both have equal area","Garden A has larger area","Garden B has larger area","Both must have equal perimeter"],answer:0,explain:"6 × 4 = 24 m² and 8 × 3 = 24 m². Their areas are equal."},
+{icon:"📦",q:"A shopkeeper wants to paste tape around the top edge of a rectangular box lid measuring 14 cm by 9 cm. Which answer is most suitable?",options:["126 cm² of tape","46 cm of tape","23 cm of tape","14 cm² of tape"],answer:1,explain:"Tape around the edge needs perimeter: 2 × (14 + 9) = 46 cm."},
+{icon:"🏠",q:"A carpet seller asks for the area of a room. The room is 11 m long and 7 m wide. Which information should be sent to the seller?",options:["36 m","77 m²","18 m","77 m"],answer:1,explain:"Carpet covers the floor, so area = 11 × 7 = 77 m²."},
+{icon:"🎪",q:"For a school fair, students make a rectangular banner 4 m long and 2 m wide. They need coloured paper to cover the banner and lace for its border. Which pair is correct?",options:["Paper: 8 m², Lace: 12 m","Paper: 12 m², Lace: 8 m","Paper: 8 m, Lace: 12 m²","Paper: 6 m², Lace: 8 m"],answer:0,explain:"Paper needs area: 4 × 2 = 8 m². Lace needs perimeter: 2 × (4 + 2) = 12 m."}
 ];
-
-let currentQuestion=0;
-let score=0;
-let attempts=0;
-let timer;
-let timeLeft=45;
-
-/* Start Quiz */
-
-function startQuiz(){
-
-document.getElementById("introScreen").classList.add("hidden");
-
-document.getElementById("quizScreen").classList.remove("hidden");
-
-loadQuestion();
-
-}
-
-/* Load Question */
-
-function loadQuestion(){
-
-attempts=0;
-timeLeft=45;
-
-startTimer();
-
-const q=questions[currentQuestion];
-
-document.getElementById("questionNumber").innerHTML=
-`Question ${currentQuestion+1} of ${questions.length}`;
-
-document.getElementById("questionText").innerHTML=q.question;
-
-document.getElementById("tableArea").innerHTML=q.table || "";
-
-const container=document.getElementById("optionsContainer");
-
-container.innerHTML="";
-
-q.options.forEach(option=>{
-
-const div=document.createElement("div");
-
-div.classList.add("option");
-
-div.innerHTML=option;
-
-div.onclick=()=>checkAnswer(div,option);
-
-container.appendChild(div);
-
-});
-
-document.getElementById("feedback").innerHTML="";
-document.getElementById("explanation").classList.add("hidden");
-document.getElementById("nextBtn").classList.add("hidden");
-
-}
-
-/* Timer */
-
-function startTimer(){
-
-clearInterval(timer);
-
-document.getElementById("timer").innerText=timeLeft;
-
-timer=setInterval(()=>{
-
-timeLeft--;
-
-document.getElementById("timer").innerText=timeLeft;
-
-if(timeLeft<=0){
-
-clearInterval(timer);
-
-showCorrectAnswer();
-
-}
-
-},1000);
-
-}
-
-/* Check Answer */
-
-function checkAnswer(element,selected){
-
-const q=questions[currentQuestion];
-
-if(selected===q.answer){
-
-element.classList.add("correct");
-
-document.getElementById("feedback").innerHTML=
-"✅ Correct Answer!";
-
-document.getElementById("score").innerText=++score;
-
-document.getElementById("correctSound").play();
-
-createStars();
-
-disableOptions();
-
-clearInterval(timer);
-
-document.getElementById("nextBtn").classList.remove("hidden");
-
-}else{
-
-attempts++;
-
-element.classList.add("wrong");
-
-document.getElementById("wrongSound").play();
-
-if(attempts<2){
-
-document.getElementById("feedback").innerHTML=
-"❌ Try Again! One chance left.";
-
-}else{
-
-showCorrectAnswer();
-
-}
-
-}
-
-}
-
-/* Show Correct Answer */
-
-function showCorrectAnswer(){
-
-clearInterval(timer);
-
-disableOptions();
-
-const q=questions[currentQuestion];
-
-document.querySelectorAll(".option").forEach(opt=>{
-
-if(opt.innerHTML===q.answer){
-
-opt.classList.add("correct");
-
-}
-
-});
-
-document.getElementById("feedback").innerHTML=
-`Correct Answer: ${q.answer}`;
-
-const exp=document.getElementById("explanation");
-
-exp.innerHTML="💡 "+q.explanation;
-
-exp.classList.remove("hidden");
-
-document.getElementById("nextBtn").classList.remove("hidden");
-
-}
-
-/* Disable Options */
-
-function disableOptions(){
-
-document.querySelectorAll(".option").forEach(opt=>{
-
-opt.style.pointerEvents="none";
-
-});
-
-}
-
-/* Next Question */
-
-function nextQuestion(){
-
-currentQuestion++;
-
-if(currentQuestion<questions.length){
-
-loadQuestion();
-
-}else{
-
-showResults();
-
-}
-
-}
-
-/* Show Results */
-
-function showResults(){
-
-document.getElementById("quizScreen").classList.add("hidden");
-
-document.getElementById("resultScreen").classList.remove("hidden");
-
-document.getElementById("finalScore").innerHTML=
-`${score}/${questions.length}`;
-
-let msg="";
-
-if(score===questions.length){
-
-msg="🌟 Perfect performance! Amazing work!";
-
-}else if(score>=3){
-
-msg="👏 Fantastic effort! You did really well.";
-
-}else{
-
-msg="🚀 Great try! Keep practicing and shine brighter.";
-
-}
-
-document.getElementById("finalMessage").innerHTML=msg;
-
-createStars();
-
-}
-
-/* Celebration */
-
-function createStars(){
-
-for(let i=0;i<25;i++){
-
-const star=document.createElement("div");
-
-star.classList.add("star");
-
-star.innerHTML="⭐";
-
-star.style.left=Math.random()*100+"vw";
-
-star.style.top="-20px";
-
-star.style.fontSize=(Math.random()*20+15)+"px";
-
-document.body.appendChild(star);
-
-setTimeout(()=>{
-star.remove();
-},2000);
-
-}
-
-}
-
+let questions=[],current=0,score=0,attempts=0,timer=45,timerId=null,locked=false;
+const $=id=>document.getElementById(id);
+const correctSound=$('correctSound'), wrongSound=$('wrongSound'), clapSound=$('clapSound');
+function shuffle(arr){return arr.map(v=>({v,r:Math.random()})).sort((a,b)=>a.r-b.r).map(o=>o.v)}
+function startGame(){questions=shuffle(baseQuestions);current=0;score=0;$('score').textContent=score;$('intro').classList.add('hidden');$('game').classList.remove('hidden');loadQuestion()}
+function loadQuestion(){clearInterval(timerId);attempts=0;locked=false;timer=45;$('time').textContent=timer;$('qNum').textContent=current+1;$('bar').style.width=(current/questions.length*100)+'%';$('feedback').innerHTML='';$('explainBox').innerHTML='';$('nextRow').classList.add('hidden');const item=questions[current];$('icon').textContent=item.icon;$('question').textContent=item.q;const opts=$('options');opts.innerHTML='';item.options.forEach((txt,i)=>{const div=document.createElement('button');div.className='option';div.textContent=txt;div.onclick=()=>choose(div,i);opts.appendChild(div)});timerId=setInterval(()=>{timer--;$('time').textContent=timer;if(timer<=0){clearInterval(timerId);reveal('Time is up. See the correct answer below.')}},1000)}
+function choose(el,index){if(locked)return;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');const item=questions[current];if(index===item.answer){locked=true;clearInterval(timerId);el.classList.add('correct');$('feedback').innerHTML='<span class="tickMark tick">✓</span> Correct choice!';play(correctSound);play(clapSound);score++;$('score').textContent=score;confetti();setTimeout(nextQuestion,1500)}else{attempts++;play(wrongSound);el.classList.add('wrong');if(attempts<2){$('feedback').innerHTML='<span class="cross">✖</span> Try once more.';el.classList.add('disabled')}else{reveal('Good try. The correct answer is shown below.')}}}
+function reveal(msg){locked=true;clearInterval(timerId);const item=questions[current];document.querySelectorAll('.option').forEach((o,i)=>{o.classList.add('disabled'); if(i===item.answer)o.classList.add('correct')});$('feedback').innerHTML='<span class="cross">✖</span> '+msg;$('explainBox').innerHTML='<div class="explain"><b>Why:</b> '+item.explain+'</div>';$('nextRow').classList.remove('hidden')}
+function nextQuestion(){clearInterval(timerId);current++;if(current<questions.length){loadQuestion()}else{showResult()}}
+function showResult(){$('game').classList.add('hidden');$('result').classList.remove('hidden');$('finalScore').textContent=score;$('bar').style.width='100%';let msg='';let medal='🏆';if(score>=9){msg='Outstanding! You can confidently choose between perimeter and area in real-life situations.';medal='🏆'}else if(score>=7){msg='Great work! You understood most situations correctly.';medal='🥇'}else if(score>=5){msg='Good effort! Revise when to use boundary length and when to use covered space.';medal='🥈'}else{msg='Keep practising! Focus on perimeter for borders and area for surfaces.';medal='🌟'}$('message').textContent=msg;$('medal').textContent=medal;play(clapSound);confetti(45)}
+function restartGame(){$('result').classList.add('hidden');$('intro').classList.remove('hidden')}
+function play(a){try{a.currentTime=0;a.play()}catch(e){}}
+function confetti(n=24){for(let i=0;i<n;i++){const s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'vw';s.style.top='-20px';s.style.background=`hsl(${Math.random()*360},90%,55%)`;s.style.animationDuration=(1.8+Math.random()*1.6)+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),3500)}}
 </script>
-
 </body>
 </html>
-```
