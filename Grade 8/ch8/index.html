@@ -1,434 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Direct & Indirect Proportion Quiz</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Grade 8 Direct and Indirect Proportions - Smart Delivery Hub</title>
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:linear-gradient(135deg,#e0f7ff,#fff3d6);
-  min-height:100vh;
-  color:#1f2937;
-  overflow-x:hidden;
-}
-#splash{
-  position:fixed;
-  inset:0;
-  background:#fff;
-  z-index:9999;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-}
-#splash img{max-width:180px}
-.container{
-  width:min(920px,95%);
-  margin:auto;
-  padding:20px;
-}
-.card{
-  background:rgba(255,255,255,.94);
-  border-radius:22px;
-  padding:24px;
-  margin-top:25px;
-  box-shadow:0 8px 24px rgba(0,0,0,.12);
-}
-.logo{
-  width:90px;
-  display:block;
-  margin:auto;
-}
-h1,h2{
-  text-align:center;
-  color:#2563eb;
-}
-button{
-  border:0;
-  border-radius:14px;
-  padding:13px 18px;
-  background:#2563eb;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-  margin:8px 0;
-}
-button:hover{background:#1d4ed8}
-.option{
-  width:100%;
-  display:block;
-  text-align:left;
-  background:#f3f4f6;
-  color:#111827;
-}
-.option:hover{background:#dbeafe}
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  font-weight:bold;
-}
-.timer{color:#dc2626}
-.feedback{
-  margin-top:12px;
-  font-weight:bold;
-  min-height:28px;
-}
-.correct{color:#15803d}
-.wrong{color:#dc2626}
-.hidden{display:none}
-table{
-  width:100%;
-  border-collapse:collapse;
-  margin:16px 0;
-  background:#fff;
-}
-th,td{
-  border:1px solid #cbd5e1;
-  padding:10px;
-  text-align:center;
-}
-th{background:#dbeafe}
-.cross{
-  position:fixed;
-  inset:0;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  font-size:90px;
-  color:rgba(220,38,38,.65);
-  z-index:50;
-}
-.confetti{
-  position:fixed;
-  pointer-events:none;
-  font-size:24px;
-  z-index:60;
-  animation:fall 1s linear forwards;
-}
-@keyframes fall{
-  to{transform:translateY(150px) rotate(180deg);opacity:0}
-}
-.bg span{
-  position:fixed;
-  font-size:24px;
-  color:rgba(255,183,3,.35);
-  animation:float 8s infinite linear;
-}
-@keyframes float{
-  from{transform:translateY(100vh) rotate(0deg)}
-  to{transform:translateY(-10vh) rotate(360deg)}
-}
-.final{
-  border:3px dashed #f59e0b;
-  background:#fffbeb;
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Trebuchet MS",Arial,sans-serif}
+body{min-height:100vh;overflow:hidden;background:linear-gradient(180deg,#7fd7ff,#f6d365);color:#203040}
+.screen{width:100vw;height:100vh;display:none;justify-content:center;align-items:center;padding:18px;position:relative}
+.active{display:flex}
+#splash{background:linear-gradient(135deg,#fff7d6,#b8f3ff)}
+.logoBox{background:white;padding:28px;border-radius:28px;box-shadow:0 12px 35px rgba(0,0,0,.18);animation:pop 1.2s ease infinite alternate}
+.logoBox img{width:min(330px,80vw);display:block}
+@keyframes pop{from{transform:scale(1)}to{transform:scale(1.04)}}
+.city{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.cloud{position:absolute;width:130px;height:45px;background:white;border-radius:50px;opacity:.8;animation:cloudMove 18s linear infinite}
+.cloud:before,.cloud:after{content:"";position:absolute;background:white;border-radius:50%}
+.cloud:before{width:55px;height:55px;top:-25px;left:22px}
+.cloud:after{width:70px;height:70px;top:-35px;right:18px}
+.c1{top:9%;left:-150px;animation-delay:0s}.c2{top:20%;left:-250px;animation-delay:5s;transform:scale(.8)}.c3{top:13%;left:-350px;animation-delay:10s;transform:scale(1.1)}
+@keyframes cloudMove{to{left:110%}}
+.road{position:absolute;bottom:0;width:100%;height:150px;background:#3b4655;border-top:12px solid #68798a}
+.road:after{content:"";position:absolute;top:65px;width:100%;height:8px;background:repeating-linear-gradient(90deg,#fff 0 70px,transparent 70px 125px)}
+.warehouse{position:absolute;right:4%;bottom:135px;width:210px;height:150px;background:#ff9f43;border:6px solid #7b3f00;border-radius:14px 14px 0 0;box-shadow:0 8px 0 #c46b16}
+.warehouse:before{content:"WAREHOUSE";position:absolute;top:12px;left:0;width:100%;text-align:center;font-weight:bold;color:#5c3300}
+.warehouse:after{content:"";position:absolute;bottom:0;left:55px;width:100px;height:70px;background:#7b3f00;border-radius:8px 8px 0 0}
+.card{width:min(880px,96vw);background:rgba(255,255,255,.95);border-radius:28px;padding:26px;box-shadow:0 14px 40px rgba(0,0,0,.22);z-index:2;text-align:center;border:5px solid #fff}
+h1{font-size:clamp(1.8rem,5vw,3rem);color:#1c5d99;margin-bottom:14px}
+p{font-size:clamp(1rem,2.7vw,1.25rem);line-height:1.5}
+button{border:none;cursor:pointer;padding:14px 24px;border-radius:18px;font-size:1.1rem;font-weight:bold;background:#1c9bd1;color:white;margin-top:20px;box-shadow:0 6px 0 #0a5f85}
+button:active{transform:translateY(4px);box-shadow:0 2px 0 #0a5f85}
+.topbar{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:min(900px,94vw);display:flex;justify-content:space-between;gap:10px;z-index:4}
+.badge{background:white;border-radius:16px;padding:10px 14px;font-weight:bold;box-shadow:0 5px 15px rgba(0,0,0,.15);font-size:clamp(.85rem,2.5vw,1rem)}
+.questionCard{margin-top:40px}.orderLabel{display:inline-block;background:#ffe066;color:#603c00;padding:8px 18px;border-radius:30px;font-weight:bold;margin-bottom:12px}
+.question{font-size:clamp(1.1rem,3.2vw,1.55rem);font-weight:bold;margin:16px 0 20px}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.option{background:#f1f8ff;border:4px solid #c7e6ff;padding:16px;border-radius:18px;font-size:clamp(.95rem,2.8vw,1.15rem);font-weight:bold;cursor:pointer;transition:.2s;min-height:74px;display:flex;align-items:center;justify-content:center}
+.option:hover{transform:scale(1.02)}.option.selected{background:#d7efff;border-color:#168aad}.option.correct{background:#c8f7c5;border-color:#28a745}.option.wrong{background:#ffd1d1;border-color:#dc3545}.option.disabled{pointer-events:none}
+.feedback{margin-top:16px;min-height:55px;font-weight:bold;font-size:1.05rem}.nextBtn{display:none}
+.stars{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:10}.star{position:absolute;font-size:26px;animation:burst 1s ease forwards}
+@keyframes burst{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-120px) scale(1.8) rotate(180deg)}}
+.finalScore{font-size:clamp(2rem,7vw,4rem);margin:18px 0;color:#ff7b00;font-weight:bold}.packages{font-size:3rem;margin:15px;animation:bounce 1s infinite alternate}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-12px)}}
+@media(max-width:650px){.options{grid-template-columns:1fr}.warehouse{width:145px;height:110px;bottom:125px}.warehouse:after{left:38px;width:70px;height:50px}.truck{transform:scale(.82);transform-origin:left bottom}.truck.correctMove{transform:translateX(45vw) scale(.82)}.card{padding:20px}.topbar{top:8px}.questionCard{margin-top:70px}}
 </style>
 </head>
-
 <body>
-
-<div id="splash">
-  <img src="assets/innovine-logo.png" alt="Innovine Logo">
-  <p>Loading Proportion Quest...</p>
-</div>
-
-<div class="bg">
-  <span style="left:8%;animation-delay:0s">★</span>
-  <span style="left:25%;animation-delay:2s">✦</span>
-  <span style="left:48%;animation-delay:4s">★</span>
-  <span style="left:70%;animation-delay:1s">✧</span>
-  <span style="left:88%;animation-delay:3s">★</span>
-</div>
-
-<div class="cross" id="cross">✖</div>
-
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
-<div class="container">
+<section id="splash" class="screen active"><div class="logoBox"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div></section>
 
-<div class="card" id="intro">
-  <img class="logo" src="assets/innovine-logo.png" alt="Innovine Logo">
-  <h1>Direct & Indirect Proportion</h1>
-  <p><b>Grade 8 Mathematics MCQ Quest</b></p>
-  <p>Read each situation carefully. You get one retry after the first wrong attempt. After the second wrong attempt, the correct answer and explanation will appear.</p>
-  <button onclick="startGame()">Start Quiz</button>
-</div>
-
-<div class="card hidden" id="quiz">
-  <div class="topbar">
-    <div>Score: <span id="score">0</span></div>
-    <div>Question: <span id="qNum">1</span>/<span id="total"></span></div>
-    <div class="timer">Time: <span id="time">45</span>s</div>
+<section id="intro" class="screen">
+  <div class="city"><div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div><div class="warehouse"></div><div class="road"></div></div>
+  <div class="card">
+    <h1>Smart Delivery Hub</h1>
+    <p>Read each delivery situation carefully. Choose the best answer to help the truck reach the correct warehouse.</p>
+    <p style="margin-top:10px;">You will get two attempts for each question. Complete all 10 deliveries to finish the mission!</p>
+    <button onclick="startGame()">Start Mission</button>
   </div>
-  <h2 id="question"></h2>
-  <div id="tableBox"></div>
-  <div id="options"></div>
-  <div class="feedback" id="feedback"></div>
-  <button id="nextBtn" class="hidden" onclick="nextQuestion()">Next</button>
-</div>
+</section>
 
-<div class="card hidden final" id="challenge">
-  <h2>Final Challenge</h2>
-  <p>A machine fills 200 bottles in 5 minutes. At the same rate, how many bottles will it fill in 15 minutes?</p>
-  <button onclick="checkFinal('A')">A. 400 bottles</button>
-  <button onclick="checkFinal('B')">B. 500 bottles</button>
-  <button onclick="checkFinal('C')">C. 600 bottles</button>
-  <button onclick="checkFinal('D')">D. 800 bottles</button>
-  <div class="feedback" id="finalFeedback"></div>
-</div>
+<section id="game" class="screen">
+  <div class="city"><div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div><div class="warehouse"></div><div class="road"></div>
+    </div></div>
+  <div class="topbar"><div class="badge" id="scoreBadge">⭐ Score: 0</div><div class="badge" id="progressBadge">🚚 Delivery: 1/10</div><div class="badge" id="attemptBadge">Attempts Left: 2</div></div>
+  <div class="card questionCard">
+    <div class="orderLabel">Delivery Order</div>
+    <div id="questionText" class="question"></div>
+    <div id="optionsBox" class="options"></div>
+    <div id="feedback" class="feedback"></div>
+    <button id="nextBtn" class="nextBtn" onclick="nextQuestion()">Next Delivery</button>
+  </div>
+  <div id="stars" class="stars"></div>
+</section>
 
-<div class="card hidden" id="result">
-  <h1>Result</h1>
-  <h2 id="finalScore"></h2>
-  <p id="message"></p>
-  <button onclick="location.reload()">Play Again</button>
-</div>
-
-</div>
+<section id="result" class="screen">
+  <div class="city"><div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div><div class="warehouse"></div><div class="road"></div></div>
+  <div class="card">
+    <h1>Mission Complete!</h1><div class="packages">📦 🚚 📦</div><p>Your delivery score is</p>
+    <div id="finalScore" class="finalScore"></div><p id="finalMessage"></p><button onclick="restartGame()">Play Again</button>
+  </div>
+</section>
 
 <script>
 const questions=[
-{
-q:"A car travels 120 km using 10 litres of petrol. If the car travels 240 km at the same speed and efficiency, how much petrol will it need?",
-o:["15 L","20 L","25 L","30 L"],
-a:1,
-e:"Distance and petrol are in direct proportion. Double distance needs double petrol."
-},
-{
-q:"A bakery packs 6 cupcakes in one box. For a school event, 48 cupcakes are prepared. How many boxes are needed?",
-o:["6","7","8","9"],
-a:2,
-e:"48 ÷ 6 = 8 boxes."
-},
-{
-q:"A worker earns ₹900 for 6 hours of work. If the payment rate remains the same, how much will the worker earn for 10 hours?",
-o:["₹1200","₹1400","₹1500","₹1800"],
-a:2,
-e:"₹900 ÷ 6 = ₹150 per hour. For 10 hours, earning = ₹1500."
-},
-{
-q:"A water tank is filled by 4 pipes in 12 minutes. If only 2 similar pipes are used, what will most likely happen?",
-o:["Tank fills faster","Tank fills in the same time","Tank takes more time to fill","Tank will overflow immediately"],
-a:2,
-e:"Fewer pipes will take more time, so this is an indirect proportion situation."
-},
-{
-q:"Study the table. Which statement is correct?",
-table:"<table><tr><th>Number of Pens</th><th>Total Cost (₹)</th></tr><tr><td>2</td><td>20</td></tr><tr><td>5</td><td>50</td></tr><tr><td>8</td><td>80</td></tr></table>",
-o:["Cost and pens are in inverse proportion","Cost remains fixed","Cost and pens are in direct proportion","Pens decrease when cost increases"],
-a:2,
-e:"As the number of pens increases, total cost increases in the same ratio."
-},
-{
-q:"A train moving at constant speed covers 180 km in 3 hours. What pattern is shown?",
-table:"<table><tr><th>Time (hours)</th><th>Distance (km)</th></tr><tr><td>1</td><td>60</td></tr><tr><td>2</td><td>120</td></tr><tr><td>3</td><td>180</td></tr></table>",
-o:["Indirect proportion","Direct proportion","No relation","Random change"],
-a:1,
-e:"As time increases, distance also increases at a constant rate."
-},
-{
-q:"A group of 12 students can clean a playground in 4 hours. If 24 students work at the same speed, how much time will they take?",
-o:["2 hours","4 hours","6 hours","8 hours"],
-a:0,
-e:"More students take less time. Since students are doubled, time becomes half."
-},
-{
-q:"A photographer notices that when the number of workers increases, the number of days required to set up a stage decreases. This relationship is best described as:",
-table:"<table><tr><th>Workers</th><th>Days Required</th></tr><tr><td>4</td><td>12</td></tr><tr><td>6</td><td>8</td></tr><tr><td>8</td><td>6</td></tr></table>",
-o:["Direct proportion","Indirect proportion","Equal proportion","No proportion"],
-a:1,
-e:"As workers increase, days decrease. This is indirect proportion."
-},
-{
-q:"During a science exhibition, students observe that when speed increases, the time taken to reach school decreases for the same distance. What type of proportion is this?",
-o:["Direct proportion","Indirect proportion","Equivalent ratio","Constant ratio"],
-a:1,
-e:"For the same distance, more speed means less time."
-},
-{
-q:"A recipe needs 3 cups of flour for 12 cookies. How many cups of flour are needed for 36 cookies?",
-o:["6 cups","7 cups","8 cups","9 cups"],
-a:3,
-e:"36 is 3 times 12, so flour needed is 3 × 3 = 9 cups."
-},
-{
-q:"A farmer uses 5 tractors to plough a field in 8 days. If 10 tractors of the same type are used, how many days will be needed?",
-o:["2 days","4 days","8 days","16 days"],
-a:1,
-e:"Doubling tractors halves the number of days. So, 8 ÷ 2 = 4 days."
-},
-{
-q:"A shopkeeper notices the following pattern. What conclusion can be drawn?",
-table:"<table><tr><th>Number of Workers</th><th>Time Taken to Arrange Goods</th></tr><tr><td>2</td><td>10 hours</td></tr><tr><td>5</td><td>4 hours</td></tr><tr><td>10</td><td>2 hours</td></tr></table>",
-o:["Workers and time are directly proportional","Workers and time are indirectly proportional","Time always increases","No proportional relationship exists"],
-a:1,
-e:"As the number of workers increases, the time taken decreases."
-},
-{
-q:"A school bus charges according to distance travelled. If a student travels 25 km, what will most likely be the fare?",
-table:"<table><tr><th>Distance (km)</th><th>Fare (₹)</th></tr><tr><td>5</td><td>20</td></tr><tr><td>10</td><td>40</td></tr><tr><td>15</td><td>60</td></tr></table>",
-o:["₹75","₹80","₹90","₹100"],
-a:3,
-e:"Fare per km = ₹20 ÷ 5 = ₹4. For 25 km, fare = 25 × ₹4 = ₹100."
-},
-{
-q:"Assertion: If the number of notebooks bought increases, the total cost also increases at a fixed price.<br><br>Reason: Cost and quantity are directly proportional.",
-o:["Both are true and the reason explains the assertion","Both are true but the reason does not explain the assertion","Assertion is true but reason is false","Assertion is false but reason is true"],
-a:0,
-e:"At a fixed price, more notebooks cost more, so cost and quantity are directly proportional."
-},
-{
-q:"Assertion: When more workers are assigned to complete the same work, the time taken decreases.<br><br>Reason: Workers and time are in indirect proportion.",
-o:["Both are true and the reason explains the assertion","Both are true but the reason does not explain the assertion","Assertion is true but reason is false","Assertion is false but reason is true"],
-a:0,
-e:"For the same work, more workers reduce the time taken. Hence, workers and time are indirectly proportional."
-}
+{q:"A fruit seller displays 6 boxes of mangoes for ₹900. If the same type of boxes are increased to 10, what should happen to the total cost?",options:["It becomes ₹1500","It remains ₹900","It becomes ₹540","It cannot be compared"],answer:"It becomes ₹1500",explain:"More identical boxes means the cost increases in the same ratio."},
+{q:"Four painters paint a wall in 12 hours. If 8 painters work at the same rate on the same wall, how much time will they take?",options:["6 hours","12 hours","18 hours","24 hours"],answer:"6 hours",explain:"More workers reduce time for the same work, so it is an inverse proportion situation."},
+{q:"A recipe uses 3 cups of flour to make 12 cookies. How much flour is needed to make 28 cookies with the same recipe?",options:["7 cups","6 cups","9 cups","12 cups"],answer:"7 cups",explain:"12 cookies need 3 cups, so 28 cookies need 7 cups."},
+{q:"A car travels 180 km in 3 hours at a steady speed. At the same speed, how far will it travel in 5 hours?",options:["300 km","240 km","180 km","360 km"],answer:"300 km",explain:"At constant speed, distance and time increase together."},
+{q:"A hostel has enough rice for 30 students for 12 days. If 45 students eat the same amount daily, how long will the rice last?",options:["8 days","10 days","12 days","18 days"],answer:"8 days",explain:"More students make the same rice finish faster."},
+{q:"A machine packs 250 notebooks in 1 hour. Four identical machines work together for 1 hour. How many notebooks will be packed?",options:["1000 notebooks","750 notebooks","500 notebooks","1250 notebooks"],answer:"1000 notebooks",explain:"More machines working for the same time pack more notebooks in direct proportion."},
+{q:"A school bus covers a fixed distance. When the speed is doubled, what happens to the time taken?",options:["It becomes half","It doubles","It remains same","It becomes four times"],answer:"It becomes half",explain:"For a fixed distance, speed and time are inversely proportional."},
+{q:"Eight volunteers pack 240 food packets in one hour. At the same rate, how many packets will 12 volunteers pack in one hour?",options:["360 packets","300 packets","320 packets","420 packets"],answer:"360 packets",explain:"More volunteers working at the same rate pack more packets."},
+{q:"A classroom has 48 chairs arranged equally in rows. If the number of rows changes from 6 to 12, how many chairs will be in each row?",options:["4 chairs","6 chairs","8 chairs","12 chairs"],answer:"4 chairs",explain:"The total number of chairs is fixed, so more rows mean fewer chairs in each row."},
+{q:"A contractor finishes a road in 18 days using 24 workers. If 36 workers are used at the same rate, how many days will the work take?",options:["12 days","10 days","8 days","27 days"],answer:"12 days",explain:"24 × 18 = 36 × days, so days = 12."}
 ];
-
-let index=0,score=0,attempts=0,timer,timeLeft=45;
-const totalScore=questions.length+1;
-
-setTimeout(()=>{document.getElementById("splash").style.display="none"},5000);
-document.getElementById("total").textContent=questions.length;
-
-function startGame(){
-  document.getElementById("intro").classList.add("hidden");
-  document.getElementById("quiz").classList.remove("hidden");
-  loadQuestion();
-}
-
-function loadQuestion(){
-  clearInterval(timer);
-  attempts=0;
-  timeLeft=45;
-  document.getElementById("time").textContent=timeLeft;
-  document.getElementById("feedback").innerHTML="";
-  document.getElementById("nextBtn").classList.add("hidden");
-
-  const q=questions[index];
-  document.getElementById("qNum").textContent=index+1;
-  document.getElementById("question").innerHTML=q.q;
-  document.getElementById("tableBox").innerHTML=q.table||"";
-
-  const box=document.getElementById("options");
-  box.innerHTML="";
-  q.o.forEach((opt,i)=>{
-    const btn=document.createElement("button");
-    btn.className="option";
-    btn.textContent=String.fromCharCode(65+i)+". "+opt;
-    btn.onclick=()=>checkAnswer(i);
-    box.appendChild(btn);
-  });
-
-  timer=setInterval(()=>{
-    timeLeft--;
-    document.getElementById("time").textContent=timeLeft;
-    if(timeLeft<=0){
-      clearInterval(timer);
-      showAnswer("Time up!");
-    }
-  },1000);
-}
-
-function checkAnswer(choice){
-  const q=questions[index];
-  if(choice===q.a){
-    score++;
-    document.getElementById("score").textContent=score;
-    document.getElementById("feedback").innerHTML="<span class='correct'>Correct! Great thinking.</span>";
-    play("correctSound");
-    confetti();
-    disableOptions();
-    clearInterval(timer);
-    document.getElementById("nextBtn").classList.remove("hidden");
-  }else{
-    attempts++;
-    play("wrongSound");
-    showCross();
-    if(attempts===1){
-      document.getElementById("feedback").innerHTML="<span class='wrong'>Try once more. Read the relation carefully.</span>";
-    }else{
-      showAnswer("Incorrect.");
-    }
-  }
-}
-
-function showAnswer(msg){
-  const q=questions[index];
-  disableOptions();
-  clearInterval(timer);
-  document.getElementById("feedback").innerHTML=
-  "<span class='wrong'>"+msg+"</span><br>Correct Answer: <b>"+
-  String.fromCharCode(65+q.a)+". "+q.o[q.a]+"</b><br>"+q.e;
-  document.getElementById("nextBtn").classList.remove("hidden");
-}
-
-function nextQuestion(){
-  index++;
-  if(index<questions.length){
-    loadQuestion();
-  }else{
-    document.getElementById("quiz").classList.add("hidden");
-    document.getElementById("challenge").classList.remove("hidden");
-  }
-}
-
-function checkFinal(ans){
-  if(ans==="C"){
-    score++;
-    play("clapSound");
-    confetti();
-    document.getElementById("finalFeedback").innerHTML="<span class='correct'>Correct! 200 × 3 = 600 bottles.</span>";
-  }else{
-    document.getElementById("finalFeedback").innerHTML="<span class='wrong'>Correct answer: C. 600 bottles</span>";
-  }
-  setTimeout(showResult,1500);
-}
-
-function showResult(){
-  document.getElementById("challenge").classList.add("hidden");
-  document.getElementById("result").classList.remove("hidden");
-  document.getElementById("finalScore").textContent="Your Score: "+score+" / "+totalScore;
-  document.getElementById("message").textContent=
-  score>=13?"Excellent! You understand direct and indirect proportion very well.":
-  score>=9?"Good effort! Revise direct and indirect proportion once more.":
-  "Keep practising. Focus on whether both quantities increase together or one decreases when the other increases.";
-}
-
-function disableOptions(){
-  document.querySelectorAll(".option").forEach(b=>b.disabled=true);
-}
-
-function play(id){
-  const audio=document.getElementById(id);
-  audio.currentTime=0;
-  audio.play().catch(()=>{});
-}
-
-function showCross(){
-  const c=document.getElementById("cross");
-  c.style.display="flex";
-  setTimeout(()=>{c.style.display="none"},500);
-}
-
-function confetti(){
-  for(let i=0;i<20;i++){
-    const s=document.createElement("div");
-    s.className="confetti";
-    s.textContent="★";
-    s.style.left=Math.random()*100+"vw";
-    s.style.top=Math.random()*30+"vh";
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(),1000);
-  }
-}
+let shuffledQuestions=[],current=0,score=0,attempts=2,answered=false;
+const splash=document.getElementById("splash"),intro=document.getElementById("intro"),game=document.getElementById("game"),result=document.getElementById("result");
+const questionText=document.getElementById("questionText"),optionsBox=document.getElementById("optionsBox"),feedback=document.getElementById("feedback"),nextBtn=document.getElementById("nextBtn");
+const scoreBadge=document.getElementById("scoreBadge"),progressBadge=document.getElementById("progressBadge"),attemptBadge=document.getElementById("attemptBadge"),stars=document.getElementById("stars");
+const correctSound=document.getElementById("correctSound"),wrongSound=document.getElementById("wrongSound"),clapSound=document.getElementById("clapSound");
+setTimeout(()=>showScreen(intro),5000);
+function showScreen(screen){[splash,intro,game,result].forEach(s=>s.classList.remove("active"));screen.classList.add("active")}
+function shuffleArray(arr){return[...arr].sort(()=>Math.random()-.5)}
+function startGame(){shuffledQuestions=shuffleArray(questions);current=0;score=0;showScreen(game);loadQuestion()}
+function loadQuestion(){attempts=2;answered=false;feedback.textContent="";nextBtn.style.display="none";optionsBox.innerHTML="";const item=shuffledQuestions[current];questionText.textContent=item.q;shuffleArray(item.options).forEach(option=>{const div=document.createElement("div");div.className="option";div.textContent=option;div.onclick=()=>checkAnswer(div,option);optionsBox.appendChild(div)});updateBadges()}
+function checkAnswer(selectedDiv,selectedOption){if(answered)return;document.querySelectorAll(".option").forEach(opt=>opt.classList.remove("selected"));selectedDiv.classList.add("selected");const item=shuffledQuestions[current];if(selectedOption===item.answer){answered=true;score++;selectedDiv.classList.add("correct");feedback.textContent="Correct! Delivery completed successfully.";playSound(correctSound);setTimeout(()=>playSound(clapSound),350);createStars();disableOptions();nextBtn.style.display="inline-block"}else{attempts--;selectedDiv.classList.add("wrong");playSound(wrongSound);if(attempts>0){feedback.textContent="Try once more. Read the situation carefully.";selectedDiv.classList.add("disabled")}else{answered=true;feedback.textContent="Correct answer: "+item.answer+". "+item.explain;showCorrectAnswer(item.answer);disableOptions();nextBtn.style.display="inline-block"}}updateBadges()}
+function showCorrectAnswer(answer){document.querySelectorAll(".option").forEach(opt=>{if(opt.textContent===answer)opt.classList.add("correct")})}
+function disableOptions(){document.querySelectorAll(".option").forEach(opt=>opt.classList.add("disabled"))}
+function updateBadges(){scoreBadge.textContent="⭐ Score: "+score;progressBadge.textContent="🚚 Delivery: "+(current+1)+"/10";attemptBadge.textContent="Attempts Left: "+attempts}
+function nextQuestion(){current++;if(current>=shuffledQuestions.length)endGame();else loadQuestion()}
+function endGame(){showScreen(result);document.getElementById("finalScore").textContent=score+" / 10";let msg=score>=9?"Excellent! You managed the delivery hub like a proportion expert.":score>=7?"Great work! You understood most direct and inverse proportion situations.":score>=5?"Good attempt! Revise how quantities change together or opposite to each other.":"Keep practising. Focus on whether both quantities increase together or one decreases when the other increases.";document.getElementById("finalMessage").textContent=msg;playSound(clapSound)}
+function restartGame(){startGame()}
+function playSound(audio){audio.currentTime=0;audio.play().catch(()=>{})}
+function createStars(){for(let i=0;i<22;i++){const star=document.createElement("div");star.className="star";star.textContent="⭐";star.style.left=Math.random()*100+"%";star.style.top=55+Math.random()*30+"%";star.style.animationDelay=Math.random()*.25+"s";stars.appendChild(star);setTimeout(()=>star.remove(),1100)}}
 </script>
-
 </body>
 </html>
