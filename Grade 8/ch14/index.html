@@ -1,665 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Probability Quiz</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Grade 8 Probability - Chance Carnival Quiz</title>
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Trebuchet MS",Arial,sans-serif}
+body{min-height:100vh;overflow:hidden;background:#111827;color:#20110b}
+.screen{width:100vw;height:100vh;display:none;align-items:center;justify-content:center;position:relative;padding:16px;overflow:hidden}
+.active{display:flex}
+#splash{background:#050505}
+.logoBox{background:#050505;padding:28px;border-radius:30px;box-shadow:0 0 35px rgba(255,255,255,.25)}
+.logoBox img{width:min(340px,82vw);display:block}
+.carnivalBg{position:absolute;inset:0;overflow:hidden;pointer-events:none;background:
+radial-gradient(circle at 15% 20%,rgba(250,204,21,.25),transparent 15%),
+radial-gradient(circle at 82% 18%,rgba(244,114,182,.24),transparent 17%),
+linear-gradient(180deg,#312e81 0%,#7c3aed 42%,#f97316 43%,#b45309 100%)}
+.ground{position:absolute;bottom:0;width:100%;height:36%;background:
+linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px),
+linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),
+linear-gradient(180deg,#92400e,#451a03);background-size:80px 65px,80px 65px,100% 100%}
+.tent{position:absolute;right:5%;bottom:30%;width:190px;height:150px;background:repeating-linear-gradient(90deg,#ef4444 0 28px,#fff7ed 28px 56px);clip-path:polygon(50% 0,100% 100%,0 100%);filter:drop-shadow(0 10px 16px rgba(0,0,0,.35))}
+.tent:after{content:"";position:absolute;bottom:0;left:62px;width:66px;height:60px;background:#7c2d12;border-radius:40px 40px 0 0}
+.wheel{position:absolute;left:5%;bottom:24%;font-size:5rem;filter:drop-shadow(0 0 12px #fde68a)}
+.dice{position:absolute;font-size:3.2rem;filter:drop-shadow(0 0 10px #fff)}
+.d1{left:17%;top:18%}.d2{right:15%;top:16%}.d3{right:8%;bottom:17%}
+.host{position:absolute;left:5%;bottom:10%;font-size:5rem;z-index:1}
+.board{position:absolute;left:50%;top:18%;transform:translateX(-50%);width:260px;height:80px;border:5px solid #facc15;border-radius:18px;background:rgba(88,28,135,.8)}
+.board:before{content:"CHANCE CARNIVAL";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff7ed;font-weight:bold}
 
-body{
-font-family:Arial,sans-serif;
-background:linear-gradient(135deg,#eef9ff,#fff7ed);
-min-height:100vh;
-overflow-x:hidden;
-color:#1f2937;
-}
-
-#splash{
-position:fixed;
-inset:0;
-background:white;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:9999;
-}
-
-#splash img{
-width:200px;
-margin-bottom:20px;
-}
-
-.container{
-width:min(950px,95%);
-margin:auto;
-padding:20px;
-}
-
-.card{
-background:rgba(255,255,255,.96);
-padding:24px;
-border-radius:24px;
-margin-top:25px;
-box-shadow:0 8px 25px rgba(0,0,0,.12);
-}
-
-.logo{
-width:90px;
-display:block;
-margin:auto;
-margin-bottom:10px;
-}
-
-h1,h2{
-text-align:center;
-color:#2563eb;
-margin-bottom:12px;
-}
-
-button{
-border:none;
-padding:13px 18px;
-border-radius:14px;
-background:#2563eb;
-color:white;
-font-weight:bold;
-cursor:pointer;
-margin-top:10px;
-transition:.2s;
-}
-
-button:hover{
-background:#1d4ed8;
-transform:scale(1.02);
-}
-
-.option{
-width:100%;
-display:block;
-text-align:left;
-margin:10px 0;
-background:#f3f4f6;
-color:#111827;
-}
-
-.option:hover{
-background:#dbeafe;
-}
-
-.topbar{
-display:flex;
-justify-content:space-between;
-flex-wrap:wrap;
-font-weight:bold;
-margin-bottom:15px;
-}
-
-.timer{
-color:#dc2626;
-}
-
-.feedback{
-margin-top:14px;
-font-weight:bold;
-min-height:30px;
-}
-
-.correct{
-color:#15803d;
-}
-
-.wrong{
-color:#dc2626;
-}
-
-.hidden{
-display:none;
-}
-
-.cross{
-position:fixed;
-inset:0;
-display:none;
-justify-content:center;
-align-items:center;
-font-size:100px;
-color:rgba(220,38,38,.6);
-z-index:100;
-}
-
-.confetti{
-position:fixed;
-font-size:24px;
-pointer-events:none;
-z-index:200;
-animation:fall 1s linear forwards;
-}
-
-@keyframes fall{
-to{
-transform:translateY(150px) rotate(180deg);
-opacity:0;
-}
-}
-
-.bg span{
-position:fixed;
-font-size:26px;
-color:rgba(255,183,3,.3);
-animation:float 10s infinite linear;
-}
-
-@keyframes float{
-from{
-transform:translateY(100vh) rotate(0deg);
-}
-to{
-transform:translateY(-10vh) rotate(360deg);
-}
-}
-
-.final{
-border:3px dashed #f59e0b;
-background:#fff7ed;
+.card{width:min(1020px,96vw);background:rgba(255,247,237,.97);border:7px solid #7c2d12;border-radius:24px;padding:22px;box-shadow:0 18px 45px rgba(0,0,0,.4), inset 0 0 0 4px #fbbf24;text-align:center;z-index:3}
+h1{font-size:clamp(1.8rem,5vw,3rem);color:#7c2d12;margin-bottom:12px;text-shadow:1px 2px #fcd34d}
+p{font-size:clamp(1rem,2.7vw,1.22rem);line-height:1.5}
+button{border:none;background:linear-gradient(#db2777,#9d174d);color:white;padding:14px 28px;border-radius:14px;font-size:1.15rem;font-weight:bold;cursor:pointer;box-shadow:0 6px 0 #831843;margin-top:18px}
+button:active{transform:translateY(4px);box-shadow:0 2px 0 #831843}
+.topbar{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:min(1000px,95vw);display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;z-index:5}
+.badge{background:linear-gradient(#7c2d12,#431407);color:#fff7cc;border:4px solid #facc15;border-radius:15px;padding:8px 10px;text-align:center;font-weight:bold;box-shadow:0 8px 18px rgba(0,0,0,.35);font-size:clamp(.82rem,2.4vw,1rem)}
+.quizCard{margin-top:50px}
+.questLabel{display:inline-block;background:#7c2d12;color:#fde68a;border:3px solid #f59e0b;padding:7px 18px;border-radius:18px;font-weight:bold;margin-bottom:10px}
+.dataBox{max-width:850px;margin:0 auto 12px auto;background:#fff7ed;border:4px solid #f59e0b;border-radius:16px;padding:9px;display:none}
+.dataBox table{width:100%;border-collapse:collapse;font-size:clamp(.82rem,2.25vw,1rem);font-weight:bold}
+.dataBox th,.dataBox td{border:2px solid #c2410c;padding:7px;background:#fffbeb}
+.dataBox th{background:#fed7aa;color:#7c2d12}
+.question{font-size:clamp(1.04rem,2.75vw,1.38rem);font-weight:bold;line-height:1.38;text-align:left;width:100%;max-width:920px;margin:0 auto}
+.options{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-top:18px}
+.option{background:linear-gradient(#fff7df,#ffe8ad);border:5px solid #f6c453;border-radius:18px;color:#1f2937;min-height:76px;display:flex;align-items:center;justify-content:center;padding:12px;font-size:clamp(.95rem,2.5vw,1.12rem);font-weight:bold;cursor:pointer;box-shadow:0 8px 0 #b7791f;transition:.18s}
+.option:hover{transform:translateY(-3px);background:linear-gradient(#ffffff,#fff1c2)}
+.option.selected{outline:5px solid #fde047;background:#fff3bf}
+.option.correct{background:linear-gradient(#bbf7d0,#86efac);border-color:#22c55e;color:#064e3b;box-shadow:0 0 22px #bbf7d0}
+.option.wrong{background:linear-gradient(#fecaca,#fca5a5);border-color:#ef4444;color:#7f1d1d}
+.option.disabled{pointer-events:none}
+.feedback{min-height:56px;margin-top:14px;font-size:1.02rem;font-weight:bold;color:#431407}
+.nextBtn{display:none}
+.sparkLayer{position:absolute;inset:0;pointer-events:none;z-index:20;overflow:hidden}
+.spark{position:absolute;font-size:28px;animation:sparkFly 1.1s ease forwards}
+@keyframes sparkFly{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-150px) scale(1.8) rotate(180deg)}}
+.shake{animation:shake .4s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}50%{transform:translateX(10px)}75%{transform:translateX(-6px)}}
+.unlock{animation:unlockPop .65s ease}
+@keyframes unlockPop{0%{transform:scale(1)}45%{transform:scale(1.04)}100%{transform:scale(1)}}
+.finalScore{font-size:clamp(2rem,7vw,4rem);font-weight:bold;color:#15803d;margin:15px}
+.trophy{font-size:3.5rem;margin:14px;animation:trophyBounce 1s infinite alternate}
+@keyframes trophyBounce{to{transform:translateY(-8px)}}
+@media(max-width:760px){
+.topbar{top:6px;gap:4px}.badge{padding:7px 5px}.card{padding:14px}.quizCard{margin-top:70px}
+.options{grid-template-columns:1fr 1fr;gap:9px}.option{min-height:64px}
+.host{font-size:3.5rem;bottom:6%;opacity:.6}.wheel{font-size:3.5rem;bottom:8%;opacity:.6}.tent{opacity:.65;right:0}.board,.dice{display:none}
+.dataBox{padding:6px;overflow:auto}.dataBox th,.dataBox td{padding:5px}
 }
 </style>
 </head>
-
 <body>
-
-<div id="splash">
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
-<h2>Probability Quest</h2>
-<p>Loading Interactive Quiz...</p>
-</div>
-
-<div class="bg">
-<span style="left:10%;animation-delay:0s">★</span>
-<span style="left:30%;animation-delay:2s">✦</span>
-<span style="left:50%;animation-delay:4s">★</span>
-<span style="left:70%;animation-delay:1s">✧</span>
-<span style="left:90%;animation-delay:3s">★</span>
-</div>
-
-<div class="cross" id="cross">✖</div>
-
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
-<div class="container">
+<section id="splash" class="screen active"><div class="logoBox"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div></section>
 
-<div class="card" id="intro">
-<img class="logo" src="assets/innovine-logo.png" alt="Innovine Logo">
+<section id="intro" class="screen">
+  <div class="carnivalBg"><div class="ground"></div><div class="board"></div><div class="tent"></div><div class="wheel">🎡</div><div class="dice d1">🎲</div><div class="dice d2">🎯</div><div class="dice d3">🎟️</div><div class="host">🎪</div></div>
+  <div class="card"><h1>Chance Carnival Quiz</h1><p>Use probability reasoning to make smart decisions in carnival-style situations.</p><p style="margin-top:10px;">You get two attempts for each task. Complete all 10 chance challenges!</p><button onclick="startGame()">Start Challenge</button></div>
+</section>
 
-<h1>Probability</h1>
+<section id="game" class="screen">
+  <div class="carnivalBg"><div class="ground"></div><div class="board"></div><div class="tent"></div><div class="wheel">🎡</div><div class="dice d1">🎲</div><div class="dice d2">🎯</div><div class="dice d3">🎟️</div><div class="host">🎪</div></div>
+  <div class="topbar"><div class="badge" id="scoreBadge">⭐ Score: 0</div><div class="badge" id="progressBadge">🎲 Task: 1/10</div><div class="badge" id="attemptBadge">❤️ Attempts: 2</div></div>
+  <div id="quizCard" class="card quizCard">
+    <div class="questLabel">Chance Task</div>
+    <div id="dataBox" class="dataBox"></div>
+    <div id="questionText" class="question"></div>
+    <div id="optionsBox" class="options"></div>
+    <div id="feedback" class="feedback"></div>
+    <button id="nextBtn" class="nextBtn" onclick="nextQuestion()">Next Task</button>
+  </div>
+  <div id="sparkLayer" class="sparkLayer"></div>
+</section>
 
-<p><b>Grade 8 Mathematics MCQ Interactive</b></p>
-
-<p style="margin-top:15px;">
-Explore questions on coins, dice, cards, sample space, simple events, compound events, certain events, and impossible events.
-You get one retry after the first wrong attempt.
-After the second wrong attempt, the correct answer and explanation will appear.
-</p>
-
-<button onclick="startGame()">Start Quiz</button>
-</div>
-
-<div class="card hidden" id="quiz">
-
-<div class="topbar">
-<div>Score: <span id="score">0</span></div>
-<div>Question: <span id="qNum">1</span>/<span id="total"></span></div>
-<div class="timer">Time: <span id="time">45</span>s</div>
-</div>
-
-<h2 id="question"></h2>
-
-<div id="options"></div>
-
-<div class="feedback" id="feedback"></div>
-
-<button id="nextBtn" class="hidden" onclick="nextQuestion()">Next</button>
-
-</div>
-
-<div class="card hidden final" id="challenge">
-
-<h2>Final Challenge</h2>
-
-<p>
-A bag has 5 red balls, 3 blue balls, and 2 green balls.
-One ball is drawn randomly. What is the probability of drawing a blue ball?
-</p>
-
-<button onclick="checkFinal('A')">A. 1/5</button>
-<button onclick="checkFinal('B')">B. 3/10</button>
-<button onclick="checkFinal('C')">C. 1/2</button>
-<button onclick="checkFinal('D')">D. 2/5</button>
-
-<div class="feedback" id="finalFeedback"></div>
-
-</div>
-
-<div class="card hidden" id="result">
-
-<h1>Quiz Complete!</h1>
-
-<h2 id="finalScore"></h2>
-
-<p id="message"></p>
-
-<button onclick="location.reload()">Play Again</button>
-
-</div>
-
-</div>
+<section id="result" class="screen">
+  <div class="carnivalBg"><div class="ground"></div><div class="tent"></div><div class="wheel">🎡</div><div class="host">🎪</div></div>
+  <div class="card"><h1>Carnival Complete!</h1><div class="trophy">🏆 🎲 🎯</div><p>You completed</p><div id="finalScore" class="finalScore"></div><p id="finalMessage"></p><button onclick="restartGame()">Play Again</button></div>
+</section>
 
 <script>
 const questions=[
-
-{
-q:"A coin is tossed once. What is the probability of getting a head?",
-o:["0","1/2","1","2"],
-a:1,
-e:"A coin has two possible outcomes: Head and Tail. Probability of Head = 1/2."
-},
-
-{
-q:"A dice is rolled once. What is the probability of getting an even number?",
-o:["1/6","1/3","1/2","2/3"],
-a:2,
-e:"Even numbers on a dice are 2, 4, and 6. So favourable outcomes = 3 out of 6 = 1/2."
-},
-
-{
-q:"A bag has 3 red balls and 2 white balls. One ball is drawn randomly. What is the probability of getting a red ball?",
-o:["2/5","3/5","1/5","1"],
-a:1,
-e:"Total balls = 5. Red balls = 3. Probability = 3/5."
-},
-
-{
-q:"A card is drawn from a deck of 52 cards. What is the probability of getting a king?",
-o:["1/52","1/26","1/13","4/13"],
-a:2,
-e:"There are 4 kings in 52 cards. Probability = 4/52 = 1/13."
-},
-
-{
-q:"A dice is rolled once. What is the probability of getting 8?",
-o:["0","1/6","1/2","1"],
-a:0,
-e:"A dice has numbers 1 to 6 only. Getting 8 is impossible, so probability is 0."
-},
-
-{
-q:"A fair dice is rolled once. The sample space is {1, 2, 3, 4, 5, 6}. What is the probability of getting a number greater than 3?",
-o:["1/6","1/3","1/2","2/3"],
-a:2,
-e:"Numbers greater than 3 are 4, 5, and 6. Probability = 3/6 = 1/2."
-},
-
-{
-q:"A fair dice is rolled once. What type of event is getting an even number?",
-o:["Simple event","Compound event","Impossible event","Certain event"],
-a:1,
-e:"Getting an even number has more than one favourable outcome: 2, 4, and 6. So it is a compound event."
-},
-
-{
-q:"A box contains 4 blue balls, 7 white balls, 3 green balls and 6 red balls. One ball is drawn randomly. What is the total number of balls?",
-o:["10","15","18","20"],
-a:3,
-e:"Total balls = 4 + 7 + 3 + 6 = 20."
-},
-
-{
-q:"A box contains 4 blue balls, 7 white balls, 3 green balls and 6 red balls. What is the probability of drawing a ball that is not white?",
-o:["7/20","13/20","3/20","1/2"],
-a:1,
-e:"Not white balls = 4 + 3 + 6 = 13. Total balls = 20. Probability = 13/20."
-},
-
-{
-q:"Two coins are tossed together. What is the sample space?",
-o:["{H, T}","{HH, HT, TH, TT}","{HHH, HHT, TTT}","{HT, TH}"],
-a:1,
-e:"Two coins have four possible outcomes: HH, HT, TH, and TT."
-},
-
-{
-q:"Two coins are tossed together. What is the probability of getting one head and one tail?",
-o:["1/4","1/2","3/4","1"],
-a:1,
-e:"Favourable outcomes are HT and TH. Probability = 2/4 = 1/2."
-},
-
-{
-q:"Assertion: Probability of an impossible event is 0.<br><br>Reason: An impossible event has no favourable outcome.",
-o:[
-"Both are true and the reason explains the assertion",
-"Both are true but the reason does not explain the assertion",
-"Assertion is true but reason is false",
-"Assertion is false but reason is true"
-],
-a:0,
-e:"An impossible event cannot occur, so it has no favourable outcome and probability 0."
-},
-
-{
-q:"Assertion: Probability of getting a number from 1 to 6 on a dice is 1.<br><br>Reason: A dice has only outcomes 1, 2, 3, 4, 5 and 6.",
-o:[
-"Both are true and the reason explains the assertion",
-"Both are true but the reason does not explain the assertion",
-"Assertion is true but reason is false",
-"Assertion is false but reason is true"
-],
-a:0,
-e:"Getting a number from 1 to 6 on a dice is a certain event."
-},
-
-{
-q:"Assertion: Getting a head when a coin is tossed once is a simple event.<br><br>Reason: A simple event has only one outcome.",
-o:[
-"Both are true and the reason explains the assertion",
-"Both are true but the reason does not explain the assertion",
-"Assertion is true but reason is false",
-"Assertion is false but reason is true"
-],
-a:0,
-e:"Getting a head has exactly one favourable outcome, so it is a simple event."
-},
-
-{
-q:"Assertion: The probability of getting a red card from a deck of 52 cards is 1/2.<br><br>Reason: There are 26 red cards in a deck.",
-o:[
-"Both are true and the reason explains the assertion",
-"Both are true but the reason does not explain the assertion",
-"Assertion is true but reason is false",
-"Assertion is false but reason is true"
-],
-a:0,
-e:"There are 26 red cards out of 52 cards. Probability = 26/52 = 1/2."
-},
-
-{
-q:"Assertion: The probability of an event can be greater than 1.<br><br>Reason: Probability always lies between 0 and 1.",
-o:[
-"Both are true and the reason explains the assertion",
-"Both are true but the reason does not explain the assertion",
-"Assertion is true but reason is false",
-"Assertion is false but reason is true"
-],
-a:3,
-e:"Probability cannot be greater than 1. The reason is true, but the assertion is false."
-}
-
+{table:[["Bag","Red","Blue","Green","Yellow"],["Counters","5","3","4","8"]],q:"A counter is picked at random from the bag. What is the probability of NOT getting a yellow counter?",options:["3/5","2/5","8/20","12/20"],answer:"3/5",explain:"Total counters = 20. Not yellow = 12. Probability = 12/20 = 3/5."},
+{table:[["Spinner Section","A","B","C","D"],["Equal Sectors","2","3","1","4"]],q:"The spinner has 10 equal sectors. Which outcome is most likely?",options:["D","B","A","C"],answer:"D",explain:"D has 4 sectors, the greatest number of favourable outcomes."},
+{table:[["Card Type","Prime Number","Composite Number","Even Number","Odd Number"],["Cards from 1 to 10","2,3,5,7","4,6,8,9,10","2,4,6,8,10","1,3,5,7,9"]],q:"One card numbered 1 to 10 is chosen. What is the probability of getting a prime number?",options:["2/5","1/2","3/10","4/5"],answer:"2/5",explain:"Prime numbers are 2, 3, 5, 7. Probability = 4/10 = 2/5."},
+{table:[["Box","White Balls","Black Balls","Total"],["A","6","4","10"],["B","9","6","15"],["C","8","2","10"]],q:"A ball is picked from each box separately. From which box is getting a white ball most likely?",options:["Box C","Box A","Box B","A and B equally"],answer:"Box C",explain:"A = 6/10, B = 9/15 = 6/10, C = 8/10. Box C is highest."},
+{table:[["Weather Forecast","Sunny","Cloudy","Rainy"],["Chances out of 20","9","7","4"]],q:"Based on the forecast, what is the probability that the day will NOT be rainy?",options:["4/5","1/5","9/20","7/20"],answer:"4/5",explain:"Not rainy = Sunny + Cloudy = 9 + 7 = 16. Probability = 16/20 = 4/5."},
+{table:[["Dice Outcome","1","2","3","4","5","6"],["Condition","Odd","Even","Odd","Even","Odd","Even"]],q:"A fair die is rolled once. What is the probability of getting an even number greater than 2?",options:["1/3","1/2","2/3","1/6"],answer:"1/3",explain:"Even numbers greater than 2 are 4 and 6. Probability = 2/6 = 1/3."},
+{table:[["Student Group","Passed","Not Passed","Total"],["VIII A","32","8","40"],["VIII B","27","3","30"]],q:"A student is chosen randomly from each class list. In which class is choosing a student who passed more likely?",options:["VIII B","VIII A","Both equally","Cannot be decided"],answer:"VIII B",explain:"VIII A = 32/40 = 4/5. VIII B = 27/30 = 9/10. VIII B is more likely."},
+{table:[["Basket","Mango","Apple","Orange"],["Fruits","6","9","5"]],q:"A fruit is picked at random. What is the probability of getting either a mango or an orange?",options:["11/20","3/4","9/20","1/2"],answer:"11/20",explain:"Total fruits = 20. Mango or orange = 6 + 5 = 11. Probability = 11/20."},
+{table:[["Ticket Numbers","1 to 30"],["Winning Condition","Multiple of 4"]],q:"One ticket numbered from 1 to 30 is selected randomly. What is the probability that it is a winning ticket?",options:["7/30","1/4","8/30","4/30"],answer:"7/30",explain:"Multiples of 4 from 1 to 30 are 4, 8, 12, 16, 20, 24, 28. Probability = 7/30."},
+{table:[["Bag","Red","Blue","Green"],["Bag X","4","6","10"],["Bag Y","5","5","5"]],q:"You want the better chance of picking a blue counter. Which bag should you choose?",options:["Bag X","Bag Y","Both same","Cannot compare"],answer:"Bag X",explain:"Bag X: blue = 6/20 = 3/10. Bag Y: blue = 5/15 = 1/3. Since 1/3 is greater than 3/10, Bag Y is better. Correct answer: Bag Y."}
 ];
-
-let index=0;
-let score=0;
-let attempts=0;
-let timer;
-let timeLeft=45;
-
-const totalScore=questions.length+1;
-
-setTimeout(()=>{
-document.getElementById("splash").style.display="none";
-},5000);
-
-document.getElementById("total").textContent=questions.length;
-
-function startGame(){
-
-document.getElementById("intro").classList.add("hidden");
-
-document.getElementById("quiz").classList.remove("hidden");
-
-loadQuestion();
-
-}
-
-function loadQuestion(){
-
-clearInterval(timer);
-
-attempts=0;
-
-timeLeft=45;
-
-document.getElementById("time").textContent=timeLeft;
-
-document.getElementById("feedback").innerHTML="";
-
-document.getElementById("nextBtn").classList.add("hidden");
-
-const q=questions[index];
-
-document.getElementById("qNum").textContent=index+1;
-
-document.getElementById("question").innerHTML=q.q;
-
-const box=document.getElementById("options");
-
-box.innerHTML="";
-
-q.o.forEach((opt,i)=>{
-
-const btn=document.createElement("button");
-
-btn.className="option";
-
-btn.textContent=String.fromCharCode(65+i)+". "+opt;
-
-btn.onclick=()=>checkAnswer(i);
-
-box.appendChild(btn);
-
-});
-
-timer=setInterval(()=>{
-
-timeLeft--;
-
-document.getElementById("time").textContent=timeLeft;
-
-if(timeLeft<=0){
-
-clearInterval(timer);
-
-showAnswer("Time up!");
-
-}
-
-},1000);
-
-}
-
-function checkAnswer(choice){
-
-const q=questions[index];
-
-if(choice===q.a){
-
-score++;
-
-document.getElementById("score").textContent=score;
-
-document.getElementById("feedback").innerHTML=
-"<span class='correct'>Correct! Great thinking.</span>";
-
-play("correctSound");
-
-confetti();
-
-disableOptions();
-
-clearInterval(timer);
-
-document.getElementById("nextBtn").classList.remove("hidden");
-
-}else{
-
-attempts++;
-
-play("wrongSound");
-
-showCross();
-
-if(attempts===1){
-
-document.getElementById("feedback").innerHTML=
-"<span class='wrong'>Try once more. Check favourable outcomes and total outcomes.</span>";
-
-}else{
-
-showAnswer("Incorrect.");
-
-}
-
-}
-
-}
-
-function showAnswer(msg){
-
-const q=questions[index];
-
-disableOptions();
-
-clearInterval(timer);
-
-document.getElementById("feedback").innerHTML=
-"<span class='wrong'>"+msg+"</span><br><br>Correct Answer: <b>"+
-String.fromCharCode(65+q.a)+". "+q.o[q.a]+
-"</b><br>"+q.e;
-
-document.getElementById("nextBtn").classList.remove("hidden");
-
-}
-
-function nextQuestion(){
-
-index++;
-
-if(index<questions.length){
-
-loadQuestion();
-
-}else{
-
-document.getElementById("quiz").classList.add("hidden");
-
-document.getElementById("challenge").classList.remove("hidden");
-
-}
-
-}
-
-function checkFinal(ans){
-
-if(ans==="B"){
-
-score++;
-
-play("clapSound");
-
-confetti();
-
-document.getElementById("finalFeedback").innerHTML=
-"<span class='correct'>Correct! Total balls = 10 and blue balls = 3, so probability = 3/10.</span>";
-
-}else{
-
-document.getElementById("finalFeedback").innerHTML=
-"<span class='wrong'>Correct Answer: B. 3/10</span>";
-
-}
-
-setTimeout(showResult,1500);
-
-}
-
-function showResult(){
-
-document.getElementById("challenge").classList.add("hidden");
-
-document.getElementById("result").classList.remove("hidden");
-
-document.getElementById("finalScore").textContent=
-"Your Score: "+score+" / "+totalScore;
-
-document.getElementById("message").textContent=
-score>=14
-?"Excellent! You understand Probability very well."
-:score>=10
-?"Good effort! Revise sample space and probability once more."
-:"Keep practising favourable outcomes, total outcomes, and event types.";
-
-}
-
-function disableOptions(){
-
-document.querySelectorAll(".option").forEach(btn=>btn.disabled=true);
-
-}
-
-function play(id){
-
-const audio=document.getElementById(id);
-
-audio.currentTime=0;
-
-audio.play().catch(()=>{});
-
-}
-
-function showCross(){
-
-const c=document.getElementById("cross");
-
-c.style.display="flex";
-
-setTimeout(()=>{
-c.style.display="none";
-},500);
-
-}
-
-function confetti(){
-
-for(let i=0;i<20;i++){
-
-const s=document.createElement("div");
-
-s.className="confetti";
-
-s.textContent="★";
-
-s.style.left=Math.random()*100+"vw";
-
-s.style.top=Math.random()*30+"vh";
-
-document.body.appendChild(s);
-
-setTimeout(()=>{
-s.remove();
-},1000);
-
-}
-
-}
-
+questions[9].answer="Bag Y";
+questions[9].options=["Bag Y","Bag X","Both same","Cannot compare"];
+
+let shuffledQuestions=[],current=0,score=0,attempts=2,answered=false;
+const splash=document.getElementById("splash"),intro=document.getElementById("intro"),game=document.getElementById("game"),result=document.getElementById("result");
+const quizCard=document.getElementById("quizCard"),questionText=document.getElementById("questionText"),optionsBox=document.getElementById("optionsBox"),feedback=document.getElementById("feedback"),nextBtn=document.getElementById("nextBtn"),dataBox=document.getElementById("dataBox");
+const scoreBadge=document.getElementById("scoreBadge"),progressBadge=document.getElementById("progressBadge"),attemptBadge=document.getElementById("attemptBadge"),sparkLayer=document.getElementById("sparkLayer");
+const correctSound=document.getElementById("correctSound"),wrongSound=document.getElementById("wrongSound"),clapSound=document.getElementById("clapSound");
+
+setTimeout(()=>showScreen(intro),5000);
+function showScreen(screen){[splash,intro,game,result].forEach(s=>s.classList.remove("active"));screen.classList.add("active")}
+function shuffleArray(arr){return[...arr].sort(()=>Math.random()-.5)}
+function renderTable(item){dataBox.style.display="block";let tableHtml="<table>";item.table.forEach((row,i)=>{tableHtml+="<tr>"+row.map(cell=>i===0?`<th>${cell}</th>`:`<td>${cell}</td>`).join("")+"</tr>"});tableHtml+="</table>";dataBox.innerHTML=tableHtml}
+function startGame(){shuffledQuestions=shuffleArray(questions);current=0;score=0;showScreen(game);loadQuestion()}
+function loadQuestion(){attempts=2;answered=false;feedback.textContent="";nextBtn.style.display="none";optionsBox.innerHTML="";quizCard.classList.remove("shake","unlock");const item=shuffledQuestions[current];renderTable(item);questionText.textContent=item.q;shuffleArray(item.options).forEach(option=>{const div=document.createElement("div");div.className="option";div.textContent=option;div.dataset.value=option;div.onclick=()=>checkAnswer(div,option);optionsBox.appendChild(div)});updateBadges()}
+function checkAnswer(selectedDiv,selectedOption){if(answered)return;document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));selectedDiv.classList.add("selected");const item=shuffledQuestions[current];if(selectedOption===item.answer){answered=true;score++;selectedDiv.classList.add("correct");feedback.textContent="Correct! Chance task completed.";playSound(correctSound);setTimeout(()=>playSound(clapSound),350);quizCard.classList.add("unlock");createSparks();disableOptions();nextBtn.style.display="inline-block"}else{attempts--;selectedDiv.classList.add("wrong");playSound(wrongSound);quizCard.classList.add("shake");setTimeout(()=>quizCard.classList.remove("shake"),450);if(attempts>0){feedback.textContent="Try once more. Compare favourable outcomes with total outcomes.";selectedDiv.classList.add("disabled")}else{answered=true;feedback.textContent="Correct answer: "+item.answer+". "+item.explain;showCorrectAnswer(item.answer);disableOptions();nextBtn.style.display="inline-block"}}updateBadges()}
+function showCorrectAnswer(answer){document.querySelectorAll(".option").forEach(opt=>{if(opt.dataset.value===answer)opt.classList.add("correct")})}
+function disableOptions(){document.querySelectorAll(".option").forEach(opt=>opt.classList.add("disabled"))}
+function updateBadges(){scoreBadge.textContent="⭐ Score: "+score;progressBadge.textContent="🎲 Task: "+(current+1)+"/10";attemptBadge.textContent="❤️ Attempts: "+attempts}
+function nextQuestion(){current++;current>=shuffledQuestions.length?endGame():loadQuestion()}
+function endGame(){showScreen(result);document.getElementById("finalScore").textContent=score+" / 10 tasks";let msg=score>=9?"Excellent! You are a Probability Expert.":score>=7?"Great work! You solved most chance situations well.":score>=5?"Good attempt! Practise favourable outcomes and total outcomes.":"Keep practising. Always compare favourable outcomes with total outcomes.";document.getElementById("finalMessage").textContent=msg;playSound(clapSound)}
+function restartGame(){startGame()}
+function playSound(audio){audio.currentTime=0;audio.play().catch(()=>{})}
+function createSparks(){const icons=["⭐","🎲","✨","🎯"];for(let i=0;i<28;i++){const sp=document.createElement("div");sp.className="spark";sp.textContent=icons[Math.floor(Math.random()*icons.length)];sp.style.left=Math.random()*100+"%";sp.style.top=55+Math.random()*28+"%";sp.style.animationDelay=Math.random()*.2+"s";sparkLayer.appendChild(sp);setTimeout(()=>sp.remove(),1200)}}
 </script>
-
 </body>
 </html>
