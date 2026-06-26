@@ -1,735 +1,221 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Financial Mathematics Quiz</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Grade 8 Financial Mathematics Quiz</title>
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Trebuchet MS",Arial,sans-serif}
+body{min-height:100vh;overflow:hidden;background:linear-gradient(135deg,#2b5876,#4e4376);color:#1f2937}
+.screen{width:100vw;height:100vh;display:none;align-items:center;justify-content:center;position:relative;padding:18px;overflow:hidden}
+.active{display:flex}
+#splash{background:linear-gradient(135deg,#fff7cc,#d9f99d)}
+.logoBox{background:#fff;padding:28px;border-radius:28px;box-shadow:0 15px 40px rgba(0,0,0,.22);animation:pulse 1.2s ease-in-out infinite alternate}
+.logoBox img{width:min(330px,80vw);display:block}
+@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.04)}}
 
-body{
-font-family:Arial,sans-serif;
-background:linear-gradient(135deg,#eef9ff,#fff3e0);
-min-height:100vh;
-overflow-x:hidden;
-color:#1f2937;
-}
+.mallBg{position:absolute;inset:0;background:
+radial-gradient(circle at 20% 18%,rgba(255,255,255,.45),transparent 10%),
+radial-gradient(circle at 80% 16%,rgba(255,255,255,.35),transparent 12%),
+linear-gradient(180deg,#7dd3fc 0%,#e0f2fe 35%,#fef3c7 36%,#fde68a 58%,#92400e 59%,#78350f 100%);
+overflow:hidden;pointer-events:none}
+.store{position:absolute;bottom:40%;width:170px;height:120px;background:#fb7185;border:6px solid #9f1239;border-radius:16px 16px 0 0;box-shadow:0 10px 25px rgba(0,0,0,.25)}
+.store:before{content:"SALE";position:absolute;top:12px;left:0;width:100%;text-align:center;font-size:1.8rem;font-weight:bold;color:white}
+.store:after{content:"";position:absolute;bottom:0;left:45px;width:80px;height:48px;background:#fef2f2;border-radius:10px 10px 0 0}
+.store.s1{left:5%;background:#38bdf8;border-color:#075985}
+.store.s2{right:5%;background:#a78bfa;border-color:#5b21b6}
+.counter{position:absolute;bottom:13%;left:50%;transform:translateX(-50%);width:min(520px,82vw);height:90px;background:#7c2d12;border:7px solid #431407;border-radius:18px;box-shadow:0 14px 28px rgba(0,0,0,.35)}
+.counter:before{content:"BILLING COUNTER";position:absolute;top:-42px;left:50%;transform:translateX(-50%);background:#facc15;color:#422006;padding:8px 22px;border-radius:20px;font-weight:bold;white-space:nowrap}
+.scanner{position:absolute;bottom:24%;left:14%;width:70px;height:38px;background:#111827;border-radius:14px 14px 6px 6px;box-shadow:0 8px 18px rgba(0,0,0,.3)}
+.scanner:after{content:"";position:absolute;left:18px;top:13px;width:34px;height:6px;background:#22c55e;border-radius:10px;animation:blink .8s infinite}
+@keyframes blink{50%{opacity:.25}}
+.coin{position:absolute;font-size:2rem;animation:coinFloat 4s ease-in-out infinite}
+.c1{left:14%;top:17%;animation-delay:0s}.c2{left:72%;top:20%;animation-delay:.8s}.c3{left:48%;top:11%;animation-delay:1.5s}.c4{left:30%;top:28%;animation-delay:2.2s}
+@keyframes coinFloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-18px) rotate(18deg)}}
 
-#splash{
-position:fixed;
-inset:0;
-background:white;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:9999;
-}
+.card{width:min(900px,96vw);background:rgba(255,255,255,.96);border:5px solid #fff;border-radius:30px;padding:26px;text-align:center;z-index:2;box-shadow:0 18px 45px rgba(0,0,0,.25)}
+h1{font-size:clamp(1.8rem,5vw,3rem);color:#7c2d12;margin-bottom:14px}
+p{font-size:clamp(1rem,2.7vw,1.25rem);line-height:1.5}
+button{border:none;background:#ea580c;color:#fff;padding:14px 24px;border-radius:18px;font-size:1.1rem;font-weight:bold;cursor:pointer;box-shadow:0 6px 0 #9a3412;margin-top:18px}
+button:active{transform:translateY(4px);box-shadow:0 2px 0 #9a3412}
 
-#splash img{
-width:180px;
-}
+.topbar{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:min(900px,94vw);display:flex;gap:8px;justify-content:space-between;z-index:4}
+.badge{background:#fff;border-radius:16px;padding:10px 13px;box-shadow:0 5px 15px rgba(0,0,0,.16);font-weight:bold;font-size:clamp(.82rem,2.4vw,1rem)}
+.quizCard{margin-top:50px}
+.customer{font-size:3.2rem;animation:customerBounce 1s infinite alternate;margin-bottom:6px}
+@keyframes customerBounce{from{transform:translateY(0)}to{transform:translateY(-7px)}}
+.receipt{background:#fffdf4;border:4px dashed #a16207;border-radius:18px;padding:18px;margin:12px auto 18px;width:min(720px,95%);box-shadow:0 8px 18px rgba(0,0,0,.12);position:relative;overflow:hidden}
+.receipt:before{content:"";position:absolute;top:0;left:0;width:100%;height:0;background:rgba(250,204,21,.18);animation:printLine 1.8s ease forwards}
+@keyframes printLine{to{height:100%}}
+.challengeLabel{display:inline-block;background:#facc15;color:#422006;padding:8px 18px;border-radius:30px;font-weight:bold;margin-bottom:8px}
+.question{font-size:clamp(1.08rem,3vw,1.45rem);font-weight:bold;line-height:1.35;position:relative;z-index:1}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.option{background:#fff7ed;border:4px solid #fed7aa;border-radius:18px;min-height:72px;display:flex;align-items:center;justify-content:center;padding:14px;font-size:clamp(.95rem,2.8vw,1.15rem);font-weight:bold;cursor:pointer;transition:.2s}
+.option:hover{transform:scale(1.02)}
+.option.selected{background:#ffedd5;border-color:#fb923c}
+.option.correct{background:#bbf7d0;border-color:#22c55e}
+.option.wrong{background:#fecaca;border-color:#ef4444}
+.option.disabled{pointer-events:none}
+.feedback{min-height:54px;margin-top:14px;font-size:1.05rem;font-weight:bold}
+.nextBtn{display:none}
+.shake{animation:shake .4s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-9px)}50%{transform:translateX(9px)}75%{transform:translateX(-6px)}}
+.moneyBurst{position:absolute;inset:0;pointer-events:none;z-index:10;overflow:hidden}
+.money{position:absolute;font-size:28px;animation:flyMoney 1.1s ease forwards}
+@keyframes flyMoney{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-150px) scale(1.8) rotate(160deg)}}
+.drawer{position:absolute;bottom:8%;left:50%;transform:translateX(-50%);width:170px;height:36px;background:#1f2937;border-radius:0 0 16px 16px;opacity:0}
+.drawer.open{animation:drawerOpen .8s ease}
+@keyframes drawerOpen{0%{opacity:0;transform:translateX(-50%) translateY(-20px)}30%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(20px)}}
+.finalScore{font-size:clamp(2rem,7vw,4rem);font-weight:bold;color:#ea580c;margin:15px 0}
+.bags{font-size:3rem;animation:bags .9s infinite alternate;margin:15px}
+@keyframes bags{to{transform:translateY(-10px)}}
 
-.container{
-width:min(950px,95%);
-margin:auto;
-padding:20px;
-}
-
-.card{
-background:rgba(255,255,255,.95);
-padding:24px;
-border-radius:22px;
-margin-top:25px;
-box-shadow:0 8px 25px rgba(0,0,0,.12);
-}
-
-.logo{
-width:90px;
-display:block;
-margin:auto;
-}
-
-h1,h2{
-text-align:center;
-color:#2563eb;
-margin-bottom:12px;
-}
-
-button{
-border:none;
-padding:13px 18px;
-border-radius:14px;
-background:#2563eb;
-color:white;
-font-weight:bold;
-cursor:pointer;
-margin-top:10px;
-}
-
-button:hover{
-background:#1d4ed8;
-}
-
-.option{
-width:100%;
-display:block;
-text-align:left;
-margin:10px 0;
-background:#f3f4f6;
-color:#111827;
-}
-
-.option:hover{
-background:#dbeafe;
-}
-
-.topbar{
-display:flex;
-justify-content:space-between;
-flex-wrap:wrap;
-font-weight:bold;
-margin-bottom:15px;
-}
-
-.timer{
-color:#dc2626;
-}
-
-.feedback{
-margin-top:14px;
-font-weight:bold;
-min-height:28px;
-}
-
-.correct{
-color:#15803d;
-}
-
-.wrong{
-color:#dc2626;
-}
-
-.hidden{
-display:none;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin:15px 0;
-background:white;
-}
-
-th,td{
-border:1px solid #cbd5e1;
-padding:10px;
-text-align:center;
-}
-
-th{
-background:#dbeafe;
-}
-
-.cross{
-position:fixed;
-inset:0;
-display:none;
-justify-content:center;
-align-items:center;
-font-size:90px;
-color:rgba(220,38,38,.6);
-z-index:50;
-}
-
-.confetti{
-position:fixed;
-font-size:24px;
-pointer-events:none;
-z-index:60;
-animation:fall 1s linear forwards;
-}
-
-@keyframes fall{
-to{
-transform:translateY(150px) rotate(180deg);
-opacity:0;
-}
-}
-
-.bg span{
-position:fixed;
-font-size:24px;
-color:rgba(255,183,3,.35);
-animation:float 8s infinite linear;
-}
-
-@keyframes float{
-from{
-transform:translateY(100vh) rotate(0deg);
-}
-to{
-transform:translateY(-10vh) rotate(360deg);
-}
-}
-
-.final{
-border:3px dashed #f59e0b;
-background:#fff7ed;
+@media(max-width:650px){
+.options{grid-template-columns:1fr}
+.card{padding:20px}
+.topbar{top:7px;gap:4px}.badge{padding:8px 7px}
+.quizCard{margin-top:72px}
+.store{width:110px;height:88px;bottom:42%}.store:before{font-size:1.2rem}.store:after{left:30px;width:50px;height:34px}
+.counter{height:70px;bottom:9%}.counter:before{font-size:.85rem}
+.scanner{display:none}
+.receipt{padding:14px}
 }
 </style>
 </head>
-
 <body>
-
-<div id="splash">
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
-<p>Loading Financial Mathematics Quest...</p>
-</div>
-
-<div class="bg">
-<span style="left:10%;animation-delay:0s">★</span>
-<span style="left:28%;animation-delay:2s">✦</span>
-<span style="left:50%;animation-delay:4s">★</span>
-<span style="left:72%;animation-delay:1s">✧</span>
-<span style="left:90%;animation-delay:3s">★</span>
-</div>
-
-<div class="cross" id="cross">✖</div>
-
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
-<div class="container">
+<section id="splash" class="screen active">
+  <div class="logoBox"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
+</section>
 
-<div class="card" id="intro">
-<img class="logo" src="assets/innovine-logo.png" alt="Innovine Logo">
+<section id="intro" class="screen">
+  <div class="mallBg">
+    <div class="store s1"></div><div class="store s2"></div><div class="counter"></div><div class="scanner"></div>
+    <div class="coin c1">🪙</div><div class="coin c2">💰</div><div class="coin c3">💵</div><div class="coin c4">🪙</div>
+  </div>
+  <div class="card">
+    <h1>Billing Counter Quiz</h1>
+    <p>Help customers complete their bills by choosing the correct financial answer.</p>
+    <p style="margin-top:10px;">You get two attempts for each bill. Correct answers earn coins and complete the receipt.</p>
+    <button onclick="startGame()">Start Billing</button>
+  </div>
+</section>
 
-<h1>Financial Mathematics</h1>
+<section id="game" class="screen">
+  <div class="mallBg">
+    <div class="store s1"></div><div class="store s2"></div><div class="counter"></div><div class="scanner"></div>
+    <div class="coin c1">🪙</div><div class="coin c2">💰</div><div class="coin c3">💵</div><div class="coin c4">🪙</div>
+    <div id="cashDrawer" class="drawer"></div>
+  </div>
 
-<p><b>Grade 8 Mathematics MCQ Quest</b></p>
+  <div class="topbar">
+    <div class="badge" id="scoreBadge">⭐ Score: 0</div>
+    <div class="badge" id="progressBadge">🧾 Bill: 1/10</div>
+    <div class="badge" id="attemptBadge">Attempts: 2</div>
+  </div>
 
-<p>
-Explore questions on Percentage, Profit & Loss, Simple Interest, Compound Interest, and Tax.
-You get one retry after the first wrong attempt.
-After the second wrong attempt, the correct answer and explanation will appear.
-</p>
+  <div id="quizCard" class="card quizCard">
+    <div id="customer" class="customer">👩</div>
+    <div class="receipt">
+      <div class="challengeLabel">Billing Challenge</div>
+      <div id="questionText" class="question"></div>
+    </div>
+    <div id="optionsBox" class="options"></div>
+    <div id="feedback" class="feedback"></div>
+    <button id="nextBtn" class="nextBtn" onclick="nextQuestion()">Next Bill</button>
+  </div>
 
-<button onclick="startGame()">Start Quiz</button>
-</div>
+  <div id="moneyBurst" class="moneyBurst"></div>
+</section>
 
-<div class="card hidden" id="quiz">
-
-<div class="topbar">
-<div>Score: <span id="score">0</span></div>
-<div>Question: <span id="qNum">1</span>/<span id="total"></span></div>
-<div class="timer">Time: <span id="time">45</span>s</div>
-</div>
-
-<h2 id="question"></h2>
-
-<div id="tableBox"></div>
-
-<div id="options"></div>
-
-<div class="feedback" id="feedback"></div>
-
-<button id="nextBtn" class="hidden" onclick="nextQuestion()">Next</button>
-
-</div>
-
-<div class="card hidden final" id="challenge">
-
-<h2>Final Challenge</h2>
-
-<p>
-A student deposits ₹15,000 in a bank at 10% compound interest annually.
-What will be the amount after 2 years?
-</p>
-
-<button onclick="checkFinal('A')">A. ₹16,500</button>
-<button onclick="checkFinal('B')">B. ₹17,500</button>
-<button onclick="checkFinal('C')">C. ₹18,150</button>
-<button onclick="checkFinal('D')">D. ₹19,000</button>
-
-<div class="feedback" id="finalFeedback"></div>
-
-</div>
-
-<div class="card hidden" id="result">
-
-<h1>Result</h1>
-
-<h2 id="finalScore"></h2>
-
-<p id="message"></p>
-
-<button onclick="location.reload()">Play Again</button>
-
-</div>
-
-</div>
+<section id="result" class="screen">
+  <div class="mallBg">
+    <div class="store s1"></div><div class="store s2"></div><div class="counter"></div>
+    <div class="coin c1">🪙</div><div class="coin c2">💰</div><div class="coin c3">💵</div><div class="coin c4">🪙</div>
+  </div>
+  <div class="card">
+    <h1>Store Closed!</h1>
+    <div class="bags">🛍️ 💰 🧾</div>
+    <p>Correct bills completed:</p>
+    <div id="finalScore" class="finalScore"></div>
+    <p id="finalMessage"></p>
+    <button onclick="restartGame()">Play Again</button>
+  </div>
+</section>
 
 <script>
-
 const questions=[
-
-{
-q:"A shopkeeper buys a school bag for ₹800 and sells it for ₹920 during a festive sale. What is the percentage profit earned?",
-o:["10%","12%","15%","20%"],
-a:2,
-e:"Profit = ₹920 − ₹800 = ₹120. Profit % = (120/800) × 100 = 15%."
-},
-
-{
-q:"A mobile phone marked at ₹20,000 is sold with a 10% discount. What amount does the customer pay?",
-o:["₹17,000","₹18,000","₹19,000","₹20,000"],
-a:1,
-e:"10% of ₹20,000 = ₹2,000. Final price = ₹18,000."
-},
-
-{
-q:"Riya deposited ₹5,000 in a bank at 8% simple interest per year. What interest will she earn after 2 years?",
-o:["₹400","₹600","₹800","₹1,000"],
-a:2,
-e:"SI = (P × R × T)/100 = (5000 × 8 × 2)/100 = ₹800."
-},
-
-{
-q:"A bicycle dealer purchased a cycle for ₹4,500 and sold it at a loss of ₹450. What was the selling price?",
-o:["₹3,950","₹4,050","₹4,150","₹4,250"],
-a:1,
-e:"Selling Price = Cost Price − Loss = ₹4,500 − ₹450 = ₹4,050."
-},
-
-{
-q:"Study the table and identify the product with the highest percentage profit.",
-table:`<table>
-<tr>
-<th>Product</th>
-<th>Cost Price (₹)</th>
-<th>Selling Price (₹)</th>
-</tr>
-<tr>
-<td>Pen Set</td>
-<td>200</td>
-<td>240</td>
-</tr>
-<tr>
-<td>Water Bottle</td>
-<td>350</td>
-<td>315</td>
-</tr>
-<tr>
-<td>Lunch Box</td>
-<td>500</td>
-<td>600</td>
-</tr>
-</table>`,
-o:["Pen Set","Water Bottle","Lunch Box","Both A and C"],
-a:2,
-e:"Lunch Box gives ₹100 profit on ₹500 which is 20% profit."
-},
-
-{
-q:"A family restaurant adds 5% GST on every bill. If the food bill is ₹4,000, how much GST will be added?",
-table:`<table>
-<tr>
-<th>Food Bill (₹)</th>
-<th>GST Added (₹)</th>
-</tr>
-<tr>
-<td>1000</td>
-<td>50</td>
-</tr>
-<tr>
-<td>2000</td>
-<td>100</td>
-</tr>
-<tr>
-<td>3000</td>
-<td>150</td>
-</tr>
-</table>`,
-o:["₹180","₹190","₹200","₹250"],
-a:2,
-e:"5% of ₹4,000 = ₹200."
-},
-
-{
-q:"Aarav borrowed ₹10,000 at 12% simple interest for 3 years. What total amount will he repay?",
-o:["₹12,600","₹13,000","₹13,600","₹14,200"],
-a:2,
-e:"Simple Interest = ₹3,600. Total Amount = ₹13,600."
-},
-
-{
-q:"A shopkeeper marks a jacket at ₹2,500 and offers a discount of 20%. What is the final price of the jacket?",
-table:`<table>
-<tr>
-<th>Marked Price</th>
-<th>Discount</th>
-<th>Final Price</th>
-</tr>
-<tr>
-<td>₹2,500</td>
-<td>20%</td>
-<td>?</td>
-</tr>
-</table>`,
-o:["₹1,800","₹2,000","₹2,100","₹2,250"],
-a:1,
-e:"20% of ₹2,500 = ₹500. Final Price = ₹2,000."
-},
-
-{
-q:"A student invested ₹2,000 in a savings scheme at 10% compound interest annually. What will be the amount after 2 years?",
-o:["₹2,200","₹2,400","₹2,420","₹2,500"],
-a:2,
-e:"Amount = 2000 × (1.1)² = ₹2,420."
-},
-
-{
-q:"A laptop costing ₹50,000 is taxed at 18% GST. What is the total amount paid by the customer?",
-o:["₹56,000","₹57,000","₹58,000","₹59,000"],
-a:3,
-e:"GST = ₹9,000. Total Amount = ₹59,000."
-},
-
-{
-q:"During a clearance sale, a toy originally priced at ₹1,200 is sold for ₹900. What is the percentage loss?",
-table:`<table>
-<tr>
-<th>Original Price</th>
-<th>Selling Price</th>
-</tr>
-<tr>
-<td>₹1,200</td>
-<td>₹900</td>
-</tr>
-</table>`,
-o:["20%","25%","30%","35%"],
-a:1,
-e:"Loss = ₹300. Loss % = (300/1200) × 100 = 25%."
-},
-
-{
-q:"A company invests ₹10,000 at 10% compound interest annually. What will be the amount after 3 years?",
-table:`<table>
-<tr>
-<th>Year</th>
-<th>Amount at Year End</th>
-</tr>
-<tr>
-<td>1</td>
-<td>₹11,000</td>
-</tr>
-<tr>
-<td>2</td>
-<td>₹12,100</td>
-</tr>
-<tr>
-<td>3</td>
-<td>?</td>
-</tr>
-</table>`,
-o:["₹13,100","₹13,210","₹13,310","₹14,000"],
-a:2,
-e:"₹12,100 + 10% of ₹12,100 = ₹13,310."
-},
-
-{
-q:"A grocery store owner buys rice at ₹40 per kg and sells it at ₹48 per kg. What is the percentage profit?",
-o:["10%","15%","20%","25%"],
-a:2,
-e:"Profit = ₹8. Profit % = (8/40) × 100 = 20%."
-},
-
-{
-q:"Assertion: If the selling price is greater than the cost price, the seller makes a profit.<br><br>Reason: Profit = Selling Price − Cost Price.",
-o:[
-"Both are true and the reason explains the assertion",
-"Both are true but the reason does not explain the assertion",
-"Assertion is true but reason is false",
-"Assertion is false but reason is true"
-],
-a:0,
-e:"Profit occurs when selling price is more than cost price."
-},
-
-{
-q:"Assertion: Compound interest grows faster than simple interest for the same principal and rate over multiple years.<br><br>Reason: In compound interest, interest is calculated on both principal and previous interest.",
-o:[
-"Both are true and the reason explains the assertion",
-"Both are true but the reason does not explain the assertion",
-"Assertion is true but reason is false",
-"Assertion is false but reason is true"
-],
-a:0,
-e:"Compound interest includes interest on previous interest, so it grows faster."
-}
-
+{customer:"👩",q:"A jacket marked at ₹2,400 has a 25% festival discount. What amount should appear on the final bill?",options:["₹1,800","₹2,000","₹1,600","₹2,200"],answer:"₹1,800",explain:"25% of ₹2400 is ₹600, so final bill = ₹1800."},
+{customer:"👨",q:"A shopkeeper buys headphones for ₹800 and sells them for ₹1,000. What result should the bill record?",options:["Profit of ₹200","Loss of ₹200","Profit of ₹800","Loss of ₹1,000"],answer:"Profit of ₹200",explain:"Selling price is more than cost price by ₹200."},
+{customer:"👧",q:"A school bag costs ₹1,500. During a sale, its price becomes ₹1,200. What is the discount percentage?",options:["20%","25%","15%","30%"],answer:"20%",explain:"Discount = ₹300. ₹300 is 20% of ₹1500."},
+{customer:"👴",q:"A bicycle bought for ₹5,000 is sold for ₹4,500 after use. What should the resale record show?",options:["Loss of 10%","Profit of 10%","Loss of 20%","Profit of 20%"],answer:"Loss of 10%",explain:"Loss = ₹500, which is 10% of ₹5000."},
+{customer:"👮",q:"A calculator marked at ₹900 is sold for ₹765. What discount was given?",options:["15%","10%","20%","25%"],answer:"15%",explain:"Discount = ₹135. ₹135 is 15% of ₹900."},
+{customer:"🧑‍🍳",q:"A mixer grinder is sold for ₹3,300 after a 10% profit. What was its cost price?",options:["₹3,000","₹3,030","₹3,630","₹2,970"],answer:"₹3,000",explain:"110% of cost price = ₹3300, so cost price = ₹3000."},
+{customer:"👩‍🏫",q:"A parent deposits ₹10,000 in a savings plan at 8% simple interest for 2 years. What interest should be printed?",options:["₹1,600","₹800","₹11,600","₹2,000"],answer:"₹1,600",explain:"Simple interest = 10000 × 8 × 2 ÷ 100 = ₹1600."},
+{customer:"🧑‍💼",q:"A phone costs ₹18,000. Its price rises by 10% due to new features. What is the new price?",options:["₹19,800","₹18,100","₹16,200","₹20,000"],answer:"₹19,800",explain:"10% of ₹18000 is ₹1800, so new price = ₹19800."},
+{customer:"👨‍🔧",q:"A tool kit worth ₹2,000 is sold at a 12% loss. What is the selling price?",options:["₹1,760","₹1,880","₹2,120","₹1,600"],answer:"₹1,760",explain:"12% of ₹2000 is ₹240, so selling price = ₹1760."},
+{customer:"👩‍💻",q:"An investment of ₹5,000 grows at 10% compound interest per year for 2 years. What maturity amount should appear?",options:["₹6,050","₹6,000","₹5,500","₹6,500"],answer:"₹6,050",explain:"After 1 year: ₹5500. After 2 years: ₹6050."}
 ];
 
-let index=0;
-let score=0;
-let attempts=0;
-let timer;
-let timeLeft=45;
+let shuffledQuestions=[],current=0,score=0,attempts=2,answered=false;
+const splash=document.getElementById("splash"),intro=document.getElementById("intro"),game=document.getElementById("game"),result=document.getElementById("result");
+const quizCard=document.getElementById("quizCard"),customer=document.getElementById("customer"),questionText=document.getElementById("questionText"),optionsBox=document.getElementById("optionsBox"),feedback=document.getElementById("feedback"),nextBtn=document.getElementById("nextBtn");
+const scoreBadge=document.getElementById("scoreBadge"),progressBadge=document.getElementById("progressBadge"),attemptBadge=document.getElementById("attemptBadge"),moneyBurst=document.getElementById("moneyBurst"),cashDrawer=document.getElementById("cashDrawer");
+const correctSound=document.getElementById("correctSound"),wrongSound=document.getElementById("wrongSound"),clapSound=document.getElementById("clapSound");
 
-const totalScore=questions.length+1;
-
-setTimeout(()=>{
-document.getElementById("splash").style.display="none";
-},5000);
-
-document.getElementById("total").textContent=questions.length;
-
-function startGame(){
-document.getElementById("intro").classList.add("hidden");
-document.getElementById("quiz").classList.remove("hidden");
-loadQuestion();
-}
-
+setTimeout(()=>showScreen(intro),5000);
+function showScreen(screen){[splash,intro,game,result].forEach(s=>s.classList.remove("active"));screen.classList.add("active")}
+function shuffleArray(arr){return[...arr].sort(()=>Math.random()-.5)}
+function startGame(){shuffledQuestions=shuffleArray(questions);current=0;score=0;showScreen(game);loadQuestion()}
 function loadQuestion(){
-
-clearInterval(timer);
-
-attempts=0;
-timeLeft=45;
-
-document.getElementById("time").textContent=timeLeft;
-document.getElementById("feedback").innerHTML="";
-document.getElementById("nextBtn").classList.add("hidden");
-
-const q=questions[index];
-
-document.getElementById("qNum").textContent=index+1;
-document.getElementById("question").innerHTML=q.q;
-document.getElementById("tableBox").innerHTML=q.table || "";
-
-const box=document.getElementById("options");
-box.innerHTML="";
-
-q.o.forEach((opt,i)=>{
-
-const btn=document.createElement("button");
-
-btn.className="option";
-
-btn.textContent=String.fromCharCode(65+i)+". "+opt;
-
-btn.onclick=()=>checkAnswer(i);
-
-box.appendChild(btn);
-
+attempts=2;answered=false;feedback.textContent="";nextBtn.style.display="none";optionsBox.innerHTML="";
+quizCard.classList.remove("shake");cashDrawer.classList.remove("open");
+const item=shuffledQuestions[current];customer.textContent=item.customer;questionText.textContent=item.q;
+shuffleArray(item.options).forEach(option=>{
+const div=document.createElement("div");div.className="option";div.textContent=option;div.onclick=()=>checkAnswer(div,option);optionsBox.appendChild(div);
 });
-
-timer=setInterval(()=>{
-
-timeLeft--;
-
-document.getElementById("time").textContent=timeLeft;
-
-if(timeLeft<=0){
-
-clearInterval(timer);
-
-showAnswer("Time up!");
-
+updateBadges();
 }
-
-},1000);
-
-}
-
-function checkAnswer(choice){
-
-const q=questions[index];
-
-if(choice===q.a){
-
-score++;
-
-document.getElementById("score").textContent=score;
-
-document.getElementById("feedback").innerHTML=
-"<span class='correct'>Correct! Great thinking.</span>";
-
-play("correctSound");
-
-confetti();
-
-disableOptions();
-
-clearInterval(timer);
-
-document.getElementById("nextBtn").classList.remove("hidden");
-
+function checkAnswer(selectedDiv,selectedOption){
+if(answered)return;
+document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
+selectedDiv.classList.add("selected");
+const item=shuffledQuestions[current];
+if(selectedOption===item.answer){
+answered=true;score++;selectedDiv.classList.add("correct");
+feedback.textContent="Correct! Bill completed successfully.";
+playSound(correctSound);setTimeout(()=>playSound(clapSound),350);
+cashDrawer.classList.add("open");createMoneyBurst();disableOptions();nextBtn.style.display="inline-block";
 }else{
-
-attempts++;
-
-play("wrongSound");
-
-showCross();
-
-if(attempts===1){
-
-document.getElementById("feedback").innerHTML=
-"<span class='wrong'>Try once more. Check the calculation carefully.</span>";
-
-}else{
-
-showAnswer("Incorrect.");
-
+attempts--;selectedDiv.classList.add("wrong");playSound(wrongSound);
+quizCard.classList.add("shake");setTimeout(()=>quizCard.classList.remove("shake"),450);
+if(attempts>0){feedback.textContent="Try once more. Check the bill carefully.";selectedDiv.classList.add("disabled")}
+else{answered=true;feedback.textContent="Correct answer: "+item.answer+". "+item.explain;showCorrectAnswer(item.answer);disableOptions();nextBtn.style.display="inline-block"}
 }
-
+updateBadges();
 }
-
+function showCorrectAnswer(answer){document.querySelectorAll(".option").forEach(opt=>{if(opt.textContent===answer)opt.classList.add("correct")})}
+function disableOptions(){document.querySelectorAll(".option").forEach(opt=>opt.classList.add("disabled"))}
+function updateBadges(){scoreBadge.textContent="⭐ Score: "+score;progressBadge.textContent="🧾 Bill: "+(current+1)+"/10";attemptBadge.textContent="Attempts: "+attempts}
+function nextQuestion(){current++;current>=shuffledQuestions.length?endGame():loadQuestion()}
+function endGame(){
+showScreen(result);document.getElementById("finalScore").textContent=score+" / 10";
+let msg=score>=9?"Excellent! You are a smart financial decision-maker.":score>=7?"Great work! You handled most bills accurately.":score>=5?"Good attempt! Revise discounts, profit/loss and interest.":"Keep practising. Focus on percentages and whether the amount increases or decreases.";
+document.getElementById("finalMessage").textContent=msg;playSound(clapSound);
 }
-
-function showAnswer(msg){
-
-const q=questions[index];
-
-disableOptions();
-
-clearInterval(timer);
-
-document.getElementById("feedback").innerHTML=
-"<span class='wrong'>"+msg+"</span><br><br>Correct Answer: <b>"+
-String.fromCharCode(65+q.a)+". "+q.o[q.a]+
-"</b><br>"+q.e;
-
-document.getElementById("nextBtn").classList.remove("hidden");
-
+function restartGame(){startGame()}
+function playSound(audio){audio.currentTime=0;audio.play().catch(()=>{})}
+function createMoneyBurst(){
+const icons=["🪙","💰","💵","✨"];
+for(let i=0;i<26;i++){
+const m=document.createElement("div");m.className="money";m.textContent=icons[Math.floor(Math.random()*icons.length)];
+m.style.left=Math.random()*100+"%";m.style.top=60+Math.random()*25+"%";m.style.animationDelay=Math.random()*.2+"s";
+moneyBurst.appendChild(m);setTimeout(()=>m.remove(),1200);
 }
-
-function nextQuestion(){
-
-index++;
-
-if(index<questions.length){
-
-loadQuestion();
-
-}else{
-
-document.getElementById("quiz").classList.add("hidden");
-
-document.getElementById("challenge").classList.remove("hidden");
-
 }
-
-}
-
-function checkFinal(ans){
-
-if(ans==="C"){
-
-score++;
-
-play("clapSound");
-
-confetti();
-
-document.getElementById("finalFeedback").innerHTML=
-"<span class='correct'>Correct! ₹15,000 × (1.1)² = ₹18,150.</span>";
-
-}else{
-
-document.getElementById("finalFeedback").innerHTML=
-"<span class='wrong'>Correct Answer: C. ₹18,150</span>";
-
-}
-
-setTimeout(showResult,1500);
-
-}
-
-function showResult(){
-
-document.getElementById("challenge").classList.add("hidden");
-
-document.getElementById("result").classList.remove("hidden");
-
-document.getElementById("finalScore").textContent=
-"Your Score: "+score+" / "+totalScore;
-
-document.getElementById("message").textContent=
-score>=13
-?"Excellent! You understand Financial Mathematics very well."
-:score>=9
-?"Good effort! Revise percentages, interest, and GST once more."
-:"Keep practising calculations involving profit, loss, tax, and interest.";
-
-}
-
-function disableOptions(){
-
-document.querySelectorAll(".option").forEach(btn=>btn.disabled=true);
-
-}
-
-function play(id){
-
-const audio=document.getElementById(id);
-
-audio.currentTime=0;
-
-audio.play().catch(()=>{});
-
-}
-
-function showCross(){
-
-const c=document.getElementById("cross");
-
-c.style.display="flex";
-
-setTimeout(()=>{
-
-c.style.display="none";
-
-},500);
-
-}
-
-function confetti(){
-
-for(let i=0;i<20;i++){
-
-const s=document.createElement("div");
-
-s.className="confetti";
-
-s.textContent="★";
-
-s.style.left=Math.random()*100+"vw";
-
-s.style.top=Math.random()*30+"vh";
-
-document.body.appendChild(s);
-
-setTimeout(()=>{
-
-s.remove();
-
-},1000);
-
-}
-
-}
-
 </script>
-
 </body>
 </html>
