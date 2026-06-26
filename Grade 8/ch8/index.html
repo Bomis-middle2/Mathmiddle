@@ -3,46 +3,82 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Grade 8 Direct and Indirect Proportions - Smart Delivery Hub</title>
+<title>Grade 8 Direct and Indirect Proportions - Warehouse Challenge</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:"Trebuchet MS",Arial,sans-serif}
-body{min-height:100vh;overflow:hidden;background:linear-gradient(180deg,#7fd7ff,#f6d365);color:#203040}
+body{min-height:100vh;overflow:hidden;background:linear-gradient(180deg,#283c86,#45a247);color:#203040}
 .screen{width:100vw;height:100vh;display:none;justify-content:center;align-items:center;padding:18px;position:relative}
 .active{display:flex}
 #splash{background:linear-gradient(135deg,#fff7d6,#b8f3ff)}
 .logoBox{background:white;padding:28px;border-radius:28px;box-shadow:0 12px 35px rgba(0,0,0,.18);animation:pop 1.2s ease infinite alternate}
 .logoBox img{width:min(330px,80vw);display:block}
 @keyframes pop{from{transform:scale(1)}to{transform:scale(1.04)}}
-.city{position:absolute;inset:0;overflow:hidden;pointer-events:none}
-.cloud{position:absolute;width:130px;height:45px;background:white;border-radius:50px;opacity:.8;animation:cloudMove 18s linear infinite}
-.cloud:before,.cloud:after{content:"";position:absolute;background:white;border-radius:50%}
-.cloud:before{width:55px;height:55px;top:-25px;left:22px}
-.cloud:after{width:70px;height:70px;top:-35px;right:18px}
-.c1{top:9%;left:-150px;animation-delay:0s}.c2{top:20%;left:-250px;animation-delay:5s;transform:scale(.8)}.c3{top:13%;left:-350px;animation-delay:10s;transform:scale(1.1)}
-@keyframes cloudMove{to{left:110%}}
-.road{position:absolute;bottom:0;width:100%;height:150px;background:#3b4655;border-top:12px solid #68798a}
-.road:after{content:"";position:absolute;top:65px;width:100%;height:8px;background:repeating-linear-gradient(90deg,#fff 0 70px,transparent 70px 125px)}
-.warehouse{position:absolute;right:4%;bottom:135px;width:210px;height:150px;background:#ff9f43;border:6px solid #7b3f00;border-radius:14px 14px 0 0;box-shadow:0 8px 0 #c46b16}
-.warehouse:before{content:"WAREHOUSE";position:absolute;top:12px;left:0;width:100%;text-align:center;font-weight:bold;color:#5c3300}
-.warehouse:after{content:"";position:absolute;bottom:0;left:55px;width:100px;height:70px;background:#7b3f00;border-radius:8px 8px 0 0}
-.card{width:min(880px,96vw);background:rgba(255,255,255,.95);border-radius:28px;padding:26px;box-shadow:0 14px 40px rgba(0,0,0,.22);z-index:2;text-align:center;border:5px solid #fff}
-h1{font-size:clamp(1.8rem,5vw,3rem);color:#1c5d99;margin-bottom:14px}
+
+.warehouseScene{position:absolute;inset:0;overflow:hidden;pointer-events:none;background:
+linear-gradient(180deg,#7dd3fc 0%,#dbeafe 34%,#f8fafc 35%,#f8fafc 58%,#94a3b8 59%,#475569 100%)}
+.wallLine{position:absolute;left:0;right:0;top:34%;height:12px;background:#64748b}
+.floor{position:absolute;left:0;right:0;bottom:0;height:42%;background:
+linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px),
+linear-gradient(rgba(255,255,255,.12) 1px,transparent 1px),
+linear-gradient(180deg,#64748b,#334155);
+background-size:70px 70px,70px 70px,100% 100%;
+transform:perspective(500px) rotateX(18deg);transform-origin:top}
+.shelf{position:absolute;width:190px;height:170px;bottom:23%;background:#8b5e34;border:8px solid #5c4033;border-radius:12px;box-shadow:0 12px 25px rgba(0,0,0,.25)}
+.shelf.left{left:4%}.shelf.right{right:4%}
+.shelf:before,.shelf:after{content:"";position:absolute;left:0;right:0;height:8px;background:#5c4033}
+.shelf:before{top:52px}.shelf:after{top:108px}
+.boxMini{position:absolute;width:38px;height:30px;background:#f59e0b;border:3px solid #92400e;border-radius:5px}
+.b1{left:15px;top:15px}.b2{left:78px;top:72px;background:#f97316}.b3{left:130px;top:128px;background:#fbbf24}
+.conveyor{position:absolute;left:20%;right:20%;bottom:14%;height:60px;background:#1e293b;border:6px solid #0f172a;border-radius:18px;box-shadow:0 10px 25px rgba(0,0,0,.35);overflow:hidden}
+.conveyor:after{content:"";position:absolute;inset:8px;background:repeating-linear-gradient(90deg,#94a3b8 0 32px,#cbd5e1 32px 64px);animation:belt 1.2s linear infinite;border-radius:10px}
+@keyframes belt{to{background-position:64px 0}}
+.floatingBox{position:absolute;font-size:2.4rem;animation:floatBox 3s ease-in-out infinite}
+.fb1{left:24%;bottom:24%;animation-delay:0s}.fb2{left:50%;bottom:20%;animation-delay:.7s}.fb3{right:25%;bottom:25%;animation-delay:1.3s}
+@keyframes floatBox{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-18px) rotate(4deg)}}
+.light{position:absolute;top:37%;width:120px;height:120px;background:radial-gradient(circle,rgba(255,255,180,.45),transparent 68%);animation:glow 1.6s ease-in-out infinite alternate}
+.l1{left:25%}.l2{right:25%;animation-delay:.8s}
+@keyframes glow{from{opacity:.35}to{opacity:.8}}
+
+.card{width:min(880px,96vw);background:rgba(255,255,255,.96);border-radius:28px;padding:26px;box-shadow:0 14px 40px rgba(0,0,0,.25);z-index:2;text-align:center;border:5px solid #fff}
+h1{font-size:clamp(1.8rem,5vw,3rem);color:#1e40af;margin-bottom:14px}
 p{font-size:clamp(1rem,2.7vw,1.25rem);line-height:1.5}
-button{border:none;cursor:pointer;padding:14px 24px;border-radius:18px;font-size:1.1rem;font-weight:bold;background:#1c9bd1;color:white;margin-top:20px;box-shadow:0 6px 0 #0a5f85}
-button:active{transform:translateY(4px);box-shadow:0 2px 0 #0a5f85}
+button{border:none;cursor:pointer;padding:14px 24px;border-radius:18px;font-size:1.1rem;font-weight:bold;background:#2563eb;color:white;margin-top:20px;box-shadow:0 6px 0 #1e3a8a}
+button:active{transform:translateY(4px);box-shadow:0 2px 0 #1e3a8a}
+
 .topbar{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:min(900px,94vw);display:flex;justify-content:space-between;gap:10px;z-index:4}
 .badge{background:white;border-radius:16px;padding:10px 14px;font-weight:bold;box-shadow:0 5px 15px rgba(0,0,0,.15);font-size:clamp(.85rem,2.5vw,1rem)}
-.questionCard{margin-top:40px}.orderLabel{display:inline-block;background:#ffe066;color:#603c00;padding:8px 18px;border-radius:30px;font-weight:bold;margin-bottom:12px}
+.questionCard{margin-top:40px}
+.taskLabel{display:inline-block;background:#facc15;color:#422006;padding:8px 18px;border-radius:30px;font-weight:bold;margin-bottom:12px}
 .question{font-size:clamp(1.1rem,3.2vw,1.55rem);font-weight:bold;margin:16px 0 20px}
 .options{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.option{background:#f1f8ff;border:4px solid #c7e6ff;padding:16px;border-radius:18px;font-size:clamp(.95rem,2.8vw,1.15rem);font-weight:bold;cursor:pointer;transition:.2s;min-height:74px;display:flex;align-items:center;justify-content:center}
-.option:hover{transform:scale(1.02)}.option.selected{background:#d7efff;border-color:#168aad}.option.correct{background:#c8f7c5;border-color:#28a745}.option.wrong{background:#ffd1d1;border-color:#dc3545}.option.disabled{pointer-events:none}
-.feedback{margin-top:16px;min-height:55px;font-weight:bold;font-size:1.05rem}.nextBtn{display:none}
-.stars{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:10}.star{position:absolute;font-size:26px;animation:burst 1s ease forwards}
+.option{background:#eff6ff;border:4px solid #bfdbfe;padding:16px;border-radius:18px;font-size:clamp(.95rem,2.8vw,1.15rem);font-weight:bold;cursor:pointer;transition:.2s;min-height:74px;display:flex;align-items:center;justify-content:center}
+.option:hover{transform:scale(1.02)}
+.option.selected{background:#dbeafe;border-color:#2563eb}
+.option.correct{background:#bbf7d0;border-color:#22c55e}
+.option.wrong{background:#fecaca;border-color:#ef4444}
+.option.disabled{pointer-events:none}
+.feedback{margin-top:16px;min-height:55px;font-weight:bold;font-size:1.05rem}
+.nextBtn{display:none}
+.stars{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:10}
+.star{position:absolute;font-size:26px;animation:burst 1s ease forwards}
 @keyframes burst{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-120px) scale(1.8) rotate(180deg)}}
-.finalScore{font-size:clamp(2rem,7vw,4rem);margin:18px 0;color:#ff7b00;font-weight:bold}.packages{font-size:3rem;margin:15px;animation:bounce 1s infinite alternate}
+.packageDrop{position:absolute;left:50%;top:18%;font-size:3rem;z-index:9;animation:dropPack .9s ease forwards;pointer-events:none}
+@keyframes dropPack{0%{transform:translate(-50%,-60px) scale(.8);opacity:0}30%{opacity:1}100%{transform:translate(-50%,260px) scale(1.2);opacity:0}}
+.shakePack{animation:shake .4s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}50%{transform:translateX(8px)}75%{transform:translateX(-5px)}}
+.finalScore{font-size:clamp(2rem,7vw,4rem);margin:18px 0;color:#f97316;font-weight:bold}
+.packages{font-size:3rem;margin:15px;animation:bounce 1s infinite alternate}
 @keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-12px)}}
-@media(max-width:650px){.options{grid-template-columns:1fr}.warehouse{width:145px;height:110px;bottom:125px}.warehouse:after{left:38px;width:70px;height:50px}.truck{transform:scale(.82);transform-origin:left bottom}.truck.correctMove{transform:translateX(45vw) scale(.82)}.card{padding:20px}.topbar{top:8px}.questionCard{margin-top:70px}}
+
+@media(max-width:650px){
+.options{grid-template-columns:1fr}
+.shelf{width:115px;height:120px;bottom:24%}
+.shelf:before{top:38px}.shelf:after{top:78px}
+.boxMini{width:25px;height:20px}
+.b1{left:10px;top:10px}.b2{left:46px;top:52px}.b3{left:78px;top:90px}
+.conveyor{left:8%;right:8%;bottom:10%;height:48px}
+.card{padding:20px}.topbar{top:8px;gap:5px}.badge{padding:8px 9px}.questionCard{margin-top:70px}
+}
 </style>
 </head>
 <body>
@@ -50,37 +86,67 @@ button:active{transform:translateY(4px);box-shadow:0 2px 0 #0a5f85}
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
-<section id="splash" class="screen active"><div class="logoBox"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div></section>
+<section id="splash" class="screen active">
+  <div class="logoBox"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
+</section>
 
 <section id="intro" class="screen">
-  <div class="city"><div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div><div class="warehouse"></div><div class="road"></div></div>
+  <div class="warehouseScene">
+    <div class="wallLine"></div><div class="floor"></div>
+    <div class="light l1"></div><div class="light l2"></div>
+    <div class="shelf left"><div class="boxMini b1"></div><div class="boxMini b2"></div><div class="boxMini b3"></div></div>
+    <div class="shelf right"><div class="boxMini b1"></div><div class="boxMini b2"></div><div class="boxMini b3"></div></div>
+    <div class="conveyor"></div><div class="floatingBox fb1">📦</div><div class="floatingBox fb2">📦</div><div class="floatingBox fb3">📦</div>
+  </div>
   <div class="card">
-    <h1>Smart Delivery Hub</h1>
-    <p>Read each delivery situation carefully. Choose the best answer to help the truck reach the correct warehouse.</p>
-    <p style="margin-top:10px;">You will get two attempts for each question. Complete all 10 deliveries to finish the mission!</p>
-    <button onclick="startGame()">Start Mission</button>
+    <h1>Smart Warehouse Challenge</h1>
+    <p>Read each warehouse situation carefully. Choose the best answer to sort the package correctly.</p>
+    <p style="margin-top:10px;">You will get two attempts for each task. Complete all 10 tasks to finish the challenge!</p>
+    <button onclick="startGame()">Start Challenge</button>
   </div>
 </section>
 
 <section id="game" class="screen">
-  <div class="city"><div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div><div class="warehouse"></div><div class="road"></div>
-    </div></div>
-  <div class="topbar"><div class="badge" id="scoreBadge">⭐ Score: 0</div><div class="badge" id="progressBadge">🚚 Delivery: 1/10</div><div class="badge" id="attemptBadge">Attempts Left: 2</div></div>
-  <div class="card questionCard">
-    <div class="orderLabel">Delivery Order</div>
+  <div class="warehouseScene">
+    <div class="wallLine"></div><div class="floor"></div>
+    <div class="light l1"></div><div class="light l2"></div>
+    <div class="shelf left"><div class="boxMini b1"></div><div class="boxMini b2"></div><div class="boxMini b3"></div></div>
+    <div class="shelf right"><div class="boxMini b1"></div><div class="boxMini b2"></div><div class="boxMini b3"></div></div>
+    <div class="conveyor"></div><div class="floatingBox fb1">📦</div><div class="floatingBox fb2">📦</div><div class="floatingBox fb3">📦</div>
+  </div>
+
+  <div class="topbar">
+    <div class="badge" id="scoreBadge">⭐ Score: 0</div>
+    <div class="badge" id="progressBadge">📦 Task: 1/10</div>
+    <div class="badge" id="attemptBadge">Attempts Left: 2</div>
+  </div>
+
+  <div class="card questionCard" id="questionCard">
+    <div class="taskLabel">Warehouse Task</div>
     <div id="questionText" class="question"></div>
     <div id="optionsBox" class="options"></div>
     <div id="feedback" class="feedback"></div>
-    <button id="nextBtn" class="nextBtn" onclick="nextQuestion()">Next Delivery</button>
+    <button id="nextBtn" class="nextBtn" onclick="nextQuestion()">Next Task</button>
   </div>
+
   <div id="stars" class="stars"></div>
 </section>
 
 <section id="result" class="screen">
-  <div class="city"><div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div><div class="warehouse"></div><div class="road"></div></div>
+  <div class="warehouseScene">
+    <div class="wallLine"></div><div class="floor"></div>
+    <div class="light l1"></div><div class="light l2"></div>
+    <div class="shelf left"><div class="boxMini b1"></div><div class="boxMini b2"></div><div class="boxMini b3"></div></div>
+    <div class="shelf right"><div class="boxMini b1"></div><div class="boxMini b2"></div><div class="boxMini b3"></div></div>
+    <div class="conveyor"></div><div class="floatingBox fb1">📦</div><div class="floatingBox fb2">📦</div><div class="floatingBox fb3">📦</div>
+  </div>
   <div class="card">
-    <h1>Mission Complete!</h1><div class="packages">📦 🚚 📦</div><p>Your delivery score is</p>
-    <div id="finalScore" class="finalScore"></div><p id="finalMessage"></p><button onclick="restartGame()">Play Again</button>
+    <h1>Warehouse Challenge Complete!</h1>
+    <div class="packages">📦 ✨ 📦</div>
+    <p>You sorted</p>
+    <div id="finalScore" class="finalScore"></div>
+    <p id="finalMessage"></p>
+    <button onclick="restartGame()">Play Again</button>
   </div>
 </section>
 
@@ -97,24 +163,44 @@ const questions=[
 {q:"A classroom has 48 chairs arranged equally in rows. If the number of rows changes from 6 to 12, how many chairs will be in each row?",options:["4 chairs","6 chairs","8 chairs","12 chairs"],answer:"4 chairs",explain:"The total number of chairs is fixed, so more rows mean fewer chairs in each row."},
 {q:"A contractor finishes a road in 18 days using 24 workers. If 36 workers are used at the same rate, how many days will the work take?",options:["12 days","10 days","8 days","27 days"],answer:"12 days",explain:"24 × 18 = 36 × days, so days = 12."}
 ];
+
 let shuffledQuestions=[],current=0,score=0,attempts=2,answered=false;
 const splash=document.getElementById("splash"),intro=document.getElementById("intro"),game=document.getElementById("game"),result=document.getElementById("result");
 const questionText=document.getElementById("questionText"),optionsBox=document.getElementById("optionsBox"),feedback=document.getElementById("feedback"),nextBtn=document.getElementById("nextBtn");
-const scoreBadge=document.getElementById("scoreBadge"),progressBadge=document.getElementById("progressBadge"),attemptBadge=document.getElementById("attemptBadge"),stars=document.getElementById("stars");
+const scoreBadge=document.getElementById("scoreBadge"),progressBadge=document.getElementById("progressBadge"),attemptBadge=document.getElementById("attemptBadge"),stars=document.getElementById("stars"),questionCard=document.getElementById("questionCard");
 const correctSound=document.getElementById("correctSound"),wrongSound=document.getElementById("wrongSound"),clapSound=document.getElementById("clapSound");
+
 setTimeout(()=>showScreen(intro),5000);
 function showScreen(screen){[splash,intro,game,result].forEach(s=>s.classList.remove("active"));screen.classList.add("active")}
 function shuffleArray(arr){return[...arr].sort(()=>Math.random()-.5)}
 function startGame(){shuffledQuestions=shuffleArray(questions);current=0;score=0;showScreen(game);loadQuestion()}
-function loadQuestion(){attempts=2;answered=false;feedback.textContent="";nextBtn.style.display="none";optionsBox.innerHTML="";const item=shuffledQuestions[current];questionText.textContent=item.q;shuffleArray(item.options).forEach(option=>{const div=document.createElement("div");div.className="option";div.textContent=option;div.onclick=()=>checkAnswer(div,option);optionsBox.appendChild(div)});updateBadges()}
-function checkAnswer(selectedDiv,selectedOption){if(answered)return;document.querySelectorAll(".option").forEach(opt=>opt.classList.remove("selected"));selectedDiv.classList.add("selected");const item=shuffledQuestions[current];if(selectedOption===item.answer){answered=true;score++;selectedDiv.classList.add("correct");feedback.textContent="Correct! Delivery completed successfully.";playSound(correctSound);setTimeout(()=>playSound(clapSound),350);createStars();disableOptions();nextBtn.style.display="inline-block"}else{attempts--;selectedDiv.classList.add("wrong");playSound(wrongSound);if(attempts>0){feedback.textContent="Try once more. Read the situation carefully.";selectedDiv.classList.add("disabled")}else{answered=true;feedback.textContent="Correct answer: "+item.answer+". "+item.explain;showCorrectAnswer(item.answer);disableOptions();nextBtn.style.display="inline-block"}}updateBadges()}
+function loadQuestion(){attempts=2;answered=false;feedback.textContent="";nextBtn.style.display="none";optionsBox.innerHTML="";questionCard.classList.remove("shakePack");const item=shuffledQuestions[current];questionText.textContent=item.q;shuffleArray(item.options).forEach(option=>{const div=document.createElement("div");div.className="option";div.textContent=option;div.onclick=()=>checkAnswer(div,option);optionsBox.appendChild(div)});updateBadges()}
+function checkAnswer(selectedDiv,selectedOption){
+if(answered)return;
+document.querySelectorAll(".option").forEach(opt=>opt.classList.remove("selected"));
+selectedDiv.classList.add("selected");
+const item=shuffledQuestions[current];
+if(selectedOption===item.answer){
+answered=true;score++;selectedDiv.classList.add("correct");
+feedback.textContent="Correct! Package sorted successfully.";
+playSound(correctSound);setTimeout(()=>playSound(clapSound),350);
+createPackageDrop();createStars();disableOptions();nextBtn.style.display="inline-block";
+}else{
+attempts--;selectedDiv.classList.add("wrong");playSound(wrongSound);
+questionCard.classList.add("shakePack");setTimeout(()=>questionCard.classList.remove("shakePack"),450);
+if(attempts>0){feedback.textContent="Try once more. Read the situation carefully.";selectedDiv.classList.add("disabled")}
+else{answered=true;feedback.textContent="Correct answer: "+item.answer+". "+item.explain;showCorrectAnswer(item.answer);disableOptions();nextBtn.style.display="inline-block"}
+}
+updateBadges()
+}
 function showCorrectAnswer(answer){document.querySelectorAll(".option").forEach(opt=>{if(opt.textContent===answer)opt.classList.add("correct")})}
 function disableOptions(){document.querySelectorAll(".option").forEach(opt=>opt.classList.add("disabled"))}
-function updateBadges(){scoreBadge.textContent="⭐ Score: "+score;progressBadge.textContent="🚚 Delivery: "+(current+1)+"/10";attemptBadge.textContent="Attempts Left: "+attempts}
+function updateBadges(){scoreBadge.textContent="⭐ Score: "+score;progressBadge.textContent="📦 Task: "+(current+1)+"/10";attemptBadge.textContent="Attempts Left: "+attempts}
 function nextQuestion(){current++;if(current>=shuffledQuestions.length)endGame();else loadQuestion()}
-function endGame(){showScreen(result);document.getElementById("finalScore").textContent=score+" / 10";let msg=score>=9?"Excellent! You managed the delivery hub like a proportion expert.":score>=7?"Great work! You understood most direct and inverse proportion situations.":score>=5?"Good attempt! Revise how quantities change together or opposite to each other.":"Keep practising. Focus on whether both quantities increase together or one decreases when the other increases.";document.getElementById("finalMessage").textContent=msg;playSound(clapSound)}
+function endGame(){showScreen(result);document.getElementById("finalScore").textContent=score+" / 10 packages correctly";let msg=score>=9?"Excellent! You handled the warehouse like a proportion expert.":score>=7?"Great work! You understood most direct and inverse proportion situations.":score>=5?"Good attempt! Revise how quantities change together or opposite to each other.":"Keep practising. Focus on whether both quantities increase together or one decreases when the other increases.";document.getElementById("finalMessage").textContent=msg;playSound(clapSound)}
 function restartGame(){startGame()}
 function playSound(audio){audio.currentTime=0;audio.play().catch(()=>{})}
+function createPackageDrop(){const pack=document.createElement("div");pack.className="packageDrop";pack.textContent="📦";game.appendChild(pack);setTimeout(()=>pack.remove(),950)}
 function createStars(){for(let i=0;i<22;i++){const star=document.createElement("div");star.className="star";star.textContent="⭐";star.style.left=Math.random()*100+"%";star.style.top=55+Math.random()*30+"%";star.style.animationDelay=Math.random()*.25+"s";stars.appendChild(star);setTimeout(()=>star.remove(),1100)}}
 </script>
 </body>
