@@ -1,750 +1,249 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cubes & Cube Roots Quiz</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Grade 8 Cubes and Cube Roots - Cave Quest</title>
 <style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Trebuchet MS",Arial,sans-serif}
+body{min-height:100vh;overflow:hidden;background:#071018;color:#241404}
+.screen{width:100vw;height:100vh;display:none;align-items:center;justify-content:center;position:relative;padding:16px;overflow:hidden}
+.active{display:flex}
+#splash{background:#050505}
+.logoBox{background:#050505;padding:28px;border-radius:30px;box-shadow:0 0 35px rgba(80,220,255,.35)}
+.logoBox img{width:min(340px,82vw);display:block}
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+.caveBg{position:absolute;inset:0;overflow:hidden;pointer-events:none;background:
+radial-gradient(circle at 20% 25%,rgba(59,130,246,.32),transparent 18%),
+radial-gradient(circle at 82% 30%,rgba(34,211,238,.24),transparent 16%),
+linear-gradient(180deg,#06111d 0%,#0f172a 40%,#111827 65%,#030712 100%)}
+.caveArch{position:absolute;inset:-8% -5% auto -5%;height:55%;background:radial-gradient(ellipse at center,transparent 0 48%,#020617 49% 100%)}
+.stoneFloor{position:absolute;bottom:0;width:100%;height:28%;background:
+linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px),
+linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),
+linear-gradient(180deg,#1f2937,#0f172a);
+background-size:90px 70px,90px 70px,100% 100%}
+.crystal{position:absolute;font-size:3.3rem;filter:drop-shadow(0 0 14px #38bdf8)}
+.cr1{left:5%;bottom:10%}.cr2{right:7%;bottom:9%}.cr3{right:17%;bottom:23%;font-size:2.2rem}
+.torch{position:absolute;top:26%;font-size:3rem;filter:drop-shadow(0 0 13px #fb923c)}
+.t1{left:7%}.t2{right:8%}
+.vine{position:absolute;top:0;width:22px;height:170px;background:#166534;border-radius:20px}
+.v1{left:12%;transform:rotate(-12deg)}.v2{right:15%;transform:rotate(9deg)}.v3{left:64%;height:120px;transform:rotate(5deg)}
+.treasure{position:absolute;right:5%;bottom:16%;font-size:5rem;filter:drop-shadow(0 0 18px #facc15)}
+.explorer{position:absolute;left:3%;bottom:13%;font-size:5rem;z-index:1}
 
-body{
-font-family:Arial,sans-serif;
-background:linear-gradient(135deg,#eef9ff,#fff7ed);
-min-height:100vh;
-overflow-x:hidden;
-color:#1f2937;
-}
+.card{width:min(980px,96vw);background:rgba(255,236,192,.97);border:7px solid #71512b;border-radius:24px;padding:24px;box-shadow:0 18px 45px rgba(0,0,0,.45), inset 0 0 0 4px #c6904b;text-align:center;z-index:3}
+h1{font-size:clamp(1.8rem,5vw,3rem);color:#7c2d12;margin-bottom:12px;text-shadow:1px 2px #fcd34d}
+p{font-size:clamp(1rem,2.7vw,1.22rem);line-height:1.5}
+button{border:none;background:linear-gradient(#2563eb,#1e40af);color:white;padding:14px 28px;border-radius:14px;font-size:1.15rem;font-weight:bold;cursor:pointer;box-shadow:0 6px 0 #172554;margin-top:18px}
+button:active{transform:translateY(4px);box-shadow:0 2px 0 #172554}
 
-#splash{
-position:fixed;
-inset:0;
-background:white;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:9999;
-}
+.topbar{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:min(1000px,95vw);display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;z-index:5}
+.badge{background:linear-gradient(#1f2937,#020617);color:#fff7cc;border:4px solid #475569;border-radius:15px;padding:8px 10px;text-align:center;font-weight:bold;box-shadow:0 8px 18px rgba(0,0,0,.35);font-size:clamp(.82rem,2.4vw,1rem)}
+.questCard{margin-top:50px}
+.questLabel{display:inline-block;background:#1f2937;color:#fde68a;border:3px solid #64748b;padding:7px 18px;border-radius:18px;font-weight:bold;margin-bottom:10px}
+.questionWrap{display:block}
+.question{font-size:clamp(1.15rem,3vw,1.55rem);font-weight:bold;line-height:1.45;text-align:left;width:100%;max-width:900px;margin:0 auto}
 
-#splash img{
-width:200px;
-margin-bottom:20px;
-}
+/* Meaningful visual card */
+.visualBox{height:155px;background:linear-gradient(135deg,#fff7ed,#fed7aa);border:5px solid #92400e;border-radius:18px;position:relative;overflow:hidden;box-shadow:inset 0 0 0 4px rgba(255,255,255,.35),0 8px 18px rgba(0,0,0,.2)}
+.visualTitle{position:absolute;top:8px;left:10px;right:10px;text-align:center;font-size:.82rem;font-weight:bold;color:#7c2d12;background:rgba(255,255,255,.75);border-radius:10px;padding:4px}
+.isoCube{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:92px;height:92px}
+.smallCube{position:absolute;width:26px;height:26px;background:#fef3c7;border:2px solid #92400e;border-radius:4px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.35)}
+.smallCube:nth-child(1){left:10px;top:50px}.smallCube:nth-child(2){left:38px;top:50px}.smallCube:nth-child(3){left:66px;top:50px}
+.smallCube:nth-child(4){left:24px;top:25px}.smallCube:nth-child(5){left:52px;top:25px}.smallCube:nth-child(6){left:38px;top:0}
+.sideMark{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff7cc;border-radius:20px;padding:5px 12px;font-weight:bold;font-size:.9rem;white-space:nowrap}
+.volumeCube{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:105px;height:95px;border:5px solid #2563eb;border-radius:14px;background:rgba(191,219,254,.55)}
+.volumeCube:before{content:"";position:absolute;left:24px;top:-18px;width:80px;height:28px;background:rgba(147,197,253,.55);border:5px solid #2563eb;transform:skewX(-35deg);border-radius:8px}
+.volumeCube:after{content:"";position:absolute;right:-24px;top:8px;width:28px;height:75px;background:rgba(96,165,250,.55);border:5px solid #2563eb;transform:skewY(-35deg);border-radius:8px}
+.volumeLabel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:bold;font-size:1.1rem;color:#0f172a;padding:10px;z-index:2}
+.compareBox{position:absolute;inset:43px 12px 12px 12px;display:flex;align-items:center;justify-content:space-around;gap:6px}
+.compareItem{background:#fff;border:3px solid #f59e0b;border-radius:14px;padding:8px;font-weight:bold;color:#7c2d12;box-shadow:0 4px 0 #b45309;font-size:.95rem}
+.arrowText{font-size:1.8rem;color:#7c2d12;font-weight:bold}
 
-.container{
-width:min(950px,95%);
-margin:auto;
-padding:20px;
-}
+.options{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-top:18px}
+.option{background:linear-gradient(#fff7df,#ffe8ad);border:5px solid #f6c453;border-radius:18px;color:#1f2937;min-height:82px;display:flex;align-items:center;justify-content:center;padding:12px;font-size:clamp(1rem,2.6vw,1.22rem);font-weight:bold;cursor:pointer;box-shadow:0 8px 0 #b7791f;transition:.18s}
+.option:hover{transform:translateY(-3px);background:linear-gradient(#ffffff,#fff1c2)}
+.option.selected{outline:5px solid #fde047;background:linear-gradient(#fff3bf,#ffe08a)}
+.option.correct{background:linear-gradient(#bbf7d0,#86efac);border-color:#22c55e;color:#064e3b;box-shadow:0 0 22px #bbf7d0}
+.option.wrong{background:linear-gradient(#fecaca,#fca5a5);border-color:#ef4444;color:#7f1d1d}
+.option.disabled{pointer-events:none}
+.feedback{min-height:58px;margin-top:15px;font-size:1.05rem;font-weight:bold;color:#431407}
+.nextBtn{display:none}
 
-.card{
-background:rgba(255,255,255,.96);
-padding:24px;
-border-radius:24px;
-margin-top:25px;
-box-shadow:0 8px 25px rgba(0,0,0,.12);
-}
+.sparkLayer{position:absolute;inset:0;pointer-events:none;z-index:20;overflow:hidden}
+.spark{position:absolute;font-size:28px;animation:sparkFly 1.1s ease forwards}
+@keyframes sparkFly{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-150px) scale(1.8) rotate(180deg)}}
+.shake{animation:shake .4s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}50%{transform:translateX(10px)}75%{transform:translateX(-6px)}}
+.unlock{animation:unlockPop .65s ease}
+@keyframes unlockPop{0%{transform:scale(1)}45%{transform:scale(1.05)}100%{transform:scale(1)}}
+.finalScore{font-size:clamp(2rem,7vw,4rem);font-weight:bold;color:#15803d;margin:15px}
+.trophy{font-size:3.5rem;margin:14px;animation:trophyBounce 1s infinite alternate}
+@keyframes trophyBounce{to{transform:translateY(-8px)}}
 
-.logo{
-width:90px;
-display:block;
-margin:auto;
-margin-bottom:10px;
+@media(max-width:760px){
+.topbar{top:6px;gap:4px}.badge{padding:7px 5px}
+.card{padding:18px}
+.questCard{margin-top:70px}
+.questionWrap{display:block}.visualBox{height:135px;width:min(260px,100%);margin:auto}
+.options{grid-template-columns:1fr 1fr;gap:10px}
+.option{min-height:68px}
+.explorer{font-size:3.4rem;bottom:8%;opacity:.75}
+.treasure{font-size:3.7rem;bottom:10%;right:2%;opacity:.75}
 }
-
-h1,h2{
-text-align:center;
-color:#2563eb;
-margin-bottom:12px;
-}
-
-button{
-border:none;
-padding:13px 18px;
-border-radius:14px;
-background:#2563eb;
-color:white;
-font-weight:bold;
-cursor:pointer;
-margin-top:10px;
-transition:.2s;
-}
-
-button:hover{
-background:#1d4ed8;
-transform:scale(1.02);
-}
-
-.option{
-width:100%;
-display:block;
-text-align:left;
-margin:10px 0;
-background:#f3f4f6;
-color:#111827;
-}
-
-.option:hover{
-background:#dbeafe;
-}
-
-.topbar{
-display:flex;
-justify-content:space-between;
-flex-wrap:wrap;
-font-weight:bold;
-margin-bottom:15px;
-}
-
-.timer{
-color:#dc2626;
-}
-
-.feedback{
-margin-top:14px;
-font-weight:bold;
-min-height:30px;
-}
-
-.correct{
-color:#15803d;
-}
-
-.wrong{
-color:#dc2626;
-}
-
-.hidden{
-display:none;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin:15px 0;
-background:white;
-}
-
-th,td{
-border:1px solid #cbd5e1;
-padding:10px;
-text-align:center;
-}
-
-th{
-background:#dbeafe;
-}
-
-.cross{
-position:fixed;
-inset:0;
-display:none;
-justify-content:center;
-align-items:center;
-font-size:100px;
-color:rgba(220,38,38,.6);
-z-index:100;
-}
-
-.confetti{
-position:fixed;
-font-size:24px;
-pointer-events:none;
-z-index:200;
-animation:fall 1s linear forwards;
-}
-
-@keyframes fall{
-to{
-transform:translateY(150px) rotate(180deg);
-opacity:0;
-}
-}
-
-.bg span{
-position:fixed;
-font-size:26px;
-color:rgba(255,183,3,.3);
-animation:float 10s infinite linear;
-}
-
-@keyframes float{
-from{
-transform:translateY(100vh) rotate(0deg);
-}
-to{
-transform:translateY(-10vh) rotate(360deg);
-}
-}
-
-.final{
-border:3px dashed #f59e0b;
-background:#fff7ed;
-}
-
 </style>
 </head>
-
 <body>
-
-<div id="splash">
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
-<h2>Cubes & Cube Roots Quest</h2>
-<p>Loading Interactive Quiz...</p>
-</div>
-
-<div class="bg">
-<span style="left:10%;animation-delay:0s">★</span>
-<span style="left:30%;animation-delay:2s">✦</span>
-<span style="left:50%;animation-delay:4s">★</span>
-<span style="left:70%;animation-delay:1s">✧</span>
-<span style="left:90%;animation-delay:3s">★</span>
-</div>
-
-<div class="cross" id="cross">✖</div>
-
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
-<div class="container">
+<section id="splash" class="screen active">
+  <div class="logoBox"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
+</section>
 
-<div class="card" id="intro">
+<section id="intro" class="screen">
+  <div class="caveBg">
+    <div class="caveArch"></div><div class="stoneFloor"></div>
+    <div class="torch t1">🔥</div><div class="torch t2">🔥</div>
+    <div class="vine v1"></div><div class="vine v2"></div><div class="vine v3"></div>
+    <div class="crystal cr1">💎</div><div class="crystal cr2">💎</div><div class="crystal cr3">💎</div>
+    <div class="treasure">🧰</div><div class="explorer">🧭</div>
+  </div>
+  <div class="card">
+    <h1>Cube Cave Quest</h1>
+    <p>Help the explorer unlock cave treasures by solving cube and cube root situations.</p>
+    <p style="margin-top:10px;">You get two attempts for each quest. Complete all 10 quests to become a Cube Master!</p>
+    <button onclick="startGame()">Start Quest</button>
+  </div>
+</section>
 
-<img class="logo" src="assets/innovine-logo.png" alt="Innovine Logo">
+<section id="game" class="screen">
+  <div class="caveBg">
+    <div class="caveArch"></div><div class="stoneFloor"></div>
+    <div class="torch t1">🔥</div><div class="torch t2">🔥</div>
+    <div class="vine v1"></div><div class="vine v2"></div><div class="vine v3"></div>
+    <div class="crystal cr1">💎</div><div class="crystal cr2">💎</div><div class="crystal cr3">💎</div>
+    <div class="treasure">🧰</div><div class="explorer">🧭</div>
+  </div>
 
-<h1>Cubes & Cube Roots</h1>
+  <div class="topbar">
+    <div class="badge" id="scoreBadge">⭐ Score: 0</div>
+    <div class="badge" id="progressBadge">📜 Quest: 1/10</div>
+    <div class="badge" id="attemptBadge">❤️ Attempts: 2</div>
+  </div>
 
-<p><b>Grade 8 Mathematics MCQ Interactive</b></p>
+  <div id="questCard" class="card questCard">
+    <div class="questLabel">Cave Quest</div>
+    <div class="questionWrap">
+      <div id="questionText" class="question"></div>
+    </div>
+    <div id="optionsBox" class="options"></div>
+    <div id="feedback" class="feedback"></div>
+    <button id="nextBtn" class="nextBtn" onclick="nextQuestion()">Next Quest</button>
+  </div>
 
-<p style="margin-top:15px;">
-Explore real-life questions on cubes, cube roots, cube numbers, and volume.
-You get one retry after the first wrong attempt.
-After the second wrong attempt, the correct answer and explanation will appear.
-</p>
+  <div id="sparkLayer" class="sparkLayer"></div>
+</section>
 
-<button onclick="startGame()">Start Quiz</button>
-
-</div>
-
-<div class="card hidden" id="quiz">
-
-<div class="topbar">
-<div>Score: <span id="score">0</span></div>
-<div>Question: <span id="qNum">1</span>/<span id="total"></span></div>
-<div class="timer">Time: <span id="time">45</span>s</div>
-</div>
-
-<h2 id="question"></h2>
-
-<div id="tableBox"></div>
-
-<div id="options"></div>
-
-<div class="feedback" id="feedback"></div>
-
-<button id="nextBtn" class="hidden" onclick="nextQuestion()">Next</button>
-
-</div>
-
-<div class="card hidden final" id="challenge">
-
-<h2>Final Challenge</h2>
-
-<p>
-A cube-shaped container has a volume of 2197 cm³.
-What is the length of one edge?
-</p>
-
-<button onclick="checkFinal('A')">A. 11 cm</button>
-<button onclick="checkFinal('B')">B. 12 cm</button>
-<button onclick="checkFinal('C')">C. 13 cm</button>
-<button onclick="checkFinal('D')">D. 14 cm</button>
-
-<div class="feedback" id="finalFeedback"></div>
-
-</div>
-
-<div class="card hidden" id="result">
-
-<h1>Quiz Complete!</h1>
-
-<h2 id="finalScore"></h2>
-
-<p id="message"></p>
-
-<button onclick="location.reload()">Play Again</button>
-
-</div>
-
-</div>
+<section id="result" class="screen">
+  <div class="caveBg">
+    <div class="caveArch"></div><div class="stoneFloor"></div>
+    <div class="torch t1">🔥</div><div class="torch t2">🔥</div>
+    <div class="crystal cr1">💎</div><div class="crystal cr2">💎</div><div class="crystal cr3">💎</div>
+    <div class="treasure">🧰</div>
+  </div>
+  <div class="card">
+    <h1>Quest Complete!</h1>
+    <div class="trophy">🏆 💎 🧊</div>
+    <p>You unlocked</p>
+    <div id="finalScore" class="finalScore"></div>
+    <p id="finalMessage"></p>
+    <button onclick="restartGame()">Play Again</button>
+  </div>
+</section>
 
 <script>
-
 const questions=[
-
-{
-q:"A cube-shaped water tank has side length 6 m. What is the volume of the tank?",
-o:["36 m³","108 m³","216 m³","324 m³"],
-a:2,
-e:"Volume of cube = side × side × side = 6³ = 216 m³."
-},
-
-{
-q:"A toy company packs 512 small cubes equally into a larger cube-shaped box. How many cubes are arranged along one edge of the box?",
-o:["6","7","8","9"],
-a:2,
-e:"Cube root of 512 is 8."
-},
-
-{
-q:"A game rewards players with points in cube numbers: 1, 8, 27, 64, … Which number should come next?",
-o:["81","100","125","144"],
-a:2,
-e:"5³ = 125."
-},
-
-{
-q:"A cube-shaped gift box has side length 9 cm. What is its volume?",
-o:["81 cm³","243 cm³","512 cm³","729 cm³"],
-a:3,
-e:"9 × 9 × 9 = 729 cm³."
-},
-
-{
-q:"Study the table and identify the missing cube.",
-table:`<table>
-<tr>
-<th>Number</th>
-<th>Cube</th>
-</tr>
-<tr>
-<td>2</td>
-<td>8</td>
-</tr>
-<tr>
-<td>3</td>
-<td>27</td>
-</tr>
-<tr>
-<td>4</td>
-<td>64</td>
-</tr>
-<tr>
-<td>5</td>
-<td>?</td>
-</tr>
-</table>`,
-o:["100","115","125","150"],
-a:2,
-e:"5³ = 125."
-},
-
-{
-q:"A factory stores cube-shaped containers. If the side length becomes 5 cm, what will be the volume?",
-table:`<table>
-<tr>
-<th>Side Length (cm)</th>
-<th>Volume (cm³)</th>
-</tr>
-<tr>
-<td>2</td>
-<td>8</td>
-</tr>
-<tr>
-<td>3</td>
-<td>27</td>
-</tr>
-<tr>
-<td>4</td>
-<td>64</td>
-</tr>
-</table>`,
-o:["100 cm³","115 cm³","120 cm³","125 cm³"],
-a:3,
-e:"Volume = 5³ = 125 cm³."
-},
-
-{
-q:"A student arranges 343 identical cubes to form a larger cube. How many cubes are there along one edge?",
-o:["5","6","7","8"],
-a:2,
-e:"Cube root of 343 is 7."
-},
-
-{
-q:"During an exhibition, 729 small blocks are arranged to form a perfect cube display. How many blocks are there in each row?",
-o:["7","8","9","10"],
-a:2,
-e:"Cube root of 729 is 9."
-},
-
-{
-q:"Study the pattern and identify the missing cube root.",
-table:`<table>
-<tr>
-<th>Cube Number</th>
-<th>Cube Root</th>
-</tr>
-<tr>
-<td>64</td>
-<td>4</td>
-</tr>
-<tr>
-<td>125</td>
-<td>5</td>
-</tr>
-<tr>
-<td>216</td>
-<td>6</td>
-</tr>
-<tr>
-<td>343</td>
-<td>?</td>
-</tr>
-</table>`,
-o:["5","6","7","8"],
-a:2,
-e:"Cube root of 343 is 7."
-},
-
-{
-q:"A cube-shaped room has side length 10 m. What is the volume of the room?",
-o:["100 m³","500 m³","1000 m³","2000 m³"],
-a:2,
-e:"10³ = 1000 m³."
-},
-
-{
-q:"A wooden cube has volume 1000 cm³. What is the length of one edge?",
-o:["8 cm","9 cm","10 cm","12 cm"],
-a:2,
-e:"Cube root of 1000 is 10."
-},
-
-{
-q:"A designer creates cube-shaped lamps.",
-table:`<table>
-<tr>
-<th>Side Length (cm)</th>
-<th>Volume (cm³)</th>
-</tr>
-<tr>
-<td>3</td>
-<td>27</td>
-</tr>
-<tr>
-<td>6</td>
-<td>216</td>
-</tr>
-<tr>
-<td>9</td>
-<td>729</td>
-</tr>
-</table>`,
-o:["10 cm","11 cm","12 cm","13 cm"],
-a:2,
-e:"Cube root of 1728 is 12."
-},
-
-{
-q:"A student says that 512 is a perfect cube because it can be formed by multiplying the same number three times. Which cube root supports this statement?",
-o:["6","7","8","9"],
-a:2,
-e:"8 × 8 × 8 = 512."
-},
-
-{
-q:"Assertion: Every perfect cube has an integer cube root.<br><br>Reason: Perfect cubes are obtained by multiplying the same whole number three times.",
-o:[
-"Both are true and the reason explains the assertion",
-"Both are true but the reason does not explain the assertion",
-"Assertion is true but reason is false",
-"Assertion is false but reason is true"
-],
-a:0,
-e:"Perfect cubes are formed by multiplying equal whole numbers three times."
-},
-
-{
-q:"Assertion: The cube root of 729 is 9.<br><br>Reason: 9 × 9 × 9 = 729.",
-o:[
-"Both are true and the reason explains the assertion",
-"Both are true but the reason does not explain the assertion",
-"Assertion is true but reason is false",
-"Assertion is false but reason is true"
-],
-a:0,
-e:"9 × 9 × 9 = 729."
-}
-
+{q:"A cube-shaped water tank has a volume of 729 m³. Engineers want to paint one vertical edge from bottom to top. How long is that edge?",options:["9 m","8 m","7 m","10 m"],answer:"9 m",explain:"The edge of a cube is the cube root of its volume. ∛729 = 9, so the edge is 9 m."},
+{q:"A factory stores 216 identical cartons in a perfect cube-shaped stack. How many cartons are there along each edge of the stack?",options:["6","8","9","12"],answer:"6",explain:"6 × 6 × 6 = 216, so there are 6 cartons along each edge."},
+{q:"A cube-shaped gift box has an edge of 12 cm. Which label should be printed for its volume?",options:["1728 cm³","144 cm³","36 cm³","1296 cm³"],answer:"1728 cm³",explain:"Volume of a cube = side³ = 12³ = 1728 cm³."},
+{q:"A toy maker arranges 343 equal blocks into one perfect cube. How many blocks will be seen along one edge?",options:["7","9","11","13"],answer:"7",explain:"7³ = 343, so each edge has 7 blocks."},
+{q:"A cube-shaped storage container has volume 1000 cubic units. What is the length of one edge?",options:["10 units","20 units","100 units","50 units"],answer:"10 units",explain:"10³ = 1000, so the edge length is 10 units."},
+{q:"A display uses 729 tiny lights arranged equally in length, breadth, and height. How many lights are arranged in each direction?",options:["9","8","7","10"],answer:"9",explain:"Since 9³ = 729, each direction has 9 lights."},
+{q:"A cube-shaped jewellery box has an edge of 9 cm. What is its volume?",options:["729 cm³","81 cm³","27 cm³","243 cm³"],answer:"729 cm³",explain:"Volume = 9³ = 729 cm³."},
+{q:"A shopkeeper wants to make a perfect cube stack using 64 equal boxes. How many boxes should be placed along each edge?",options:["4","6","8","16"],answer:"4",explain:"4³ = 64, so 4 boxes are needed along each edge."},
+{q:"A cube has volume 90 cm³. Between which two whole-number lengths will its edge lie?",options:["4 cm and 5 cm","3 cm and 4 cm","5 cm and 6 cm","6 cm and 7 cm"],answer:"4 cm and 5 cm",explain:"4³ = 64 and 5³ = 125. Since 90 lies between them, the edge lies between 4 cm and 5 cm."},
+{q:"A cube-shaped ice block has edge 15 cm. What volume of ice does it contain?",options:["3375 cm³","225 cm³","45 cm³","125 cm³"],answer:"3375 cm³",explain:"Volume = 15³ = 3375 cm³."}
 ];
 
-let index=0;
-let score=0;
-let attempts=0;
-let timer;
-let timeLeft=45;
+let shuffledQuestions=[],current=0,score=0,attempts=2,answered=false;
+const splash=document.getElementById("splash"),intro=document.getElementById("intro"),game=document.getElementById("game"),result=document.getElementById("result");
+const questCard=document.getElementById("questCard"),questionText=document.getElementById("questionText"),optionsBox=document.getElementById("optionsBox"),feedback=document.getElementById("feedback"),nextBtn=document.getElementById("nextBtn");
+const scoreBadge=document.getElementById("scoreBadge"),progressBadge=document.getElementById("progressBadge"),attemptBadge=document.getElementById("attemptBadge"),sparkLayer=document.getElementById("sparkLayer");
+const correctSound=document.getElementById("correctSound"),wrongSound=document.getElementById("wrongSound"),clapSound=document.getElementById("clapSound");
 
-const totalScore=questions.length+1;
+setTimeout(()=>showScreen(intro),5000);
+function showScreen(screen){[splash,intro,game,result].forEach(s=>s.classList.remove("active"));screen.classList.add("active")}
+function shuffleArray(arr){return[...arr].sort(()=>Math.random()-.5)}
 
-setTimeout(()=>{
-document.getElementById("splash").style.display="none";
-},5000);
+function renderVisual(item){}
 
-document.getElementById("total").textContent=questions.length;
-
-function startGame(){
-
-document.getElementById("intro").classList.add("hidden");
-
-document.getElementById("quiz").classList.remove("hidden");
-
-loadQuestion();
-
-}
-
+function startGame(){shuffledQuestions=shuffleArray(questions);current=0;score=0;showScreen(game);loadQuestion()}
 function loadQuestion(){
-
-clearInterval(timer);
-
-attempts=0;
-
-timeLeft=45;
-
-document.getElementById("time").textContent=timeLeft;
-
-document.getElementById("feedback").innerHTML="";
-
-document.getElementById("nextBtn").classList.add("hidden");
-
-const q=questions[index];
-
-document.getElementById("qNum").textContent=index+1;
-
-document.getElementById("question").innerHTML=q.q;
-
-document.getElementById("tableBox").innerHTML=q.table || "";
-
-const box=document.getElementById("options");
-
-box.innerHTML="";
-
-q.o.forEach((opt,i)=>{
-
-const btn=document.createElement("button");
-
-btn.className="option";
-
-btn.textContent=String.fromCharCode(65+i)+". "+opt;
-
-btn.onclick=()=>checkAnswer(i);
-
-box.appendChild(btn);
-
+attempts=2;answered=false;feedback.textContent="";nextBtn.style.display="none";optionsBox.innerHTML="";
+questCard.classList.remove("shake","unlock");
+const item=shuffledQuestions[current];questionText.textContent=item.q;
+shuffleArray(item.options).forEach(option=>{
+  const div=document.createElement("div");
+  div.className="option";
+  div.textContent=option;
+  div.dataset.value=option;
+  div.onclick=()=>checkAnswer(div,option);
+  optionsBox.appendChild(div);
 });
-
-timer=setInterval(()=>{
-
-timeLeft--;
-
-document.getElementById("time").textContent=timeLeft;
-
-if(timeLeft<=0){
-
-clearInterval(timer);
-
-showAnswer("Time up!");
-
+updateBadges();
 }
-
-},1000);
-
-}
-
-function checkAnswer(choice){
-
-const q=questions[index];
-
-if(choice===q.a){
-
-score++;
-
-document.getElementById("score").textContent=score;
-
-document.getElementById("feedback").innerHTML=
-"<span class='correct'>Correct! Great thinking.</span>";
-
-play("correctSound");
-
-confetti();
-
-disableOptions();
-
-clearInterval(timer);
-
-document.getElementById("nextBtn").classList.remove("hidden");
-
+function checkAnswer(selectedDiv,selectedOption){
+if(answered)return;
+document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
+selectedDiv.classList.add("selected");
+const item=shuffledQuestions[current];
+if(selectedOption===item.answer){
+answered=true;score++;selectedDiv.classList.add("correct");
+feedback.textContent="Correct! Cave treasure unlocked.";
+playSound(correctSound);setTimeout(()=>playSound(clapSound),350);
+questCard.classList.add("unlock");createSparks();disableOptions();nextBtn.style.display="inline-block";
 }else{
-
-attempts++;
-
-play("wrongSound");
-
-showCross();
-
-if(attempts===1){
-
-document.getElementById("feedback").innerHTML=
-"<span class='wrong'>Try once more. Recheck the cube or cube root carefully.</span>";
-
-}else{
-
-showAnswer("Incorrect.");
-
+attempts--;selectedDiv.classList.add("wrong");playSound(wrongSound);
+questCard.classList.add("shake");setTimeout(()=>questCard.classList.remove("shake"),450);
+if(attempts>0){feedback.textContent="Oops! Not quite right. You have 1 attempt left.";selectedDiv.classList.add("disabled")}
+else{answered=true;feedback.textContent="Correct answer: "+item.answer+". "+item.explain;showCorrectAnswer(item.answer);disableOptions();nextBtn.style.display="inline-block"}
 }
-
+updateBadges();
 }
-
+function showCorrectAnswer(answer){document.querySelectorAll(".option").forEach(opt=>{if(opt.dataset.value===answer)opt.classList.add("correct")})}
+function disableOptions(){document.querySelectorAll(".option").forEach(opt=>opt.classList.add("disabled"))}
+function updateBadges(){scoreBadge.textContent="⭐ Score: "+score;progressBadge.textContent="📜 Quest: "+(current+1)+"/10";attemptBadge.textContent="❤️ Attempts: "+attempts}
+function nextQuestion(){current++;current>=shuffledQuestions.length?endGame():loadQuestion()}
+function endGame(){
+showScreen(result);document.getElementById("finalScore").textContent=score+" / 10 treasures";
+let msg=score>=9?"Excellent! You are a Cube Master.":score>=7?"Great work! You solved most cube and cube root situations.":score>=5?"Good attempt! Practise cubes, cube roots and cube volume.":"Keep practising. Focus on volume = side³ and cube root as the side of a cube.";
+document.getElementById("finalMessage").textContent=msg;playSound(clapSound);
 }
-
-function showAnswer(msg){
-
-const q=questions[index];
-
-disableOptions();
-
-clearInterval(timer);
-
-document.getElementById("feedback").innerHTML=
-"<span class='wrong'>"+msg+"</span><br><br>Correct Answer: <b>"+
-String.fromCharCode(65+q.a)+". "+q.o[q.a]+
-"</b><br>"+q.e;
-
-document.getElementById("nextBtn").classList.remove("hidden");
-
+function restartGame(){startGame()}
+function playSound(audio){audio.currentTime=0;audio.play().catch(()=>{})}
+function createSparks(){
+const icons=["⭐","💎","✨","🧊"];
+for(let i=0;i<28;i++){
+ const sp=document.createElement("div");
+ sp.className="spark";sp.textContent=icons[Math.floor(Math.random()*icons.length)];
+ sp.style.left=Math.random()*100+"%";sp.style.top=55+Math.random()*28+"%";sp.style.animationDelay=Math.random()*.2+"s";
+ sparkLayer.appendChild(sp);setTimeout(()=>sp.remove(),1200);
 }
-
-function nextQuestion(){
-
-index++;
-
-if(index<questions.length){
-
-loadQuestion();
-
-}else{
-
-document.getElementById("quiz").classList.add("hidden");
-
-document.getElementById("challenge").classList.remove("hidden");
-
 }
-
-}
-
-function checkFinal(ans){
-
-if(ans==="C"){
-
-score++;
-
-play("clapSound");
-
-confetti();
-
-document.getElementById("finalFeedback").innerHTML=
-"<span class='correct'>Correct! Cube root of 2197 is 13.</span>";
-
-}else{
-
-document.getElementById("finalFeedback").innerHTML=
-"<span class='wrong'>Correct Answer: C. 13 cm</span>";
-
-}
-
-setTimeout(showResult,1500);
-
-}
-
-function showResult(){
-
-document.getElementById("challenge").classList.add("hidden");
-
-document.getElementById("result").classList.remove("hidden");
-
-document.getElementById("finalScore").textContent=
-"Your Score: "+score+" / "+totalScore;
-
-document.getElementById("message").textContent=
-score>=13
-?"Excellent! You understand Cubes & Cube Roots very well."
-:score>=9
-?"Good effort! Revise cube numbers and cube roots once more."
-:"Keep practising cubes, cube roots, patterns, and volume.";
-
-}
-
-function disableOptions(){
-
-document.querySelectorAll(".option").forEach(btn=>btn.disabled=true);
-
-}
-
-function play(id){
-
-const audio=document.getElementById(id);
-
-audio.currentTime=0;
-
-audio.play().catch(()=>{});
-
-}
-
-function showCross(){
-
-const c=document.getElementById("cross");
-
-c.style.display="flex";
-
-setTimeout(()=>{
-c.style.display="none";
-},500);
-
-}
-
-function confetti(){
-
-for(let i=0;i<20;i++){
-
-const s=document.createElement("div");
-
-s.className="confetti";
-
-s.textContent="★";
-
-s.style.left=Math.random()*100+"vw";
-
-s.style.top=Math.random()*30+"vh";
-
-document.body.appendChild(s);
-
-setTimeout(()=>{
-s.remove();
-},1000);
-
-}
-
-}
-
 </script>
-
 </body>
 </html>
+<style>.visualBox{display:none!important}</style>
