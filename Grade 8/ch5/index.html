@@ -2,323 +2,418 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Algebraic Identities MCQ Challenge</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Grade 8 Identities - Innovine Interactive</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial, sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
 body{
   min-height:100vh;
-  background:linear-gradient(135deg,#eef6ff,#fff7e8);
-  overflow-x:hidden;
-  color:#263238;
+  overflow:hidden;
+  color:#10204f;
+  background:linear-gradient(180deg,#11145d 0%,#20167b 13%,#76dfff 13%,#ffd981 100%);
 }
-.bg span{
+body:before{
+  content:"";
   position:fixed;
-  font-size:22px;
-  opacity:.25;
-  animation:float 8s linear infinite;
-  z-index:0;
+  inset:13% 0 0 0;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.15) 1px,transparent 1px),
+    linear-gradient(rgba(255,255,255,.15) 1px,transparent 1px),
+    linear-gradient(135deg,#8ee8ff 0%,#e2d4ff 52%,#ffe08a 100%);
+  background-size:46px 46px,46px 46px,100% 100%;
+  pointer-events:none;
 }
-@keyframes float{
-  from{transform:translateY(100vh) rotate(0deg)}
-  to{transform:translateY(-10vh) rotate(360deg)}
-}
-#splash{
-  position:fixed;inset:0;background:white;
-  display:flex;align-items:center;justify-content:center;
-  z-index:9999;
-}
-#splash img{max-width:220px;animation:pop 1s ease}
-@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
-.container{
-  position:relative;z-index:1;
-  max-width:850px;margin:auto;padding:20px;
-}
+.screen{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:16px}
+.active{display:flex}
 .card{
-  background:rgba(255,255,255,.95);
-  border-radius:22px;
+  width:min(1080px,97vw);
+  border-radius:28px;
+  background:rgba(255,255,255,.94);
+  border:4px solid #5045e8;
+  box-shadow:0 18px 42px rgba(32,27,100,.34);
   padding:24px;
-  box-shadow:0 8px 25px rgba(0,0,0,.12);
-  margin-top:25px;
+  text-align:center;
+  position:relative;
 }
-.logo{width:100px;margin-bottom:10px}
-h1,h2{text-align:center;margin-bottom:15px;color:#1d4e89}
-p{line-height:1.6;margin-bottom:12px}
+.logo{width:min(280px,72vw)}
+h1{font-size:clamp(28px,5vw,50px);margin:14px 0;color:#1d2073}
+p{font-size:clamp(17px,3vw,23px);line-height:1.5;margin:14px auto;max-width:790px}
 button{
-  border:0;border-radius:14px;padding:13px 18px;
-  background:#1d4e89;color:white;font-size:16px;
-  cursor:pointer;margin:8px 0;width:100%;
+  border:0;
+  border-radius:16px;
+  padding:14px 26px;
+  font-weight:900;
+  font-size:18px;
+  cursor:pointer;
+  background:linear-gradient(135deg,#165dff,#8b3dff);
+  color:white;
+  box-shadow:0 7px 0 #141451;
+  transition:.12s;
 }
-button:hover{filter:brightness(1.08)}
-.option{
-  background:#f2f7ff;color:#263238;text-align:left;
-  border:2px solid transparent;
+button:active{transform:translateY(5px);box-shadow:0 2px 0 #141451}
+.badge{
+  display:inline-block;
+  margin-top:8px;
+  padding:9px 16px;
+  border-radius:999px;
+  background:#fff1a8;
+  color:#1d2073;
+  font-weight:900;
+  border:3px solid #ffe049;
 }
-.option:hover{border-color:#1d4e89}
 .topbar{
-  display:flex;justify-content:space-between;gap:10px;
-  flex-wrap:wrap;margin-bottom:15px;font-weight:bold;
+  position:absolute;
+  left:0;right:0;top:0;
+  height:92px;
+  background:linear-gradient(180deg,#2d1fa3,#12104c);
+  display:grid;
+  grid-template-columns:1fr 1.35fr 1fr;
+  gap:18px;
+  padding:13px 24px;
+  z-index:2;
 }
-.timer{color:#d84315}
-.feedback{text-align:center;font-weight:bold;margin-top:12px;font-size:18px}
-.correct{color:#2e7d32}
-.wrong{color:#c62828}
-.hidden{display:none}
-.confetti{
-  position:fixed;font-size:24px;pointer-events:none;
-  animation:fall 1.4s linear forwards;z-index:50;
+.hudbox{
+  border-radius:26px;
+  background:rgba(20,10,90,.75);
+  border:3px solid rgba(143,126,255,.75);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  font-weight:900;
+  font-size:clamp(14px,2vw,20px);
 }
-@keyframes fall{
-  to{transform:translateY(220px) rotate(360deg);opacity:0}
+.hudbox span.value{color:#ffe744;font-size:clamp(24px,4vw,38px)}
+.progress-mini{
+  width:75%;
+  height:17px;
+  border-radius:999px;
+  background:#e9f5ff;
+  overflow:hidden;
+  margin-top:7px;
+  border:2px solid #d4eaff;
 }
-.cross{
-  position:fixed;top:48%;left:50%;transform:translate(-50%,-50%);
-  font-size:80px;color:rgba(198,40,40,.65);
-  animation:fade .8s forwards;z-index:50;
+.progress-mini span{display:block;height:100%;width:0;background:linear-gradient(90deg,#79f032,#dfff42);border-radius:999px;transition:.25s}
+.game-area{
+  width:min(1080px,97vw);
+  min-height:calc(100vh - 118px);
+  margin-top:92px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px 16px 24px;
 }
-@keyframes fade{to{opacity:0;transform:translate(-50%,-50%) scale(1.5)}}
-.explanation{
-  background:#fff3e0;padding:12px;border-radius:12px;margin-top:12px;
+.game-panel{
+  width:min(970px,94vw);
+  border-radius:28px;
+  background:rgba(255,255,255,.94);
+  border:4px solid #5045e8;
+  box-shadow:0 15px 35px rgba(50,27,113,.28);
+  padding:18px;
+  text-align:center;
 }
-.final{
-  background:#fff8e1;border:2px dashed #f9a825;
+.topic-board{
+  display:inline-block;
+  background:#24307a;
+  color:#ffffff;
+  padding:10px 20px;
+  border-radius:14px;
+  border:4px solid #5fd7ff;
+  font-weight:900;
+  font-size:clamp(15px,2.4vw,20px);
+  margin-bottom:12px;
+  box-shadow:0 6px 0 #11184d;
 }
-@media(max-width:600px){
+.question-card{
+  background:linear-gradient(135deg,#fff8dc,#ffffff,#e9fbff);
+  border:4px solid #5c4df0;
+  border-radius:26px;
+  padding:20px;
+  min-height:178px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:clamp(18px,2.6vw,25px);
+  font-weight:900;
+  line-height:1.45;
+  text-align:left;
+  color:#11175f;
+}
+.options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin-top:16px;
+}
+.option{
+  min-height:78px;
+  border-radius:18px;
+  border:4px solid transparent;
+  background:#fff;
+  color:#10175c;
+  font-size:clamp(16px,2.25vw,22px);
+  font-weight:900;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:16px;
+  padding:14px 18px;
+  cursor:pointer;
+  box-shadow:0 8px 18px rgba(59,35,140,.18);
+  transition:.12s;
+  text-align:left;
+}
+.option:hover{transform:translateY(-2px)}
+.option .letter{
+  width:50px;height:50px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  flex:0 0 auto;
+  font-size:28px;
+  box-shadow:inset 0 -4px rgba(0,0,0,.18);
+}
+.option:nth-child(1){border-color:#9a4cf0}.option:nth-child(1) .letter{background:#8c41e8}
+.option:nth-child(2){border-color:#39aa55}.option:nth-child(2) .letter{background:#28a93f}
+.option:nth-child(3){border-color:#3476ef}.option:nth-child(3) .letter{background:#3268e9}
+.option:nth-child(4){border-color:#ff8a18}.option:nth-child(4) .letter{background:#ff7900}
+.option.selected{background:#fff6cc;transform:scale(1.012)}
+.option.correct{background:#c9ffd9!important;border-color:#16a05f!important;color:#0b6d3e}
+.option.wrong{background:#ffd6d6!important;border-color:#de3c3c!important;color:#8d1f1f}
+.feedback{
+  min-height:60px;
+  margin:14px auto 0;
+  max-width:800px;
+  color:#fff;
+  background:#27206e;
+  border-radius:20px;
+  padding:12px 18px;
+  font-size:17px;
+  font-weight:900;
+  line-height:1.35;
+}
+.hidden{display:none!important}
+.result-score{font-size:30px;font-weight:900;color:#1d2073;margin:18px 0}
+.fade-in{animation:fade .25s ease}
+@keyframes fade{from{opacity:.45;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:720px){
+  body{overflow:auto}
+  .screen{position:relative;min-height:100vh}
+  .topbar{position:relative;height:auto;grid-template-columns:1fr;padding:10px;gap:8px}
+  .game-area{margin-top:0;min-height:auto}
+  .options{grid-template-columns:1fr}
+  .option{justify-content:flex-start}
+  .question-card{min-height:205px}
   .card{padding:18px}
-  h1{font-size:24px}
 }
 </style>
 </head>
 <body>
 
-<div id="splash">
-  <img src="assets/innovine-logo.png" alt="Innovine Logo">
-</div>
-
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
-<div class="bg">
-  <span style="left:8%;animation-delay:0s">⭐</span>
-  <span style="left:25%;animation-delay:2s">🎗️</span>
-  <span style="left:45%;animation-delay:4s">⭐</span>
-  <span style="left:68%;animation-delay:1s">🎉</span>
-  <span style="left:85%;animation-delay:3s">⭐</span>
-</div>
-
-<div class="container">
-
-  <div id="intro" class="card">
-    <center><img class="logo" src="assets/innovine-logo.png" alt="Innovine Logo"></center>
-    <h1>Algebraic Identities Challenge</h1>
-    <p>Welcome, Math Explorer! Solve competency-based MCQs on algebraic identities.</p>
-    <p>You get <b>45 seconds</b> for each question and <b>one retry</b> after the first wrong attempt.</p>
-    <button onclick="startGame()">Start Challenge</button>
+<section class="screen active" id="splash">
+  <div class="card">
+    <img class="logo" src="assets/innovine-logo.png" alt="Innovine Logo">
   </div>
+</section>
 
-  <div id="quiz" class="card hidden">
-    <div class="topbar">
-      <div>Score: <span id="score">0</span></div>
-      <div>Question: <span id="qno">1</span>/<span id="total"></span></div>
-      <div class="timer">Time: <span id="time">45</span>s</div>
+<section class="screen" id="intro">
+  <div class="card">
+    <span class="badge">Grade 8 Mathematics</span>
+    <h1>Identity Lab</h1>
+    <p>Read each real-life situation and choose the correct identity or simplified expression.</p>
+    <p>You get <b>2 attempts</b> for every question. After the second wrong attempt, the correct answer will be shown.</p>
+    <button onclick="startGame()">Start Lab</button>
+  </div>
+</section>
+
+<section class="screen" id="game">
+  <div class="topbar">
+    <div class="hudbox">🏆 SCORE <span class="value" id="score">0</span></div>
+    <div class="hudbox" style="flex-direction:column">QUESTION <span><span class="value" id="qno">1</span> OF 10</span><div class="progress-mini"><span id="progress"></span></div></div>
+    <div class="hudbox">⏱ TIME <span class="value" id="time">60</span></div>
+  </div>
+  <div class="game-area">
+    <div class="game-panel fade-in" id="gamePanel">
+      <div class="topic-board">Identities</div>
+      <div class="question-card" id="question"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback hidden" id="feedback"></div>
+      <button class="hidden" id="nextBtn" onclick="nextQuestion()">Next</button>
     </div>
-    <h2 id="question"></h2>
-    <div id="options"></div>
-    <div id="feedback" class="feedback"></div>
-    <div id="explanation" class="explanation hidden"></div>
   </div>
+</section>
 
-  <div id="final" class="card final hidden">
-    <h1>Final Challenge</h1>
-    <p>Use your identity skills carefully. This question carries 2 points!</p>
-    <h2 id="finalQ"></h2>
-    <div id="finalOptions"></div>
-    <div id="finalFeedback" class="feedback"></div>
+<section class="screen" id="result">
+  <div class="card">
+    <span class="badge">Lab Complete</span>
+    <h1>Great Work!</h1>
+    <div class="result-score">Final Score: <span id="finalScore"></span>/100</div>
+    <p>You completed all the Identities questions.</p>
+    <button onclick="restartGame()">Play Again</button>
   </div>
-
-  <div id="result" class="card hidden">
-    <center><img class="logo" src="assets/innovine-logo.png" alt="Innovine Logo"></center>
-    <h1>Challenge Complete!</h1>
-    <h2>Your Score: <span id="finalScore"></span></h2>
-    <p id="remark"></p>
-    <button onclick="location.reload()">Play Again</button>
-  </div>
-
-</div>
+</section>
 
 <script>
-const questions=[
-{q:"A school is designing a square stage using tiles. The side is increased from x metres to (x + 2) metres. Which expression represents the new area?",o:["x² + 2x + 4","x² + 4x + 4","x² - 4x + 4","x² + 4"],a:1,e:"Area of a square = side², so (x + 2)² = x² + 4x + 4."},
-{q:"Aarav calculates 49 × 51 mentally using an algebraic identity. Which identity helps him?",o:["(a + b)²","(a - b)²","(a + b)(a - b)","a² + b²"],a:2,e:"49 × 51 = (50 - 1)(50 + 1), which uses difference of squares."},
-{q:"A student writes (2x + 5)² = 4x² + 25. What mistake did the student make?",o:["Forgot to square 5","Forgot the middle term","Squared incorrectly","Used wrong signs"],a:1,e:"The correct expansion includes 2ab: 4x² + 20x + 25."},
-{q:"A garden has dimensions (x + 4) m and (x - 4) m. What will be the area?",o:["x² + 16","x² - 16","x² - 8x + 16","x² + 8x + 16"],a:1,e:"(x + 4)(x - 4) = x² - 16."},
-{q:"For finding 104² quickly, which expression should be used?",o:["(100 - 4)²","(100 + 4)²","(10 + 4)²","(104 + 4)²"],a:1,e:"104 is close to 100, so write it as 100 + 4."},
-{q:"Assertion: (x + 3)(x - 3) removes the middle term after expansion. Reason: Positive and negative terms cancel each other.",o:["Both are true and Reason explains Assertion","Both are true but Reason does not explain Assertion","Assertion true, Reason false","Assertion false, Reason true"],a:0,e:"x² - 3x + 3x - 9 leaves no middle term."},
-{q:"A carpenter increases both length and breadth of a square table by 6 cm. Which identity helps find the new area?",o:["(a + b)²","(a - b)²","a² - b²","a² + b²"],a:0,e:"Increasing both sides gives (a + 6)²."},
-{q:"Which step verifies (7x - 2)² = 49x² - 28x + 4?",o:["Squaring only first term","Multiplying terms directly","Using (a - b)² = a² - 2ab + b²","Adding all terms first"],a:2,e:"Here a = 7x and b = 2."},
-{q:"One student simplifies (x + 8)(x - 8) as x² - 64. Another says x² + 64. Who is correct?",o:["First student only","Second student only","Both students","Neither student"],a:0,e:"(x + 8)(x - 8) = x² - 64."},
-{q:"A logo is designed inside a square of side (a + b). Which regions appear when divided visually?",o:["Only two squares","One square and one rectangle","Two squares and two rectangles","Four equal squares"],a:2,e:"The area model shows a², ab, ab and b²."},
-{q:"The area of a square playground is y² + 18y + 81. What could be the side length?",o:["y + 9","y - 9","y + 81","y - 18"],a:0,e:"y² + 18y + 81 = (y + 9)²."},
-{q:"A teacher compares (50 + 1)² and 50² + 1². What is being checked?",o:["Squares are always equal","Identities include middle terms","Addition and multiplication are same","Squaring removes addition"],a:1,e:"(a + b)² includes a middle term, 2ab."},
-{q:"Assertion: (m - 5)² and (5 - m)² have the same value. Reason: Squaring removes the effect of negative sign.",o:["Both are true and Reason explains Assertion","Both are true but Reason does not explain Assertion","Assertion true, Reason false","Assertion false, Reason true"],a:0,e:"5 - m = -(m - 5), and the square is same."},
-{q:"A student expands (3p + 2q)² as 9p² + 12pq + 4q². Which skill is mainly used?",o:["Estimation","Pattern recognition through identities","Measurement","Data handling"],a:1,e:"The student recognizes and applies (a + b)²."},
-{q:"A shopkeeper calculates 198 × 202 using (a - b)(a + b). What value should he get?",o:["39600","39996","40004","39204"],a:1,e:"198 × 202 = (200 - 2)(200 + 2) = 40000 - 4 = 39996."}
+const questions = [
+  {
+    q:"A square park has side length (x + 5) metres. The planner wants an expression for the total area. Which expression correctly represents the area?",
+    options:["x² + 25","x² + 10x + 25","x² + 5x + 25","2x + 10"],
+    answer:1,
+    exp:"Area of a square is side². Using (a + b)² = a² + 2ab + b², (x + 5)² = x² + 10x + 25."
+  },
+  {
+    q:"A square poster has side length (y − 3) cm. Which expression gives the area of the poster?",
+    options:["y² − 9","y² − 6y + 9","y² + 6y + 9","2y − 6"],
+    answer:1,
+    exp:"Using (a − b)² = a² − 2ab + b², (y − 3)² = y² − 6y + 9."
+  },
+  {
+    q:"A rectangular stage has length (p + 4) m and breadth (p − 4) m. Which expression shows its area?",
+    options:["p² + 16","p² − 16","p² − 8p + 16","p² + 8p + 16"],
+    answer:1,
+    exp:"Using (a + b)(a − b) = a² − b², (p + 4)(p − 4) = p² − 16."
+  },
+  {
+    q:"A garden path is designed with length (a + 7) m and breadth (a + 2) m. Which expression represents its area?",
+    options:["a² + 9a + 14","a² + 14","a² + 5a + 14","2a + 9"],
+    answer:0,
+    exp:"(a + 7)(a + 2) = a² + 2a + 7a + 14 = a² + 9a + 14."
+  },
+  {
+    q:"A photo frame has outer side (m + 6) cm and inner square side m cm. Which expression shows the extra square area added around it?",
+    options:["m² + 36","12m + 36","m² + 12m","6m + 36"],
+    answer:1,
+    exp:"Extra area = (m + 6)² − m² = m² + 12m + 36 − m² = 12m + 36."
+  },
+  {
+    q:"A tiled square floor originally has side x metres. Its side is increased by 8 metres. Which expression shows the increase in area?",
+    options:["16x + 64","x² + 64","8x + 64","x² + 16x + 64"],
+    answer:0,
+    exp:"Increase = (x + 8)² − x² = x² + 16x + 64 − x² = 16x + 64."
+  },
+  {
+    q:"Two numbers used in a coding puzzle are (n + 9) and (n − 9). Which expression shows their product?",
+    options:["n² + 81","n² − 81","n² − 18n + 81","n² + 18n + 81"],
+    answer:1,
+    exp:"This matches (a + b)(a − b) = a² − b². So the product is n² − 81."
+  },
+  {
+    q:"A square chocolate tray has side (2x + 3) cm. Which expression represents the area of the tray?",
+    options:["4x² + 9","4x² + 12x + 9","2x² + 12x + 9","4x² + 6x + 9"],
+    answer:1,
+    exp:"Using (a + b)², (2x + 3)² = (2x)² + 2(2x)(3) + 3² = 4x² + 12x + 9."
+  },
+  {
+    q:"A square design has side (3r − 2) cm. Which expression gives its area?",
+    options:["9r² − 4","9r² − 12r + 4","3r² − 12r + 4","9r² + 12r + 4"],
+    answer:1,
+    exp:"Using (a − b)², (3r − 2)² = 9r² − 12r + 4."
+  },
+  {
+    q:"A farmer marks a rectangular plot with sides (k + 10) m and (k − 10) m. Which expression can quickly find the area?",
+    options:["k² − 100","k² + 100","k² − 20k + 100","k² + 20k + 100"],
+    answer:0,
+    exp:"The sides match (a + b) and (a − b), so area = k² − 10² = k² − 100."
+  }
 ];
 
-const finalQuestion={
-q:"A rectangular banner has length (3x + 5) and breadth (3x - 5). Which expression represents its area?",
-o:["9x² + 25","9x² - 25","6x² - 25","9x² - 30x + 25"],
-a:1,
-e:"(3x + 5)(3x - 5) = (3x)² - 5² = 9x² - 25."
-};
+let order=[], current=0, score=0, attempts=0, timer, timeLeft=60, locked=false;
+const letters=["A","B","C","D"];
 
-let index=0,score=0,time=45,timer,attempt=0;
+setTimeout(()=>showScreen("intro"),5000);
 
-window.onload=()=>{
-  setTimeout(()=>document.getElementById("splash").style.display="none",5000);
-  document.getElementById("total").innerText=questions.length;
-};
-
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+function shuffle(a){return a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);}
 function startGame(){
-  document.getElementById("intro").classList.add("hidden");
-  document.getElementById("quiz").classList.remove("hidden");
+  order=shuffle([...Array(questions.length).keys()]);
+  current=0; score=0;
+  document.getElementById("score").textContent=score;
+  showScreen("game");
   loadQuestion();
 }
-
 function loadQuestion(){
-  attempt=0;
   clearInterval(timer);
-  time=45;
-  document.getElementById("time").innerText=time;
-  document.getElementById("qno").innerText=index+1;
-  document.getElementById("score").innerText=score;
-  document.getElementById("feedback").innerText="";
-  document.getElementById("explanation").classList.add("hidden");
-
-  const q=questions[index];
-  document.getElementById("question").innerText=q.q;
+  attempts=0; locked=false; timeLeft=60;
+  document.getElementById("time").textContent=timeLeft;
+  document.getElementById("nextBtn").classList.add("hidden");
+  const fb=document.getElementById("feedback");
+  fb.classList.add("hidden");
+  fb.textContent="";
+  document.getElementById("qno").textContent=current+1;
+  document.getElementById("progress").style.width=(current/questions.length*100)+"%";
+  const data=questions[order[current]];
+  document.getElementById("question").textContent=data.q;
   const box=document.getElementById("options");
   box.innerHTML="";
-  q.o.forEach((opt,i)=>{
-    const btn=document.createElement("button");
-    btn.className="option";
-    btn.innerText=String.fromCharCode(65+i)+". "+opt;
-    btn.onclick=()=>checkAnswer(i);
-    box.appendChild(btn);
+  data.options.forEach((op,i)=>{
+    const div=document.createElement("div");
+    div.className="option";
+    div.innerHTML=`<span class="letter">${letters[i]}</span><span>${op}</span>`;
+    div.onclick=()=>selectOption(div,i);
+    box.appendChild(div);
   });
+  const panel=document.getElementById("gamePanel");
+  panel.classList.remove("fade-in"); void panel.offsetWidth; panel.classList.add("fade-in");
   timer=setInterval(()=>{
-    time--;
-    document.getElementById("time").innerText=time;
-    if(time<=0) secondWrong();
+    timeLeft--; document.getElementById("time").textContent=timeLeft;
+    if(timeLeft<=0){clearInterval(timer);revealAnswer("Time is up. The correct answer is shown below.");}
   },1000);
 }
-
-function checkAnswer(choice){
-  const q=questions[index];
-  if(choice===q.a){
-    score++;
-    document.getElementById("score").innerText=score;
-    play("correctSound");
-    starConfetti();
-    nextSoon("Correct! Great thinking.");
+function selectOption(el,index){
+  if(locked)return;
+  document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
+  el.classList.add("selected");
+  const data=questions[order[current]];
+  const fb=document.getElementById("feedback");
+  fb.classList.remove("hidden");
+  if(index===data.answer){
+    locked=true; clearInterval(timer);
+    el.classList.add("correct");
+    score+=10;
+    document.getElementById("score").textContent=score;
+    fb.textContent="Correct! Identity matched.";
+    play("correctSound"); setTimeout(()=>play("clapSound"),250);
+    setTimeout(()=>document.getElementById("nextBtn").classList.remove("hidden"),500);
   }else{
-    attempt++;
-    play("wrongSound");
-    showCross();
-    if(attempt===1){
-      document.getElementById("feedback").innerHTML="<span class='wrong'>Try once more!</span>";
+    attempts++; el.classList.add("wrong"); play("wrongSound");
+    if(attempts<2){
+      fb.textContent="Try again. One more chance!";
     }else{
-      secondWrong();
+      revealAnswer("Second attempt over. The correct answer is shown below.");
     }
   }
 }
-
-function secondWrong(){
-  clearInterval(timer);
-  const q=questions[index];
-  document.getElementById("feedback").innerHTML="<span class='wrong'>Correct answer: "+q.o[q.a]+"</span>";
-  const ex=document.getElementById("explanation");
-  ex.innerText=q.e;
-  ex.classList.remove("hidden");
-  setTimeout(nextQuestion,2800);
+function revealAnswer(msg){
+  locked=true; clearInterval(timer);
+  const data=questions[order[current]];
+  document.querySelectorAll(".option").forEach((o,i)=>{if(i===data.answer)o.classList.add("correct");});
+  const fb=document.getElementById("feedback");
+  fb.classList.remove("hidden");
+  fb.textContent=msg+" "+data.exp;
+  document.getElementById("nextBtn").classList.remove("hidden");
 }
-
-function nextSoon(msg){
-  clearInterval(timer);
-  document.getElementById("feedback").innerHTML="<span class='correct'>"+msg+"</span>";
-  setTimeout(nextQuestion,1200);
-}
-
 function nextQuestion(){
-  index++;
-  if(index<questions.length) loadQuestion();
-  else showFinalChallenge();
+  current++;
+  if(current>=questions.length){
+    document.getElementById("finalScore").textContent=score;
+    showScreen("result");
+  }else loadQuestion();
 }
-
-function showFinalChallenge(){
-  document.getElementById("quiz").classList.add("hidden");
-  document.getElementById("final").classList.remove("hidden");
-  document.getElementById("finalQ").innerText=finalQuestion.q;
-  const box=document.getElementById("finalOptions");
-  box.innerHTML="";
-  finalQuestion.o.forEach((opt,i)=>{
-    const btn=document.createElement("button");
-    btn.className="option";
-    btn.innerText=String.fromCharCode(65+i)+". "+opt;
-    btn.onclick=()=>checkFinal(i);
-    box.appendChild(btn);
-  });
-}
-
-function checkFinal(choice){
-  if(choice===finalQuestion.a){
-    score+=2;
-    play("clapSound");
-    starConfetti();
-    document.getElementById("finalFeedback").innerHTML="<span class='correct'>Excellent! +2 points</span>";
-  }else{
-    play("wrongSound");
-    showCross();
-    document.getElementById("finalFeedback").innerHTML="<span class='wrong'>Correct answer: "+finalQuestion.o[finalQuestion.a]+"<br>"+finalQuestion.e+"</span>";
-  }
-  setTimeout(showResult,2500);
-}
-
-function showResult(){
-  document.getElementById("final").classList.add("hidden");
-  document.getElementById("result").classList.remove("hidden");
-  document.getElementById("finalScore").innerText=score+" / 17";
-  let remark=score>=14?"Outstanding work!":score>=10?"Good effort! Keep practising identities.":"Revise the identities and try again.";
-  document.getElementById("remark").innerText=remark;
-}
-
-function starConfetti(){
-  for(let i=0;i<18;i++){
-    const s=document.createElement("div");
-    s.className="confetti";
-    s.innerText="⭐";
-    s.style.left=Math.random()*100+"vw";
-    s.style.top=Math.random()*40+"vh";
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(),1500);
-  }
-}
-
-function showCross(){
-  const x=document.createElement("div");
-  x.className="cross";
-  x.innerText="✖";
-  document.body.appendChild(x);
-  setTimeout(()=>x.remove(),800);
-}
-
+function restartGame(){startGame();}
 function play(id){
-  const audio=document.getElementById(id);
-  if(audio){
-    audio.currentTime=0;
-    audio.play().catch(()=>{});
-  }
+  const a=document.getElementById(id);
+  a.currentTime=0;
+  a.play().catch(()=>{});
 }
 </script>
 </body>
