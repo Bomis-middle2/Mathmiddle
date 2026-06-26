@@ -1,701 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Data Handling & Graphs Quiz</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Grade 8 Graphs and Data Handling - Data Lab Challenge</title>
 <style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Trebuchet MS",Arial,sans-serif}
+body{min-height:100vh;overflow:hidden;background:#0b1220;color:#172033}
+.screen{width:100vw;height:100vh;display:none;align-items:center;justify-content:center;position:relative;padding:16px;overflow:hidden}
+.active{display:flex}
+#splash{background:#050505}
+.logoBox{background:#050505;padding:28px;border-radius:30px;box-shadow:0 0 35px rgba(80,220,255,.35)}
+.logoBox img{width:min(340px,82vw);display:block}
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+.labBg{position:absolute;inset:0;overflow:hidden;pointer-events:none;background:
+radial-gradient(circle at 20% 18%,rgba(34,211,238,.28),transparent 15%),
+radial-gradient(circle at 80% 22%,rgba(168,85,247,.22),transparent 17%),
+linear-gradient(180deg,#0f172a 0%,#1e3a8a 44%,#0f766e 45%,#064e3b 100%)}
+.gridFloor{position:absolute;bottom:0;width:100%;height:42%;background:
+linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px),
+linear-gradient(rgba(255,255,255,.12) 1px,transparent 1px),
+linear-gradient(180deg,#155e75,#083344);
+background-size:75px 65px,75px 65px,100% 100%}
+.monitor{position:absolute;right:7%;bottom:18%;font-size:5rem;filter:drop-shadow(0 0 15px #67e8f9)}
+.analyst{position:absolute;left:5%;bottom:16%;font-size:5rem;z-index:1}
+.chartIcon{position:absolute;font-size:3rem;filter:drop-shadow(0 0 10px #fde68a)}
+.ch1{left:12%;top:17%}.ch2{right:16%;top:16%}.ch3{right:6%;bottom:35%}
+.panel{position:absolute;left:50%;top:18%;transform:translateX(-50%);width:220px;height:80px;border:5px solid #38bdf8;border-radius:18px;background:rgba(15,23,42,.75)}
+.panel:before{content:"DATA DASHBOARD";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#e0f2fe;font-weight:bold}
 
-body{
-font-family:Arial,sans-serif;
-background:linear-gradient(135deg,#eef9ff,#fff7ed);
-min-height:100vh;
-overflow-x:hidden;
-color:#1f2937;
-}
+.card{width:min(990px,96vw);background:rgba(240,249,255,.97);border:7px solid #0369a1;border-radius:24px;padding:22px;box-shadow:0 18px 45px rgba(0,0,0,.38), inset 0 0 0 4px #7dd3fc;text-align:center;z-index:3}
+h1{font-size:clamp(1.8rem,5vw,3rem);color:#075985;margin-bottom:12px;text-shadow:1px 2px #bae6fd}
+p{font-size:clamp(1rem,2.7vw,1.22rem);line-height:1.5}
+button{border:none;background:linear-gradient(#0284c7,#075985);color:white;padding:14px 28px;border-radius:14px;font-size:1.15rem;font-weight:bold;cursor:pointer;box-shadow:0 6px 0 #0c4a6e;margin-top:18px}
+button:active{transform:translateY(4px);box-shadow:0 2px 0 #0c4a6e}
 
-#splash{
-position:fixed;
-inset:0;
-background:white;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:9999;
-}
+.topbar{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:min(1000px,95vw);display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;z-index:5}
+.badge{background:linear-gradient(#075985,#0c4a6e);color:#ecfeff;border:4px solid #67e8f9;border-radius:15px;padding:8px 10px;text-align:center;font-weight:bold;box-shadow:0 8px 18px rgba(0,0,0,.35);font-size:clamp(.82rem,2.4vw,1rem)}
+.quizCard{margin-top:50px}
+.questLabel{display:inline-block;background:#075985;color:#e0f2fe;border:3px solid #38bdf8;padding:7px 18px;border-radius:18px;font-weight:bold;margin-bottom:12px}
+.dataBox{max-width:760px;margin:0 auto 14px auto;background:#e0f2fe;border:4px solid #38bdf8;border-radius:16px;padding:10px;display:none}
+.dataBox table{width:100%;border-collapse:collapse;font-size:clamp(.9rem,2.4vw,1.05rem);font-weight:bold}
+.dataBox th,.dataBox td{border:2px solid #0284c7;padding:7px;background:#f8fafc}
+.dataBox th{background:#bae6fd;color:#0c4a6e}
+.miniChart{height:110px;display:none;align-items:end;justify-content:center;gap:14px;padding:10px;margin:0 auto 12px auto;max-width:560px;background:#e0f2fe;border:4px solid #38bdf8;border-radius:16px}
+.bar{width:48px;background:linear-gradient(#22c55e,#15803d);border-radius:8px 8px 0 0;position:relative}
+.bar span{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-size:.8rem;font-weight:bold;color:#0c4a6e}
+.question{font-size:clamp(1.08rem,2.85vw,1.42rem);font-weight:bold;line-height:1.38;text-align:left;width:100%;max-width:900px;margin:0 auto}
+.options{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-top:18px}
+.option{background:linear-gradient(#ffffff,#dff7ff);border:5px solid #67e8f9;border-radius:18px;color:#172033;min-height:78px;display:flex;align-items:center;justify-content:center;padding:12px;font-size:clamp(.95rem,2.5vw,1.14rem);font-weight:bold;cursor:pointer;box-shadow:0 8px 0 #0891b2;transition:.18s}
+.option:hover{transform:translateY(-3px);background:linear-gradient(#ffffff,#ecfeff)}
+.option.selected{outline:5px solid #fde047;background:#cffafe}
+.option.correct{background:linear-gradient(#bbf7d0,#86efac);border-color:#22c55e;color:#064e3b;box-shadow:0 0 22px #bbf7d0}
+.option.wrong{background:linear-gradient(#fecaca,#fca5a5);border-color:#ef4444;color:#7f1d1d}
+.option.disabled{pointer-events:none}
+.feedback{min-height:58px;margin-top:15px;font-size:1.05rem;font-weight:bold;color:#083344}
+.nextBtn{display:none}
+.sparkLayer{position:absolute;inset:0;pointer-events:none;z-index:20;overflow:hidden}
+.spark{position:absolute;font-size:28px;animation:sparkFly 1.1s ease forwards}
+@keyframes sparkFly{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-150px) scale(1.8) rotate(180deg)}}
+.shake{animation:shake .4s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}50%{transform:translateX(10px)}75%{transform:translateX(-6px)}}
+.unlock{animation:unlockPop .65s ease}
+@keyframes unlockPop{0%{transform:scale(1)}45%{transform:scale(1.04)}100%{transform:scale(1)}}
+.finalScore{font-size:clamp(2rem,7vw,4rem);font-weight:bold;color:#15803d;margin:15px}
+.trophy{font-size:3.5rem;margin:14px;animation:trophyBounce 1s infinite alternate}
+@keyframes trophyBounce{to{transform:translateY(-8px)}}
 
-#splash img{
-width:200px;
-margin-bottom:20px;
+@media(max-width:760px){
+.topbar{top:6px;gap:4px}.badge{padding:7px 5px}
+.card{padding:16px}.quizCard{margin-top:70px}
+.options{grid-template-columns:1fr 1fr;gap:10px}.option{min-height:66px}
+.analyst{font-size:3.5rem;bottom:7%;opacity:.55}.monitor{font-size:3.5rem;right:2%;bottom:8%;opacity:.7}
+.panel{display:none}.chartIcon{display:none}
+.dataBox{padding:7px}.miniChart{height:90px;gap:10px}.bar{width:34px}
 }
-
-.container{
-width:min(950px,95%);
-margin:auto;
-padding:20px;
-}
-
-.card{
-background:rgba(255,255,255,.96);
-padding:24px;
-border-radius:24px;
-margin-top:25px;
-box-shadow:0 8px 25px rgba(0,0,0,.12);
-}
-
-.logo{
-width:90px;
-display:block;
-margin:auto;
-margin-bottom:10px;
-}
-
-h1,h2{
-text-align:center;
-color:#2563eb;
-margin-bottom:12px;
-}
-
-button{
-border:none;
-padding:13px 18px;
-border-radius:14px;
-background:#2563eb;
-color:white;
-font-weight:bold;
-cursor:pointer;
-margin-top:10px;
-transition:.2s;
-}
-
-button:hover{
-background:#1d4ed8;
-transform:scale(1.02);
-}
-
-.option{
-width:100%;
-display:block;
-text-align:left;
-margin:10px 0;
-background:#f3f4f6;
-color:#111827;
-}
-
-.option:hover{
-background:#dbeafe;
-}
-
-.topbar{
-display:flex;
-justify-content:space-between;
-flex-wrap:wrap;
-font-weight:bold;
-margin-bottom:15px;
-}
-
-.timer{
-color:#dc2626;
-}
-
-.feedback{
-margin-top:14px;
-font-weight:bold;
-min-height:30px;
-}
-
-.correct{
-color:#15803d;
-}
-
-.wrong{
-color:#dc2626;
-}
-
-.hidden{
-display:none;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin:15px 0;
-background:white;
-}
-
-th,td{
-border:1px solid #cbd5e1;
-padding:10px;
-text-align:center;
-}
-
-th{
-background:#dbeafe;
-}
-
-.cross{
-position:fixed;
-inset:0;
-display:none;
-justify-content:center;
-align-items:center;
-font-size:100px;
-color:rgba(220,38,38,.6);
-z-index:100;
-}
-
-.confetti{
-position:fixed;
-font-size:24px;
-pointer-events:none;
-z-index:200;
-animation:fall 1s linear forwards;
-}
-
-@keyframes fall{
-to{
-transform:translateY(150px) rotate(180deg);
-opacity:0;
-}
-}
-
-.bg span{
-position:fixed;
-font-size:26px;
-color:rgba(255,183,3,.3);
-animation:float 10s infinite linear;
-}
-
-@keyframes float{
-from{
-transform:translateY(100vh) rotate(0deg);
-}
-to{
-transform:translateY(-10vh) rotate(360deg);
-}
-}
-
-.final{
-border:3px dashed #f59e0b;
-background:#fff7ed;
-}
-
 </style>
 </head>
-
 <body>
-
-<div id="splash">
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
-<h2>Data Handling & Graphs Quest</h2>
-<p>Loading Interactive Quiz...</p>
-</div>
-
-<div class="bg">
-<span style="left:10%;animation-delay:0s">★</span>
-<span style="left:30%;animation-delay:2s">✦</span>
-<span style="left:50%;animation-delay:4s">★</span>
-<span style="left:70%;animation-delay:1s">✧</span>
-<span style="left:90%;animation-delay:3s">★</span>
-</div>
-
-<div class="cross" id="cross">✖</div>
-
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
-<div class="container">
+<section id="splash" class="screen active"><div class="logoBox"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div></section>
 
-<div class="card" id="intro">
+<section id="intro" class="screen">
+  <div class="labBg"><div class="gridFloor"></div><div class="panel"></div><div class="chartIcon ch1">📊</div><div class="chartIcon ch2">📈</div><div class="chartIcon ch3">📋</div><div class="analyst">🧑‍💻</div><div class="monitor">🖥️</div></div>
+  <div class="card"><h1>Data Lab Challenge</h1><p>Help the data analyst calculate, compare, and make decisions using data.</p><p style="margin-top:10px;">You get two attempts for each task. Complete all 10 tasks to finish the data report!</p><button onclick="startGame()">Start Data Lab</button></div>
+</section>
 
-<img class="logo" src="assets/innovine-logo.png" alt="Innovine Logo">
+<section id="game" class="screen">
+  <div class="labBg"><div class="gridFloor"></div><div class="panel"></div><div class="chartIcon ch1">📊</div><div class="chartIcon ch2">📈</div><div class="chartIcon ch3">📋</div><div class="analyst">🧑‍💻</div><div class="monitor">🖥️</div></div>
+  <div class="topbar"><div class="badge" id="scoreBadge">⭐ Score: 0</div><div class="badge" id="progressBadge">📊 Task: 1/10</div><div class="badge" id="attemptBadge">❤️ Attempts: 2</div></div>
+  <div id="quizCard" class="card quizCard">
+    <div class="questLabel">Data Task</div>
+    <div id="dataBox" class="dataBox"></div>
+    <div id="miniChart" class="miniChart"></div>
+    <div id="questionText" class="question"></div>
+    <div id="optionsBox" class="options"></div>
+    <div id="feedback" class="feedback"></div>
+    <button id="nextBtn" class="nextBtn" onclick="nextQuestion()">Next Task</button>
+  </div>
+  <div id="sparkLayer" class="sparkLayer"></div>
+</section>
 
-<h1>Data Handling & Graphs</h1>
-
-<p><b>Grade 8 Mathematics MCQ Interactive</b></p>
-
-<p style="margin-top:15px;">
-Explore competency-based questions on graphs, coordinates, pie charts, bar graphs, histograms, and data interpretation.
-You get one retry after the first wrong attempt.
-After the second wrong attempt, the correct answer and explanation will appear.
-</p>
-
-<button onclick="startGame()">Start Quiz</button>
-
-</div>
-
-<div class="card hidden" id="quiz">
-
-<div class="topbar">
-<div>Score: <span id="score">0</span></div>
-<div>Question: <span id="qNum">1</span>/<span id="total"></span></div>
-<div class="timer">Time: <span id="time">45</span>s</div>
-</div>
-
-<h2 id="question"></h2>
-
-<div id="tableBox"></div>
-
-<div id="options"></div>
-
-<div class="feedback" id="feedback"></div>
-
-<button id="nextBtn" class="hidden" onclick="nextQuestion()">Next</button>
-
-</div>
-
-<div class="card hidden final" id="challenge">
-
-<h2>Final Challenge</h2>
-
-<p>
-A pie chart represents 200 students. Science occupies 90° of the chart.
-How many students chose Science?
-</p>
-
-<button onclick="checkFinal('A')">A. 40</button>
-<button onclick="checkFinal('B')">B. 50</button>
-<button onclick="checkFinal('C')">C. 60</button>
-<button onclick="checkFinal('D')">D. 75</button>
-
-<div class="feedback" id="finalFeedback"></div>
-
-</div>
-
-<div class="card hidden" id="result">
-
-<h1>Quiz Complete!</h1>
-
-<h2 id="finalScore"></h2>
-
-<p id="message"></p>
-
-<button onclick="location.reload()">Play Again</button>
-
-</div>
-
-</div>
+<section id="result" class="screen">
+  <div class="labBg"><div class="gridFloor"></div><div class="chartIcon ch1">📊</div><div class="chartIcon ch2">📈</div><div class="analyst">🧑‍💻</div><div class="monitor">🖥️</div></div>
+  <div class="card"><h1>Data Report Complete!</h1><div class="trophy">🏆 📊 ✅</div><p>You completed</p><div id="finalScore" class="finalScore"></div><p id="finalMessage"></p><button onclick="restartGame()">Play Again</button></div>
+</section>
 
 <script>
-
 const questions=[
-
-{
-q:"A teacher plots the point A(4, 3) on a graph. What does 4 represent?",
-o:["y-coordinate","x-coordinate","origin","quadrant"],
-a:1,
-e:"The first number in coordinates represents the x-coordinate."
-},
-
-{
-q:"A shop records ice creams sold from Monday to Friday using bars of equal width with gaps. Which graph is suitable?",
-o:["Bar graph","Histogram","Pie chart","Line graph"],
-a:0,
-e:"Bar graphs are used for comparing categories."
-},
-
-{
-q:"A student wants to show temperature changes from 9 AM to 3 PM. Which graph is most suitable?",
-o:["Bar graph","Line graph","Pie chart","Tally chart"],
-a:1,
-e:"Line graphs show changes over time."
-},
-
-{
-q:"A survey has continuous class intervals like 10-20, 20-30, 30-40. Which graph should be used?",
-o:["Bar graph","Histogram","Double bar graph","Pictograph"],
-a:1,
-e:"Histograms are used for continuous grouped data."
-},
-
-{
-q:"A school wants to show how students travel to school using a circle divided into sectors. Which chart is used?",
-o:["Line graph","Pie chart","Histogram","Double bar graph"],
-a:1,
-e:"Pie charts use sectors of a circle."
-},
-
-{
-q:"Riya plotted three points on a Cartesian plane: A(3, 4), B(0, 5), and C(-2, 0). Which point lies on the y-axis?",
-o:["A","B","C","None"],
-a:1,
-e:"A point with x-coordinate 0 lies on the y-axis."
-},
-
-{
-q:"Riya plotted three points on a Cartesian plane: A(3, 4), B(0, 5), and C(-2, 0). Which point lies on the x-axis?",
-o:["A","B","C","None"],
-a:2,
-e:"A point with y-coordinate 0 lies on the x-axis."
-},
-
-{
-q:"Study the table of favourite fruits.",
-table:`<table>
-<tr>
-<th>Fruit</th>
-<th>Students</th>
-</tr>
-<tr>
-<td>Apple</td>
-<td>12</td>
-</tr>
-<tr>
-<td>Mango</td>
-<td>18</td>
-</tr>
-<tr>
-<td>Banana</td>
-<td>10</td>
-</tr>
-<tr>
-<td>Orange</td>
-<td>8</td>
-</tr>
-</table>`,
-o:["Apple","Mango","Banana","Orange"],
-a:1,
-e:"Mango has the highest value: 18."
-},
-
-{
-q:"Which graph is most suitable to compare favourite fruit categories?",
-o:["Line graph","Bar graph","Histogram","Coordinate graph"],
-a:1,
-e:"Bar graphs compare categories clearly."
-},
-
-{
-q:"A pie chart shows students’ favourite games. Total students = 120. Football has central angle 90°. What fraction of students like football?",
-o:["1/2","1/3","1/4","1/5"],
-a:2,
-e:"90° out of 360° equals 1/4."
-},
-
-{
-q:"A pie chart shows students’ favourite games. Total students = 120. Football has central angle 90°. How many students like football?",
-o:["20","30","40","60"],
-a:1,
-e:"1/4 of 120 = 30 students."
-},
-
-{
-q:"Assertion: The coordinates of origin are (0, 0).<br><br>Reason: The origin is the point where the x-axis and y-axis meet.",
-o:[
-"Both are true and the reason explains the assertion",
-"Both are true but the reason does not explain the assertion",
-"Assertion is true but reason is false",
-"Assertion is false but reason is true"
-],
-a:0,
-e:"The origin is the intersection of both axes."
-},
-
-{
-q:"Assertion: A point of the form (0, y) lies on the y-axis.<br><br>Reason: Its x-coordinate is zero.",
-o:[
-"Both are true and the reason explains the assertion",
-"Both are true but the reason does not explain the assertion",
-"Assertion is true but reason is false",
-"Assertion is false but reason is true"
-],
-a:0,
-e:"Points with x-coordinate 0 lie on the y-axis."
-},
-
-{
-q:"Assertion: A histogram has gaps between bars.<br><br>Reason: A histogram represents continuous grouped data.",
-o:[
-"Both are true and the reason explains the assertion",
-"Both are true but the reason does not explain the assertion",
-"Assertion is true but reason is false",
-"Assertion is false but reason is true"
-],
-a:3,
-e:"Histograms do not have gaps between bars."
-},
-
-{
-q:"Assertion: In a pie chart, the total central angle is 360 degrees.<br><br>Reason: A pie chart represents a whole circle.",
-o:[
-"Both are true and the reason explains the assertion",
-"Both are true but the reason does not explain the assertion",
-"Assertion is true but reason is false",
-"Assertion is false but reason is true"
-],
-a:0,
-e:"A full circle measures 360°."
-}
-
+{type:"table",table:[["Product","A","B","C","D"],["Cost Price (₹)","400","350","250","500"],["Selling Price (₹)","480","420","325","575"]],q:"A shopkeeper compares four products. Which product earned the highest profit percentage?",options:["Product C","Product A","Product B","Product D"],answer:"Product C",explain:"Profit percentages: A = 20%, B = 20%, C = 30%, D = 15%. Product C is highest."},
+{type:"table",table:[["Team","Red","Blue","Green","Yellow"],["Matches","20","18","24","16"],["Wins","15","14","16","13"]],q:"A sports teacher wants to award the team with the highest winning percentage. Which team should win?",options:["Yellow","Red","Blue","Green"],answer:"Yellow",explain:"Winning percentages: Red = 75%, Blue ≈ 77.8%, Green ≈ 66.7%, Yellow = 81.25%. Yellow is highest."},
+{type:"table",table:[["Day","Mon","Tue","Wed","Thu","Fri"],["Water Used (L)","420","380","450","400","350"]],q:"The school wants to know the average daily water consumption for the week. What is the average?",options:["400 L","390 L","410 L","420 L"],answer:"400 L",explain:"Total = 420 + 380 + 450 + 400 + 350 = 2000 L. Average = 2000 ÷ 5 = 400 L."},
+{type:"table",table:[["Bus","A","B","C","D"],["Distance (km)","180","240","150","300"],["Fuel Used (L)","15","18","12","24"]],q:"Which bus has the best fuel efficiency in kilometres per litre?",options:["Bus B","Bus A","Bus C","Bus D"],answer:"Bus B",explain:"Efficiency: A = 12, B ≈ 13.33, C = 12.5, D = 12.5 km/L. Bus B is best."},
+{type:"table",table:[["Subject","Math","Science","English","SST"],["Test 1","74","81","69","88"],["Test 2","86","84","78","90"]],q:"Which subject showed the greatest percentage improvement from Test 1 to Test 2?",options:["Math","English","Science","SST"],answer:"Math",explain:"Math improved by 12 on 74 ≈ 16.2%, English by 9 on 69 ≈ 13%, Science ≈ 3.7%, SST ≈ 2.3%."},
+{type:"table",table:[["Month","Jan","Feb","Mar","Apr"],["Units Used","280","320","360","300"],["Rate per Unit","₹8","₹8","₹8","₹8"]],q:"Electricity costs ₹8 per unit. Which month's bill is the highest?",options:["March","February","April","January"],answer:"March",explain:"Bills: Jan ₹2240, Feb ₹2560, Mar ₹2880, Apr ₹2400. March is highest."},
+{type:"table",table:[["Cylinder","A","B","C","D"],["Radius (cm)","7","10","8","6"],["Height (cm)","20","12","15","25"]],q:"Using volume = πr²h, which cylinder will store the largest volume?",options:["Cylinder B","Cylinder A","Cylinder C","Cylinder D"],answer:"Cylinder B",explain:"Compare r²h values: A = 980, B = 1200, C = 960, D = 900. Cylinder B is largest."},
+{type:"table",table:[["Book Category","Novel","Science","Math","History"],["Copies","35","25","40","20"],["Price per Copy (₹)","250","420","300","500"]],q:"The librarian wants to know which category has the highest inventory value. Which one is it?",options:["Math","Science","History","Novel"],answer:"Math",explain:"Values: Novel ₹8750, Science ₹10500, Math ₹12000, History ₹10000. Math is highest."},
+{type:"table",table:[["Tank","A","B","C","D"],["Capacity (L)","800","1200","1000","900"],["Filled","75%","60%","70%","80%"]],q:"Which tank currently contains the most water?",options:["Tank B and Tank D","Tank C","Tank A","Tank B only"],answer:"Tank B and Tank D",explain:"A = 600 L, B = 720 L, C = 700 L, D = 720 L. Tanks B and D contain the most water."},
+{type:"table",table:[["Class","VIII A","VIII B","VIII C","VIII D"],["Students","42","38","45","36"],["Donation per Student","₹150","₹170","₹140","₹180"]],q:"Which class collected the maximum total donation?",options:["VIII D","VIII B","VIII A","VIII C"],answer:"VIII D",explain:"Totals: VIII A = ₹6300, VIII B = ₹6460, VIII C = ₹6300, VIII D = ₹6480. VIII D is highest."}
 ];
 
-let index=0;
-let score=0;
-let attempts=0;
-let timer;
-let timeLeft=45;
+let shuffledQuestions=[],current=0,score=0,attempts=2,answered=false;
+const splash=document.getElementById("splash"),intro=document.getElementById("intro"),game=document.getElementById("game"),result=document.getElementById("result");
+const quizCard=document.getElementById("quizCard"),questionText=document.getElementById("questionText"),optionsBox=document.getElementById("optionsBox"),feedback=document.getElementById("feedback"),nextBtn=document.getElementById("nextBtn"),dataBox=document.getElementById("dataBox"),miniChart=document.getElementById("miniChart");
+const scoreBadge=document.getElementById("scoreBadge"),progressBadge=document.getElementById("progressBadge"),attemptBadge=document.getElementById("attemptBadge"),sparkLayer=document.getElementById("sparkLayer");
+const correctSound=document.getElementById("correctSound"),wrongSound=document.getElementById("wrongSound"),clapSound=document.getElementById("clapSound");
 
-const totalScore=questions.length+1;
-
-setTimeout(()=>{
-document.getElementById("splash").style.display="none";
-},5000);
-
-document.getElementById("total").textContent=questions.length;
-
-function startGame(){
-
-document.getElementById("intro").classList.add("hidden");
-
-document.getElementById("quiz").classList.remove("hidden");
-
-loadQuestion();
-
+setTimeout(()=>showScreen(intro),5000);
+function showScreen(screen){[splash,intro,game,result].forEach(s=>s.classList.remove("active"));screen.classList.add("active")}
+function shuffleArray(arr){return[...arr].sort(()=>Math.random()-.5)}
+function renderData(item){
+ dataBox.style.display="none"; miniChart.style.display="none"; dataBox.innerHTML=""; miniChart.innerHTML="";
+ if(item.type==="table"){
+   dataBox.style.display="block";
+   let html="<table>";
+   item.table.forEach((row,i)=>{html+="<tr>"+row.map(cell=>i===0?`<th>${cell}</th>`:`<td>${cell}</td>`).join("")+"</tr>"});
+   html+="</table>";
+   dataBox.innerHTML=html;
+ }
+ if(item.type==="chart"){
+   miniChart.style.display="flex";
+   let max=Math.max(...item.chart.map(x=>x[1]));
+   item.chart.forEach(x=>{
+     const bar=document.createElement("div");
+     bar.className="bar";
+     bar.style.height=(x[1]/max*75+12)+"px";
+     bar.innerHTML=`<span>${x[0]}<br>${x[1]}</span>`;
+     miniChart.appendChild(bar);
+   });
+ }
 }
-
+function startGame(){shuffledQuestions=shuffleArray(questions);current=0;score=0;showScreen(game);loadQuestion()}
 function loadQuestion(){
-
-clearInterval(timer);
-
-attempts=0;
-
-timeLeft=45;
-
-document.getElementById("time").textContent=timeLeft;
-
-document.getElementById("feedback").innerHTML="";
-
-document.getElementById("nextBtn").classList.add("hidden");
-
-const q=questions[index];
-
-document.getElementById("qNum").textContent=index+1;
-
-document.getElementById("question").innerHTML=q.q;
-
-document.getElementById("tableBox").innerHTML=q.table || "";
-
-const box=document.getElementById("options");
-
-box.innerHTML="";
-
-q.o.forEach((opt,i)=>{
-
-const btn=document.createElement("button");
-
-btn.className="option";
-
-btn.textContent=String.fromCharCode(65+i)+". "+opt;
-
-btn.onclick=()=>checkAnswer(i);
-
-box.appendChild(btn);
-
-});
-
-timer=setInterval(()=>{
-
-timeLeft--;
-
-document.getElementById("time").textContent=timeLeft;
-
-if(timeLeft<=0){
-
-clearInterval(timer);
-
-showAnswer("Time up!");
-
+attempts=2;answered=false;feedback.textContent="";nextBtn.style.display="none";optionsBox.innerHTML="";quizCard.classList.remove("shake","unlock");
+const item=shuffledQuestions[current];renderData(item);questionText.textContent=item.q;
+shuffleArray(item.options).forEach(option=>{const div=document.createElement("div");div.className="option";div.textContent=option;div.dataset.value=option;div.onclick=()=>checkAnswer(div,option);optionsBox.appendChild(div)});
+updateBadges();
 }
-
-},1000);
-
-}
-
-function checkAnswer(choice){
-
-const q=questions[index];
-
-if(choice===q.a){
-
-score++;
-
-document.getElementById("score").textContent=score;
-
-document.getElementById("feedback").innerHTML=
-"<span class='correct'>Correct! Great thinking.</span>";
-
-play("correctSound");
-
-confetti();
-
-disableOptions();
-
-clearInterval(timer);
-
-document.getElementById("nextBtn").classList.remove("hidden");
-
+function checkAnswer(selectedDiv,selectedOption){
+if(answered)return;
+document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
+selectedDiv.classList.add("selected");
+const item=shuffledQuestions[current];
+if(selectedOption===item.answer){
+answered=true;score++;selectedDiv.classList.add("correct");feedback.textContent="Correct! Data task completed.";
+playSound(correctSound);setTimeout(()=>playSound(clapSound),350);quizCard.classList.add("unlock");createSparks();disableOptions();nextBtn.style.display="inline-block";
 }else{
-
-attempts++;
-
-play("wrongSound");
-
-showCross();
-
-if(attempts===1){
-
-document.getElementById("feedback").innerHTML=
-"<span class='wrong'>Try once more. Recheck the graph or data carefully.</span>";
-
-}else{
-
-showAnswer("Incorrect.");
-
+attempts--;selectedDiv.classList.add("wrong");playSound(wrongSound);quizCard.classList.add("shake");setTimeout(()=>quizCard.classList.remove("shake"),450);
+if(attempts>0){feedback.textContent="Try once more. Calculate using the data carefully.";selectedDiv.classList.add("disabled")}
+else{answered=true;feedback.textContent="Correct answer: "+item.answer+". "+item.explain;showCorrectAnswer(item.answer);disableOptions();nextBtn.style.display="inline-block"}
 }
-
+updateBadges();
 }
-
-}
-
-function showAnswer(msg){
-
-const q=questions[index];
-
-disableOptions();
-
-clearInterval(timer);
-
-document.getElementById("feedback").innerHTML=
-"<span class='wrong'>"+msg+"</span><br><br>Correct Answer: <b>"+
-String.fromCharCode(65+q.a)+". "+q.o[q.a]+
-"</b><br>"+q.e;
-
-document.getElementById("nextBtn").classList.remove("hidden");
-
-}
-
-function nextQuestion(){
-
-index++;
-
-if(index<questions.length){
-
-loadQuestion();
-
-}else{
-
-document.getElementById("quiz").classList.add("hidden");
-
-document.getElementById("challenge").classList.remove("hidden");
-
-}
-
-}
-
-function checkFinal(ans){
-
-if(ans==="B"){
-
-score++;
-
-play("clapSound");
-
-confetti();
-
-document.getElementById("finalFeedback").innerHTML=
-"<span class='correct'>Correct! 90° is 1/4 of 360°, and 1/4 of 200 = 50.</span>";
-
-}else{
-
-document.getElementById("finalFeedback").innerHTML=
-"<span class='wrong'>Correct Answer: B. 50</span>";
-
-}
-
-setTimeout(showResult,1500);
-
-}
-
-function showResult(){
-
-document.getElementById("challenge").classList.add("hidden");
-
-document.getElementById("result").classList.remove("hidden");
-
-document.getElementById("finalScore").textContent=
-"Your Score: "+score+" / "+totalScore;
-
-document.getElementById("message").textContent=
-score>=13
-?"Excellent! You understand Data Handling & Graphs very well."
-:score>=9
-?"Good effort! Revise graphs, coordinates, and pie charts once more."
-:"Keep practising data interpretation and graph concepts.";
-
-}
-
-function disableOptions(){
-
-document.querySelectorAll(".option").forEach(btn=>btn.disabled=true);
-
-}
-
-function play(id){
-
-const audio=document.getElementById(id);
-
-audio.currentTime=0;
-
-audio.play().catch(()=>{});
-
-}
-
-function showCross(){
-
-const c=document.getElementById("cross");
-
-c.style.display="flex";
-
-setTimeout(()=>{
-c.style.display="none";
-},500);
-
-}
-
-function confetti(){
-
-for(let i=0;i<20;i++){
-
-const s=document.createElement("div");
-
-s.className="confetti";
-
-s.textContent="★";
-
-s.style.left=Math.random()*100+"vw";
-
-s.style.top=Math.random()*30+"vh";
-
-document.body.appendChild(s);
-
-setTimeout(()=>{
-s.remove();
-},1000);
-
-}
-
-}
-
+function showCorrectAnswer(answer){document.querySelectorAll(".option").forEach(opt=>{if(opt.dataset.value===answer)opt.classList.add("correct")})}
+function disableOptions(){document.querySelectorAll(".option").forEach(opt=>opt.classList.add("disabled"))}
+function updateBadges(){scoreBadge.textContent="⭐ Score: "+score;progressBadge.textContent="📊 Task: "+(current+1)+"/10";attemptBadge.textContent="❤️ Attempts: "+attempts}
+function nextQuestion(){current++;current>=shuffledQuestions.length?endGame():loadQuestion()}
+function endGame(){showScreen(result);document.getElementById("finalScore").textContent=score+" / 10 tasks";let msg=score>=9?"Excellent! You are a Data Handling Expert.":score>=7?"Great work! You read most data displays accurately.":score>=5?"Good attempt! Practise averages, percentages, efficiency and comparisons.":"Keep practising. Focus on comparing values and reading data carefully.";document.getElementById("finalMessage").textContent=msg;playSound(clapSound)}
+function restartGame(){startGame()}
+function playSound(audio){audio.currentTime=0;audio.play().catch(()=>{})}
+function createSparks(){const icons=["⭐","📊","✨","✅"];for(let i=0;i<28;i++){const sp=document.createElement("div");sp.className="spark";sp.textContent=icons[Math.floor(Math.random()*icons.length)];sp.style.left=Math.random()*100+"%";sp.style.top=55+Math.random()*28+"%";sp.style.animationDelay=Math.random()*.2+"s";sparkLayer.appendChild(sp);setTimeout(()=>sp.remove(),1200)}}
 </script>
-
 </body>
 </html>
