@@ -2,312 +2,310 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Rational Numbers Quiz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Grade 8 Rational Numbers - Innovine Interactive</title>
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:linear-gradient(135deg,#eef8ff,#fff7e6);
-  min-height:100vh;
-  overflow-x:hidden;
-}
-.logo-screen{
-  position:fixed;inset:0;background:white;z-index:9999;
-  display:flex;align-items:center;justify-content:center;flex-direction:column;
-}
-.logo-screen img{max-width:220px;animation:pop 1s ease}
-@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
-
-.bg-star{
-  position:fixed;color:#ffd86b;font-size:22px;opacity:.45;
-  animation:float 8s linear infinite;z-index:0;
-}
-@keyframes float{
-  from{transform:translateY(100vh) rotate(0deg)}
-  to{transform:translateY(-10vh) rotate(360deg)}
-}
-
-.container{
-  position:relative;z-index:1;
-  max-width:850px;margin:auto;padding:18px;
-}
-.card{
-  background:rgba(255,255,255,.94);
-  border-radius:22px;padding:22px;
-  box-shadow:0 10px 28px rgba(0,0,0,.12);
-}
-h1,h2{margin-top:0;color:#21466b}
-button{
-  border:0;border-radius:14px;padding:13px 18px;
-  font-size:16px;cursor:pointer;background:#3478f6;color:white;
-}
-button:hover{opacity:.9}
-.option{
-  display:block;width:100%;margin:10px 0;text-align:left;
-  background:#f3f7ff;color:#222;border:2px solid #dbe7ff;
-}
-.option:hover{background:#e8f0ff}
-.topbar{
-  display:flex;justify-content:space-between;gap:10px;
-  margin-bottom:14px;font-weight:bold;flex-wrap:wrap;
-}
-.timer{color:#d35400}
-.score{color:#187b37}
-.question-img{
-  width:100%;max-width:520px;display:block;margin:12px auto;
-  border-radius:16px;border:2px solid #ddd;
-}
-.feedback{
-  min-height:35px;font-weight:bold;margin-top:12px;
-}
-.correct{color:#148a38}
-.wrong{color:#c0392b}
-.explain{
-  background:#fff4d6;border-left:5px solid #f4b400;
-  padding:10px;border-radius:10px;margin-top:8px;
-}
-.confetti{
-  position:fixed;top:-20px;font-size:22px;z-index:999;
-  animation:fall 1.2s linear forwards;
-}
-@keyframes fall{to{transform:translateY(100vh) rotate(360deg);opacity:0}}
-.cross{
-  position:fixed;top:45%;left:50%;transform:translate(-50%,-50%);
-  font-size:70px;color:#e74c3c;z-index:999;animation:fade .7s forwards;
-}
-@keyframes fade{to{opacity:0;transform:translate(-50%,-50%) scale(1.5)}}
-.small{font-size:14px;color:#555}
+  *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
+  body{
+    min-height:100vh;
+    overflow:hidden;
+    color:#1d2440;
+    background:
+      radial-gradient(circle at 12% 15%, rgba(255,229,109,.75) 0 9%, transparent 10%),
+      radial-gradient(circle at 88% 18%, rgba(118,234,255,.65) 0 10%, transparent 11%),
+      radial-gradient(circle at 18% 86%, rgba(255,138,216,.55) 0 11%, transparent 12%),
+      radial-gradient(circle at 84% 82%, rgba(154,255,175,.55) 0 9%, transparent 10%),
+      linear-gradient(135deg,#8ee7ff 0%,#bca7ff 47%,#ffb7e6 100%);
+  }
+  body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(45deg, rgba(255,255,255,.16) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(255,255,255,.13) 25%, transparent 25%);
+    background-size:70px 70px;
+    opacity:.55;
+    pointer-events:none;
+  }
+  .screen{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:18px}
+  .active{display:flex}
+  .card{
+    width:min(940px,96vw);
+    border-radius:30px;
+    background:rgba(255,255,255,.82);
+    box-shadow:0 20px 48px rgba(53,58,137,.25);
+    border:3px solid rgba(255,255,255,.9);
+    padding:28px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .card:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(90deg, #ffd86b 0 18%, #65e6ff 18% 36%, #9d8cff 36% 54%, #ff8bd7 54% 72%, #8bffa6 72% 100%);
+    height:12px;
+  }
+  .logo{width:min(280px,72vw)}
+  h1{font-size:clamp(28px,5vw,48px);margin:18px 0 16px;color:#26306b}
+  p{font-size:clamp(17px,3vw,23px);line-height:1.5;margin:14px auto;max-width:760px}
+  button{
+    border:0;
+    border-radius:18px;
+    padding:14px 26px;
+    font-weight:900;
+    font-size:18px;
+    cursor:pointer;
+    background:linear-gradient(135deg,#26306b,#7357ff);
+    color:white;
+    box-shadow:0 7px 0 #171b50;
+    transition:.12s;
+  }
+  button:active{transform:translateY(5px);box-shadow:0 2px 0 #171b50}
+  .hud{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0 14px;font-weight:900}
+  .pill{
+    padding:12px;
+    border-radius:999px;
+    color:#26306b;
+    background:#fff4c9;
+    border:2px solid #ffe17a;
+  }
+  .pill:nth-child(2){background:#dff8ff;border-color:#8feeff}
+  .pill:nth-child(3){background:#ffe1f5;border-color:#ff9ddc}
+  .bar{height:16px;background:#e9e6ff;border-radius:999px;overflow:hidden;margin:8px 0 18px;border:2px solid rgba(255,255,255,.9)}
+  .bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffcf4a,#62e6ff,#8b6dff,#ff78cc);border-radius:999px;transition:.3s}
+  .question-wrap{
+    background:linear-gradient(135deg,#fff7d7,#e8fbff,#f3eaff);
+    padding:8px;
+    border-radius:26px;
+    box-shadow:0 10px 24px rgba(80,90,160,.12);
+  }
+  .question{
+    background:#ffffff;
+    padding:22px;
+    border-radius:20px;
+    font-size:clamp(17px,2.7vw,24px);
+    font-weight:800;
+    line-height:1.38;
+    min-height:145px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:2px dashed #b7b2ff;
+  }
+  .options{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+  .option{
+    background:#ffffff;
+    border:3px solid transparent;
+    color:#26306b;
+    border-radius:20px;
+    padding:16px;
+    min-height:74px;
+    font-size:clamp(15px,2.3vw,20px);
+    font-weight:900;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.12s;
+    box-shadow:0 7px 18px rgba(64,68,150,.13);
+  }
+  .option:nth-child(1){background:#fff3c6}
+  .option:nth-child(2){background:#dff8ff}
+  .option:nth-child(3){background:#f0e8ff}
+  .option:nth-child(4){background:#ffe1f5}
+  .option:hover{transform:translateY(-2px)}
+  .option.selected{border-color:#26306b;transform:scale(1.015)}
+  .option.correct{background:#c9ffd9!important;border-color:#19a96b;color:#0d7045}
+  .option.wrong{background:#ffd4d4!important;border-color:#dc3f3f;color:#922222}
+  .feedback{
+    min-height:60px;
+    margin-top:14px;
+    font-size:18px;
+    font-weight:900;
+    color:#26306b;
+    background:rgba(255,255,255,.55);
+    border-radius:16px;
+    padding:10px;
+  }
+  .hidden{display:none}
+  .result-score{font-size:28px;font-weight:900;color:#26306b;margin:18px 0}
+  .fade-in{animation:fade .25s ease}
+  @keyframes fade{from{opacity:.5;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .mini-badge{
+    display:inline-block;
+    margin-bottom:8px;
+    padding:9px 15px;
+    border-radius:999px;
+    background:linear-gradient(90deg,#fff3bd,#dff8ff,#ffe1f5);
+    color:#26306b;
+    font-weight:900;
+    border:2px solid rgba(255,255,255,.9);
+  }
+  @media(max-width:650px){
+    body{overflow:auto}
+    .screen{position:relative;min-height:100vh}
+    .options{grid-template-columns:1fr}
+    .hud{grid-template-columns:1fr;font-size:14px}
+    .question{min-height:165px}
+    .card{padding:18px}
+  }
 </style>
 </head>
 <body>
 
-<div class="logo-screen" id="logoScreen">
-  <img src="assets/innovine-logo.png" alt="Innovine Logo">
-  <p>Loading your quiz...</p>
-</div>
-
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
-<div class="container">
-  <div class="card" id="app"></div>
-</div>
+<section class="screen active" id="splash">
+  <div class="card">
+    <img class="logo" src="assets/innovine-logo.png" alt="Innovine Logo">
+  </div>
+</section>
+
+<section class="screen" id="intro">
+  <div class="card">
+    <span class="mini-badge">Grade 8 Mathematics</span>
+    <h1>Rational Numbers Quest</h1>
+    <p>Answer 10 real-life Rational Numbers situations carefully.</p>
+    <p>You get <b>2 attempts</b> for every question. After the second wrong attempt, the correct answer will be shown.</p>
+    <button onclick="startGame()">Start</button>
+  </div>
+</section>
+
+<section class="screen" id="game">
+  <div class="card fade-in" id="gameCard">
+    <div class="hud">
+      <div class="pill">Score: <span id="score">0</span></div>
+      <div class="pill">Question: <span id="qno">1</span>/10</div>
+      <div class="pill">Time: <span id="time">45</span>s</div>
+    </div>
+    <div class="bar"><span id="progress"></span></div>
+    <div class="question-wrap">
+      <div class="question" id="question"></div>
+    </div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="hidden" id="nextBtn" onclick="nextQuestion()">Next</button>
+  </div>
+</section>
+
+<section class="screen" id="result">
+  <div class="card">
+    <span class="mini-badge">Completed</span>
+    <h1>Great Work!</h1>
+    <div class="result-score">Final Score: <span id="finalScore"></span>/100</div>
+    <p>You completed all the Rational Numbers questions.</p>
+    <button onclick="restartGame()">Play Again</button>
+  </div>
+</section>
 
 <script>
 const questions = [
-  {
-    type:"picture",
-    situation:"Three friends Aarav, Meera, and Kabir went to GREEN BITE STORE to buy healthy snacks. Observe the price list carefully and answer the question.",
-    image:"assets/g8_ch1_im_4.png",
-    q:"Aarav buys 1/2 kg dates, 1/4 kg dry figs, and 1/4 kg almond barfi. What is the total cost?",
-    options:["Rs 350","Rs 365","Rs 370","Rs 390"],
-    answer:1,
-    explanation:"Using the given rates from the picture, the total cost is Rs 365."
-  },
-  {
-    type:"picture",
-    situation:"Use the same GREEN BITE STORE price list and answer the question.",
-    image:"assets/g8_ch1_im_4.png",
-    q:"If Aarav had Rs 500 and spent Rs 370, what fraction of his money is left?",
-    options:["1/4","13/50","2/5","3/10"],
-    answer:1,
-    explanation:"Money left = 500 - 370 = 130. Fraction left = 130/500 = 13/50."
-  },
-  {
-    type:"picture",
-    situation:"Use the GREEN BITE STORE price list and calculate the total cost.",
-    image:"assets/g8_ch1_im_4.png",
-    q:"What is the total cost of 1/2 kg mixed seeds and 1/2 kg dates?",
-    options:["Rs 200","Rs 220","Rs 240","Rs 250"],
-    answer:3,
-    explanation:"Adding the costs of 1/2 kg mixed seeds and 1/2 kg dates gives Rs 250."
-  },
-  {
-    type:"picture",
-    situation:"Use the GREEN BITE STORE price list and apply multiplication of rational numbers.",
-    image:"assets/g8_ch1_im_4.png",
-    q:"What is the cost of 5/2 kg mixed seeds?",
-    options:["Rs 200","Rs 225","Rs 250","Rs 300"],
-    answer:2,
-    explanation:"Cost of 5/2 kg mixed seeds is Rs 250."
-  },
-  {
-    type:"picture",
-    situation:"Compare the two quantities using the GREEN BITE STORE price list.",
-    image:"assets/g8_ch1_im_4.png",
-    q:"Which is greater in cost?",
-    options:["1/2 kg dates","3/4 kg almond barfi","Both equal","Cannot be determined"],
-    answer:2,
-    explanation:"Both quantities have equal cost."
-  },
-  {
-    type:"ar",
-    q:"Assertion: (-4)/(-9) is positive. Reason: Same signs give positive rational number.",
-    options:["Both true, Reason explains","Both true, Reason not explanation","Assertion true, Reason false","Assertion false, Reason true"],
-    answer:0,
-    explanation:"Both numerator and denominator have the same sign, so the rational number is positive."
-  },
-  {
-    type:"ar",
-    q:"Assertion: 6/(-8) = -3/4 in standard form. Reason: Denominator must be positive and no common factors.",
-    options:["Both true, Reason explains","Both true, Reason not explanation","Assertion true, Reason false","Assertion false, Reason true"],
-    answer:0,
-    explanation:"6/(-8) becomes -6/8 = -3/4, with positive denominator and no common factor."
-  },
-  {
-    type:"ar",
-    q:"Assertion: Rational numbers are closed under subtraction. Reason: Difference of two rational numbers is rational.",
-    options:["Both true, Reason explains","Both true, Reason not explanation","Assertion true, Reason false","Assertion false, Reason true"],
-    answer:0,
-    explanation:"Subtracting one rational number from another always gives a rational number."
-  },
-  {
-    type:"ar",
-    q:"Assertion: Division of rational numbers is commutative. Reason: (3/5) ÷ (1/5) ≠ (1/5) ÷ (3/5).",
-    options:["Both true, Reason explains","Both true, Reason not explanation","Assertion true, Reason false","Assertion false, Reason true"],
-    answer:3,
-    explanation:"Division is not commutative. The reason is true, but the assertion is false."
-  }
+  {q:"Riya mixed two bottles of fruit concentrate. Bottle A had 3/4 litre. From Bottle B, 1/4 litre had to be removed because it was spoiled. Which statement explains the final usable quantity?",options:["1 litre remains","Half litre remains","Quarter litre remains","Nothing remains"],answer:1,exp:"3/4 minus 1/4 leaves 2/4, which is half a litre."},
+  {q:"A trekker climbed 5/6 km uphill and later slipped 2/3 km downhill. What is the trekker's final position from the starting point?",options:["Above the start","At the starting point","Below the start","Impossible to determine"],answer:0,exp:"5/6 is greater than 2/3, so the trekker is still above the start."},
+  {q:"A temperature sensor recorded −5/8°C in the morning and +3/8°C later. Which interpretation is correct?",options:["Temperature became positive overall","The final reading is 2/8°C below zero","Both readings cancel completely","Afternoon is colder"],answer:1,exp:"−5/8 + 3/8 = −2/8, so it is still below zero."},
+  {q:"During a community cleanliness drive, Team A collected 3/5 of the target and Team B collected 2/5 of the target. Which conclusion is most appropriate?",options:["The teams together achieved the complete target","Half the target is still left","They collected more than the target","Their total collection cannot be determined"],answer:0,exp:"3/5 and 2/5 together make 5/5, which is the complete target."},
+  {q:"A weather app shows Hill Station P at −3/4°C and Hill Station Q at −5/8°C. Which statement is correct?",options:["Hill Station P is warmer","Hill Station Q is warmer","Both stations have the same temperature","The temperatures cannot be compared"],answer:1,exp:"Among negative numbers, the number closer to zero is greater. −5/8 is warmer than −3/4."},
+  {q:"A recipe needs 2/3 cup sugar. Only 5/6 cup is available. After preparing one recipe, how much sugar remains?",options:["1/6 cup","1/3 cup","1/2 cup","None"],answer:0,exp:"5/6 − 2/3 = 5/6 − 4/6 = 1/6."},
+  {q:"A drone moved 7/8 km east, then 5/8 km west. Which statement is correct?",options:["The drone is 2/8 km east of the start","The drone returned home","The drone is west of the start","The drone travelled 12/8 km east"],answer:0,exp:"East is positive and west is negative. 7/8 − 5/8 = 2/8 east."},
+  {q:"A student used 3/5 of the project budget for science materials and 1/5 for art materials. Which conclusion is correct?",options:["Entire budget is used","Four-fifths of the budget is used","Three-fifths of the budget remains","Half the budget remains"],answer:1,exp:"3/5 + 1/5 = 4/5 of the budget used."},
+  {q:"A water tank level changed by −4/9 metre in the morning and +7/9 metre after rain. How should the final level be described?",options:["Rise of 3/9 metre","Fall of 3/9 metre","No change","Rise of 11/9 metre"],answer:0,exp:"−4/9 + 7/9 = 3/9, so the tank level rises."},
+  {q:"A classroom thermometer showed −2/5°C. After switching on the heater, it increased by 4/5°C. Which statement is correct?",options:["Temperature remains below zero","Temperature reaches zero","Temperature becomes +2/5°C","Temperature becomes +6/5°C"],answer:2,exp:"−2/5 + 4/5 = +2/5°C."}
 ];
 
-let index = 0, score = 0, attempts = 0, timeLeft = 45, timer;
-const app = document.getElementById("app");
-const correctSound = document.getElementById("correctSound");
-const wrongSound = document.getElementById("wrongSound");
+let order=[], current=0, score=0, attempts=0, timer, timeLeft=45, locked=false;
+setTimeout(()=>showScreen("intro"),5000);
 
-setTimeout(()=>{
-  document.getElementById("logoScreen").style.display="none";
-  showIntro();
-},5000);
-
-function showIntro(){
-  app.innerHTML = `
-    <h1>Rational Numbers Quiz</h1>
-    <p>Welcome! Read each question carefully.</p>
-    <p class="small">You get 45 seconds per question and one retry after the first wrong attempt.</p>
-    <button onclick="startQuiz()">Start Quiz</button>
-  `;
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
 }
-
-function startQuiz(){
-  index=0; score=0;
-  showQuestion();
+function shuffle(a){return a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);}
+function startGame(){
+  order=shuffle([...Array(questions.length).keys()]);
+  current=0; score=0;
+  document.getElementById("score").textContent=score;
+  showScreen("game");
+  loadQuestion();
 }
-
-function showQuestion(){
+function loadQuestion(){
   clearInterval(timer);
-  attempts=0; timeLeft=45;
-  const item = questions[index];
-
-  app.innerHTML = `
-    <div class="topbar">
-      <div>Question ${index+1} of ${questions.length}</div>
-      <div class="score">Score: ${score}</div>
-      <div class="timer">Time: <span id="time">45</span>s</div>
-    </div>
-    ${item.situation ? `<p><b>Situation:</b> ${item.situation}</p>` : ""}
-    ${item.image ? `<img class="question-img" src="${item.image}" alt="Question Image">` : ""}
-    <h2>${item.q}</h2>
-    <div id="options">
-      ${item.options.map((op,i)=>`<button class="option" onclick="checkAnswer(${i})">${String.fromCharCode(65+i)}. ${op}</button>`).join("")}
-    </div>
-    <div class="feedback" id="feedback"></div>
-  `;
-
-  timer = setInterval(()=>{
+  attempts=0; locked=false; timeLeft=45;
+  document.getElementById("time").textContent=timeLeft;
+  document.getElementById("nextBtn").classList.add("hidden");
+  document.getElementById("feedback").textContent="";
+  document.getElementById("qno").textContent=current+1;
+  document.getElementById("progress").style.width=(current/questions.length*100)+"%";
+  const data=questions[order[current]];
+  document.getElementById("question").textContent=data.q;
+  const box=document.getElementById("options");
+  box.innerHTML="";
+  data.options.forEach((op,i)=>{
+    const div=document.createElement("div");
+    div.className="option";
+    div.textContent=op;
+    div.onclick=()=>selectOption(div,i);
+    box.appendChild(div);
+  });
+  const gameCard=document.getElementById("gameCard");
+  gameCard.classList.remove("fade-in");
+  void gameCard.offsetWidth;
+  gameCard.classList.add("fade-in");
+  timer=setInterval(()=>{
     timeLeft--;
-    document.getElementById("time").textContent = timeLeft;
-    if(timeLeft<=0){
-      clearInterval(timer);
-      document.getElementById("feedback").innerHTML = `<span class="wrong">Time up! Moving to next question...</span>`;
-      setTimeout(nextQuestion,1000);
-    }
+    document.getElementById("time").textContent=timeLeft;
+    if(timeLeft<=0){clearInterval(timer);revealAnswer("Time is up. The correct answer is shown below.");}
   },1000);
 }
-
-function checkAnswer(selected){
-  const item = questions[index];
-  const feedback = document.getElementById("feedback");
-
-  if(selected === item.answer){
-    clearInterval(timer);
-    score++;
-    correctSound.play();
-    starConfetti();
-    feedback.innerHTML = `<span class="correct">Correct! Great work.</span>`;
-    disableOptions();
-    setTimeout(nextQuestion,1000);
-  } else {
+function selectOption(el,index){
+  if(locked)return;
+  document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
+  el.classList.add("selected");
+  const data=questions[order[current]];
+  if(index===data.answer){
+    locked=true; clearInterval(timer);
+    el.classList.add("correct");
+    score+=10;
+    document.getElementById("score").textContent=score;
+    document.getElementById("feedback").textContent="Correct! Well done.";
+    play("correctSound");
+    setTimeout(()=>play("clapSound"),250);
+    setTimeout(()=>document.getElementById("nextBtn").classList.remove("hidden"),500);
+  }else{
     attempts++;
-    wrongSound.play();
-    redCross();
-
-    if(attempts === 1){
-      feedback.innerHTML = `<span class="wrong">Oops! Try once more.</span>`;
-    } else {
-      clearInterval(timer);
-      disableOptions();
-      feedback.innerHTML = `
-        <span class="wrong">Incorrect.</span>
-        <div class="explain">
-          Correct Answer: ${String.fromCharCode(65+item.answer)}. ${item.options[item.answer]}<br>
-          ${item.explanation}
-        </div>
-      `;
-      setTimeout(nextQuestion,3500);
+    el.classList.add("wrong");
+    play("wrongSound");
+    if(attempts<2){
+      document.getElementById("feedback").textContent="Try again. One more chance!";
+    }else{
+      revealAnswer("Second attempt over. The correct answer is shown below.");
     }
   }
 }
-
-function disableOptions(){
-  document.querySelectorAll(".option").forEach(btn=>btn.disabled=true);
+function revealAnswer(msg){
+  locked=true; clearInterval(timer);
+  const data=questions[order[current]];
+  document.querySelectorAll(".option").forEach((o,i)=>{if(i===data.answer)o.classList.add("correct");});
+  document.getElementById("feedback").textContent=msg+" "+data.exp;
+  document.getElementById("nextBtn").classList.remove("hidden");
 }
-
 function nextQuestion(){
-  index++;
-  if(index < questions.length) showQuestion();
-  else showResult();
+  current++;
+  if(current>=questions.length){
+    document.getElementById("finalScore").textContent=score;
+    showScreen("result");
+  }else loadQuestion();
 }
-
-function showResult(){
-  clearInterval(timer);
-  app.innerHTML = `
-    <h1>Quiz Completed!</h1>
-    <h2>Your Score: ${score} / ${questions.length}</h2>
-    <p>${score >= 7 ? "Excellent work!" : score >= 4 ? "Good effort! Keep practising." : "Revise rational numbers and try again."}</p>
-    <button onclick="startQuiz()">Play Again</button>
-  `;
-}
-
-function starConfetti(){
-  for(let i=0;i<20;i++){
-    const s=document.createElement("div");
-    s.className="confetti";
-    s.textContent="★";
-    s.style.left=Math.random()*100+"vw";
-    s.style.animationDuration=(.8+Math.random()*1)+"s";
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(),1500);
-  }
-}
-
-function redCross(){
-  const x=document.createElement("div");
-  x.className="cross";
-  x.textContent="✖";
-  document.body.appendChild(x);
-  setTimeout(()=>x.remove(),800);
-}
-
-for(let i=0;i<18;i++){
-  const b=document.createElement("div");
-  b.className="bg-star";
-  b.textContent = i%2===0 ? "★" : "✦";
-  b.style.left=Math.random()*100+"vw";
-  b.style.animationDelay=Math.random()*8+"s";
-  document.body.appendChild(b);
+function restartGame(){startGame();}
+function play(id){
+  const a=document.getElementById(id);
+  a.currentTime=0;
+  a.play().catch(()=>{});
 }
 </script>
 </body>
