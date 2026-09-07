@@ -149,14 +149,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 16px;
+      padding: clamp(10px, 2vw, 20px);
     }
 
     .shell {
       width: min(100%, 1020px);
       background: rgba(255,255,255,0.54);
       border: 1px solid rgba(255,255,255,0.42);
-      border-radius: 32px;
+      border-radius: clamp(20px, 4vw, 32px);
       backdrop-filter: blur(16px);
       box-shadow: var(--shadow-lg);
       overflow: hidden;
@@ -165,7 +165,7 @@
 
     .screen {
       display: none;
-      min-height: min(92vh, 790px);
+      min-height: auto;
       padding: clamp(14px, 2vw, 24px);
       animation: popIn 0.45s var(--transition);
     }
@@ -175,7 +175,7 @@
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: clamp(12px, 2vw, 18px);
     }
 
     .splash-screen {
@@ -212,7 +212,7 @@
     }
 
     .chips {
-      grid-template-columns: repeat(auto-fit, minmax(160px, max-content));
+      grid-template-columns: repeat(auto-fit, minmax(130px, max-content));
       justify-content: start;
     }
 
@@ -221,8 +221,8 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      min-height: 42px;
-      padding: 10px 16px;
+      min-height: 38px;
+      padding: 8px 14px;
       border-radius: var(--radius-pill);
       background: var(--card-strong);
       border: 1px solid var(--border);
@@ -261,7 +261,7 @@
     p { margin: 0; color: var(--muted); font-size: var(--text-base); }
 
     .hero-art {
-      min-height: 290px;
+      min-height: 250px;
       border-radius: var(--radius-lg);
       position: relative;
       overflow: hidden;
@@ -275,7 +275,7 @@
     }
 
     .fraction-orbit {
-      width: min(300px, 100%);
+      width: min(260px, 80%);
       aspect-ratio: 1;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(255,255,255,0.96), rgba(229,241,255,0.95));
@@ -293,13 +293,13 @@
       box-shadow: var(--shadow-sm);
     }
 
-    .bubble.a { width: 84px; height: 84px; top: 15%; left: 10%; background: #1e88e5; color: #fff; }
-    .bubble.b { width: 92px; height: 92px; top: 16%; right: 10%; background: #ffb703; color: #5b4300; }
-    .bubble.c { width: 86px; height: 86px; bottom: 14%; left: 14%; background: #7c4dff; color: #fff; }
-    .bubble.d { width: 92px; height: 92px; bottom: 12%; right: 12%; background: #1faa59; color: #fff; }
+    .bubble.a { width: 70px; height: 70px; top: 12%; left: 8%; background: #1e88e5; color: #fff; }
+    .bubble.b { width: 76px; height: 76px; top: 12%; right: 8%; background: #ffb703; color: #5b4300; }
+    .bubble.c { width: 72px; height: 72px; bottom: 10%; left: 10%; background: #7c4dff; color: #fff; }
+    .bubble.d { width: 76px; height: 76px; bottom: 8%; right: 8%; background: #1faa59; color: #fff; }
     .bubble.center {
-      width: 110px;
-      height: 110px;
+      width: 90px;
+      height: 90px;
       inset: 0;
       margin: auto;
       background: #fff;
@@ -326,7 +326,7 @@
 
     .btn {
       min-height: 48px;
-      padding: 12px 18px;
+      padding: 12px 20px;
       border-radius: var(--radius-pill);
       font-weight: 900;
       font-size: var(--text-sm);
@@ -356,11 +356,11 @@
     .mini-card {
       background: var(--card-strong);
       border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 14px 16px;
+      border-radius: 20px;
+      padding: 10px 14px;
       box-shadow: var(--shadow-sm);
       display: grid;
-      gap: 4px;
+      gap: 2px;
     }
 
     .mini-card span { color: var(--muted); font-size: var(--text-xs); font-weight: 800; }
@@ -369,11 +369,11 @@
     .progress-card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 14px;
+      border-radius: 20px;
+      padding: 12px 16px;
       box-shadow: var(--shadow-sm);
       display: grid;
-      gap: 10px;
+      gap: 8px;
     }
 
     .progress-head {
@@ -389,7 +389,7 @@
 
     .progress-bar {
       width: 100%;
-      height: 14px;
+      height: 12px;
       border-radius: 999px;
       overflow: hidden;
       background: rgba(30,136,229,0.1);
@@ -406,7 +406,7 @@
 
     .quiz-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 300px;
+      grid-template-columns: minmax(0, 1fr) 220px;
       gap: 18px;
       align-items: start;
     }
@@ -423,7 +423,7 @@
     }
 
     .question-text {
-      font-size: clamp(1.18rem, 1.05rem + 0.7vw, 1.7rem);
+      font-size: clamp(1.1rem, 0.95rem + 0.6vw, 1.55rem);
       color: var(--text);
       font-weight: 900;
     }
@@ -441,28 +441,28 @@
 
     .option {
       width: 100%;
-      min-height: 66px;
+      min-height: 58px;
       display: flex;
       align-items: center;
       gap: 12px;
       text-align: left;
-      padding: 12px;
-      border-radius: 22px;
+      padding: 10px 14px;
+      border-radius: 20px;
       background: var(--card-strong);
       border: 1px solid var(--border);
       box-shadow: var(--shadow-sm);
     }
 
     .option-key {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
       display: grid;
       place-items: center;
       font-weight: 900;
       color: #fff;
       background: linear-gradient(180deg, #7c4dff, #5f38d1);
-      flex: 0 0 44px;
+      flex: 0 0 40px;
     }
 
     .option.correct {
@@ -478,9 +478,9 @@
     }
 
     .feedback {
-      min-height: 60px;
-      padding: 14px 16px;
-      border-radius: 20px;
+      min-height: 52px;
+      padding: 12px 16px;
+      border-radius: 18px;
       border: 1px dashed rgba(18,62,99,0.16);
       background: rgba(255,255,255,0.82);
       font-weight: 800;
@@ -511,8 +511,8 @@
     }
 
     .timer-ring {
-      width: 116px;
-      height: 116px;
+      width: 100px;
+      height: 100px;
       margin: 0 auto;
       position: relative;
       display: grid;
@@ -520,8 +520,8 @@
     }
 
     .timer-ring svg {
-      width: 116px;
-      height: 116px;
+      width: 100px;
+      height: 100px;
       transform: rotate(-90deg);
     }
 
@@ -531,7 +531,7 @@
       display: grid;
       place-items: center;
       font-family: var(--font-display);
-      font-size: 2rem;
+      font-size: 1.8rem;
       color: var(--text);
     }
 
@@ -539,12 +539,12 @@
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin-top: 12px;
+      margin-top: 10px;
     }
 
     .life {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
       background: rgba(224,79,95,0.18);
       border: 2px solid rgba(224,79,95,0.22);
@@ -556,74 +556,134 @@
     .life::before, .life::after {
       content: '';
       position: absolute;
-      width: 10px;
-      height: 16px;
+      width: 9px;
+      height: 14px;
       background: inherit;
-      border-radius: 10px 10px 0 0;
-      top: -4px;
+      border-radius: 9px 9px 0 0;
+      top: -3px;
     }
 
     .life::before { left: 1px; transform: rotate(-45deg); transform-origin: bottom left; }
     .life::after { right: 1px; transform: rotate(45deg); transform-origin: bottom right; }
 
-    .drag-board {
+    /* Tap-to-Select Interactive UI */
+    .tap-board {
       display: grid;
-      gap: 14px;
+      gap: 16px;
     }
 
-    .drag-pool {
+    .tap-pool-container {
+      background: rgba(255,255,255,0.6);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px;
+    }
+
+    .tap-pool-title {
+      font-size: var(--text-xs);
+      font-weight: 800;
+      color: var(--muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tap-pool {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .drag-item {
-      min-height: 48px;
-      padding: 12px 16px;
-      border-radius: 18px;
-      background: linear-gradient(180deg, rgba(124,77,255,0.12), rgba(30,136,229,0.12));
-      border: 1px solid rgba(124,77,255,0.16);
+    .tap-item {
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: var(--radius-pill);
+      background: #fff;
+      border: 2px solid var(--blue);
+      color: var(--blue-deep);
       font-weight: 900;
+      font-size: var(--text-base);
       box-shadow: var(--shadow-sm);
       user-select: none;
-      cursor: grab;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
     }
 
-    .drag-item.used {
-      opacity: 0.42;
+    .tap-item.selected {
+      background: var(--blue-deep);
+      color: #fff;
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(30,136,229,0.35);
+    }
+
+    .tap-item.used {
+      opacity: 0.35;
       pointer-events: none;
+      border-color: rgba(18,62,99,0.2);
+      background: rgba(0,0,0,0.05);
     }
 
-    .drop-grid {
+    .target-grid {
       display: grid;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .dropzone {
-      min-height: 76px;
-      padding: 12px 14px;
-      border-radius: 22px;
+    .target-box {
+      min-height: 64px;
+      padding: 10px 14px;
+      border-radius: 18px;
       background: var(--card-strong);
-      border: 2px dashed rgba(30,136,229,0.2);
+      border: 2px dashed rgba(30,136,229,0.3);
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      flex-wrap: wrap;
       box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transition: all var(--transition);
     }
 
-    .dropzone.filled { border-style: solid; }
-    .dropzone.good { background: rgba(31,170,89,0.1); border-color: rgba(31,170,89,0.35); }
-    .dropzone.bad { background: rgba(224,79,95,0.09); border-color: rgba(224,79,95,0.35); }
+    .target-box:hover {
+      border-color: var(--blue);
+      background: rgba(229,241,255,0.5);
+    }
 
-    .drop-pill {
-      padding: 9px 14px;
+    .target-box.filled {
+      border-style: solid;
+      border-color: var(--blue);
+      background: rgba(255,255,255,0.9);
+    }
+
+    .target-box.good {
+      background: rgba(31,170,89,0.1);
+      border-color: rgba(31,170,89,0.4);
+      border-style: solid;
+    }
+
+    .target-box.bad {
+      background: rgba(224,79,95,0.09);
+      border-color: rgba(224,79,95,0.4);
+      border-style: solid;
+    }
+
+    .target-slot {
+      font-weight: 800;
+      color: var(--muted);
+      font-size: var(--text-sm);
+    }
+
+    .target-slot .placed-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
       border-radius: var(--radius-pill);
-      background: #fff;
-      box-shadow: var(--shadow-sm);
+      background: linear-gradient(180deg, var(--purple), #5f38d1);
+      color: #fff;
       font-weight: 900;
-      color: var(--blue-deep);
+      box-shadow: var(--shadow-sm);
     }
 
     .confetti-layer,
@@ -690,7 +750,7 @@
     .stat-box strong {
       display: block;
       margin-top: 4px;
-      font-size: 2rem;
+      font-size: 1.8rem;
       color: var(--text);
       font-family: var(--font-display);
     }
@@ -704,20 +764,28 @@
 
     .hidden { display: none !important; }
 
-    @media (max-width: 900px) {
-      .hero-grid, .quiz-grid, .topbar, .result-grid, .stats-grid { grid-template-columns: 1fr; }
-      .side-panel { position: static; }
-      .hero-art { min-height: 240px; }
+    /* Responsive Breakpoints: Tablet & Mobile */
+    @media (max-width: 820px) {
+      .hero-grid, .quiz-grid, .result-grid, .stats-grid { 
+        grid-template-columns: 1fr; 
+      }
+      .side-panel { 
+        position: static; 
+        grid-template-columns: 1fr;
+      }
+      .hero-art { min-height: 200px; }
     }
 
-    @media (max-width: 560px) {
-      .app { padding: 8px; }
-      .screen { min-height: 100vh; }
-      .shell { border-radius: 24px; }
+    @media (max-width: 580px) {
+      .topbar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .app { padding: 6px; }
       .button-row { flex-direction: column; }
       .btn { width: 100%; }
-      .option { min-height: 62px; }
-      .option-key { width: 40px; height: 40px; flex-basis: 40px; }
+      .option { min-height: 54px; }
+      .option-key { width: 36px; height: 36px; flex-basis: 36px; }
+      .target-box { flex-direction: column; align-items: flex-start; gap: 6px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -788,7 +856,7 @@
             </div>
           </div>
 
-          <div class="footer-note">Single-file HTML • GitHub Pages ready • Mobile, tablet, and desktop friendly</div>
+          <div class="footer-note">Single-file HTML • Mobile, tablet, and desktop friendly</div>
         </div>
       </section>
 
@@ -823,7 +891,7 @@
 
               <div class="button-row">
                 <button class="btn btn-primary hidden" id="nextBtn">Next</button>
-                <button class="btn btn-ghost hidden" id="checkDragBtn">Check Answer</button>
+                <button class="btn btn-ghost hidden" id="checkTapBtn">Check Answer</button>
               </div>
             </div>
 
@@ -848,12 +916,6 @@
                   <span class="life active"></span>
                   <span class="life active"></span>
                 </div>
-              </div>
-
-              <div class="card">
-                <div class="chip green" style="margin-bottom:12px;">Hint Board</div>
-                <h3 id="hintTitle">Fraction Tip</h3>
-                <p id="hintText">Remember to compare fractions carefully using size, simplification, or common sense.</p>
               </div>
             </aside>
           </div>
@@ -919,8 +981,7 @@
           { label: 'c', text: 'Percentage', correct: false },
           { label: 'd', text: 'Ratio', correct: false }
         ],
-        explanation: 'Each equal part of a whole is called a fraction.',
-        hint: 'Fractions describe parts of a whole.'
+        explanation: 'Each equal part of a whole is called a fraction.'
       },
       {
         id: 2,
@@ -935,8 +996,7 @@
           { label: 'c', text: '3/5', correct: true },
           { label: 'd', text: '8/3', correct: false }
         ],
-        explanation: '3/5 is proper because 3 is less than 5.',
-        hint: 'In a proper fraction, the top number is smaller.'
+        explanation: '3/5 is proper because 3 is less than 5.'
       },
       {
         id: 3,
@@ -949,24 +1009,22 @@
           { label: 'T', text: 'True', correct: true },
           { label: 'F', text: 'False', correct: false }
         ],
-        explanation: '9/4 is improper because the numerator is greater than the denominator.',
-        hint: 'Improper means top number is larger than bottom number.'
+        explanation: '9/4 is improper because the numerator is greater than the denominator.'
       },
       {
         id: 4,
-        type: 'dragdrop',
-        typeLabel: 'Drag and drop',
+        type: 'tapmatch',
+        typeLabel: 'Tap to Match',
         level: 'Fraction Sorting',
-        question: 'Drag each fraction to the correct description.',
-        instruction: 'Place each fraction in its matching box, then press Check Answer.',
-        dragItems: ['3/6', '1/5', '6/12'],
-        dropZones: [
+        question: 'Tap an option to select it, then tap the box where it belongs.',
+        instruction: 'Match each fraction to its corresponding box, then press Check Answer.',
+        items: ['3/6', '1/5', '6/12'],
+        targets: [
           { id: 'z1', prompt: 'Equivalent to 1/2', answer: '3/6' },
           { id: 'z2', prompt: 'Smallest fraction from this set', answer: '1/5' },
           { id: 'z3', prompt: 'Simplifies to 1/2', answer: '6/12' }
         ],
-        explanation: '3/6 equals 1/2, 1/5 is the smallest, and 6/12 simplifies to 1/2.',
-        hint: 'Compare values and reduce where needed.'
+        explanation: '3/6 equals 1/2, 1/5 is the smallest, and 6/12 simplifies to 1/2.'
       },
       {
         id: 5,
@@ -981,8 +1039,7 @@
           { label: 'c', text: '3/4', correct: false },
           { label: 'd', text: '1/5', correct: true }
         ],
-        explanation: '1/5 is the smallest because one-fifth is less than one-half, two-thirds, and three-fourths.',
-        hint: 'Think of the size of each part of a whole.'
+        explanation: '1/5 is the smallest because one-fifth is less than one-half, two-thirds, and three-fourths.'
       },
       {
         id: 6,
@@ -995,8 +1052,7 @@
           { label: 'T', text: 'True', correct: true },
           { label: 'F', text: 'False', correct: false }
         ],
-        explanation: '6/12 simplifies to 1/2 when both numbers are divided by 6.',
-        hint: 'Divide numerator and denominator by the same number.'
+        explanation: '6/12 simplifies to 1/2 when both numbers are divided by 6.'
       },
       {
         id: 7,
@@ -1011,126 +1067,130 @@
           { label: 'c', text: '5/8', correct: false },
           { label: 'd', text: '2/9', correct: false }
         ],
-        explanation: '1/6 is a unit fraction because its numerator is 1.',
-        hint: 'Look for a fraction with 1 on top.'
+        explanation: '1/6 is a unit fraction because its numerator is 1.'
       },
       {
         id: 8,
-        type: 'dragdrop',
-        typeLabel: 'Drag and drop',
+        type: 'tapmatch',
+        typeLabel: 'Tap to Match',
         level: 'Real-life Fractions',
-        question: 'Drag each time fraction to the correct real-life meaning.',
-        instruction: 'Match the correct fraction values and then press Check Answer.',
-        dragItems: ['1/3', '3/4', '3/5'],
-        dropZones: [
+        question: 'Tap an option to select it, then tap the box where it belongs.',
+        instruction: 'Match each fraction value to its real-life meaning, then press Check Answer.',
+        items: ['1/3', '3/4', '3/5'],
+        targets: [
           { id: 'z1', prompt: 'Fraction of a day in 8 hours', answer: '1/3' },
           { id: 'z2', prompt: 'Fraction of an hour in 45 minutes', answer: '3/4' },
           { id: 'z3', prompt: 'Greater fraction when comparing 2/5 and 3/5', answer: '3/5' }
         ],
-        explanation: '8 hours is 1/3 of 24 hours, 45 minutes is 3/4 of 60 minutes, and 3/5 is greater than 2/5.',
-        hint: 'Use the total number of hours or minutes in the whole.'
+        explanation: '8 hours is 1/3 of 24 hours, 45 minutes is 3/4 of 60 minutes, and 3/5 is greater than 2/5.'
       },
       {
         id: 9,
-        type: 'truefalse',
-        typeLabel: 'True or False',
-        level: 'Comparison Check',
-        question: 'True or false: 3/5 is greater than 2/5.',
-        instruction: 'Compare fractions with the same denominator.',
+        type: 'mcq',
+        typeLabel: 'Pick the correct option',
+        level: 'Comparing Fractions',
+        question: 'Which of the following is true when comparing 2/5 and 3/5?',
+        instruction: 'With equal denominators, compare the numerators.',
         options: [
-          { label: 'T', text: 'True', correct: true },
-          { label: 'F', text: 'False', correct: false }
+          { label: 'a', text: '2/5 > 3/5', correct: false },
+          { label: 'b', text: '2/5 = 3/5', correct: false },
+          { label: 'c', text: '2/5 < 3/5', correct: true },
+          { label: 'd', text: 'None of these', correct: false }
         ],
-        explanation: '3/5 is greater because with the same denominator, the larger numerator gives the larger fraction.',
-        hint: 'When denominators match, compare the numerators.'
+        explanation: 'Since the denominators are equal (5), 2 is less than 3, so 2/5 < 3/5.'
       },
       {
         id: 10,
         type: 'mcq',
         typeLabel: 'Pick the correct option',
-        level: 'Final Fraction Sprint',
-        question: 'What fraction of an hour is 45 minutes?',
-        instruction: 'An hour has 60 minutes. Choose the correct fraction.',
+        level: 'Mixed Numbers',
+        question: 'Which mixed fraction represents 9/4?',
+        instruction: 'Divide 9 by 4 to find the whole number and remainder.',
         options: [
-          { label: 'a', text: '1/2', correct: false },
-          { label: 'b', text: '3/4', correct: true },
-          { label: 'c', text: '1/3', correct: false },
-          { label: 'd', text: '2/3', correct: false }
+          { label: 'a', text: '2 1/4', correct: true },
+          { label: 'b', text: '2 3/4', correct: false },
+          { label: 'c', text: '1 3/4', correct: false },
+          { label: 'd', text: '3 1/4', correct: false }
         ],
-        explanation: '45 out of 60 minutes is 45/60, which simplifies to 3/4.',
-        hint: 'Write 45/60 and simplify it.'
+        explanation: '9 divided by 4 gives 2 with a remainder of 1, so 9/4 = 2 1/4.'
       }
     ];
 
-    const praise = ['Excellent!', 'Fantastic!', 'Brilliant!', 'Great Job!', 'Outstanding!'];
-
-    const state = {
-      index: 0,
-      score: 0,
-      correct: 0,
-      bestStreak: 0,
-      streak: 0,
-      attemptsLeft: 2,
-      timeLeft: 45,
-      timer: null,
-      locked: false,
-      resolved: false,
-      dragSelections: {}
-    };
+    let currentIdx = 0;
+    let score = 0;
+    let streak = 0;
+    let maxStreak = 0;
+    let correctCount = 0;
+    let timer = null;
+    let timeLeft = 45;
+    let currentTries = 2;
+    let selectedOption = null;
+    let tapAssignments = {};
+    let locked = false;
 
     const splashScreen = document.getElementById('splashScreen');
     const introScreen = document.getElementById('introScreen');
     const quizScreen = document.getElementById('quizScreen');
     const resultScreen = document.getElementById('resultScreen');
+
     const startBtn = document.getElementById('startBtn');
+    const playAgainBtn = document.getElementById('playAgainBtn');
+    const introBtn = document.getElementById('introBtn');
     const nextBtn = document.getElementById('nextBtn');
-    const checkDragBtn = document.getElementById('checkDragBtn');
+    const checkTapBtn = document.getElementById('checkTapBtn');
+
     const scoreValue = document.getElementById('scoreValue');
     const questionCounter = document.getElementById('questionCounter');
     const timeCounter = document.getElementById('timeCounter');
     const streakValue = document.getElementById('streakValue');
     const progressFill = document.getElementById('progressFill');
     const progressLabel = document.getElementById('progressLabel');
+
     const typeBadge = document.getElementById('typeBadge');
     const levelBadge = document.getElementById('levelBadge');
     const questionText = document.getElementById('questionText');
     const instructionText = document.getElementById('instructionText');
     const interactiveArea = document.getElementById('interactiveArea');
     const feedbackBox = document.getElementById('feedbackBox');
-    const timerStroke = document.getElementById('timerStroke');
     const timerValue = document.getElementById('timerValue');
-    const hintTitle = document.getElementById('hintTitle');
-    const hintText = document.getElementById('hintText');
-    const confettiLayer = document.getElementById('confettiLayer');
-    const wrongLayer = document.getElementById('wrongLayer');
-    const celebrationLayer = document.getElementById('celebrationLayer');
-    const resultCard = document.getElementById('resultCard');
-    const shell = document.getElementById('shell');
+    const timerStroke = document.getElementById('timerStroke');
+
+    const finalScore = document.getElementById('finalScore');
+    const correctCountEl = document.getElementById('correctCount');
+    const accuracyValue = document.getElementById('accuracyValue');
+    const bestStreak = document.getElementById('bestStreak');
+    const resultTitle = document.getElementById('resultTitle');
+    const resultText = document.getElementById('resultText');
+
     const correctSound = document.getElementById('correctSound');
     const wrongSound = document.getElementById('wrongSound');
     const clapSound = document.getElementById('clapSound');
-    const floatingMath = document.getElementById('floatingMath');
 
-    function createFloatingMath() {
-      const items = ['1/2', '3/4', '1/5', '2/3', '9/4', '6/12', '1/6', '45/60'];
-      for (let i = 0; i < 10; i++) {
-        const span = document.createElement('span');
-        span.className = 'float-num';
-        span.textContent = items[i % items.length];
-        span.style.left = Math.random() * 92 + '%';
-        span.style.animationDuration = (10 + Math.random() * 10) + 's';
-        span.style.animationDelay = (Math.random() * 8) + 's';
-        floatingMath.appendChild(span);
-      }
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        splashScreen.classList.add('hide');
+      }, 1000);
+      spawnFloatingMath();
+    });
+
+    function playAudio(audioEl) {
+      if (!audioEl) return;
+      audioEl.currentTime = 0;
+      audioEl.play().catch(() => {});
     }
 
-    function playSound(audio, volume = 0.8, delay = 0) {
-      setTimeout(() => {
-        if (!audio) return;
-        audio.currentTime = 0;
-        audio.volume = volume;
-        audio.play().catch(() => {});
-      }, delay);
+    function spawnFloatingMath() {
+      const container = document.getElementById('floatingMath');
+      const symbols = ['1/2', '3/4', '5/8', '2/3', '7/10', '1/5', '9/4', '4/4', '3/5'];
+      for (let i = 0; i < 16; i++) {
+        const el = document.createElement('div');
+        el.className = 'float-num';
+        el.textContent = symbols[i % symbols.length];
+        el.style.left = `${(i * 6.2) % 94}%`;
+        el.style.animationDuration = `${12 + (i % 6) * 3}s`;
+        el.style.animationDelay = `${(i * 0.7) % 5}s`;
+        container.appendChild(el);
+      }
     }
 
     function showScreen(screen) {
@@ -1138,362 +1198,422 @@
       screen.classList.add('active');
     }
 
-    function updateHUD() {
-      scoreValue.textContent = state.score;
-      questionCounter.textContent = `${state.index + 1}/${questions.length}`;
-      timeCounter.textContent = `${state.timeLeft}s`;
-      streakValue.textContent = state.bestStreak;
-      const progress = ((state.index + 1) / questions.length) * 100;
-      progressFill.style.width = progress + '%';
-      progressLabel.textContent = Math.round(progress) + '%';
-      timerValue.textContent = state.timeLeft;
-      const circumference = 301.59;
-      timerStroke.style.strokeDashoffset = circumference * (1 - state.timeLeft / 45);
-      updateLives();
+    function resetGame() {
+      currentIdx = 0;
+      score = 0;
+      streak = 0;
+      maxStreak = 0;
+      correctCount = 0;
+      scoreValue.textContent = '0';
+      streakValue.textContent = '0';
+      showScreen(quizScreen);
+      loadQuestion();
     }
 
-    function updateLives() {
-      document.querySelectorAll('.life').forEach((life, i) => {
-        life.classList.toggle('active', i < state.attemptsLeft);
-      });
-    }
+    function loadQuestion() {
+      clearInterval(timer);
+      locked = false;
+      currentTries = 2;
+      selectedOption = null;
+      tapAssignments = {};
+      updateTriesUI();
 
-    function startTimer() {
-      clearInterval(state.timer);
-      state.timeLeft = 45;
-      updateHUD();
-      state.timer = setInterval(() => {
-        state.timeLeft -= 1;
-        updateHUD();
-        if (state.timeLeft <= 0) {
-          clearInterval(state.timer);
-          handleTimeUp();
-        }
-      }, 1000);
-    }
-
-    function handleTimeUp() {
-      if (state.resolved) return;
-      state.locked = true;
-      state.resolved = true;
-      state.streak = 0;
-      playSound(wrongSound, 0.55);
-      revealCorrectAnswer(questions[state.index], 'Time is up. ' + questions[state.index].explanation);
-    }
-
-    function resetState() {
-      state.index = 0;
-      state.score = 0;
-      state.correct = 0;
-      state.bestStreak = 0;
-      state.streak = 0;
-      clearInterval(state.timer);
-      renderQuestion();
-    }
-
-    function renderQuestion() {
-      state.attemptsLeft = 2;
-      state.locked = false;
-      state.resolved = false;
-      state.dragSelections = {};
-      nextBtn.classList.add('hidden');
-      checkDragBtn.classList.add('hidden');
-      feedbackBox.className = 'feedback';
-      feedbackBox.textContent = 'Read the question carefully and choose your answer.';
-      const q = questions[state.index];
+      const q = questions[currentIdx];
       typeBadge.textContent = q.typeLabel;
       levelBadge.textContent = q.level;
       questionText.textContent = q.question;
       instructionText.textContent = q.instruction;
-      hintTitle.textContent = 'Fraction Tip';
-      hintText.textContent = q.hint;
+      feedbackBox.className = 'feedback';
+      feedbackBox.textContent = 'Read the question carefully and choose your answer.';
+
+      nextBtn.classList.add('hidden');
+      checkTapBtn.classList.add('hidden');
+
+      questionCounter.textContent = `${currentIdx + 1}/${questions.length}`;
+      const progressPct = Math.round(((currentIdx + 1) / questions.length) * 100);
+      progressFill.style.width = `${progressPct}%`;
+      progressLabel.textContent = `${progressPct}%`;
+
       interactiveArea.innerHTML = '';
 
       if (q.type === 'mcq' || q.type === 'truefalse') {
-        renderChoiceQuestion(q);
-      } else {
-        renderDragQuestion(q);
+        renderMCQ(q);
+      } else if (q.type === 'tapmatch') {
+        renderTapMatch(q);
+        checkTapBtn.classList.remove('hidden');
       }
 
-      updateHUD();
       startTimer();
     }
 
-    function renderChoiceQuestion(q) {
-      const wrap = document.createElement('div');
-      wrap.className = 'options-grid';
-      q.options.forEach(option => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'option';
-        btn.innerHTML = `<span class="option-key">${option.label.toUpperCase()}</span><span>${option.text}</span>`;
-        btn.addEventListener('click', () => checkChoice(option, btn, wrap));
-        wrap.appendChild(btn);
+    function updateTriesUI() {
+      const lives = document.querySelectorAll('.life');
+      lives.forEach((life, idx) => {
+        if (idx < currentTries) {
+          life.classList.add('active');
+        } else {
+          life.classList.remove('active');
+        }
       });
-      interactiveArea.appendChild(wrap);
     }
 
-    function checkChoice(option, btn, wrap) {
-      if (state.locked) return;
-      const q = questions[state.index];
+    function startTimer() {
+      timeLeft = 45;
+      updateTimerUI();
+      timer = setInterval(() => {
+        timeLeft--;
+        updateTimerUI();
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          handleTimeout();
+        }
+      }, 1000);
+    }
+
+    function updateTimerUI() {
+      timeCounter.textContent = `${timeLeft}s`;
+      timerValue.textContent = timeLeft;
+      const totalDash = 301.59;
+      const offset = totalDash - (timeLeft / 45) * totalDash;
+      timerStroke.style.strokeDashoffset = offset;
+    }
+
+    function handleTimeout() {
+      if (locked) return;
+      locked = true;
+      playAudio(wrongSound);
+      triggerWrongEffect();
+      streak = 0;
+      streakValue.textContent = streak;
+      feedbackBox.className = 'feedback error';
+      feedbackBox.textContent = `Time is up! ${questions[currentIdx].explanation}`;
+      nextBtn.classList.remove('hidden');
+    }
+
+    function renderMCQ(q) {
+      const grid = document.createElement('div');
+      grid.className = 'options-grid';
+
+      q.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'option';
+        btn.innerHTML = `
+          <div class="option-key">${opt.label.toUpperCase()}</div>
+          <div style="font-weight:800; font-size: var(--text-base); color: var(--text);">${opt.text}</div>
+        `;
+        btn.addEventListener('click', () => handleMCQSelection(opt, btn, q));
+        grid.appendChild(btn);
+      });
+
+      interactiveArea.appendChild(grid);
+    }
+
+    function handleMCQSelection(option, button, q) {
+      if (locked) return;
+
       if (option.correct) {
-        state.locked = true;
-        state.resolved = true;
-        clearInterval(state.timer);
-        btn.classList.add('correct');
-        Array.from(wrap.children).forEach(node => node.disabled = true);
-        const gained = state.attemptsLeft === 2 ? 10 : 6;
-        state.score += gained;
-        state.correct += 1;
-        state.streak += 1;
-        state.bestStreak = Math.max(state.bestStreak, state.streak);
-        updateHUD();
+        clearInterval(timer);
+        locked = true;
+        button.classList.add('correct');
+        playAudio(correctSound);
+        triggerConfetti();
+
+        const points = currentTries === 2 ? 10 : 5;
+        score += points;
+        scoreValue.textContent = score;
+
+        if (currentTries === 2) {
+          correctCount++;
+        }
+
+        streak++;
+        if (streak > maxStreak) maxStreak = streak;
+        streakValue.textContent = streak;
+
         feedbackBox.className = 'feedback success';
-        feedbackBox.textContent = `${praise[Math.floor(Math.random() * praise.length)]} ${q.explanation}`;
+        feedbackBox.textContent = `Awesome! ${q.explanation}`;
         nextBtn.classList.remove('hidden');
-        playSound(correctSound, 0.75);
-        playSound(clapSound, 0.36, 250);
-        launchConfetti();
       } else {
-        state.attemptsLeft -= 1;
-        updateHUD();
-        btn.classList.add('wrong');
-        btn.disabled = true;
-        playSound(wrongSound, 0.55);
-        showWrongCross();
-        if (state.attemptsLeft > 0) {
+        button.classList.add('wrong');
+        playAudio(wrongSound);
+        triggerWrongEffect();
+
+        currentTries--;
+        updateTriesUI();
+
+        if (currentTries > 0) {
           feedbackBox.className = 'feedback error';
-          feedbackBox.textContent = 'Not this one. You have one retry left.';
+          feedbackBox.textContent = 'Not quite! Try one more time with extra care.';
         } else {
-          clearInterval(state.timer);
-          state.locked = true;
-          state.resolved = true;
-          state.streak = 0;
-          Array.from(wrap.children).forEach(node => node.disabled = true);
-          revealCorrectAnswer(q, 'Second wrong attempt. ' + q.explanation);
+          clearInterval(timer);
+          locked = true;
+          streak = 0;
+          streakValue.textContent = streak;
+          feedbackBox.className = 'feedback error';
+          feedbackBox.textContent = `Incorrect. ${q.explanation}`;
+          highlightCorrectMCQ(q);
+          nextBtn.classList.remove('hidden');
         }
       }
     }
 
-    function renderDragQuestion(q) {
+    function highlightCorrectMCQ(q) {
+      const options = interactiveArea.querySelectorAll('.option');
+      q.options.forEach((opt, idx) => {
+        if (opt.correct && options[idx]) {
+          options[idx].classList.add('correct');
+        }
+      });
+    }
+
+    /* Tap-to-Match interactive logic */
+    function renderTapMatch(q) {
       const board = document.createElement('div');
-      board.className = 'drag-board';
+      board.className = 'tap-board';
 
+      const poolContainer = document.createElement('div');
+      poolContainer.className = 'tap-pool-container';
+      
+      const poolTitle = document.createElement('div');
+      poolTitle.className = 'tap-pool-title';
+      poolTitle.textContent = '1. Tap an option chip:';
+      
       const pool = document.createElement('div');
-      pool.className = 'drag-pool';
-      q.dragItems.forEach(item => {
-        const drag = document.createElement('button');
-        drag.type = 'button';
-        drag.className = 'drag-item';
-        drag.draggable = true;
-        drag.dataset.value = item;
-        drag.textContent = item;
-        drag.addEventListener('dragstart', e => {
-          if (drag.classList.contains('used')) return e.preventDefault();
-          e.dataTransfer.setData('text/plain', item);
+      pool.className = 'tap-pool';
+
+      q.items.forEach(item => {
+        const itemEl = document.createElement('div');
+        itemEl.className = 'tap-item';
+        itemEl.textContent = item;
+        itemEl.dataset.value = item;
+
+        itemEl.addEventListener('click', () => {
+          if (locked) return;
+          if (selectedOption === item) {
+            selectedOption = null;
+          } else {
+            selectedOption = item;
+          }
+          updateTapState();
         });
-        drag.addEventListener('click', () => {
-          const openZone = board.querySelector('.dropzone:not(.filled)');
-          if (openZone && !drag.classList.contains('used')) assignDrop(openZone, item, drag);
-        });
-        pool.appendChild(drag);
+
+        pool.appendChild(itemEl);
       });
 
-      const grid = document.createElement('div');
-      grid.className = 'drop-grid';
-      q.dropZones.forEach(zone => {
-        const drop = document.createElement('div');
-        drop.className = 'dropzone';
-        drop.dataset.zone = zone.id;
-        drop.innerHTML = `<span><strong>${zone.prompt}</strong></span><span class="target">Drop here</span>`;
-        drop.addEventListener('dragover', e => e.preventDefault());
-        drop.addEventListener('drop', e => {
-          e.preventDefault();
-          if (state.locked) return;
-          const value = e.dataTransfer.getData('text/plain');
-          const dragEl = Array.from(document.querySelectorAll('.drag-item')).find(el => el.dataset.value === value && !el.classList.contains('used'));
-          if (dragEl) assignDrop(drop, value, dragEl);
+      poolContainer.appendChild(poolTitle);
+      poolContainer.appendChild(pool);
+
+      const targetGrid = document.createElement('div');
+      targetGrid.className = 'target-grid';
+
+      q.targets.forEach(target => {
+        const boxEl = document.createElement('div');
+        boxEl.className = 'target-box';
+        boxEl.dataset.targetId = target.id;
+        boxEl.innerHTML = `
+          <div style="font-weight:800; font-size: var(--text-sm);">${target.prompt}</div>
+          <div class="target-slot"><span style="font-style:italic;">[ Tap to place ]</span></div>
+        `;
+
+        boxEl.addEventListener('click', () => {
+          if (locked) return;
+          if (selectedOption) {
+            // Assign selected option to this target
+            // Remove previous assignment of this option if any
+            Object.keys(tapAssignments).forEach(k => {
+              if (tapAssignments[k] === selectedOption) delete tapAssignments[k];
+            });
+            tapAssignments[target.id] = selectedOption;
+            selectedOption = null;
+            updateTapState();
+          } else if (tapAssignments[target.id]) {
+            // Tap filled target to clear it
+            delete tapAssignments[target.id];
+            updateTapState();
+          }
         });
-        grid.appendChild(drop);
+
+        targetGrid.appendChild(boxEl);
       });
 
-      board.appendChild(pool);
-      board.appendChild(grid);
+      board.appendChild(poolContainer);
+      board.appendChild(targetGrid);
       interactiveArea.appendChild(board);
-      checkDragBtn.classList.remove('hidden');
     }
 
-    function assignDrop(drop, value, dragEl) {
-      if (drop.classList.contains('filled')) return;
-      drop.classList.add('filled');
-      const target = drop.querySelector('.target');
-      target.textContent = value;
-      target.className = 'target drop-pill';
-      state.dragSelections[drop.dataset.zone] = value;
-      dragEl.classList.add('used');
+    function updateTapState() {
+      const q = questions[currentIdx];
+      const tapItems = interactiveArea.querySelectorAll('.tap-item');
+      const assignedValues = Object.values(tapAssignments);
+
+      // Update Option Chips state
+      tapItems.forEach(item => {
+        const val = item.dataset.value;
+        item.classList.remove('selected', 'used');
+        if (selectedOption === val) {
+          item.classList.add('selected');
+        } else if (assignedValues.includes(val)) {
+          item.classList.add('used');
+        }
+      });
+
+      // Update Target Boxes state
+      q.targets.forEach(t => {
+        const box = interactiveArea.querySelector(`[data-target-id="${t.id}"]`);
+        const slot = box.querySelector('.target-slot');
+        const assigned = tapAssignments[t.id];
+
+        if (assigned) {
+          box.classList.add('filled');
+          slot.innerHTML = `<span class="placed-pill">${assigned}</span>`;
+        } else {
+          box.classList.remove('filled');
+          slot.innerHTML = `<span style="font-style:italic;">[ Tap to place ]</span>`;
+        }
+      });
     }
 
-    function checkDragAnswer() {
-      if (state.locked) return;
-      const q = questions[state.index];
-      if (Object.keys(state.dragSelections).length < q.dropZones.length) {
+    checkTapBtn.addEventListener('click', () => {
+      if (locked) return;
+      const q = questions[currentIdx];
+      const allFilled = q.targets.every(t => tapAssignments[t.id]);
+
+      if (!allFilled) {
         feedbackBox.className = 'feedback error';
-        feedbackBox.textContent = 'Complete all drop boxes first.';
+        feedbackBox.textContent = 'Please place an option into every target box before checking.';
         return;
       }
-      const drops = Array.from(document.querySelectorAll('.dropzone'));
-      const allCorrect = q.dropZones.every(zone => state.dragSelections[zone.id] === zone.answer);
-      if (allCorrect) {
-        clearInterval(state.timer);
-        state.locked = true;
-        state.resolved = true;
-        drops.forEach(drop => drop.classList.add('good'));
-        const gained = state.attemptsLeft === 2 ? 12 : 8;
-        state.score += gained;
-        state.correct += 1;
-        state.streak += 1;
-        state.bestStreak = Math.max(state.bestStreak, state.streak);
-        updateHUD();
-        feedbackBox.className = 'feedback success';
-        feedbackBox.textContent = `${praise[Math.floor(Math.random() * praise.length)]} ${q.explanation}`;
-        nextBtn.classList.remove('hidden');
-        checkDragBtn.classList.add('hidden');
-        playSound(correctSound, 0.75);
-        playSound(clapSound, 0.36, 250);
-        launchConfetti();
-      } else {
-        state.attemptsLeft -= 1;
-        updateHUD();
-        showWrongCross();
-        playSound(wrongSound, 0.55);
-        if (state.attemptsLeft > 0) {
-          feedbackBox.className = 'feedback error';
-          feedbackBox.textContent = 'Some matches are wrong. You have one retry left.';
-          drops.forEach(drop => {
-            const zone = q.dropZones.find(item => item.id === drop.dataset.zone);
-            const correct = state.dragSelections[zone.id] === zone.answer;
-            drop.classList.toggle('good', correct);
-            drop.classList.toggle('bad', !correct);
-          });
+
+      let isAllCorrect = true;
+      q.targets.forEach(t => {
+        const boxEl = interactiveArea.querySelector(`[data-target-id="${t.id}"]`);
+        if (tapAssignments[t.id] === t.answer) {
+          boxEl.classList.add('good');
+          boxEl.classList.remove('bad');
         } else {
-          clearInterval(state.timer);
-          state.locked = true;
-          state.resolved = true;
-          state.streak = 0;
-          revealCorrectAnswer(q, 'Second wrong attempt. ' + q.explanation);
-          checkDragBtn.classList.add('hidden');
+          boxEl.classList.add('bad');
+          boxEl.classList.remove('good');
+          isAllCorrect = false;
+        }
+      });
+
+      if (isAllCorrect) {
+        clearInterval(timer);
+        locked = true;
+        playAudio(correctSound);
+        triggerConfetti();
+
+        const points = currentTries === 2 ? 10 : 5;
+        score += points;
+        scoreValue.textContent = score;
+
+        if (currentTries === 2) {
+          correctCount++;
+        }
+
+        streak++;
+        if (streak > maxStreak) maxStreak = streak;
+        streakValue.textContent = streak;
+
+        feedbackBox.className = 'feedback success';
+        feedbackBox.textContent = `Excellent matching! ${q.explanation}`;
+        checkTapBtn.classList.add('hidden');
+        nextBtn.classList.remove('hidden');
+      } else {
+        playAudio(wrongSound);
+        triggerWrongEffect();
+        currentTries--;
+        updateTriesUI();
+
+        if (currentTries > 0) {
+          feedbackBox.className = 'feedback error';
+          feedbackBox.textContent = 'Some choices are incorrect. Tap a placed box to clear it and try again!';
+        } else {
+          clearInterval(timer);
+          locked = true;
+          streak = 0;
+          streakValue.textContent = streak;
+          feedbackBox.className = 'feedback error';
+          feedbackBox.textContent = `Incorrect matches. ${q.explanation}`;
+
+          q.targets.forEach(t => {
+            const boxEl = interactiveArea.querySelector(`[data-target-id="${t.id}"]`);
+            const slot = boxEl.querySelector('.target-slot');
+            slot.innerHTML = `<span class="placed-pill" style="background:#12663a;">${t.answer}</span>`;
+            boxEl.className = 'target-box good filled';
+          });
+
+          checkTapBtn.classList.add('hidden');
+          nextBtn.classList.remove('hidden');
         }
       }
-    }
+    });
 
-    function revealCorrectAnswer(q, message) {
-      feedbackBox.className = 'feedback error';
-      feedbackBox.textContent = message;
-      nextBtn.classList.remove('hidden');
-      if (q.type === 'mcq' || q.type === 'truefalse') {
-        const nodes = Array.from(document.querySelectorAll('.option'));
-        nodes.forEach((node, i) => {
-          node.disabled = true;
-          if (q.options[i].correct) node.classList.add('correct');
-        });
+    nextBtn.addEventListener('click', () => {
+      currentIdx++;
+      if (currentIdx < questions.length) {
+        loadQuestion();
       } else {
-        const drops = Array.from(document.querySelectorAll('.dropzone'));
-        q.dropZones.forEach(zone => {
-          const drop = drops.find(d => d.dataset.zone === zone.id);
-          drop.classList.remove('bad');
-          drop.classList.add('good');
-          const target = drop.querySelector('.target, .drop-pill');
-          target.textContent = zone.answer;
-          target.className = 'target drop-pill';
-        });
+        finishGame();
+      }
+    });
+
+    function finishGame() {
+      clearInterval(timer);
+      showScreen(resultScreen);
+      playAudio(clapSound);
+      triggerCelebration();
+
+      finalScore.textContent = score;
+      correctCountEl.textContent = `${correctCount}/${questions.length}`;
+      const pct = Math.round((correctCount / questions.length) * 100);
+      accuracyValue.textContent = `${pct}%`;
+      bestStreak.textContent = maxStreak;
+
+      if (pct >= 80) {
+        resultTitle.textContent = 'Outstanding Job! 🎉';
+        resultText.textContent = 'You have mastered Grade 6 Fractions! Excellent precision and understanding.';
+      } else if (pct >= 50) {
+        resultTitle.textContent = 'Good Effort! 👍';
+        resultText.textContent = 'Great work completing the challenge. Review a few fraction rules and try for 100%!';
+      } else {
+        resultTitle.textContent = 'Keep Practicing! 💪';
+        resultText.textContent = 'Fractions take practice. Try again to build your speed and score higher!';
       }
     }
 
-    function nextQuestion() {
-      if (state.index < questions.length - 1) {
-        state.index += 1;
-        renderQuestion();
-      } else {
-        showResults();
-      }
-    }
-
-    function launchConfetti(count = window.innerWidth < 640 ? 16 : 26) {
-      const colors = ['#ffcf45', '#7c4dff', '#1e88e5', '#1faa59'];
-      for (let i = 0; i < count; i++) {
-        const star = document.createElement('span');
+    function triggerConfetti() {
+      const container = document.getElementById('confettiLayer');
+      const colors = ['#ffb703', '#1faa59', '#1e88e5', '#7c4dff', '#e04f5f'];
+      for (let i = 0; i < 24; i++) {
+        const star = document.createElement('div');
         star.className = 'star';
-        star.style.left = Math.random() * 100 + '%';
-        star.style.top = (8 + Math.random() * 18) + '%';
-        star.style.background = colors[Math.floor(Math.random() * colors.length)];
-        star.style.animationDelay = Math.random() * 0.2 + 's';
-        confettiLayer.appendChild(star);
+        star.style.left = `${Math.random() * 90 + 5}%`;
+        star.style.top = `${Math.random() * 30 + 10}%`;
+        star.style.background = colors[i % colors.length];
+        star.style.animationDelay = `${Math.random() * 0.2}s`;
+        container.appendChild(star);
         setTimeout(() => star.remove(), 1400);
       }
     }
 
-    function launchEndCelebration() {
-      for (let i = 0; i < 34; i++) {
-        const star = document.createElement('span');
-        star.className = 'star';
-        star.style.left = Math.random() * 100 + '%';
-        star.style.top = Math.random() * 30 + '%';
-        star.style.background = ['#ffcf45', '#7c4dff', '#1e88e5', '#1faa59'][Math.floor(Math.random() * 4)];
-        celebrationLayer.appendChild(star);
-        setTimeout(() => star.remove(), 1700);
-      }
+    function triggerWrongEffect() {
+      const container = document.getElementById('wrongLayer');
+      const cross = document.createElement('div');
+      cross.className = 'wrong-cross';
+      container.appendChild(cross);
+      setTimeout(() => cross.remove(), 600);
     }
 
-    function showWrongCross() {
-      wrongLayer.innerHTML = '<span class="wrong-cross"></span>';
-      setTimeout(() => wrongLayer.innerHTML = '', 800);
+    function triggerCelebration() {
+      const card = document.getElementById('resultCard');
+      card.classList.add('celebrate-screen');
+      setTimeout(() => card.classList.remove('celebrate-screen'), 2400);
     }
 
-    function showResults() {
-      clearInterval(state.timer);
-      showScreen(resultScreen);
-      const accuracy = Math.round((state.correct / questions.length) * 100);
-      document.getElementById('finalScore').textContent = state.score;
-      document.getElementById('correctCount').textContent = `${state.correct}/${questions.length}`;
-      document.getElementById('accuracyValue').textContent = `${accuracy}%`;
-      document.getElementById('bestStreak').textContent = state.bestStreak;
-
-      let title = 'Great effort!';
-      let text = 'You finished the Grade 6 fractions challenge.';
-      resultCard.classList.remove('celebrate-screen');
-
-      if (accuracy >= 80) {
-        title = 'Outstanding fraction master!';
-        text = 'You scored 80% or more and showed strong understanding of fraction concepts.';
-        resultCard.classList.add('celebrate-screen');
-        playSound(clapSound, 0.45);
-        launchEndCelebration();
-      } else if (accuracy >= 60) {
-        title = 'Well done!';
-        text = 'You understand many fraction ideas and are close to full mastery.';
-      } else {
-        title = 'Keep practicing!';
-        text = 'Review equivalent fractions, simplifying, and comparing fractions, then try again.';
-      }
-
-      document.getElementById('resultTitle').textContent = title;
-      document.getElementById('resultText').textContent = text;
-    }
-
-    startBtn.addEventListener('click', () => {
-      showScreen(quizScreen);
-      resetState();
-    });
-    nextBtn.addEventListener('click', nextQuestion);
-    checkDragBtn.addEventListener('click', checkDragAnswer);
-    document.getElementById('playAgainBtn').addEventListener('click', () => {
-      showScreen(quizScreen);
-      resetState();
-    });
-    document.getElementById('introBtn').addEventListener('click', () => showScreen(introScreen));
-
-    createFloatingMath();
-    setTimeout(() => splashScreen.classList.add('hide'), 5000);
+    startBtn.addEventListener('click', resetGame);
+    playAgainBtn.addEventListener('click', resetGame);
+    introBtn.addEventListener('click', () => showScreen(introScreen));
   </script>
 </body>
-</html> 
+</html>
