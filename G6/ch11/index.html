@@ -1,327 +1,1532 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Grade 6 Data Handling - Innovine Game</title>
+
 <style>
 :root{
-  --ink:#17324d; --card:#ffffffee; --accent:#2f80ed; --accent2:#00b894;
-  --warn:#ff7675; --gold:#f7b731; --soft:#eaf4ff;
+  --ink:#17324d;
+  --card:#ffffffee;
+  --accent:#2f80ed;
+  --accent2:#00b894;
+  --warn:#ff7675;
+  --gold:#f7b731;
+  --soft:#eaf4ff;
 }
-*{box-sizing:border-box;margin:0;padding:0}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
 body{
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  min-height:100vh; color:var(--ink); overflow-x:hidden;
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  min-height:100vh;
+  color:var(--ink);
+  overflow-x:hidden;
   background:
-    radial-gradient(circle at 15% 20%, #ffeaa7 0 8%, transparent 9%),
-    radial-gradient(circle at 85% 15%, #a29bfe 0 7%, transparent 8%),
-    radial-gradient(circle at 20% 85%, #81ecec 0 9%, transparent 10%),
+    radial-gradient(circle at 15% 20%,#ffeaa7 0 8%,transparent 9%),
+    radial-gradient(circle at 85% 15%,#a29bfe 0 7%,transparent 8%),
+    radial-gradient(circle at 20% 85%,#81ecec 0 9%,transparent 10%),
     linear-gradient(135deg,#dff6ff,#fff6d9 45%,#efe8ff);
 }
+
 body:before{
-  content:""; position:fixed; inset:0; pointer-events:none; opacity:.28; z-index:-1;
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.28;
+  z-index:-1;
   background-image:
-    linear-gradient(90deg, transparent 92%, rgba(47,128,237,.45) 93% 95%, transparent 96%),
-    linear-gradient(0deg, transparent 92%, rgba(0,184,148,.35) 93% 95%, transparent 96%);
-  background-size:90px 90px; animation:gridMove 35s linear infinite;
+    linear-gradient(
+      90deg,
+      transparent 92%,
+      rgba(47,128,237,.45) 93% 95%,
+      transparent 96%
+    ),
+    linear-gradient(
+      0deg,
+      transparent 92%,
+      rgba(0,184,148,.35) 93% 95%,
+      transparent 96%
+    );
+  background-size:90px 90px;
+  animation:gridMove 35s linear infinite;
 }
-@keyframes gridMove{to{transform:translate(-90px,-90px)}}
-#splash{
-  position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
-  background:linear-gradient(135deg,#ffffff,#eef7ff); animation:hideSplash .8s forwards; animation-delay:5s;
+
+@keyframes gridMove{
+  to{transform:translate(-90px,-90px);}
 }
-#splash img{width:230px; max-width:78%; animation:logoPulse 1.4s ease-in-out infinite alternate}
-@keyframes logoPulse{from{transform:scale(.96)}to{transform:scale(1.04)}}
-@keyframes hideSplash{to{opacity:0;visibility:hidden}}
-.wrap{width:min(960px,94%); margin:0 auto; padding:24px 0}
+
+.wrap{
+  width:min(960px,94%);
+  margin:0 auto;
+  padding:24px 0;
+}
+
 .card{
-  background:var(--card); border:1px solid rgba(255,255,255,.75); border-radius:28px;
-  box-shadow:0 18px 48px rgba(32,55,92,.18); padding:26px; margin-top:26px;
-  backdrop-filter: blur(10px);
+  background:var(--card);
+  border:1px solid rgba(255,255,255,.75);
+  border-radius:28px;
+  box-shadow:0 18px 48px rgba(32,55,92,.18);
+  padding:26px;
+  margin-top:26px;
+  backdrop-filter:blur(10px);
 }
-.center{text-align:center}.hidden{display:none!important}
+
+.center{
+  text-align:center;
+}
+
+.hidden{
+  display:none !important;
+}
+
 .hero{
-  min-height:420px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px;
+  min-height:420px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
 }
-.title{font-size:clamp(30px,6vw,52px); line-height:1.05}
-.subtitle{font-size:clamp(16px,3vw,20px); max-width:720px; line-height:1.55}
+
+.title{
+  font-size:clamp(30px,6vw,52px);
+  line-height:1.05;
+}
+
+.subtitle{
+  font-size:clamp(16px,3vw,20px);
+  max-width:720px;
+  line-height:1.55;
+}
+
 .instructions{
-  display:grid; gap:10px; margin:18px auto; max-width:690px; text-align:left; font-size:17px; line-height:1.5;
+  display:grid;
+  gap:10px;
+  margin:18px auto;
+  max-width:690px;
+  text-align:left;
+  font-size:17px;
+  line-height:1.5;
 }
-.inst{background:#f7fbff; border-left:7px solid var(--accent); padding:12px 14px; border-radius:14px}
+
+.inst{
+  background:#f7fbff;
+  border-left:7px solid var(--accent);
+  padding:12px 14px;
+  border-radius:14px;
+}
+
 .btn{
-  border:0; padding:14px 24px; border-radius:16px; font-weight:800; font-size:17px; cursor:pointer;
-  background:linear-gradient(135deg,var(--accent),#6c5ce7); color:white;
-  box-shadow:0 10px 22px rgba(47,128,237,.28); transition:.2s;
+  border:0;
+  padding:14px 24px;
+  border-radius:16px;
+  font-weight:800;
+  font-size:17px;
+  cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),#6c5ce7);
+  color:white;
+  box-shadow:0 10px 22px rgba(47,128,237,.28);
+  transition:.2s;
+  min-height:48px;
 }
-.btn:hover{transform:translateY(-2px) scale(1.02)}
-.topbar{display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; margin-bottom:18px}
+
+.btn:hover{
+  transform:translateY(-2px) scale(1.02);
+}
+
+.btn:focus-visible,
+.option:focus-visible{
+  outline:3px solid #6c5ce7;
+  outline-offset:3px;
+}
+
+/* ---------- TOP BAR ---------- */
+
+.topbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:space-between;
+  margin-bottom:18px;
+}
+
 .badge{
-  background:#ffffff; border:2px solid #dbeafe; padding:10px 13px; border-radius:15px;
-  font-weight:900; box-shadow:0 6px 14px rgba(31,75,130,.08)
+  background:#ffffff;
+  border:2px solid #dbeafe;
+  padding:10px 13px;
+  border-radius:15px;
+  font-weight:900;
+  box-shadow:0 6px 14px rgba(31,75,130,.08);
 }
-.progress{height:14px; border-radius:100px; background:#dcecff; overflow:hidden; margin-bottom:18px}
-#progressBar{height:100%; width:0; background:linear-gradient(90deg,#00b894,#2f80ed,#6c5ce7); transition:.35s}
+
+/* ---------- PROGRESS ---------- */
+
+.progress{
+  height:14px;
+  border-radius:100px;
+  background:#dcecff;
+  overflow:hidden;
+  margin-bottom:18px;
+}
+
+#progressBar{
+  height:100%;
+  width:0;
+  background:linear-gradient(
+    90deg,
+    #00b894,
+    #2f80ed,
+    #6c5ce7
+  );
+  transition:.35s;
+}
+
+/* ---------- QUESTION AREA ---------- */
+
 .scene{
-  min-height:78px; display:flex; align-items:center; gap:14px; padding:14px 16px; border-radius:20px;
-  background:linear-gradient(135deg,#f8fcff,#fff8e8); border:2px dashed #b8d8ff; margin-bottom:16px;
+  min-height:78px;
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  padding:16px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#f8fcff,#fff8e8);
+  border:2px dashed #b8d8ff;
+  margin-bottom:16px;
 }
+
+.sceneContent{
+  flex:1;
+  min-width:0;
+  width:100%;
+}
+
 .icon{
-  width:62px;height:62px;border-radius:18px; display:grid;place-items:center; font-size:34px;
-  background:linear-gradient(135deg,#dff6ff,#ffeaa7); box-shadow:inset 0 0 0 3px #fff;
+  width:62px;
+  height:62px;
+  flex-shrink:0;
+  border-radius:18px;
+  display:grid;
+  place-items:center;
+  font-size:34px;
+  background:linear-gradient(135deg,#dff6ff,#ffeaa7);
+  box-shadow:inset 0 0 0 3px #fff;
 }
-.question{font-size:clamp(18px,3vw,22px); line-height:1.55; font-weight:800}
+
+.question{
+  font-size:clamp(18px,3vw,22px);
+  line-height:1.55;
+  font-weight:800;
+}
+
+/* ==================================================
+   CENTRED RESPONSIVE DATA TABLE
+   ================================================== */
+
 .dataBox{
-  margin-top:12px; padding:12px; background:#fff; border:2px solid #e3efff; border-radius:16px; overflow-x:auto;
+  width:100%;
+  margin:16px auto 0;
+  padding:14px;
+  background:#fff;
+  border:2px solid #e3efff;
+  border-radius:16px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
 }
-table{border-collapse:collapse; width:100%; min-width:360px}
-td,th{border:1px solid #bdd7ff; padding:8px 10px; text-align:center}
-th{background:#eff7ff}
-.options{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; margin-top:18px}
+
+/* Centres the actual table */
+.tableWrapper{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+table{
+  border-collapse:collapse;
+  width:auto;
+  min-width:420px;
+  max-width:100%;
+  margin:0 auto;
+}
+
+td,
+th{
+  border:1px solid #bdd7ff;
+  padding:9px 16px;
+  text-align:center;
+  vertical-align:middle;
+}
+
+th{
+  background:#eff7ff;
+  font-weight:900;
+}
+
+/* ==================================================
+   WATER-SAVING HOUSE VISUAL
+   ================================================== */
+
+.houseVisual{
+  width:100%;
+  max-width:700px;
+  margin:14px auto 0;
+  padding:14px;
+  background:#f8fbff;
+  border:2px solid #e3efff;
+  border-radius:18px;
+}
+
+.houseVisualTitle{
+  text-align:center;
+  font-size:14px;
+  font-weight:900;
+  color:#58738e;
+  margin-bottom:12px;
+}
+
+.houseGrid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.houseCard{
+  background:#fff;
+  border:2px solid #e4efff;
+  border-radius:16px;
+  padding:12px 8px;
+  text-align:center;
+  min-width:0;
+  transition:.2s;
+}
+
+.houseCard:hover{
+  transform:translateY(-2px);
+}
+
+.houseIcon{
+  display:block;
+  font-size:34px;
+  margin-bottom:6px;
+}
+
+.houseName{
+  display:block;
+  font-size:14px;
+  font-weight:900;
+  line-height:1.25;
+}
+
+.houseValue{
+  display:block;
+  font-size:18px;
+  font-weight:900;
+  margin-top:6px;
+}
+
+.house-blue{
+  border-top:6px solid #4387e8;
+}
+
+.house-green{
+  border-top:6px solid #32a665;
+}
+
+.house-yellow{
+  border-top:6px solid #e7b82f;
+}
+
+.house-red{
+  border-top:6px solid #dc5757;
+}
+
+/* ---------- OPTIONS ---------- */
+
+.options{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
+  margin-top:18px;
+}
+
 .option{
-  background:#fff; border:3px solid #e4efff; border-radius:18px; padding:15px; cursor:pointer;
-  min-height:62px; display:flex; align-items:center; justify-content:center; text-align:center;
-  font-weight:850; font-size:17px; transition:.18s; user-select:none;
+  width:100%;
+  background:#fff;
+  border:3px solid #e4efff;
+  border-radius:18px;
+  padding:15px;
+  cursor:pointer;
+  min-height:62px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-weight:850;
+  font-size:17px;
+  color:var(--ink);
+  transition:.18s;
+  user-select:none;
 }
-.option:hover{transform:translateY(-2px); border-color:#91c4ff; background:#f7fbff}
-.option.clicked{box-shadow:0 0 0 4px rgba(47,128,237,.12)}
-.option.correct{background:#ddfff4!important; border-color:#00b894!important; animation:pop .38s}
-.option.wrong{background:#ffe8e8!important; border-color:#ff7675!important; animation:shake .38s}
-@keyframes pop{50%{transform:scale(1.05)}}
-@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
-.feedback{min-height:44px; margin-top:16px; font-size:19px; font-weight:900; text-align:center}
-.explain{margin-top:10px; padding:12px 14px; background:#f7fbff; border-left:7px solid var(--accent2); border-radius:14px; line-height:1.45}
-.nextRow{text-align:center;margin-top:12px}
-.float{
-  position:fixed; font-size:24px; opacity:.24; animation:floaty 8s ease-in-out infinite; pointer-events:none; z-index:-1;
+
+.option:hover{
+  transform:translateY(-2px);
+  border-color:#91c4ff;
+  background:#f7fbff;
 }
-@keyframes floaty{50%{transform:translateY(-26px) rotate(6deg)}}
+
+.option.clicked{
+  box-shadow:0 0 0 4px rgba(47,128,237,.12);
+}
+
+.option.correct{
+  background:#ddfff4 !important;
+  border-color:#00b894 !important;
+  animation:pop .38s;
+}
+
+.option.wrong{
+  background:#ffe8e8 !important;
+  border-color:#ff7675 !important;
+  animation:shake .38s;
+}
+
+@keyframes pop{
+  50%{transform:scale(1.05);}
+}
+
+@keyframes shake{
+  25%{transform:translateX(-7px);}
+  75%{transform:translateX(7px);}
+}
+
+.feedback{
+  min-height:44px;
+  margin-top:16px;
+  font-size:19px;
+  font-weight:900;
+  text-align:center;
+}
+
+.explain{
+  margin-top:10px;
+  padding:12px 14px;
+  background:#f7fbff;
+  border-left:7px solid var(--accent2);
+  border-radius:14px;
+  line-height:1.45;
+}
+
+.nextRow{
+  text-align:center;
+  margin-top:12px;
+}
+
+.resultBadge{
+  font-size:72px;
+  margin:12px 0;
+}
+
+/* ---------- CONFETTI ---------- */
+
 .confetti{
-  position:fixed; top:-25px; width:13px; height:13px; z-index:999; pointer-events:none;
-  clip-path:polygon(50% 0,61% 34%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 34%);
+  position:fixed;
+  top:-25px;
+  width:13px;
+  height:13px;
+  z-index:999;
+  pointer-events:none;
+  clip-path:polygon(
+    50% 0,
+    61% 34%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 34%
+  );
   animation:fall 2.4s linear forwards;
 }
-@keyframes fall{to{transform:translateY(105vh) rotate(720deg); opacity:0}}
-.resultBadge{font-size:72px;margin:12px 0}
+
+@keyframes fall{
+  to{
+    transform:translateY(105vh) rotate(720deg);
+    opacity:0;
+  }
+}
+
+/* ==================================================
+   TABLET
+   ================================================== */
+
+@media(max-width:768px){
+
+  .wrap{
+    width:96%;
+    padding:16px 0;
+  }
+
+  .card{
+    padding:20px;
+    border-radius:23px;
+    margin-top:16px;
+  }
+
+  .houseGrid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  table{
+    min-width:380px;
+  }
+}
+
+/* ==================================================
+   MOBILE
+   ================================================== */
+
 @media(max-width:650px){
-  .card{padding:18px;border-radius:22px}.options{grid-template-columns:1fr}
-  .topbar{display:grid; grid-template-columns:1fr 1fr}.badge{text-align:center;font-size:14px}
-  .scene{align-items:flex-start}.icon{width:52px;height:52px;font-size:28px}
+
+  .wrap{
+    width:97%;
+    padding:10px 0;
+  }
+
+  .card{
+    padding:16px;
+    border-radius:20px;
+    margin-top:10px;
+  }
+
+  .hero{
+    min-height:auto;
+    padding-top:35px;
+    padding-bottom:35px;
+  }
+
+  .topbar{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+
+  .badge{
+    text-align:center;
+    font-size:14px;
+    padding:9px 6px;
+  }
+
+  .scene{
+    align-items:flex-start;
+    padding:12px;
+    gap:10px;
+  }
+
+  .icon{
+    width:50px;
+    height:50px;
+    flex-basis:50px;
+    font-size:27px;
+  }
+
+  .question{
+    font-size:18px;
+  }
+
+  .dataBox{
+    padding:8px;
+  }
+
+  table{
+    min-width:350px;
+    font-size:14px;
+  }
+
+  td,
+  th{
+    padding:8px 10px;
+  }
+
+  .options{
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+
+  .option{
+    font-size:16px;
+    min-height:56px;
+    padding:12px;
+  }
+
+  .houseGrid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .houseCard{
+    padding:10px 5px;
+  }
+
+  .houseIcon{
+    font-size:30px;
+  }
+}
+
+/* Extra-small screens */
+
+@media(max-width:380px){
+
+  .scene{
+    flex-direction:column;
+  }
+
+  .icon{
+    width:48px;
+    height:48px;
+  }
+
+  table{
+    min-width:320px;
+  }
+
+  .houseGrid{
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+  }
+
+  .title{
+    font-size:31px;
+  }
 }
 </style>
 </head>
+
 <body>
-<div id="splash"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
-<span class="float" style="left:5%;top:19%">📊</span><span class="float" style="left:86%;top:23%;animation-delay:1s">📈</span>
-<span class="float" style="left:11%;top:76%;animation-delay:2s">🧮</span><span class="float" style="left:82%;top:72%;animation-delay:3s">🗂️</span>
 
 <div class="wrap">
+
+  <!-- INTRO -->
+
   <section id="intro" class="card center hero">
+
     <h1 class="title">Data Detective Lab</h1>
-    <p class="subtitle">Read real-life data, compare information, and make smart decisions from tables, tally marks, pictographs and bar-style clues.</p>
+
+    <p class="subtitle">
+      Read real-life data, compare information, and make smart decisions
+      from tables, tally marks, pictographs and bar-style clues.
+    </p>
+
     <div class="instructions">
-      <div class="inst">Tap one answer for each challenge. No answer is selected before you choose.</div>
-      <div class="inst">You get two attempts. After the second wrong attempt, the correct answer is shown with a short reason.</div>
-      <div class="inst">Use the data given in each situation carefully. Complete all 10 challenges to see your final score.</div>
+
+      <div class="inst">
+        Tap one answer for each challenge.
+        No answer is selected before you choose.
+      </div>
+
+      <div class="inst">
+        You get two attempts. After the second wrong attempt,
+        the correct answer is shown with a short reason.
+      </div>
+
+      <div class="inst">
+        Use the data given in each situation carefully.
+        Complete all 10 challenges to see your final score.
+      </div>
+
     </div>
-    <button class="btn" onclick="startGame()">Start Data Mission</button>
+
+    <button class="btn" id="startBtn">
+      Start Data Mission
+    </button>
+
   </section>
+
+
+  <!-- QUIZ -->
 
   <section id="quiz" class="card hidden">
+
     <div class="topbar">
-      <div class="badge">⭐ Score: <span id="score">0</span></div>
-      <div class="badge">🧩 Challenge: <span id="qno">1</span>/10</div>
-      <div class="badge">⏳ Time: <span id="time">45</span>s</div>
-    </div>
-    <div class="progress"><div id="progressBar"></div></div>
-    <div class="scene">
-      <div class="icon" id="sceneIcon">📊</div>
-      <div>
-        <div class="question" id="questionText"></div>
-        <div id="dataBox" class="dataBox hidden"></div>
+
+      <div class="badge">
+        ⭐ Score:
+        <span id="score">0</span>
       </div>
+
+      <div class="badge">
+        🧩 Challenge:
+        <span id="qno">1</span>/10
+      </div>
+
+      <div class="badge">
+        ⏳ Time:
+        <span id="time">45</span>s
+      </div>
+
     </div>
-    <div class="options" id="options"></div>
-    <div class="feedback" id="feedback"></div>
+
+    <div class="progress">
+      <div id="progressBar"></div>
+    </div>
+
+    <div class="scene">
+
+      <div class="icon" id="sceneIcon">
+        📊
+      </div>
+
+      <div class="sceneContent">
+
+        <div
+          class="question"
+          id="questionText">
+        </div>
+
+        <div
+          id="dataBox"
+          class="dataBox hidden">
+        </div>
+
+        <div id="houseVisual"></div>
+
+      </div>
+
+    </div>
+
+    <div
+      class="options"
+      id="options">
+    </div>
+
+    <div
+      class="feedback"
+      id="feedback"
+      aria-live="polite">
+    </div>
+
     <div id="explainBox"></div>
-    <div class="nextRow hidden" id="nextRow"><button class="btn" onclick="nextQuestion()">Next Challenge</button></div>
+
+    <div
+      class="nextRow hidden"
+      id="nextRow">
+
+      <button
+        class="btn"
+        id="nextBtn">
+
+        Next Challenge
+
+      </button>
+
+    </div>
+
   </section>
 
-  <section id="result" class="card center hero hidden">
-    <h2>Mission Completed!</h2>
-    <div class="resultBadge" id="resultEmoji">🏆</div>
-    <h1><span id="finalScore">0</span>/10</h1>
-    <p class="subtitle" id="resultText"></p>
-    <button class="btn" onclick="restartGame()">Play Again</button>
+
+  <!-- RESULT -->
+
+  <section
+    id="result"
+    class="card center hero hidden">
+
+    <h2>
+      Mission Completed!
+    </h2>
+
+    <div
+      class="resultBadge"
+      id="resultEmoji">
+
+      🏆
+
+    </div>
+
+    <h1>
+      <span id="finalScore">0</span>/10
+    </h1>
+
+    <p
+      class="subtitle"
+      id="resultText">
+    </p>
+
+    <button
+      class="btn"
+      id="restartBtn">
+
+      Play Again
+
+    </button>
+
   </section>
+
 </div>
 
-<audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
-<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3" preload="auto"></audio>
 
 <script>
+
 const questions = [
-  {
-    icon:"📚",
-    q:"The class librarian records borrowed books for four days. On which day should she arrange extra storybooks for students?",
-    data:"<table><tr><th>Day</th><th>Books Borrowed</th></tr><tr><td>Monday</td><td>18</td></tr><tr><td>Tuesday</td><td>25</td></tr><tr><td>Wednesday</td><td>16</td></tr><tr><td>Thursday</td><td>28</td></tr></table>",
-    options:["Monday","Tuesday","Wednesday","Thursday"],
-    answer:3,
-    exp:"Thursday has the highest number of borrowed books, so demand is greatest on that day."
-  },
-  {
-    icon:"🍎",
-    q:"A canteen manager studies fruit choices before ordering for Friday. Which fruit should be ordered the most?",
-    data:"<table><tr><th>Fruit</th><th>Students Choosing It</th></tr><tr><td>Apple</td><td>22</td></tr><tr><td>Banana</td><td>17</td></tr><tr><td>Mango</td><td>31</td></tr><tr><td>Orange</td><td>14</td></tr></table>",
-    options:["Apple","Banana","Mango","Orange"],
-    answer:2,
-    exp:"Mango is chosen by 31 students, which is the greatest count."
-  },
-  {
-    icon:"🏃",
-    q:"The sports teacher uses the data to form the first practice group. Which activity has exactly 20 students interested?",
-    data:"<table><tr><th>Activity</th><th>Interested Students</th></tr><tr><td>Running</td><td>15</td></tr><tr><td>Football</td><td>20</td></tr><tr><td>Yoga</td><td>12</td></tr><tr><td>Badminton</td><td>18</td></tr></table>",
-    options:["Running","Football","Yoga","Badminton"],
-    answer:1,
-    exp:"The table shows 20 students for Football."
-  },
-  {
-    icon:"🚌",
-    q:"The school plans buses using attendance data. If one bus can carry 30 students, which class needs two buses?",
-    data:"<table><tr><th>Class</th><th>Students Going</th></tr><tr><td>6A</td><td>28</td></tr><tr><td>6B</td><td>33</td></tr><tr><td>6C</td><td>25</td></tr><tr><td>6D</td><td>30</td></tr></table>",
-    options:["6A","6B","6C","6D"],
-    answer:1,
-    exp:"Class 6B has 33 students, which is more than 30, so it needs two buses."
-  },
-  {
-    icon:"🎨",
-    q:"Students vote for the Art Club theme. Which statement is supported by the data?",
-    data:"<table><tr><th>Theme</th><th>Votes</th></tr><tr><td>Nature</td><td>24</td></tr><tr><td>Space</td><td>24</td></tr><tr><td>Animals</td><td>19</td></tr><tr><td>Festivals</td><td>11</td></tr></table>",
-    options:["Nature has more votes than Space.","Animals received the least votes.","Nature and Space received equal votes.","Festivals received 19 votes."],
-    answer:2,
-    exp:"Nature and Space both received 24 votes."
-  },
-  {
-    icon:"🌧️",
-    q:"A weather monitor notes rainy days each month. Which two months together have 15 rainy days?",
-    data:"<table><tr><th>Month</th><th>Rainy Days</th></tr><tr><td>June</td><td>8</td></tr><tr><td>July</td><td>12</td></tr><tr><td>August</td><td>7</td></tr><tr><td>September</td><td>5</td></tr></table>",
-    options:["June and August","July and September","June and September","August and September"],
-    answer:0,
-    exp:"June has 8 and August has 7. Together they make 15 rainy days."
-  },
-  {
-    icon:"🗳️",
-    q:"In a class survey, tally marks were converted into numbers. Which option correctly describes the result?",
-    data:"<table><tr><th>Pet</th><th>Number of Students</th></tr><tr><td>Dog</td><td>16</td></tr><tr><td>Cat</td><td>9</td></tr><tr><td>Fish</td><td>6</td></tr><tr><td>Bird</td><td>9</td></tr></table>",
-    options:["Cat and Bird are equally popular.","Fish is more popular than Cat.","Dog is the least popular.","Bird has 16 votes."],
-    answer:0,
-    exp:"Cat and Bird both have 9 students."
-  },
-  {
-    icon:"🍪",
-    q:"A bakery tracks packets sold. On which day were 10 more packets sold than Monday?",
-    data:"<table><tr><th>Day</th><th>Packets Sold</th></tr><tr><td>Monday</td><td>35</td></tr><tr><td>Tuesday</td><td>41</td></tr><tr><td>Wednesday</td><td>45</td></tr><tr><td>Thursday</td><td>39</td></tr></table>",
-    options:["Tuesday","Wednesday","Thursday","Monday"],
-    answer:1,
-    exp:"Monday had 35 packets. Ten more than 35 is 45, which is Wednesday."
-  },
-  {
-    icon:"🚰",
-    q:"A water-saving team records litres saved by four houses. Which house saved less than 20 litres?",
-    data:"<table><tr><th>House</th><th>Litres Saved</th></tr><tr><td>Blue</td><td>21</td></tr><tr><td>Green</td><td>18</td></tr><tr><td>Yellow</td><td>26</td></tr><tr><td>Red</td><td>20</td></tr></table>",
-    options:["Blue House","Green House","Yellow House","Red House"],
-    answer:1,
-    exp:"Green House saved 18 litres, which is less than 20."
-  },
-  {
-    icon:"🎟️",
-    q:"The school fair uses ticket data to decide which stall needs another volunteer. Which stall had the highest crowd?",
-    data:"<table><tr><th>Stall</th><th>Tickets Used</th></tr><tr><td>Ring Toss</td><td>48</td></tr><tr><td>Lucky Dip</td><td>52</td></tr><tr><td>Craft Corner</td><td>37</td></tr><tr><td>Math Puzzle</td><td>44</td></tr></table>",
-    options:["Ring Toss","Lucky Dip","Craft Corner","Math Puzzle"],
-    answer:1,
-    exp:"Lucky Dip used 52 tickets, the highest number, so it had the largest crowd."
-  }
+
+{
+  icon:"📚",
+
+  q:"The class librarian records borrowed books for four days. On which day should she arrange extra storybooks for students?",
+
+  rows:[
+    ["Day","Books Borrowed"],
+    ["Monday",18],
+    ["Tuesday",25],
+    ["Wednesday",16],
+    ["Thursday",28]
+  ],
+
+  options:[
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday"
+  ],
+
+  answer:3,
+
+  exp:"Thursday has the highest number of borrowed books, so demand is greatest on that day."
+},
+
+{
+  icon:"🍎",
+
+  q:"A canteen manager studies fruit choices before ordering for Friday. Which fruit should be ordered the most?",
+
+  rows:[
+    ["Fruit","Students Choosing It"],
+    ["Apple",22],
+    ["Banana",17],
+    ["Mango",31],
+    ["Orange",14]
+  ],
+
+  options:[
+    "Apple",
+    "Banana",
+    "Mango",
+    "Orange"
+  ],
+
+  answer:2,
+
+  exp:"Mango is chosen by 31 students, which is the greatest count."
+},
+
+{
+  icon:"🏃",
+
+  q:"The sports teacher uses the data to form the first practice group. Which activity has exactly 20 students interested?",
+
+  rows:[
+    ["Activity","Interested Students"],
+    ["Running",15],
+    ["Football",20],
+    ["Yoga",12],
+    ["Badminton",18]
+  ],
+
+  options:[
+    "Running",
+    "Football",
+    "Yoga",
+    "Badminton"
+  ],
+
+  answer:1,
+
+  exp:"The table shows 20 students for Football."
+},
+
+{
+  icon:"🚌",
+
+  q:"The school plans buses using attendance data. If one bus can carry 30 students, which class needs two buses?",
+
+  rows:[
+    ["Class","Students Going"],
+    ["6A",28],
+    ["6B",33],
+    ["6C",25],
+    ["6D",30]
+  ],
+
+  options:[
+    "6A",
+    "6B",
+    "6C",
+    "6D"
+  ],
+
+  answer:1,
+
+  exp:"Class 6B has 33 students, which is more than 30, so it needs two buses."
+},
+
+{
+  icon:"🎨",
+
+  q:"Students vote for the Art Club theme. Which statement is supported by the data?",
+
+  rows:[
+    ["Theme","Votes"],
+    ["Nature",24],
+    ["Space",24],
+    ["Animals",19],
+    ["Festivals",11]
+  ],
+
+  options:[
+    "Nature has more votes than Space.",
+    "Animals received the least votes.",
+    "Nature and Space received equal votes.",
+    "Festivals received 19 votes."
+  ],
+
+  answer:2,
+
+  exp:"Nature and Space both received 24 votes."
+},
+
+{
+  icon:"🌧️",
+
+  q:"A weather monitor notes rainy days each month. Which two months together have 15 rainy days?",
+
+  rows:[
+    ["Month","Rainy Days"],
+    ["June",8],
+    ["July",12],
+    ["August",7],
+    ["September",5]
+  ],
+
+  options:[
+    "June and August",
+    "July and September",
+    "June and September",
+    "August and September"
+  ],
+
+  answer:0,
+
+  exp:"June has 8 and August has 7. Together they make 15 rainy days."
+},
+
+{
+  icon:"🗳️",
+
+  q:"In a class survey, tally marks were converted into numbers. Which option correctly describes the result?",
+
+  rows:[
+    ["Pet","Number of Students"],
+    ["Dog",16],
+    ["Cat",9],
+    ["Fish",6],
+    ["Bird",9]
+  ],
+
+  options:[
+    "Cat and Bird are equally popular.",
+    "Fish is more popular than Cat.",
+    "Dog is the least popular.",
+    "Bird has 16 votes."
+  ],
+
+  answer:0,
+
+  exp:"Cat and Bird both have 9 students."
+},
+
+{
+  icon:"🍪",
+
+  q:"A bakery tracks packets sold. On which day were 10 more packets sold than Monday?",
+
+  rows:[
+    ["Day","Packets Sold"],
+    ["Monday",35],
+    ["Tuesday",41],
+    ["Wednesday",45],
+    ["Thursday",39]
+  ],
+
+  options:[
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Monday"
+  ],
+
+  answer:1,
+
+  exp:"Monday had 35 packets. Ten more than 35 is 45, which is Wednesday."
+},
+
+{
+  icon:"🚰",
+
+  special:"houses",
+
+  q:"The Eco Club records the litres of water saved by four colour-coded houses. Study the record and identify the house that saved the least amount of water.",
+
+  rows:[
+    ["House","Litres Saved"],
+    ["Blue House",21],
+    ["Green House",18],
+    ["Yellow House",26],
+    ["Red House",20]
+  ],
+
+  options:[
+    "Blue House",
+    "Green House",
+    "Yellow House",
+    "Red House"
+  ],
+
+  answer:1,
+
+  exp:"Green House saved 18 litres, which is the least amount among the four houses."
+},
+
+{
+  icon:"🎟️",
+
+  q:"The school fair uses ticket data to decide which stall needs another volunteer. Which stall had the highest crowd?",
+
+  rows:[
+    ["Stall","Tickets Used"],
+    ["Ring Toss",48],
+    ["Lucky Dip",52],
+    ["Craft Corner",37],
+    ["Math Puzzle",44]
+  ],
+
+  options:[
+    "Ring Toss",
+    "Lucky Dip",
+    "Craft Corner",
+    "Math Puzzle"
+  ],
+
+  answer:1,
+
+  exp:"Lucky Dip used 52 tickets, the highest number, so it had the largest crowd."
+}
+
 ];
 
-let order=[], current=0, score=0, attempts=0, locked=false, timer=45, tick=null;
+
+let order=[];
+let current=0;
+let score=0;
+let attempts=0;
+let locked=false;
+let timer=45;
+let tick=null;
+
 
 const $=id=>document.getElementById(id);
-function shuffle(arr){return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);}
-function safePlay(id){const a=$(id); a.currentTime=0; a.play().catch(()=>{});}
+
+
+function shuffle(arr){
+
+  return arr
+    .map(v=>[Math.random(),v])
+    .sort((a,b)=>a[0]-b[0])
+    .map(x=>x[1]);
+
+}
+
+
+/* ==================================================
+   CENTRED TABLE CREATION
+   ================================================== */
+
+function makeTable(rows){
+
+  let html=`
+    <div class="tableWrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>${rows[0][0]}</th>
+            <th>${rows[0][1]}</th>
+          </tr>
+        </thead>
+        <tbody>
+  `;
+
+  for(let i=1;i<rows.length;i++){
+
+    html+=`
+      <tr>
+        <td>${rows[i][0]}</td>
+        <td>${rows[i][1]}</td>
+      </tr>
+    `;
+
+  }
+
+  html+=`
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  return html;
+
+}
+
+
+/* ==================================================
+   SPECIAL HOUSE VISUAL ONLY
+   ================================================== */
+
+function makeHouseVisual(q){
+
+  if(q.special!=="houses"){
+    return "";
+  }
+
+  return `
+    <div class="houseVisual">
+
+      <div class="houseVisualTitle">
+        💧 Water-Saving Record
+      </div>
+
+      <div class="houseGrid">
+
+        <div class="houseCard house-blue">
+          <span class="houseIcon">🏠</span>
+          <span class="houseName">Blue House</span>
+          <span class="houseValue">21 L</span>
+        </div>
+
+        <div class="houseCard house-green">
+          <span class="houseIcon">🏠</span>
+          <span class="houseName">Green House</span>
+          <span class="houseValue">18 L</span>
+        </div>
+
+        <div class="houseCard house-yellow">
+          <span class="houseIcon">🏠</span>
+          <span class="houseName">Yellow House</span>
+          <span class="houseValue">26 L</span>
+        </div>
+
+        <div class="houseCard house-red">
+          <span class="houseIcon">🏠</span>
+          <span class="houseName">Red House</span>
+          <span class="houseValue">20 L</span>
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+}
+
+
+/* ==================================================
+   START GAME
+   ================================================== */
+
 function startGame(){
-  order=shuffle([...Array(questions.length).keys()]);
-  current=0; score=0;
+
+  order=shuffle(
+    [...Array(questions.length).keys()]
+  );
+
+  current=0;
+  score=0;
+
   $("score").textContent=score;
-  $("intro").classList.add("hidden"); $("quiz").classList.remove("hidden");
+
+  $("intro").classList.add("hidden");
+  $("result").classList.add("hidden");
+  $("quiz").classList.remove("hidden");
+
   loadQuestion();
+
 }
+
+
+/* ==================================================
+   LOAD QUESTION
+   ================================================== */
+
 function loadQuestion(){
-  clearInterval(tick); locked=false; attempts=0; timer=45;
+
+  clearInterval(tick);
+
+  locked=false;
+  attempts=0;
+  timer=45;
+
   const q=questions[order[current]];
-  $("qno").textContent=current+1; $("time").textContent=timer; $("sceneIcon").textContent=q.icon;
+
+  $("qno").textContent=current+1;
+
+  $("time").textContent=timer;
+
+  $("sceneIcon").textContent=q.icon;
+
   $("questionText").textContent=q.q;
-  if(q.data){$("dataBox").innerHTML=q.data; $("dataBox").classList.remove("hidden");} else {$("dataBox").classList.add("hidden");}
-  $("feedback").innerHTML=""; $("explainBox").innerHTML=""; $("nextRow").classList.add("hidden");
-  $("progressBar").style.width=(current/questions.length*100)+"%";
-  const opts=$("options"); opts.innerHTML="";
+
+
+  /* DATA TABLE */
+
+  $("dataBox").innerHTML=
+    makeTable(q.rows);
+
+  $("dataBox").classList.remove("hidden");
+
+
+  /* HOUSE VISUAL ONLY FOR WATER QUESTION */
+
+  $("houseVisual").innerHTML=
+    makeHouseVisual(q);
+
+
+  $("feedback").textContent="";
+
+  $("explainBox").innerHTML="";
+
+  $("nextRow").classList.add("hidden");
+
+
+  $("progressBar").style.width=
+    (current/questions.length*100)+"%";
+
+
+  const opts=$("options");
+
+  opts.innerHTML="";
+
+
   q.options.forEach((txt,i)=>{
-    const div=document.createElement("div"); div.className="option"; div.textContent=txt;
-    div.onclick=()=>choose(div,i); opts.appendChild(div);
+
+    const button=
+      document.createElement("button");
+
+    button.type="button";
+
+    button.className="option";
+
+    button.textContent=txt;
+
+    button.addEventListener(
+      "click",
+      ()=>choose(button,i)
+    );
+
+    opts.appendChild(button);
+
   });
-  tick=setInterval(()=>{timer--; $("time").textContent=timer; if(timer<=0){clearInterval(tick); reveal("Time is up. Read the data carefully next time.");}},1000);
-}
-function choose(el,i){
-  if(locked) return;
-  const q=questions[order[current]];
-  el.classList.add("clicked");
-  if(i===q.answer){
-    locked=true; clearInterval(tick); score++; $("score").textContent=score;
-    el.classList.add("correct"); $("feedback").textContent="Correct! Data decision unlocked.";
-    safePlay("correctSound"); safePlay("clapSound"); confetti();
-    setTimeout(nextQuestion,1400);
-  }else{
-    attempts++; el.classList.add("wrong"); safePlay("wrongSound");
-    if(attempts<2){
-      $("feedback").textContent="Try once more. Check the data again.";
-      el.style.pointerEvents="none";
-    }else{
-      reveal("Incorrect after two attempts.");
+
+
+  tick=setInterval(()=>{
+
+    timer--;
+
+    $("time").textContent=timer;
+
+    if(timer<=0){
+
+      clearInterval(tick);
+
+      reveal(
+        "Time is up. Read the data carefully next time."
+      );
+
     }
-  }
+
+  },1000);
+
 }
-function reveal(msg){
-  locked=true; clearInterval(tick);
+
+
+/* ==================================================
+   ANSWER SELECTION
+   ================================================== */
+
+function choose(el,i){
+
+  if(locked)return;
+
   const q=questions[order[current]];
-  document.querySelectorAll(".option").forEach((o,i)=>{
-    o.style.pointerEvents="none";
-    if(i===q.answer) o.classList.add("correct");
-  });
-  $("feedback").textContent=msg;
-  $("explainBox").innerHTML=`<div class="explain"><b>Reason:</b> ${q.exp}</div>`;
-  $("nextRow").classList.remove("hidden");
-}
-function nextQuestion(){
-  clearInterval(tick); current++;
-  if(current<questions.length) loadQuestion(); else showResult();
-}
-function showResult(){
-  $("quiz").classList.add("hidden"); $("result").classList.remove("hidden");
-  $("progressBar").style.width="100%"; $("finalScore").textContent=score;
-  if(score>=9){$("resultEmoji").textContent="🏆"; $("resultText").textContent="Excellent! You can read data and make strong decisions from it.";}
-  else if(score>=6){$("resultEmoji").textContent="🌟"; $("resultText").textContent="Good work! Keep practising comparison and interpretation of data.";}
-  else{$("resultEmoji").textContent="📊"; $("resultText").textContent="Nice effort! Replay the mission and focus on the numbers in each table.";}
-}
-function restartGame(){ $("result").classList.add("hidden"); $("intro").classList.remove("hidden");}
-function confetti(){
-  for(let i=0;i<24;i++){
-    const c=document.createElement("span"); c.className="confetti";
-    c.style.left=Math.random()*100+"vw"; c.style.background=`hsl(${Math.random()*360},90%,55%)`;
-    c.style.animationDuration=(1.8+Math.random()*1.5)+"s"; document.body.appendChild(c);
-    setTimeout(()=>c.remove(),3300);
+
+  el.classList.add("clicked");
+
+
+  if(i===q.answer){
+
+    locked=true;
+
+    clearInterval(tick);
+
+    score++;
+
+    $("score").textContent=score;
+
+    el.classList.add("correct");
+
+    $("feedback").textContent=
+      "Correct! Data decision unlocked.";
+
+    confetti();
+
+    setTimeout(
+      nextQuestion,
+      1400
+    );
+
   }
+
+  else{
+
+    attempts++;
+
+    el.classList.add("wrong");
+
+
+    if(attempts<2){
+
+      $("feedback").textContent=
+        "Try once more. Check the data again.";
+
+      el.disabled=true;
+
+    }
+
+    else{
+
+      reveal(
+        "Incorrect after two attempts."
+      );
+
+    }
+
+  }
+
 }
+
+
+/* ==================================================
+   REVEAL ANSWER
+   ================================================== */
+
+function reveal(msg){
+
+  locked=true;
+
+  clearInterval(tick);
+
+  const q=
+    questions[order[current]];
+
+
+  document
+    .querySelectorAll(".option")
+    .forEach((option,i)=>{
+
+      option.disabled=true;
+
+      if(i===q.answer){
+
+        option.classList.add("correct");
+
+      }
+
+    });
+
+
+  $("feedback").textContent=msg;
+
+
+  $("explainBox").innerHTML=`
+
+    <div class="explain">
+
+      <b>Reason:</b>
+
+      ${q.exp}
+
+    </div>
+
+  `;
+
+
+  $("nextRow")
+    .classList.remove("hidden");
+
+}
+
+
+/* ==================================================
+   NEXT
+   ================================================== */
+
+function nextQuestion(){
+
+  clearInterval(tick);
+
+  current++;
+
+  if(current<questions.length){
+
+    loadQuestion();
+
+  }
+
+  else{
+
+    showResult();
+
+  }
+
+}
+
+
+/* ==================================================
+   RESULT
+   ================================================== */
+
+function showResult(){
+
+  $("quiz")
+    .classList.add("hidden");
+
+  $("result")
+    .classList.remove("hidden");
+
+
+  $("progressBar").style.width="100%";
+
+  $("finalScore").textContent=score;
+
+
+  if(score>=9){
+
+    $("resultEmoji").textContent="🏆";
+
+    $("resultText").textContent=
+      "Excellent! You can read data and make strong decisions from it.";
+
+  }
+
+  else if(score>=6){
+
+    $("resultEmoji").textContent="🌟";
+
+    $("resultText").textContent=
+      "Good work! Keep practising comparison and interpretation of data.";
+
+  }
+
+  else{
+
+    $("resultEmoji").textContent="📊";
+
+    $("resultText").textContent=
+      "Nice effort! Replay the mission and focus on the numbers in each table.";
+
+  }
+
+}
+
+
+/* ==================================================
+   RESTART
+   ================================================== */
+
+function restartGame(){
+
+  clearInterval(tick);
+
+  $("result")
+    .classList.add("hidden");
+
+  $("intro")
+    .classList.remove("hidden");
+
+}
+
+
+/* ==================================================
+   CONFETTI
+   ================================================== */
+
+function confetti(){
+
+  for(let i=0;i<24;i++){
+
+    const c=
+      document.createElement("span");
+
+    c.className="confetti";
+
+    c.style.left=
+      Math.random()*100+"vw";
+
+    c.style.background=
+      `hsl(${Math.random()*360},90%,55%)`;
+
+    c.style.animationDuration=
+      (1.8+Math.random()*1.5)+"s";
+
+    document.body.appendChild(c);
+
+    setTimeout(
+      ()=>c.remove(),
+      3300
+    );
+
+  }
+
+}
+
+
+/* ==================================================
+   BUTTON EVENTS
+   ================================================== */
+
+$("startBtn")
+  .addEventListener(
+    "click",
+    startGame
+  );
+
+$("nextBtn")
+  .addEventListener(
+    "click",
+    nextQuestion
+  );
+
+$("restartBtn")
+  .addEventListener(
+    "click",
+    restartGame
+  );
+
 </script>
+
 </body>
 </html>
