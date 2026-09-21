@@ -4,7 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Grade 7 Rational Numbers - Innovine Game</title>
+
 <style>
+
 :root{
   --ink:#20304f;
   --card:#ffffffee;
@@ -16,365 +18,2401 @@
   --red:#ef4444;
   --soft:#f8fbff;
 }
-*{box-sizing:border-box;margin:0;padding:0}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html,
+body{
+  width:100%;
+  min-height:100%;
+}
+
 body{
   font-family:"Trebuchet MS",Arial,sans-serif;
   min-height:100vh;
   color:var(--ink);
   overflow-x:hidden;
+
   background:
     radial-gradient(circle at 10% 18%, #fde68a 0 8%, transparent 9%),
     radial-gradient(circle at 88% 17%, #bfdbfe 0 8%, transparent 9%),
     radial-gradient(circle at 18% 86%, #bbf7d0 0 9%, transparent 10%),
     linear-gradient(135deg,#111827 0%,#312e81 48%,#38bdf8 100%);
 }
+
 body:before{
   content:"";
   position:fixed;
   inset:0;
   z-index:-1;
   opacity:.20;
+
   background-image:
-    repeating-linear-gradient(0deg, rgba(255,255,255,.7) 0 2px, transparent 2px 70px),
-    repeating-linear-gradient(90deg, rgba(255,255,255,.45) 0 2px, transparent 2px 70px);
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.7) 0 2px,
+      transparent 2px 70px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,.45) 0 2px,
+      transparent 2px 70px
+    );
+
   animation:bgMove 40s linear infinite;
 }
-@keyframes bgMove{to{transform:translate(-140px,-140px)}}
+
+@keyframes bgMove{
+  to{
+    transform:translate(-140px,-140px);
+  }
+}
+
+
+/* -----------------------------
+   SPLASH SCREEN
+----------------------------- */
+
 #splash{
-  position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
   background:linear-gradient(135deg,#ffffff,#eef7ff);
-  animation:splashFade .8s forwards; animation-delay:5s;
+
+  animation:splashFade .8s forwards;
+  animation-delay:5s;
 }
-#splash img{width:230px; max-width:78%; animation:logoPulse 1.4s ease-in-out infinite alternate}
-@keyframes logoPulse{from{transform:scale(.95)}to{transform:scale(1.05)}}
-@keyframes splashFade{to{opacity:0;visibility:hidden}}
+
+#splash img{
+  width:230px;
+  max-width:78%;
+  animation:logoPulse 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes logoPulse{
+  from{
+    transform:scale(.95);
+  }
+
+  to{
+    transform:scale(1.05);
+  }
+}
+
+@keyframes splashFade{
+  to{
+    opacity:0;
+    visibility:hidden;
+  }
+}
+
+
+/* -----------------------------
+   FLOATING SYMBOLS
+----------------------------- */
+
 .float{
-  position:fixed; z-index:-1; pointer-events:none; color:#fff; opacity:.26;
-  font-size:38px; font-weight:900; animation:floaty 8s ease-in-out infinite;
+  position:fixed;
+  z-index:-1;
+  pointer-events:none;
+
+  color:#fff;
+  opacity:.26;
+
+  font-size:38px;
+  font-weight:900;
+
+  animation:floaty 8s ease-in-out infinite;
 }
-@keyframes floaty{50%{transform:translateY(-28px) rotate(8deg)}}
-.wrap{width:min(980px,94%);margin:0 auto;padding:24px 0}
+
+@keyframes floaty{
+  50%{
+    transform:translateY(-28px) rotate(8deg);
+  }
+}
+
+
+/* -----------------------------
+   MAIN WRAPPER
+----------------------------- */
+
+.wrap{
+  width:min(980px,94%);
+  margin:0 auto;
+  padding:24px 0;
+}
+
+
+/* -----------------------------
+   CARDS
+----------------------------- */
+
 .card{
-  margin-top:24px; padding:26px; border-radius:30px; background:var(--card);
-  border:2px solid rgba(255,255,255,.65); box-shadow:0 22px 60px rgba(2,8,23,.32);
+  width:100%;
+
+  margin-top:24px;
+  padding:26px;
+
+  border-radius:30px;
+
+  background:var(--card);
+
+  border:2px solid rgba(255,255,255,.65);
+
+  box-shadow:
+    0 22px 60px rgba(2,8,23,.32);
+
   backdrop-filter:blur(12px);
 }
-.center{text-align:center}.hidden{display:none!important}
-.hero{min-height:430px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px}
-.title{font-size:clamp(31px,6vw,54px); line-height:1.05; color:#1e1b4b}
-.subtitle{max-width:760px; font-size:clamp(16px,3vw,20px); line-height:1.55}
-.instructions{display:grid; gap:11px; width:min(720px,100%); margin:14px auto 8px; text-align:left}
-.inst{padding:13px 15px; border-radius:16px; background:#f8fbff; border-left:8px solid var(--indigo); line-height:1.45; font-size:17px}
+
+.center{
+  text-align:center;
+}
+
+.hidden{
+  display:none!important;
+}
+
+
+/* -----------------------------
+   INTRO / RESULT
+----------------------------- */
+
+.hero{
+  min-height:430px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  gap:14px;
+}
+
+.title{
+  font-size:clamp(31px,6vw,54px);
+  line-height:1.05;
+
+  color:#1e1b4b;
+}
+
+.subtitle{
+  max-width:760px;
+
+  font-size:clamp(16px,3vw,20px);
+  line-height:1.55;
+}
+
+.instructions{
+  display:grid;
+  gap:11px;
+
+  width:min(720px,100%);
+
+  margin:14px auto 8px;
+
+  text-align:left;
+}
+
+.inst{
+  padding:13px 15px;
+
+  border-radius:16px;
+
+  background:#f8fbff;
+
+  border-left:8px solid var(--indigo);
+
+  line-height:1.45;
+
+  font-size:17px;
+}
+
+
+/* -----------------------------
+   BUTTON
+----------------------------- */
+
 .btn{
-  border:0; border-radius:17px; padding:14px 25px; font-size:17px; font-weight:900; cursor:pointer;
-  color:white; background:linear-gradient(135deg,var(--indigo),var(--sky));
-  box-shadow:0 12px 24px rgba(79,70,229,.28); transition:.2s;
+  border:0;
+
+  border-radius:17px;
+
+  padding:14px 25px;
+
+  font-size:17px;
+  font-weight:900;
+
+  cursor:pointer;
+
+  color:white;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--indigo),
+      var(--sky)
+    );
+
+  box-shadow:
+    0 12px 24px rgba(79,70,229,.28);
+
+  transition:.2s;
 }
-.btn:hover{transform:translateY(-2px) scale(1.02)}
-.topbar{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:18px}
+
+.btn:hover{
+  transform:translateY(-2px) scale(1.02);
+}
+
+
+/* -----------------------------
+   TOP BAR
+----------------------------- */
+
+.topbar{
+  display:flex;
+
+  justify-content:space-between;
+
+  flex-wrap:wrap;
+
+  gap:10px;
+
+  margin-bottom:18px;
+}
+
 .badge{
-  padding:10px 14px; border-radius:16px; background:#fff; border:3px solid #dbeafe;
-  box-shadow:0 8px 16px rgba(32,48,79,.08); font-weight:900;
+  padding:10px 14px;
+
+  border-radius:16px;
+
+  background:#fff;
+
+  border:3px solid #dbeafe;
+
+  box-shadow:
+    0 8px 16px rgba(32,48,79,.08);
+
+  font-weight:900;
 }
-.progress{height:15px; background:#e0e7ff; border-radius:100px; overflow:hidden; margin-bottom:18px}
-#progressBar{height:100%; width:0; background:linear-gradient(90deg,var(--lime),var(--sky),var(--indigo)); transition:.35s}
+
+
+/* -----------------------------
+   PROGRESS BAR
+----------------------------- */
+
+.progress{
+  height:15px;
+
+  background:#e0e7ff;
+
+  border-radius:100px;
+
+  overflow:hidden;
+
+  margin-bottom:18px;
+}
+
+#progressBar{
+  height:100%;
+  width:0;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--lime),
+      var(--sky),
+      var(--indigo)
+    );
+
+  transition:.35s;
+}
+
+
+/* -----------------------------
+   QUESTION AREA
+----------------------------- */
+
 .mission{
-  background:linear-gradient(135deg,#fff,#f5f8ff); border:3px dashed var(--indigo); border-radius:24px;
-  padding:16px; display:flex; gap:15px; align-items:flex-start; margin-bottom:16px;
+  width:100%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff,
+      #f5f8ff
+    );
+
+  border:3px dashed var(--indigo);
+
+  border-radius:24px;
+
+  padding:16px;
+
+  display:flex;
+
+  gap:15px;
+
+  align-items:flex-start;
+
+  margin-bottom:16px;
+
+  overflow:hidden;
 }
+
+
+/*
+Important responsive fix:
+Allows the content beside the icon
+to shrink correctly.
+*/
+
+.missionContent{
+  flex:1 1 auto;
+
+  min-width:0;
+
+  width:100%;
+}
+
+
+/* -----------------------------
+   QUESTION ICON
+----------------------------- */
+
 .icon{
-  width:68px; height:68px; border-radius:21px; display:grid; place-items:center; font-size:36px;
-  background:linear-gradient(135deg,#bfdbfe,#fde68a); box-shadow:inset 0 0 0 4px white; flex:0 0 auto;
+  width:68px;
+  height:68px;
+
+  border-radius:21px;
+
+  display:grid;
+
+  place-items:center;
+
+  font-size:36px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #bfdbfe,
+      #fde68a
+    );
+
+  box-shadow:
+    inset 0 0 0 4px white;
+
+  flex:0 0 auto;
 }
-.question{font-size:clamp(18px,3vw,22px); font-weight:900; line-height:1.55}
+
+
+/* -----------------------------
+   QUESTION TEXT
+----------------------------- */
+
+.question{
+  width:100%;
+
+  font-size:clamp(18px,3vw,22px);
+
+  font-weight:900;
+
+  line-height:1.55;
+
+  overflow-wrap:break-word;
+}
+
+
+/* -----------------------------
+   INFO / TABLE BOX
+----------------------------- */
+
 .infoBox{
-  margin-top:12px; background:#fff; border:2px solid #dbeafe; border-radius:17px;
-  padding:12px; line-height:1.55; overflow-x:auto;
+  width:100%;
+
+  max-width:100%;
+
+  margin-top:12px;
+
+  background:#fff;
+
+  border:2px solid #dbeafe;
+
+  border-radius:17px;
+
+  padding:12px;
+
+  line-height:1.55;
+
+  overflow:hidden;
 }
-table{border-collapse:collapse;width:100%;min-width:390px}
-td,th{border:1px solid #bfdbfe;padding:8px 10px;text-align:center}
-th{background:#eff6ff}
-.options{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; margin-top:17px}
+
+
+/* -----------------------------
+   RESPONSIVE TABLE
+----------------------------- */
+
+.infoBox table{
+  width:100%;
+
+  max-width:100%;
+
+  min-width:0;
+
+  border-collapse:collapse;
+
+  table-layout:fixed;
+}
+
+.infoBox td,
+.infoBox th{
+  border:1px solid #bfdbfe;
+
+  padding:8px 10px;
+
+  text-align:center;
+
+  vertical-align:middle;
+
+  white-space:normal;
+
+  overflow-wrap:anywhere;
+
+  word-break:normal;
+}
+
+.infoBox th{
+  background:#eff6ff;
+}
+
+
+/* Column proportions */
+
+.infoBox th:first-child,
+.infoBox td:first-child{
+  width:36%;
+}
+
+.infoBox th:last-child,
+.infoBox td:last-child{
+  width:64%;
+}
+
+
+/* -----------------------------
+   OPTIONS
+----------------------------- */
+
+.options{
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:13px;
+
+  margin-top:17px;
+}
+
 .option{
-  min-height:64px; padding:15px; border-radius:20px; background:#fff; border:3px solid #dbeafe;
-  display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer;
-  font-size:17px; font-weight:900; transition:.18s; user-select:none;
+  width:100%;
+
+  min-height:64px;
+
+  padding:15px;
+
+  border-radius:20px;
+
+  background:#fff;
+
+  border:3px solid #dbeafe;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  text-align:center;
+
+  cursor:pointer;
+
+  font-size:17px;
+
+  font-weight:900;
+
+  transition:.18s;
+
+  user-select:none;
+
+  overflow-wrap:anywhere;
 }
-.option:hover{transform:translateY(-2px); border-color:var(--indigo); background:#f8fbff}
-.option.clicked{box-shadow:0 0 0 4px rgba(79,70,229,.14)}
-.option.correct{background:#dcfff0!important; border-color:var(--green)!important; animation:pop .38s}
-.option.wrong{background:#ffe1e1!important; border-color:var(--red)!important; animation:shake .38s}
-@keyframes pop{50%{transform:scale(1.05)}}
-@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
-.feedback{margin-top:16px; min-height:45px; text-align:center; font-size:19px; font-weight:900}
-.explain{margin-top:10px; padding:13px 15px; border-radius:16px; background:#f8fbff; border-left:8px solid var(--sky); line-height:1.45}
-.nextRow{text-align:center;margin-top:12px}
+
+.option:hover{
+  transform:translateY(-2px);
+
+  border-color:var(--indigo);
+
+  background:#f8fbff;
+}
+
+.option.clicked{
+  box-shadow:
+    0 0 0 4px rgba(79,70,229,.14);
+}
+
+.option.correct{
+  background:#dcfff0!important;
+
+  border-color:var(--green)!important;
+
+  animation:pop .38s;
+}
+
+.option.wrong{
+  background:#ffe1e1!important;
+
+  border-color:var(--red)!important;
+
+  animation:shake .38s;
+}
+
+@keyframes pop{
+  50%{
+    transform:scale(1.05);
+  }
+}
+
+@keyframes shake{
+  25%{
+    transform:translateX(-7px);
+  }
+
+  75%{
+    transform:translateX(7px);
+  }
+}
+
+
+/* -----------------------------
+   FEEDBACK
+----------------------------- */
+
+.feedback{
+  margin-top:16px;
+
+  min-height:45px;
+
+  text-align:center;
+
+  font-size:19px;
+
+  font-weight:900;
+}
+
+
+/* -----------------------------
+   EXPLANATION
+----------------------------- */
+
+.explain{
+  margin-top:10px;
+
+  padding:13px 15px;
+
+  border-radius:16px;
+
+  background:#f8fbff;
+
+  border-left:8px solid var(--sky);
+
+  line-height:1.45;
+}
+
+.nextRow{
+  text-align:center;
+
+  margin-top:12px;
+}
+
+
+/* -----------------------------
+   CONFETTI
+----------------------------- */
+
 .confetti{
-  position:fixed; top:-30px; width:13px; height:13px; z-index:999; pointer-events:none;
-  clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  position:fixed;
+
+  top:-30px;
+
+  width:13px;
+  height:13px;
+
+  z-index:999;
+
+  pointer-events:none;
+
+  clip-path:
+    polygon(
+      50% 0,
+      61% 35%,
+      98% 35%,
+      68% 57%,
+      79% 91%,
+      50% 70%,
+      21% 91%,
+      32% 57%,
+      2% 35%,
+      39% 35%
+    );
+
   animation:fall 2.4s linear forwards;
 }
-@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
-.resultEmoji{font-size:76px;margin:12px 0}
-@media(max-width:660px){
-  .card{padding:18px;border-radius:24px}
-  .topbar{display:grid;grid-template-columns:1fr 1fr}
-  .badge{text-align:center;font-size:14px}
-  .options{grid-template-columns:1fr}
-  .mission{gap:11px}.icon{width:56px;height:56px;font-size:30px}
+
+@keyframes fall{
+  to{
+    transform:
+      translateY(105vh)
+      rotate(720deg);
+
+    opacity:0;
+  }
 }
+
+.resultEmoji{
+  font-size:76px;
+
+  margin:12px 0;
+}
+
+
+/* ==================================================
+   TABLET / MOBILE
+================================================== */
+
+@media(max-width:660px){
+
+  .wrap{
+    width:calc(100% - 18px);
+
+    padding:10px 0 18px;
+  }
+
+
+  .card{
+    margin-top:10px;
+
+    padding:15px;
+
+    border-radius:22px;
+  }
+
+
+  /* Keep all 3 status boxes in one row */
+
+  .topbar{
+    display:grid;
+
+    grid-template-columns:
+      repeat(3,minmax(0,1fr));
+
+    gap:7px;
+
+    margin-bottom:12px;
+  }
+
+
+  .badge{
+    min-width:0;
+
+    padding:8px 4px;
+
+    text-align:center;
+
+    font-size:clamp(10.5px,2.8vw,13px);
+
+    border-width:2px;
+
+    border-radius:13px;
+
+    white-space:nowrap;
+  }
+
+
+  .progress{
+    height:10px;
+
+    margin-bottom:12px;
+  }
+
+
+  .mission{
+    gap:10px;
+
+    padding:12px;
+
+    border-width:2px;
+
+    border-radius:20px;
+  }
+
+
+  .icon{
+    width:50px;
+    height:50px;
+
+    border-radius:15px;
+
+    font-size:27px;
+  }
+
+
+  .question{
+    font-size:17px;
+
+    line-height:1.45;
+  }
+
+
+  .infoBox{
+    padding:6px;
+
+    margin-top:9px;
+
+    border-radius:12px;
+  }
+
+
+  .infoBox table{
+    font-size:12px;
+  }
+
+
+  .infoBox td,
+  .infoBox th{
+    padding:7px 4px;
+
+    line-height:1.3;
+  }
+
+
+  .options{
+    gap:9px;
+
+    margin-top:12px;
+  }
+
+
+  .option{
+    min-height:54px;
+
+    padding:11px 10px;
+
+    border-width:2px;
+
+    border-radius:15px;
+
+    font-size:15px;
+  }
+
+
+  .feedback{
+    margin-top:11px;
+
+    min-height:35px;
+
+    font-size:16px;
+  }
+
+
+  .explain{
+    padding:11px 12px;
+
+    font-size:14px;
+
+    border-left-width:6px;
+  }
+
+
+  .btn{
+    padding:12px 20px;
+
+    font-size:15px;
+  }
+
+}
+
+
+/* ==================================================
+   MOBILE PHONES
+================================================== */
+
+@media(max-width:480px){
+
+  /*
+  Icon moves above the question.
+  This gives the table the entire screen width.
+  */
+
+  .mission{
+    flex-direction:column;
+
+    align-items:stretch;
+  }
+
+
+  .icon{
+    align-self:flex-start;
+  }
+
+
+  /*
+  One answer option per row
+  */
+
+  .options{
+    grid-template-columns:1fr;
+  }
+
+
+  .infoBox table{
+    font-size:11.5px;
+  }
+
+}
+
+
+/* ==================================================
+   SMALL MOBILE
+================================================== */
+
+@media(max-width:380px){
+
+  .wrap{
+    width:calc(100% - 12px);
+  }
+
+
+  .card{
+    padding:11px;
+  }
+
+
+  .mission{
+    padding:9px;
+  }
+
+
+  .question{
+    font-size:15.5px;
+  }
+
+
+  .icon{
+    width:44px;
+    height:44px;
+
+    font-size:24px;
+  }
+
+
+  .infoBox{
+    padding:4px;
+  }
+
+
+  .infoBox table{
+    font-size:10.5px;
+  }
+
+
+  .infoBox td,
+  .infoBox th{
+    padding:6px 2px;
+  }
+
+
+  .badge{
+    font-size:10px;
+
+    padding:7px 2px;
+  }
+
+
+  .option{
+    min-height:48px;
+
+    font-size:14px;
+  }
+
+}
+
+
+/* ==================================================
+   VERY SMALL PHONE
+================================================== */
+
+@media(max-width:330px){
+
+  .infoBox table{
+    font-size:9.5px;
+  }
+
+
+  .infoBox td,
+  .infoBox th{
+    padding:5px 1px;
+  }
+
+
+  .question{
+    font-size:15px;
+  }
+
+}
+
 </style>
 </head>
+
+
 <body>
-<div id="splash"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
 
-<span class="float" style="left:5%;top:18%">−½</span>
-<span class="float" style="left:86%;top:20%;animation-delay:1s">¾</span>
-<span class="float" style="left:9%;top:76%;animation-delay:2s">0.25</span>
-<span class="float" style="left:82%;top:73%;animation-delay:3s">−2</span>
 
-<div class="wrap">
-  <section id="intro" class="card center hero">
-    <h1 class="title">Rational Number Quest</h1>
-    <p class="subtitle">Use rational numbers to solve real-life situations involving temperature, money, distance, sharing, comparison and movement on a number line.</p>
-    <div class="instructions">
-      <div class="inst">Tap one answer for each situation. No answer is selected before you choose.</div>
-      <div class="inst">You get two attempts. After the second wrong attempt, the correct answer is revealed with a short reason.</div>
-      <div class="inst">Complete 10 competency-based missions and check your final score.</div>
-    </div>
-    <button class="btn" onclick="startGame()">Start Rational Quest</button>
-  </section>
+<!-- SPLASH SCREEN -->
 
-  <section id="quiz" class="card hidden">
-    <div class="topbar">
-      <div class="badge">⭐ Score: <span id="score">0</span></div>
-      <div class="badge">🧭 Mission: <span id="qno">1</span>/10</div>
-      <div class="badge">⏳ Time: <span id="time">45</span>s</div>
-    </div>
-    <div class="progress"><div id="progressBar"></div></div>
+<div id="splash">
 
-    <div class="mission">
-      <div class="icon" id="sceneIcon">🧭</div>
-      <div>
-        <div class="question" id="questionText"></div>
-        <div id="infoBox" class="infoBox hidden"></div>
-      </div>
-    </div>
+  <img
+    src="assets/innovine-logo.png"
+    alt="Innovine Logo"
+  >
 
-    <div class="options" id="options"></div>
-    <div class="feedback" id="feedback"></div>
-    <div id="explainBox"></div>
-    <div id="nextRow" class="nextRow hidden"><button class="btn" onclick="nextQuestion()">Next Mission</button></div>
-  </section>
-
-  <section id="result" class="card center hero hidden">
-    <h2>Rational Quest Completed!</h2>
-    <div id="resultEmoji" class="resultEmoji">🏆</div>
-    <h1><span id="finalScore">0</span>/10</h1>
-    <p id="resultText" class="subtitle"></p>
-    <button class="btn" onclick="restartGame()">Play Again</button>
-  </section>
 </div>
 
-<audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
-<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3" preload="auto"></audio>
+
+
+<!-- BACKGROUND SYMBOLS -->
+
+<span
+  class="float"
+  style="left:5%;top:18%"
+>
+  −½
+</span>
+
+
+<span
+  class="float"
+  style="left:86%;top:20%;animation-delay:1s"
+>
+  ¾
+</span>
+
+
+<span
+  class="float"
+  style="left:9%;top:76%;animation-delay:2s"
+>
+  0.25
+</span>
+
+
+<span
+  class="float"
+  style="left:82%;top:73%;animation-delay:3s"
+>
+  −2
+</span>
+
+
+
+<div class="wrap">
+
+
+  <!-- INTRO -->
+
+  <section
+    id="intro"
+    class="card center hero"
+  >
+
+    <h1 class="title">
+      Rational Number Quest
+    </h1>
+
+
+    <p class="subtitle">
+
+      Use rational numbers to solve real-life situations involving
+      temperature, money, distance, sharing, comparison and movement
+      on a number line.
+
+    </p>
+
+
+    <div class="instructions">
+
+
+      <div class="inst">
+
+        Tap one answer for each situation.
+        No answer is selected before you choose.
+
+      </div>
+
+
+      <div class="inst">
+
+        You get two attempts.
+        After the second wrong attempt,
+        the correct answer is revealed with a short reason.
+
+      </div>
+
+
+      <div class="inst">
+
+        Complete 10 competency-based missions
+        and check your final score.
+
+      </div>
+
+
+    </div>
+
+
+    <button
+      class="btn"
+      onclick="startGame()"
+    >
+
+      Start Rational Quest
+
+    </button>
+
+
+  </section>
+
+
+
+  <!-- QUIZ -->
+
+  <section
+    id="quiz"
+    class="card hidden"
+  >
+
+
+    <!-- TOP STATUS BAR -->
+
+    <div class="topbar">
+
+
+      <div class="badge">
+
+        ⭐ Score:
+        <span id="score">
+          0
+        </span>
+
+      </div>
+
+
+      <div class="badge">
+
+        🧭 Mission:
+        <span id="qno">
+          1
+        </span>/10
+
+      </div>
+
+
+      <div class="badge">
+
+        ⏳ Time:
+        <span id="time">
+          45
+        </span>s
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- PROGRESS -->
+
+    <div class="progress">
+
+      <div id="progressBar">
+      </div>
+
+    </div>
+
+
+
+    <!-- QUESTION -->
+
+    <div class="mission">
+
+
+      <div
+        class="icon"
+        id="sceneIcon"
+      >
+        🧭
+      </div>
+
+
+
+      <div class="missionContent">
+
+
+        <div
+          class="question"
+          id="questionText"
+        >
+        </div>
+
+
+        <div
+          id="infoBox"
+          class="infoBox hidden"
+        >
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- OPTIONS -->
+
+    <div
+      class="options"
+      id="options"
+    >
+    </div>
+
+
+
+    <!-- FEEDBACK -->
+
+    <div
+      class="feedback"
+      id="feedback"
+    >
+    </div>
+
+
+
+    <!-- EXPLANATION -->
+
+    <div id="explainBox">
+    </div>
+
+
+
+    <!-- NEXT BUTTON -->
+
+    <div
+      id="nextRow"
+      class="nextRow hidden"
+    >
+
+      <button
+        class="btn"
+        onclick="nextQuestion()"
+      >
+
+        Next Mission
+
+      </button>
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- RESULT -->
+
+  <section
+    id="result"
+    class="card center hero hidden"
+  >
+
+
+    <h2>
+      Rational Quest Completed!
+    </h2>
+
+
+    <div
+      id="resultEmoji"
+      class="resultEmoji"
+    >
+      🏆
+    </div>
+
+
+    <h1>
+
+      <span id="finalScore">
+        0
+      </span>/10
+
+    </h1>
+
+
+    <p
+      id="resultText"
+      class="subtitle"
+    >
+    </p>
+
+
+    <button
+      class="btn"
+      onclick="restartGame()"
+    >
+
+      Play Again
+
+    </button>
+
+
+  </section>
+
+
+</div>
+
+
+
+<!-- SOUNDS -->
+
+<audio
+  id="correctSound"
+  src="assets/correct.mp3"
+  preload="auto"
+>
+</audio>
+
+
+<audio
+  id="wrongSound"
+  src="assets/wrong.mp3"
+  preload="auto"
+>
+</audio>
+
+
+<audio
+  id="clapSound"
+  src="assets/freesound_community-claps-44774.mp3"
+  preload="auto"
+>
+</audio>
+
+
 
 <script>
+
+/* ==========================================
+   QUESTIONS
+========================================== */
+
 const questions = [
+
+
   {
+
     icon:"🌡️",
+
     q:"At 6 a.m., the temperature in a hill station was −3°C. By noon, it increased by 7°C. What was the temperature at noon?",
-    options:["−10°C","−4°C","4°C","10°C"],
+
+    options:[
+      "−10°C",
+      "−4°C",
+      "4°C",
+      "10°C"
+    ],
+
     answer:2,
-    exp:"−3 + 7 = 4, so the noon temperature was 4°C."
+
+    exp:
+      "−3 + 7 = 4, so the noon temperature was 4°C."
+
   },
+
+
   {
+
     icon:"🍕",
+
     q:"Four friends share pizzas. They finish 2½ pizzas in total. If each friend eats the same amount, how much pizza does each friend eat?",
-    options:["1/2 pizza","5/8 pizza","3/4 pizza","2/5 pizza"],
+
+    options:[
+      "1/2 pizza",
+      "5/8 pizza",
+      "3/4 pizza",
+      "2/5 pizza"
+    ],
+
     answer:1,
-    exp:"2½ = 5/2. Dividing by 4 gives 5/2 × 1/4 = 5/8 pizza."
+
+    exp:
+      "2½ = 5/2. Dividing by 4 gives 5/2 × 1/4 = 5/8 pizza."
+
   },
+
+
   {
+
     icon:"🏦",
+
     q:"A student has ₹150 in a wallet app. He spends ₹220 on books. Which rational number best represents his balance in rupees?",
-    options:["₹70","−₹70","₹370","−₹370"],
+
+    options:[
+      "₹70",
+      "−₹70",
+      "₹370",
+      "−₹370"
+    ],
+
     answer:1,
-    exp:"150 − 220 = −70. A negative balance means he owes ₹70."
+
+    exp:
+      "150 − 220 = −70. A negative balance means he owes ₹70."
+
   },
+
+
   {
+
     icon:"🚶",
+
     q:"On a number-line game, Anaya starts at −1/2. She moves 3/4 unit to the right. Where does she land?",
-    options:["−5/4","−1/4","1/4","5/4"],
+
+    options:[
+      "−5/4",
+      "−1/4",
+      "1/4",
+      "5/4"
+    ],
+
     answer:2,
-    exp:"−1/2 + 3/4 = −2/4 + 3/4 = 1/4."
+
+    exp:
+      "−1/2 + 3/4 = −2/4 + 3/4 = 1/4."
+
   },
+
+
   {
+
     icon:"🥛",
+
     q:"A recipe uses 3/4 litre of milk. Rohan has only 1/2 litre. How much more milk does he need?",
-    options:["1/4 litre","1/2 litre","5/4 litres","1/8 litre"],
+
+    options:[
+      "1/4 litre",
+      "1/2 litre",
+      "5/4 litres",
+      "1/8 litre"
+    ],
+
     answer:0,
-    exp:"3/4 − 1/2 = 3/4 − 2/4 = 1/4 litre."
+
+    exp:
+      "3/4 − 1/2 = 3/4 − 2/4 = 1/4 litre."
+
   },
+
+
   {
+
     icon:"📏",
+
     q:"A ribbon strip of length 5/6 metre is cut from a longer strip. Then another 1/3 metre is cut. What total length has been cut?",
-    options:["1/2 metre","7/6 metres","1 metre","2/9 metre"],
+
+    options:[
+      "1/2 metre",
+      "7/6 metres",
+      "1 metre",
+      "2/9 metre"
+    ],
+
     answer:1,
-    exp:"5/6 + 1/3 = 5/6 + 2/6 = 7/6 metres."
+
+    exp:
+      "5/6 + 1/3 = 5/6 + 2/6 = 7/6 metres."
+
   },
+
+
   {
+
     icon:"📊",
+
     q:"Four students record their quiz score changes compared to last week. Who improved the most?",
-    info:"<table><tr><th>Student</th><th>Change in Score</th></tr><tr><td>Arya</td><td>+3/4</td></tr><tr><td>Dev</td><td>+1/2</td></tr><tr><td>Mira</td><td>−1/4</td></tr><tr><td>Kabir</td><td>+2/3</td></tr></table>",
-    options:["Arya","Dev","Mira","Kabir"],
+
+
+    info:`
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Student
+            </th>
+
+            <th>
+              Change in Score
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr>
+
+            <td>
+              Arya
+            </td>
+
+            <td>
+              +3/4
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Dev
+            </td>
+
+            <td>
+              +1/2
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Mira
+            </td>
+
+            <td>
+              −1/4
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Kabir
+            </td>
+
+            <td>
+              +2/3
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    `,
+
+
+    options:[
+      "Arya",
+      "Dev",
+      "Mira",
+      "Kabir"
+    ],
+
     answer:0,
-    exp:"+3/4 is greater than +2/3 and +1/2, so Arya improved the most."
+
+    exp:
+      "+3/4 is greater than +2/3 and +1/2, so Arya improved the most."
+
   },
+
+
   {
+
     icon:"🧃",
+
     q:"A juice bottle is 3/5 full. After pouring some juice, it becomes 1/5 full. What fraction of the bottle was poured out?",
-    options:["1/5","2/5","3/5","4/5"],
+
+    options:[
+      "1/5",
+      "2/5",
+      "3/5",
+      "4/5"
+    ],
+
     answer:1,
-    exp:"3/5 − 1/5 = 2/5 of the bottle was poured out."
+
+    exp:
+      "3/5 − 1/5 = 2/5 of the bottle was poured out."
+
   },
+
+
   {
+
     icon:"🧗",
+
     q:"A climber is at −2.5 m relative to a checkpoint. He climbs up 1.75 m. What is his new position?",
-    options:["−4.25 m","−0.75 m","0.75 m","4.25 m"],
+
+    options:[
+      "−4.25 m",
+      "−0.75 m",
+      "0.75 m",
+      "4.25 m"
+    ],
+
     answer:1,
-    exp:"−2.5 + 1.75 = −0.75 m."
+
+    exp:
+      "−2.5 + 1.75 = −0.75 m."
+
   },
+
+
   {
+
     icon:"🛒",
+
     q:"A shopkeeper records profit and loss using rational numbers. Which entry shows the greatest loss?",
-    info:"<table><tr><th>Item</th><th>Entry</th></tr><tr><td>Notebook</td><td>−1/2</td></tr><tr><td>Pen Set</td><td>−3/4</td></tr><tr><td>Folder</td><td>+1/4</td></tr><tr><td>Marker</td><td>−1/3</td></tr></table>",
-    options:["Notebook","Pen Set","Folder","Marker"],
+
+
+    info:`
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Item
+            </th>
+
+            <th>
+              Entry
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr>
+
+            <td>
+              Notebook
+            </td>
+
+            <td>
+              −1/2
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Pen Set
+            </td>
+
+            <td>
+              −3/4
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Folder
+            </td>
+
+            <td>
+              +1/4
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Marker
+            </td>
+
+            <td>
+              −1/3
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    `,
+
+
+    options:[
+      "Notebook",
+      "Pen Set",
+      "Folder",
+      "Marker"
+    ],
+
     answer:1,
-    exp:"The greatest loss is the most negative value. −3/4 is less than −1/2 and −1/3."
+
+    exp:
+      "The greatest loss is the most negative value. −3/4 is less than −1/2 and −1/3."
+
   }
+
 ];
 
-let order=[], current=0, score=0, attempts=0, locked=false, timer=45, tick=null;
-const $=id=>document.getElementById(id);
 
-function shuffle(arr){return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);}
-function safePlay(id){const a=$(id); a.currentTime=0; a.play().catch(()=>{});}
+
+/* ==========================================
+   GAME VARIABLES
+========================================== */
+
+let order = [];
+
+let current = 0;
+
+let score = 0;
+
+let attempts = 0;
+
+let locked = false;
+
+let timer = 45;
+
+let tick = null;
+
+
+
+const $ =
+  id =>
+    document.getElementById(id);
+
+
+
+/* ==========================================
+   SHUFFLE
+========================================== */
+
+function shuffle(arr){
+
+  return arr
+
+    .map(
+      v => [
+        Math.random(),
+        v
+      ]
+    )
+
+    .sort(
+      (a,b) =>
+        a[0] - b[0]
+    )
+
+    .map(
+      x => x[1]
+    );
+
+}
+
+
+
+/* ==========================================
+   PLAY SOUND
+========================================== */
+
+function safePlay(id){
+
+  const audio =
+    $(id);
+
+
+  if(!audio){
+    return;
+  }
+
+
+  audio.currentTime =
+    0;
+
+
+  audio
+    .play()
+    .catch(
+      () => {}
+    );
+
+}
+
+
+
+/* ==========================================
+   START GAME
+========================================== */
+
 function startGame(){
-  order=shuffle([...Array(questions.length).keys()]);
-  current=0; score=0;
-  $("score").textContent=score;
-  $("intro").classList.add("hidden");
-  $("quiz").classList.remove("hidden");
+
+  order =
+    shuffle(
+      [
+        ...Array(
+          questions.length
+        ).keys()
+      ]
+    );
+
+
+  current =
+    0;
+
+
+  score =
+    0;
+
+
+  $("score").textContent =
+    score;
+
+
+  $("intro")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  $("quiz")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
   loadQuestion();
+
 }
+
+
+
+/* ==========================================
+   LOAD QUESTION
+========================================== */
+
 function loadQuestion(){
-  clearInterval(tick);
-  attempts=0; locked=false; timer=45;
-  const q=questions[order[current]];
-  $("qno").textContent=current+1;
-  $("time").textContent=timer;
-  $("sceneIcon").textContent=q.icon;
-  $("questionText").textContent=q.q;
-  $("feedback").innerHTML="";
-  $("explainBox").innerHTML="";
-  $("nextRow").classList.add("hidden");
-  $("progressBar").style.width=(current/questions.length*100)+"%";
+
+  clearInterval(
+    tick
+  );
+
+
+  attempts =
+    0;
+
+
+  locked =
+    false;
+
+
+  timer =
+    45;
+
+
+  const q =
+    questions[
+      order[current]
+    ];
+
+
+  $("qno").textContent =
+    current + 1;
+
+
+  $("time").textContent =
+    timer;
+
+
+  $("sceneIcon").textContent =
+    q.icon;
+
+
+  $("questionText").textContent =
+    q.q;
+
+
+  $("feedback").innerHTML =
+    "";
+
+
+  $("explainBox").innerHTML =
+    "";
+
+
+  $("nextRow")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  $("progressBar").style.width =
+
+    (
+      current /
+      questions.length *
+      100
+    ) + "%";
+
+
+
+  /* INFO / TABLE */
+
   if(q.info){
-    $("infoBox").innerHTML=q.info;
-    $("infoBox").classList.remove("hidden");
-  }else{
-    $("infoBox").innerHTML="";
-    $("infoBox").classList.add("hidden");
+
+
+    $("infoBox").innerHTML =
+      q.info;
+
+
+    $("infoBox")
+      .classList
+      .remove(
+        "hidden"
+      );
+
+
   }
-  const box=$("options");
-  box.innerHTML="";
-  q.options.forEach((txt,i)=>{
-    const opt=document.createElement("div");
-    opt.className="option";
-    opt.textContent=txt;
-    opt.onclick=()=>choose(opt,i);
-    box.appendChild(opt);
-  });
-  tick=setInterval(()=>{
-    timer--;
-    $("time").textContent=timer;
-    if(timer<=0){
-      clearInterval(tick);
-      reveal("Time is up. The correct answer is shown below.");
+
+  else{
+
+
+    $("infoBox").innerHTML =
+      "";
+
+
+    $("infoBox")
+      .classList
+      .add(
+        "hidden"
+      );
+
+  }
+
+
+
+  /* OPTIONS */
+
+  const box =
+    $("options");
+
+
+  box.innerHTML =
+    "";
+
+
+  q.options.forEach(
+    (txt,i) => {
+
+
+      const opt =
+        document.createElement(
+          "div"
+        );
+
+
+      opt.className =
+        "option";
+
+
+      opt.textContent =
+        txt;
+
+
+      opt.onclick =
+        () =>
+          choose(
+            opt,
+            i
+          );
+
+
+      box.appendChild(
+        opt
+      );
+
     }
-  },1000);
+  );
+
+
+
+  /* TIMER */
+
+  tick =
+    setInterval(
+      () => {
+
+
+        timer--;
+
+
+        $("time").textContent =
+          timer;
+
+
+        if(timer <= 0){
+
+
+          clearInterval(
+            tick
+          );
+
+
+          reveal(
+            "Time is up. The correct answer is shown below."
+          );
+
+        }
+
+
+      },
+      1000
+    );
+
 }
+
+
+
+/* ==========================================
+   CHOOSE ANSWER
+========================================== */
+
 function choose(el,i){
-  if(locked) return;
-  const q=questions[order[current]];
-  el.classList.add("clicked");
-  if(i===q.answer){
-    locked=true; clearInterval(tick); score++;
-    $("score").textContent=score;
-    el.classList.add("correct");
-    $("feedback").textContent="Correct! Rational mission solved.";
-    safePlay("correctSound"); safePlay("clapSound"); confetti();
-    setTimeout(nextQuestion,1400);
-  }else{
+
+  if(locked){
+    return;
+  }
+
+
+  const q =
+    questions[
+      order[current]
+    ];
+
+
+  el.classList.add(
+    "clicked"
+  );
+
+
+  if(i === q.answer){
+
+
+    locked =
+      true;
+
+
+    clearInterval(
+      tick
+    );
+
+
+    score++;
+
+
+    $("score").textContent =
+      score;
+
+
+    el.classList.add(
+      "correct"
+    );
+
+
+    $("feedback").textContent =
+      "Correct! Rational mission solved.";
+
+
+    safePlay(
+      "correctSound"
+    );
+
+
+    safePlay(
+      "clapSound"
+    );
+
+
+    confetti();
+
+
+    setTimeout(
+      nextQuestion,
+      1400
+    );
+
+  }
+
+  else{
+
+
     attempts++;
-    el.classList.add("wrong");
-    safePlay("wrongSound");
-    if(attempts<2){
-      $("feedback").textContent="Try once more. Think about the direction, sign or fraction operation.";
-      el.style.pointerEvents="none";
-    }else{
-      reveal("Incorrect after two attempts.");
+
+
+    el.classList.add(
+      "wrong"
+    );
+
+
+    safePlay(
+      "wrongSound"
+    );
+
+
+    if(attempts < 2){
+
+
+      $("feedback").textContent =
+        "Try once more. Think about the direction, sign or fraction operation.";
+
+
+      el.style.pointerEvents =
+        "none";
+
     }
+
+    else{
+
+
+      reveal(
+        "Incorrect after two attempts."
+      );
+
+    }
+
   }
+
 }
+
+
+
+/* ==========================================
+   REVEAL ANSWER
+========================================== */
+
 function reveal(msg){
-  locked=true; clearInterval(tick);
-  const q=questions[order[current]];
-  document.querySelectorAll(".option").forEach((opt,i)=>{
-    opt.style.pointerEvents="none";
-    if(i===q.answer) opt.classList.add("correct");
-  });
-  $("feedback").textContent=msg;
-  $("explainBox").innerHTML=`<div class="explain"><b>Reason:</b> ${q.exp}</div>`;
-  $("nextRow").classList.remove("hidden");
+
+  locked =
+    true;
+
+
+  clearInterval(
+    tick
+  );
+
+
+  const q =
+    questions[
+      order[current]
+    ];
+
+
+  document
+    .querySelectorAll(
+      ".option"
+    )
+    .forEach(
+      (opt,i) => {
+
+
+        opt.style.pointerEvents =
+          "none";
+
+
+        if(i === q.answer){
+
+
+          opt
+            .classList
+            .add(
+              "correct"
+            );
+
+        }
+
+      }
+    );
+
+
+  $("feedback").textContent =
+    msg;
+
+
+  $("explainBox").innerHTML =
+
+    `
+      <div class="explain">
+
+        <b>Reason:</b>
+
+        ${q.exp}
+
+      </div>
+    `;
+
+
+  $("nextRow")
+    .classList
+    .remove(
+      "hidden"
+    );
+
 }
+
+
+
+/* ==========================================
+   NEXT QUESTION
+========================================== */
+
 function nextQuestion(){
-  clearInterval(tick);
+
+  clearInterval(
+    tick
+  );
+
+
   current++;
-  if(current<questions.length) loadQuestion(); else showResult();
+
+
+  if(
+    current <
+    questions.length
+  ){
+
+
+    loadQuestion();
+
+  }
+
+  else{
+
+
+    showResult();
+
+  }
+
 }
+
+
+
+/* ==========================================
+   RESULT
+========================================== */
+
 function showResult(){
-  $("quiz").classList.add("hidden");
-  $("result").classList.remove("hidden");
-  $("finalScore").textContent=score;
-  if(score>=9){
-    $("resultEmoji").textContent="🏆";
-    $("resultText").textContent="Excellent! You used rational numbers confidently in real-life situations.";
-  }else if(score>=6){
-    $("resultEmoji").textContent="🌟";
-    $("resultText").textContent="Good work! Keep practising signs, comparison and fraction operations.";
-  }else{
-    $("resultEmoji").textContent="🧭";
-    $("resultText").textContent="Nice effort! Replay and focus on whether the value increases, decreases or is shared.";
+
+  $("quiz")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  $("result")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  $("finalScore").textContent =
+    score;
+
+
+  if(score >= 9){
+
+
+    $("resultEmoji").textContent =
+      "🏆";
+
+
+    $("resultText").textContent =
+      "Excellent! You used rational numbers confidently in real-life situations.";
+
   }
+
+  else if(score >= 6){
+
+
+    $("resultEmoji").textContent =
+      "🌟";
+
+
+    $("resultText").textContent =
+      "Good work! Keep practising signs, comparison and fraction operations.";
+
+  }
+
+  else{
+
+
+    $("resultEmoji").textContent =
+      "🧭";
+
+
+    $("resultText").textContent =
+      "Nice effort! Replay and focus on whether the value increases, decreases or is shared.";
+
+  }
+
 }
+
+
+
+/* ==========================================
+   RESTART
+========================================== */
+
 function restartGame(){
-  $("result").classList.add("hidden");
-  $("intro").classList.remove("hidden");
+
+  clearInterval(
+    tick
+  );
+
+
+  $("result")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  $("intro")
+    .classList
+    .remove(
+      "hidden"
+    );
+
 }
+
+
+
+/* ==========================================
+   CONFETTI
+========================================== */
+
 function confetti(){
-  for(let i=0;i<24;i++){
-    const c=document.createElement("span");
-    c.className="confetti";
-    c.style.left=Math.random()*100+"vw";
-    c.style.background=`hsl(${Math.random()*360},90%,58%)`;
-    c.style.animationDuration=(1.8+Math.random()*1.5)+"s";
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),3300);
+
+  for(
+    let i=0;
+    i<24;
+    i++
+  ){
+
+
+    const c =
+      document.createElement(
+        "span"
+      );
+
+
+    c.className =
+      "confetti";
+
+
+    c.style.left =
+      Math.random() *
+      100 +
+      "vw";
+
+
+    c.style.background =
+      `hsl(
+        ${Math.random()*360},
+        90%,
+        58%
+      )`;
+
+
+    c.style.animationDuration =
+
+      (
+        1.8 +
+        Math.random() *
+        1.5
+      ) +
+      "s";
+
+
+    document.body.appendChild(
+      c
+    );
+
+
+    setTimeout(
+      () =>
+        c.remove(),
+      3300
+    );
+
   }
+
 }
+
 </script>
+
 </body>
 </html>
