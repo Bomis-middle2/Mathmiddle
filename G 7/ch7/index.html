@@ -2,9 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+
+<!-- Important for proper mobile responsiveness -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 <title>Grade 7 Comparing Quantities - Innovine Game</title>
+
 <style>
+
 :root{
   --ink:#17324d;
   --card:#ffffffee;
@@ -16,364 +21,2348 @@
   --red:#ef476f;
   --soft:#f7fbff;
 }
-*{box-sizing:border-box;margin:0;padding:0}
+
+/* ------------------------------
+   GLOBAL RESET
+------------------------------ */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html,
+body{
+  width:100%;
+  min-height:100%;
+}
+
 body{
   font-family:"Trebuchet MS",Arial,sans-serif;
   min-height:100vh;
   color:var(--ink);
   overflow-x:hidden;
+
   background:
     radial-gradient(circle at 12% 18%, #caffbf 0 8%, transparent 9%),
     radial-gradient(circle at 88% 16%, #ffd6a5 0 8%, transparent 9%),
     radial-gradient(circle at 16% 86%, #bde0fe 0 9%, transparent 10%),
     linear-gradient(135deg,#073b4c 0%,#118ab2 45%,#ffd166 100%);
 }
+
 body:before{
   content:"";
   position:fixed;
   inset:0;
   z-index:-1;
   opacity:.22;
+
   background-image:
-    repeating-linear-gradient(45deg, rgba(255,255,255,.7) 0 2px, transparent 2px 58px),
-    repeating-linear-gradient(135deg, rgba(255,255,255,.45) 0 2px, transparent 2px 58px);
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,.7) 0 2px,
+      transparent 2px 58px
+    ),
+    repeating-linear-gradient(
+      135deg,
+      rgba(255,255,255,.45) 0 2px,
+      transparent 2px 58px
+    );
+
   animation:bgMove 38s linear infinite;
 }
-@keyframes bgMove{to{transform:translate(-120px,-120px)}}
+
+@keyframes bgMove{
+  to{
+    transform:translate(-120px,-120px);
+  }
+}
+
+
+/* ------------------------------
+   SPLASH SCREEN
+------------------------------ */
+
 #splash{
-  position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
   background:linear-gradient(135deg,#ffffff,#efffff);
-  animation:splashFade .8s forwards; animation-delay:5s;
+
+  animation:splashFade .8s forwards;
+  animation-delay:5s;
 }
-#splash img{width:230px; max-width:78%; animation:logoPulse 1.4s ease-in-out infinite alternate}
-@keyframes logoPulse{from{transform:scale(.95)}to{transform:scale(1.05)}}
-@keyframes splashFade{to{opacity:0;visibility:hidden}}
+
+#splash img{
+  width:230px;
+  max-width:78%;
+  animation:logoPulse 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes logoPulse{
+  from{
+    transform:scale(.95);
+  }
+
+  to{
+    transform:scale(1.05);
+  }
+}
+
+@keyframes splashFade{
+  to{
+    opacity:0;
+    visibility:hidden;
+  }
+}
+
+
+/* ------------------------------
+   FLOATING BACKGROUND SYMBOLS
+------------------------------ */
+
 .float{
-  position:fixed; z-index:-1; pointer-events:none; color:#fff; opacity:.25;
-  font-size:38px; font-weight:900; animation:floaty 8s ease-in-out infinite;
+  position:fixed;
+  z-index:-1;
+  pointer-events:none;
+
+  color:#fff;
+  opacity:.25;
+
+  font-size:38px;
+  font-weight:900;
+
+  animation:floaty 8s ease-in-out infinite;
 }
-@keyframes floaty{50%{transform:translateY(-28px) rotate(8deg)}}
-.wrap{width:min(980px,94%);margin:0 auto;padding:24px 0}
+
+@keyframes floaty{
+  50%{
+    transform:translateY(-28px) rotate(8deg);
+  }
+}
+
+
+/* ------------------------------
+   MAIN WRAPPER
+------------------------------ */
+
+.wrap{
+  width:min(980px,94%);
+  margin:0 auto;
+  padding:24px 0;
+}
+
+
+/* ------------------------------
+   MAIN CARD
+------------------------------ */
+
 .card{
-  margin-top:24px; padding:26px; border-radius:30px; background:var(--card);
-  border:2px solid rgba(255,255,255,.65); box-shadow:0 22px 60px rgba(2,8,23,.3);
+  width:100%;
+
+  margin-top:24px;
+  padding:26px;
+
+  border-radius:30px;
+  background:var(--card);
+
+  border:2px solid rgba(255,255,255,.65);
+
+  box-shadow:0 22px 60px rgba(2,8,23,.3);
+
   backdrop-filter:blur(12px);
 }
-.center{text-align:center}.hidden{display:none!important}
-.hero{min-height:430px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px}
-.title{font-size:clamp(31px,6vw,54px); line-height:1.05; color:#073b4c}
-.subtitle{max-width:760px; font-size:clamp(16px,3vw,20px); line-height:1.55}
-.instructions{display:grid; gap:11px; width:min(720px,100%); margin:14px auto 8px; text-align:left}
-.inst{padding:13px 15px; border-radius:16px; background:#f8fbff; border-left:8px solid var(--mint); line-height:1.45; font-size:17px}
+
+.center{
+  text-align:center;
+}
+
+.hidden{
+  display:none!important;
+}
+
+
+/* ------------------------------
+   INTRO / RESULT
+------------------------------ */
+
+.hero{
+  min-height:430px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  gap:14px;
+}
+
+.title{
+  font-size:clamp(31px,6vw,54px);
+  line-height:1.05;
+  color:#073b4c;
+}
+
+.subtitle{
+  max-width:760px;
+
+  font-size:clamp(16px,3vw,20px);
+  line-height:1.55;
+}
+
+.instructions{
+  display:grid;
+  gap:11px;
+
+  width:min(720px,100%);
+
+  margin:14px auto 8px;
+
+  text-align:left;
+}
+
+.inst{
+  padding:13px 15px;
+
+  border-radius:16px;
+
+  background:#f8fbff;
+
+  border-left:8px solid var(--mint);
+
+  line-height:1.45;
+  font-size:17px;
+}
+
+
+/* ------------------------------
+   BUTTONS
+------------------------------ */
+
 .btn{
-  border:0; border-radius:17px; padding:14px 25px; font-size:17px; font-weight:900; cursor:pointer;
-  color:white; background:linear-gradient(135deg,var(--mint),var(--blue),var(--purple));
-  box-shadow:0 12px 24px rgba(58,134,255,.28); transition:.2s;
+  border:0;
+
+  border-radius:17px;
+
+  padding:14px 25px;
+
+  font-size:17px;
+  font-weight:900;
+
+  cursor:pointer;
+
+  color:white;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--mint),
+      var(--blue),
+      var(--purple)
+    );
+
+  box-shadow:0 12px 24px rgba(58,134,255,.28);
+
+  transition:.2s;
 }
-.btn:hover{transform:translateY(-2px) scale(1.02)}
-.topbar{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:18px}
+
+.btn:hover{
+  transform:translateY(-2px) scale(1.02);
+}
+
+
+/* ------------------------------
+   TOP BAR
+------------------------------ */
+
+.topbar{
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+
+  gap:10px;
+
+  margin-bottom:18px;
+}
+
 .badge{
-  padding:10px 14px; border-radius:16px; background:#fff; border:3px solid #c6f7f1;
-  box-shadow:0 8px 16px rgba(23,50,77,.08); font-weight:900;
+  min-width:0;
+
+  padding:10px 14px;
+
+  border-radius:16px;
+
+  background:#fff;
+
+  border:3px solid #c6f7f1;
+
+  box-shadow:0 8px 16px rgba(23,50,77,.08);
+
+  font-weight:900;
+
+  text-align:center;
 }
-.progress{height:15px; background:#def7f4; border-radius:100px; overflow:hidden; margin-bottom:18px}
-#progressBar{height:100%; width:0; background:linear-gradient(90deg,var(--mint),var(--blue),var(--orange)); transition:.35s}
+
+
+/* ------------------------------
+   PROGRESS BAR
+------------------------------ */
+
+.progress{
+  height:15px;
+
+  background:#def7f4;
+
+  border-radius:100px;
+
+  overflow:hidden;
+
+  margin-bottom:18px;
+}
+
+#progressBar{
+  height:100%;
+  width:0;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--mint),
+      var(--blue),
+      var(--orange)
+    );
+
+  transition:.35s;
+}
+
+
+/* ------------------------------
+   QUESTION / MISSION BOX
+------------------------------ */
+
 .mission{
-  background:linear-gradient(135deg,#fff,#f2fffd); border:3px dashed var(--mint); border-radius:24px;
-  padding:16px; display:flex; gap:15px; align-items:flex-start; margin-bottom:16px;
+  width:100%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff,
+      #f2fffd
+    );
+
+  border:3px dashed var(--mint);
+
+  border-radius:24px;
+
+  padding:16px;
+
+  display:flex;
+
+  gap:15px;
+
+  align-items:flex-start;
+
+  margin-bottom:16px;
+
+  overflow:hidden;
 }
+
+
+/*
+   Very important:
+   Allows question/table section to shrink
+   correctly inside flex container.
+*/
+
+.missionContent{
+  flex:1 1 auto;
+
+  min-width:0;
+
+  width:100%;
+}
+
+
+/* ------------------------------
+   QUESTION ICON
+------------------------------ */
+
 .icon{
-  width:68px; height:68px; border-radius:21px; display:grid; place-items:center; font-size:36px;
-  background:linear-gradient(135deg,#caffbf,#bde0fe); box-shadow:inset 0 0 0 4px white; flex:0 0 auto;
+  width:68px;
+  height:68px;
+
+  border-radius:21px;
+
+  display:grid;
+  place-items:center;
+
+  font-size:36px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #caffbf,
+      #bde0fe
+    );
+
+  box-shadow:
+    inset 0 0 0 4px white;
+
+  flex:0 0 auto;
 }
-.question{font-size:clamp(18px,3vw,22px); font-weight:900; line-height:1.55}
+
+
+/* ------------------------------
+   QUESTION TEXT
+------------------------------ */
+
+.question{
+  width:100%;
+
+  font-size:clamp(18px,3vw,22px);
+
+  font-weight:900;
+
+  line-height:1.55;
+
+  overflow-wrap:break-word;
+}
+
+
+/* ------------------------------
+   INFORMATION / TABLE BOX
+------------------------------ */
+
 .infoBox{
-  margin-top:12px; background:#fff; border:2px solid #c6f7f1; border-radius:17px;
-  padding:12px; line-height:1.55; overflow-x:auto;
+  width:100%;
+
+  max-width:100%;
+
+  margin-top:12px;
+
+  background:#fff;
+
+  border:2px solid #c6f7f1;
+
+  border-radius:17px;
+
+  padding:12px;
+
+  line-height:1.55;
+
+  overflow:hidden;
 }
-table{border-collapse:collapse;width:100%;min-width:390px}
-td,th{border:1px solid #a6e9e1;padding:8px 10px;text-align:center}
-th{background:#e9fffc}
-.options{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; margin-top:17px}
+
+
+/* ------------------------------
+   RESPONSIVE TABLE
+------------------------------ */
+
+.infoBox table{
+  width:100%;
+
+  max-width:100%;
+
+  border-collapse:collapse;
+
+  table-layout:fixed;
+
+  margin:0;
+}
+
+.infoBox td,
+.infoBox th{
+  border:1px solid #a6e9e1;
+
+  padding:8px 10px;
+
+  text-align:center;
+
+  vertical-align:middle;
+
+  overflow-wrap:anywhere;
+
+  word-break:normal;
+
+  white-space:normal;
+}
+
+.infoBox th{
+  background:#e9fffc;
+
+  font-weight:900;
+}
+
+
+/* Better column distribution */
+
+.infoBox th:nth-child(1),
+.infoBox td:nth-child(1){
+  width:36%;
+}
+
+.infoBox th:nth-child(2),
+.infoBox td:nth-child(2){
+  width:34%;
+}
+
+.infoBox th:nth-child(3),
+.infoBox td:nth-child(3){
+  width:30%;
+}
+
+
+/* ------------------------------
+   ANSWER OPTIONS
+------------------------------ */
+
+.options{
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:13px;
+
+  margin-top:17px;
+}
+
 .option{
-  min-height:64px; padding:15px; border-radius:20px; background:#fff; border:3px solid #c6f7f1;
-  display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer;
-  font-size:17px; font-weight:900; transition:.18s; user-select:none;
+  width:100%;
+
+  min-height:64px;
+
+  padding:15px;
+
+  border-radius:20px;
+
+  background:#fff;
+
+  border:3px solid #c6f7f1;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  text-align:center;
+
+  cursor:pointer;
+
+  font-size:17px;
+
+  font-weight:900;
+
+  transition:.18s;
+
+  user-select:none;
+
+  overflow-wrap:anywhere;
 }
-.option:hover{transform:translateY(-2px); border-color:var(--blue); background:#f8fbff}
-.option.clicked{box-shadow:0 0 0 4px rgba(46,196,182,.14)}
-.option.correct{background:#dcfff7!important; border-color:var(--green)!important; animation:pop .38s}
-.option.wrong{background:#ffe1ea!important; border-color:var(--red)!important; animation:shake .38s}
-@keyframes pop{50%{transform:scale(1.05)}}
-@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
-.feedback{margin-top:16px; min-height:45px; text-align:center; font-size:19px; font-weight:900}
-.explain{margin-top:10px; padding:13px 15px; border-radius:16px; background:#f8fbff; border-left:8px solid var(--blue); line-height:1.45}
-.nextRow{text-align:center;margin-top:12px}
+
+.option:hover{
+  transform:translateY(-2px);
+
+  border-color:var(--blue);
+
+  background:#f8fbff;
+}
+
+.option.clicked{
+  box-shadow:
+    0 0 0 4px rgba(46,196,182,.14);
+}
+
+.option.correct{
+  background:#dcfff7!important;
+
+  border-color:var(--green)!important;
+
+  animation:pop .38s;
+}
+
+.option.wrong{
+  background:#ffe1ea!important;
+
+  border-color:var(--red)!important;
+
+  animation:shake .38s;
+}
+
+@keyframes pop{
+  50%{
+    transform:scale(1.05);
+  }
+}
+
+@keyframes shake{
+  25%{
+    transform:translateX(-7px);
+  }
+
+  75%{
+    transform:translateX(7px);
+  }
+}
+
+
+/* ------------------------------
+   FEEDBACK
+------------------------------ */
+
+.feedback{
+  margin-top:16px;
+
+  min-height:45px;
+
+  text-align:center;
+
+  font-size:19px;
+
+  font-weight:900;
+}
+
+
+/* ------------------------------
+   EXPLANATION
+------------------------------ */
+
+.explain{
+  margin-top:10px;
+
+  padding:13px 15px;
+
+  border-radius:16px;
+
+  background:#f8fbff;
+
+  border-left:8px solid var(--blue);
+
+  line-height:1.45;
+}
+
+.nextRow{
+  text-align:center;
+
+  margin-top:12px;
+}
+
+
+/* ------------------------------
+   CONFETTI
+------------------------------ */
+
 .confetti{
-  position:fixed; top:-30px; width:13px; height:13px; z-index:999; pointer-events:none;
-  clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  position:fixed;
+
+  top:-30px;
+
+  width:13px;
+  height:13px;
+
+  z-index:999;
+
+  pointer-events:none;
+
+  clip-path:
+    polygon(
+      50% 0,
+      61% 35%,
+      98% 35%,
+      68% 57%,
+      79% 91%,
+      50% 70%,
+      21% 91%,
+      32% 57%,
+      2% 35%,
+      39% 35%
+    );
+
   animation:fall 2.4s linear forwards;
 }
-@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
-.resultEmoji{font-size:76px;margin:12px 0}
-@media(max-width:660px){
-  .card{padding:18px;border-radius:24px}
-  .topbar{display:grid;grid-template-columns:1fr 1fr}
-  .badge{text-align:center;font-size:14px}
-  .options{grid-template-columns:1fr}
-  .mission{gap:11px}.icon{width:56px;height:56px;font-size:30px}
+
+@keyframes fall{
+  to{
+    transform:
+      translateY(105vh)
+      rotate(720deg);
+
+    opacity:0;
+  }
 }
+
+.resultEmoji{
+  font-size:76px;
+
+  margin:12px 0;
+}
+
+
+/* ==================================================
+   TABLET AND MOBILE
+================================================== */
+
+@media(max-width:660px){
+
+  .wrap{
+    width:calc(100% - 18px);
+
+    padding:10px 0 18px;
+  }
+
+  .card{
+    margin-top:10px;
+
+    padding:15px;
+
+    border-radius:22px;
+  }
+
+
+  /* Top status area */
+
+  .topbar{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+
+    gap:8px;
+
+    margin-bottom:12px;
+  }
+
+  .badge{
+    padding:8px 5px;
+
+    font-size:13px;
+
+    border-width:2px;
+
+    border-radius:13px;
+  }
+
+
+  /*
+     Time takes full width so the three
+     status boxes do not get squeezed.
+  */
+
+  .topbar .badge:nth-child(3){
+    grid-column:1 / -1;
+  }
+
+
+  .progress{
+    height:10px;
+
+    margin-bottom:12px;
+  }
+
+
+  /* Question area */
+
+  .mission{
+    flex-direction:column;
+
+    gap:9px;
+
+    padding:12px;
+
+    border-radius:20px;
+
+    border-width:2px;
+  }
+
+
+  .icon{
+    width:50px;
+    height:50px;
+
+    border-radius:15px;
+
+    font-size:27px;
+  }
+
+
+  .missionContent{
+    width:100%;
+
+    min-width:0;
+  }
+
+
+  .question{
+    font-size:17px;
+
+    line-height:1.45;
+  }
+
+
+  /* Table */
+
+  .infoBox{
+    width:100%;
+
+    padding:6px;
+
+    margin-top:9px;
+
+    border-radius:12px;
+
+    overflow:hidden;
+  }
+
+
+  .infoBox table{
+    width:100%;
+
+    min-width:0;
+
+    max-width:100%;
+
+    table-layout:fixed;
+
+    font-size:12px;
+  }
+
+
+  .infoBox th,
+  .infoBox td{
+    padding:7px 3px;
+
+    line-height:1.3;
+
+    overflow-wrap:anywhere;
+
+    word-break:normal;
+
+    white-space:normal;
+  }
+
+
+  /* Answer buttons */
+
+  .options{
+    grid-template-columns:1fr;
+
+    gap:9px;
+
+    margin-top:12px;
+  }
+
+
+  .option{
+    min-height:53px;
+
+    padding:11px 10px;
+
+    border-radius:15px;
+
+    border-width:2px;
+
+    font-size:15px;
+  }
+
+
+  .feedback{
+    margin-top:11px;
+
+    min-height:35px;
+
+    font-size:16px;
+  }
+
+
+  .explain{
+    padding:11px 12px;
+
+    font-size:14px;
+
+    border-left-width:6px;
+  }
+
+
+  .btn{
+    padding:12px 20px;
+
+    font-size:15px;
+  }
+
+}
+
+
+/* ==================================================
+   EXTRA SMALL MOBILE
+================================================== */
+
+@media(max-width:400px){
+
+  .wrap{
+    width:calc(100% - 12px);
+  }
+
+
+  .card{
+    padding:11px;
+  }
+
+
+  .mission{
+    padding:9px;
+  }
+
+
+  .question{
+    font-size:15.5px;
+  }
+
+
+  .icon{
+    width:44px;
+    height:44px;
+
+    font-size:24px;
+  }
+
+
+  .infoBox{
+    padding:4px;
+  }
+
+
+  .infoBox table{
+    font-size:10.5px;
+  }
+
+
+  .infoBox th,
+  .infoBox td{
+    padding:6px 2px;
+
+    line-height:1.25;
+  }
+
+
+  .badge{
+    font-size:12px;
+
+    padding:7px 3px;
+  }
+
+
+  .option{
+    min-height:48px;
+
+    font-size:14px;
+  }
+
+
+  .feedback{
+    font-size:15px;
+  }
+
+
+  .explain{
+    font-size:13px;
+  }
+
+}
+
+
+/* ==================================================
+   VERY SMALL SCREENS
+================================================== */
+
+@media(max-width:330px){
+
+  .infoBox table{
+    font-size:9.5px;
+  }
+
+  .infoBox th,
+  .infoBox td{
+    padding:5px 1px;
+  }
+
+  .question{
+    font-size:15px;
+  }
+
+}
+
 </style>
 </head>
+
+
 <body>
-<div id="splash"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
 
-<span class="float" style="left:5%;top:18%">%</span>
-<span class="float" style="left:88%;top:20%;animation-delay:1s">₹</span>
-<span class="float" style="left:9%;top:76%;animation-delay:2s">½</span>
-<span class="float" style="left:82%;top:73%;animation-delay:3s">↗</span>
 
-<div class="wrap">
-  <section id="intro" class="card center hero">
-    <h1 class="title">Smart Shopper Challenge</h1>
-    <p class="subtitle">Use percentages, fractions, ratios, discounts, profit, loss and simple interest to make smart real-life decisions.</p>
-    <div class="instructions">
-      <div class="inst">Tap one answer for each situation. No option is selected before you choose.</div>
-      <div class="inst">You get two attempts. After the second wrong attempt, the correct answer is shown with a short reason.</div>
-      <div class="inst">Complete all 10 competency-based challenges and check your final score.</div>
-    </div>
-    <button class="btn" onclick="startGame()">Start Smart Challenge</button>
-  </section>
+<!-- =========================
+     SPLASH SCREEN
+========================= -->
 
-  <section id="quiz" class="card hidden">
-    <div class="topbar">
-      <div class="badge">⭐ Score: <span id="score">0</span></div>
-      <div class="badge">🛒 Mission: <span id="qno">1</span>/10</div>
-      <div class="badge">⏳ Time: <span id="time">45</span>s</div>
-    </div>
-    <div class="progress"><div id="progressBar"></div></div>
+<div id="splash">
 
-    <div class="mission">
-      <div class="icon" id="sceneIcon">🛒</div>
-      <div>
-        <div class="question" id="questionText"></div>
-        <div id="infoBox" class="infoBox hidden"></div>
-      </div>
-    </div>
+  <img
+    src="assets/innovine-logo.png"
+    alt="Innovine Logo"
+  >
 
-    <div class="options" id="options"></div>
-    <div class="feedback" id="feedback"></div>
-    <div id="explainBox"></div>
-    <div id="nextRow" class="nextRow hidden"><button class="btn" onclick="nextQuestion()">Next Mission</button></div>
-  </section>
-
-  <section id="result" class="card center hero hidden">
-    <h2>Challenge Completed!</h2>
-    <div id="resultEmoji" class="resultEmoji">🏆</div>
-    <h1><span id="finalScore">0</span>/10</h1>
-    <p id="resultText" class="subtitle"></p>
-    <button class="btn" onclick="restartGame()">Play Again</button>
-  </section>
 </div>
 
-<audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
-<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3" preload="auto"></audio>
+
+<!-- =========================
+     BACKGROUND SYMBOLS
+========================= -->
+
+<span
+  class="float"
+  style="left:5%;top:18%"
+>
+  %
+</span>
+
+<span
+  class="float"
+  style="left:88%;top:20%;animation-delay:1s"
+>
+  ₹
+</span>
+
+<span
+  class="float"
+  style="left:9%;top:76%;animation-delay:2s"
+>
+  ½
+</span>
+
+<span
+  class="float"
+  style="left:82%;top:73%;animation-delay:3s"
+>
+  ↗
+</span>
+
+
+<!-- =========================
+     MAIN WRAPPER
+========================= -->
+
+<div class="wrap">
+
+
+  <!-- =====================
+       INTRO
+  ====================== -->
+
+  <section
+    id="intro"
+    class="card center hero"
+  >
+
+    <h1 class="title">
+      Smart Shopper Challenge
+    </h1>
+
+
+    <p class="subtitle">
+
+      Use percentages, fractions, ratios,
+      discounts, profit, loss and simple
+      interest to make smart real-life decisions.
+
+    </p>
+
+
+    <div class="instructions">
+
+
+      <div class="inst">
+
+        Tap one answer for each situation.
+        No option is selected before you choose.
+
+      </div>
+
+
+      <div class="inst">
+
+        You get two attempts.
+        After the second wrong attempt,
+        the correct answer is shown with
+        a short reason.
+
+      </div>
+
+
+      <div class="inst">
+
+        Complete all 10 competency-based
+        challenges and check your final score.
+
+      </div>
+
+
+    </div>
+
+
+    <button
+      class="btn"
+      onclick="startGame()"
+    >
+
+      Start Smart Challenge
+
+    </button>
+
+
+  </section>
+
+
+
+  <!-- =====================
+       QUIZ
+  ====================== -->
+
+  <section
+    id="quiz"
+    class="card hidden"
+  >
+
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+
+      <div class="badge">
+
+        ⭐ Score:
+        <span id="score">
+          0
+        </span>
+
+      </div>
+
+
+      <div class="badge">
+
+        🛒 Mission:
+        <span id="qno">
+          1
+        </span>/10
+
+      </div>
+
+
+      <div class="badge">
+
+        ⏳ Time:
+        <span id="time">
+          45
+        </span>s
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- PROGRESS BAR -->
+
+    <div class="progress">
+
+      <div id="progressBar">
+      </div>
+
+    </div>
+
+
+
+    <!-- QUESTION CARD -->
+
+    <div class="mission">
+
+
+      <div
+        class="icon"
+        id="sceneIcon"
+      >
+
+        🛒
+
+      </div>
+
+
+
+      <div class="missionContent">
+
+
+        <div
+          class="question"
+          id="questionText"
+        >
+        </div>
+
+
+        <div
+          id="infoBox"
+          class="infoBox hidden"
+        >
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- ANSWERS -->
+
+    <div
+      class="options"
+      id="options"
+    >
+    </div>
+
+
+
+    <!-- FEEDBACK -->
+
+    <div
+      class="feedback"
+      id="feedback"
+    >
+    </div>
+
+
+
+    <!-- EXPLANATION -->
+
+    <div id="explainBox">
+    </div>
+
+
+
+    <!-- NEXT BUTTON -->
+
+    <div
+      id="nextRow"
+      class="nextRow hidden"
+    >
+
+      <button
+        class="btn"
+        onclick="nextQuestion()"
+      >
+
+        Next Mission
+
+      </button>
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- =====================
+       RESULT
+  ====================== -->
+
+  <section
+    id="result"
+    class="card center hero hidden"
+  >
+
+
+    <h2>
+      Challenge Completed!
+    </h2>
+
+
+    <div
+      id="resultEmoji"
+      class="resultEmoji"
+    >
+
+      🏆
+
+    </div>
+
+
+    <h1>
+
+      <span id="finalScore">
+        0
+      </span>/10
+
+    </h1>
+
+
+    <p
+      id="resultText"
+      class="subtitle"
+    >
+    </p>
+
+
+    <button
+      class="btn"
+      onclick="restartGame()"
+    >
+
+      Play Again
+
+    </button>
+
+
+  </section>
+
+
+</div>
+
+
+
+<!-- =========================
+     AUDIO
+========================= -->
+
+<audio
+  id="correctSound"
+  src="assets/correct.mp3"
+  preload="auto"
+>
+</audio>
+
+
+<audio
+  id="wrongSound"
+  src="assets/wrong.mp3"
+  preload="auto"
+>
+</audio>
+
+
+<audio
+  id="clapSound"
+  src="assets/freesound_community-claps-44774.mp3"
+  preload="auto"
+>
+</audio>
+
+
 
 <script>
+
+/* ==================================================
+   QUESTIONS
+================================================== */
+
 const questions = [
+
+
   {
+
     icon:"🛍️",
+
     q:"A bag is priced at ₹800. During a school fair sale, the shop gives 25% off. How much should a student pay?",
-    options:["₹200","₹600","₹700","₹1,000"],
+
+    options:[
+      "₹200",
+      "₹600",
+      "₹700",
+      "₹1,000"
+    ],
+
     answer:1,
-    exp:"25% of ₹800 is ₹200. Discounted price = ₹800 − ₹200 = ₹600."
+
+    exp:
+      "25% of ₹800 is ₹200. Discounted price = ₹800 − ₹200 = ₹600."
+
   },
+
+
   {
+
     icon:"🎮",
+
     q:"A game controller bought for ₹1,200 is sold for ₹1,500. What kind of result did the seller make?",
-    options:["₹300 profit","₹300 loss","₹500 profit","No profit, no loss"],
+
+    options:[
+      "₹300 profit",
+      "₹300 loss",
+      "₹500 profit",
+      "No profit, no loss"
+    ],
+
     answer:0,
-    exp:"Selling price is greater than cost price by ₹300, so the seller made ₹300 profit."
+
+    exp:
+      "Selling price is greater than cost price by ₹300, so the seller made ₹300 profit."
+
   },
+
+
   {
+
     icon:"📚",
+
     q:"A bookstore offers these deals. Which gives the largest discount amount?",
-    info:"<table><tr><th>Item</th><th>Marked Price</th><th>Discount</th></tr><tr><td>Atlas</td><td>₹400</td><td>10%</td></tr><tr><td>Dictionary</td><td>₹600</td><td>20%</td></tr><tr><td>Notebook Set</td><td>₹300</td><td>25%</td></tr><tr><td>Storybook</td><td>₹500</td><td>15%</td></tr></table>",
-    options:["Atlas","Dictionary","Notebook Set","Storybook"],
+
+
+    info:`
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Item
+            </th>
+
+            <th>
+              Marked Price
+            </th>
+
+            <th>
+              Discount
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr>
+
+            <td>
+              Atlas
+            </td>
+
+            <td>
+              ₹400
+            </td>
+
+            <td>
+              10%
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Dictionary
+            </td>
+
+            <td>
+              ₹600
+            </td>
+
+            <td>
+              20%
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Notebook Set
+            </td>
+
+            <td>
+              ₹300
+            </td>
+
+            <td>
+              25%
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Storybook
+            </td>
+
+            <td>
+              ₹500
+            </td>
+
+            <td>
+              15%
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    `,
+
+
+    options:[
+      "Atlas",
+      "Dictionary",
+      "Notebook Set",
+      "Storybook"
+    ],
+
     answer:1,
-    exp:"Discounts are ₹40, ₹120, ₹75 and ₹75. The Dictionary has the largest discount amount."
+
+    exp:
+      "Discounts are ₹40, ₹120, ₹75 and ₹75. The Dictionary has the largest discount amount."
+
   },
+
+
   {
+
     icon:"🥤",
+
     q:"In a juice recipe, 3 out of every 5 parts are orange juice. What percentage of the drink is orange juice?",
-    options:["30%","40%","60%","80%"],
+
+    options:[
+      "30%",
+      "40%",
+      "60%",
+      "80%"
+    ],
+
     answer:2,
-    exp:"3 out of 5 = 3/5 = 60%."
+
+    exp:
+      "3 out of 5 = 3/5 = 60%."
+
   },
+
+
   {
+
     icon:"🏦",
+
     q:"Riya deposits ₹2,000 in a simple-interest scheme at 5% per year for 2 years. How much interest will she earn?",
-    options:["₹100","₹200","₹250","₹400"],
+
+    options:[
+      "₹100",
+      "₹200",
+      "₹250",
+      "₹400"
+    ],
+
     answer:1,
-    exp:"Simple interest = (2000 × 5 × 2)/100 = ₹200."
+
+    exp:
+      "Simple interest = (2000 × 5 × 2)/100 = ₹200."
+
   },
+
+
   {
+
     icon:"👟",
+
     q:"Two shops sell the same pair of shoes for ₹1,000. Shop A offers 10% discount. Shop B offers a flat ₹80 discount. A student wants to spend the least amount of money. Which option should the student choose?",
-    options:["Shop A","Shop B","Both shops charge ₹900","Both shops charge ₹920"],
+
+    options:[
+      "Shop A",
+      "Shop B",
+      "Both shops charge ₹900",
+      "Both shops charge ₹920"
+    ],
+
     answer:0,
-    exp:"10% of ₹1,000 is ₹100. Shop A price is ₹900. Shop B price is ₹920. Therefore, Shop A is cheaper."
+
+    exp:
+      "10% of ₹1,000 is ₹100. Shop A price is ₹900. Shop B price is ₹920. Therefore, Shop A is cheaper."
+
   },
+
+
   {
+
     icon:"🍫",
+
     q:"A chocolate box has 40 chocolates. 30% are dark chocolates. How many dark chocolates are in the box?",
-    options:["10","12","20","30"],
+
+    options:[
+      "10",
+      "12",
+      "20",
+      "30"
+    ],
+
     answer:1,
-    exp:"30% of 40 = 12."
+
+    exp:
+      "30% of 40 = 12."
+
   },
+
+
   {
+
     icon:"🚲",
+
     q:"A cycle bought for ₹4,000 is sold at a loss of 10%. What is its selling price?",
-    options:["₹3,600","₹3,900","₹4,100","₹4,400"],
+
+    options:[
+      "₹3,600",
+      "₹3,900",
+      "₹4,100",
+      "₹4,400"
+    ],
+
     answer:0,
-    exp:"10% of ₹4,000 is ₹400. Selling price = ₹4,000 − ₹400 = ₹3,600."
+
+    exp:
+      "10% of ₹4,000 is ₹400. Selling price = ₹4,000 − ₹400 = ₹3,600."
+
   },
+
+
   {
+
     icon:"📊",
+
     q:"In a class of 50 students, 40% chose football as their favourite sport. How many students chose football?",
-    options:["10","20","25","40"],
+
+    options:[
+      "10",
+      "20",
+      "25",
+      "40"
+    ],
+
     answer:1,
-    exp:"40% of 50 = 20 students."
+
+    exp:
+      "40% of 50 = 20 students."
+
   },
+
+
   {
+
     icon:"🎟️",
+
     q:"A movie ticket price increased from ₹200 to ₹250. What is the percentage increase?",
-    options:["20%","25%","30%","50%"],
+
+    options:[
+      "20%",
+      "25%",
+      "30%",
+      "50%"
+    ],
+
     answer:1,
-    exp:"Increase = ₹50. Percentage increase = 50/200 × 100 = 25%."
+
+    exp:
+      "Increase = ₹50. Percentage increase = 50/200 × 100 = 25%."
+
   }
+
 ];
 
-let order=[], current=0, score=0, attempts=0, locked=false, timer=45, tick=null;
-const $=id=>document.getElementById(id);
 
-function shuffle(arr){return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);}
-function safePlay(id){const a=$(id); a.currentTime=0; a.play().catch(()=>{});}
+
+/* ==================================================
+   GAME VARIABLES
+================================================== */
+
+let order = [];
+
+let current = 0;
+
+let score = 0;
+
+let attempts = 0;
+
+let locked = false;
+
+let timer = 45;
+
+let tick = null;
+
+
+
+/* ==================================================
+   SHORTCUT
+================================================== */
+
+const $ = id =>
+  document.getElementById(id);
+
+
+
+/* ==================================================
+   SHUFFLE QUESTIONS
+================================================== */
+
+function shuffle(arr){
+
+  return arr
+
+    .map(
+      v => [
+        Math.random(),
+        v
+      ]
+    )
+
+    .sort(
+      (a,b) =>
+        a[0] - b[0]
+    )
+
+    .map(
+      x => x[1]
+    );
+
+}
+
+
+
+/* ==================================================
+   PLAY SOUND SAFELY
+================================================== */
+
+function safePlay(id){
+
+  const audio = $(id);
+
+  if(!audio){
+    return;
+  }
+
+  audio.currentTime = 0;
+
+  audio
+    .play()
+    .catch(
+      () => {}
+    );
+
+}
+
+
+
+/* ==================================================
+   START GAME
+================================================== */
+
 function startGame(){
-  order=shuffle([...Array(questions.length).keys()]);
-  current=0; score=0;
-  $("score").textContent=score;
-  $("intro").classList.add("hidden");
-  $("quiz").classList.remove("hidden");
+
+  order = shuffle(
+    [
+      ...Array(
+        questions.length
+      ).keys()
+    ]
+  );
+
+
+  current = 0;
+
+  score = 0;
+
+
+  $("score").textContent =
+    score;
+
+
+  $("intro")
+    .classList
+    .add("hidden");
+
+
+  $("quiz")
+    .classList
+    .remove("hidden");
+
+
   loadQuestion();
+
 }
+
+
+
+/* ==================================================
+   LOAD QUESTION
+================================================== */
+
 function loadQuestion(){
+
   clearInterval(tick);
-  attempts=0; locked=false; timer=45;
-  const q=questions[order[current]];
-  $("qno").textContent=current+1;
-  $("time").textContent=timer;
-  $("sceneIcon").textContent=q.icon;
-  $("questionText").textContent=q.q;
-  $("feedback").innerHTML="";
-  $("explainBox").innerHTML="";
-  $("nextRow").classList.add("hidden");
-  $("progressBar").style.width=(current/questions.length*100)+"%";
+
+
+  attempts = 0;
+
+  locked = false;
+
+  timer = 45;
+
+
+  const q =
+    questions[
+      order[current]
+    ];
+
+
+  $("qno").textContent =
+    current + 1;
+
+
+  $("time").textContent =
+    timer;
+
+
+  $("sceneIcon").textContent =
+    q.icon;
+
+
+  $("questionText").textContent =
+    q.q;
+
+
+  $("feedback").innerHTML =
+    "";
+
+
+  $("explainBox").innerHTML =
+    "";
+
+
+  $("nextRow")
+    .classList
+    .add("hidden");
+
+
+
+  $("progressBar").style.width =
+
+    (
+      current /
+      questions.length *
+      100
+    ) + "%";
+
+
+
+  /* -------------------------
+     TABLE / INFORMATION BOX
+  ------------------------- */
+
   if(q.info){
-    $("infoBox").innerHTML=q.info;
-    $("infoBox").classList.remove("hidden");
-  }else{
-    $("infoBox").innerHTML="";
-    $("infoBox").classList.add("hidden");
+
+    $("infoBox").innerHTML =
+      q.info;
+
+
+    $("infoBox")
+      .classList
+      .remove("hidden");
+
   }
-  const box=$("options");
-  box.innerHTML="";
-  q.options.forEach((txt,i)=>{
-    const opt=document.createElement("div");
-    opt.className="option";
-    opt.textContent=txt;
-    opt.onclick=()=>choose(opt,i);
-    box.appendChild(opt);
-  });
-  tick=setInterval(()=>{
-    timer--;
-    $("time").textContent=timer;
-    if(timer<=0){
-      clearInterval(tick);
-      reveal("Time is up. The correct answer is shown below.");
+
+  else{
+
+    $("infoBox").innerHTML =
+      "";
+
+
+    $("infoBox")
+      .classList
+      .add("hidden");
+
+  }
+
+
+
+  /* -------------------------
+     ANSWER OPTIONS
+  ------------------------- */
+
+  const box =
+    $("options");
+
+
+  box.innerHTML =
+    "";
+
+
+  q.options.forEach(
+    (txt,i) => {
+
+
+      const opt =
+        document.createElement(
+          "div"
+        );
+
+
+      opt.className =
+        "option";
+
+
+      opt.textContent =
+        txt;
+
+
+      opt.onclick =
+        () =>
+          choose(
+            opt,
+            i
+          );
+
+
+      box.appendChild(
+        opt
+      );
+
     }
-  },1000);
+  );
+
+
+
+  /* -------------------------
+     TIMER
+  ------------------------- */
+
+  tick =
+    setInterval(
+      () => {
+
+
+        timer--;
+
+
+        $("time").textContent =
+          timer;
+
+
+        if(timer <= 0){
+
+          clearInterval(
+            tick
+          );
+
+
+          reveal(
+            "Time is up. The correct answer is shown below."
+          );
+
+        }
+
+
+      },
+      1000
+    );
+
 }
+
+
+
+/* ==================================================
+   CHOOSE ANSWER
+================================================== */
+
 function choose(el,i){
-  if(locked) return;
-  const q=questions[order[current]];
-  el.classList.add("clicked");
-  if(i===q.answer){
-    locked=true; clearInterval(tick); score++;
-    $("score").textContent=score;
-    el.classList.add("correct");
-    $("feedback").textContent="Correct! Smart comparison made.";
-    safePlay("correctSound"); safePlay("clapSound"); confetti();
-    setTimeout(nextQuestion,1400);
-  }else{
+
+  if(locked){
+    return;
+  }
+
+
+  const q =
+    questions[
+      order[current]
+    ];
+
+
+  el.classList.add(
+    "clicked"
+  );
+
+
+  if(i === q.answer){
+
+
+    locked = true;
+
+
+    clearInterval(
+      tick
+    );
+
+
+    score++;
+
+
+    $("score").textContent =
+      score;
+
+
+    el.classList.add(
+      "correct"
+    );
+
+
+    $("feedback").textContent =
+      "Correct! Smart comparison made.";
+
+
+    safePlay(
+      "correctSound"
+    );
+
+
+    safePlay(
+      "clapSound"
+    );
+
+
+    confetti();
+
+
+    setTimeout(
+      nextQuestion,
+      1400
+    );
+
+  }
+
+
+  else{
+
+
     attempts++;
-    el.classList.add("wrong");
-    safePlay("wrongSound");
-    if(attempts<2){
-      $("feedback").textContent="Try once more. Compare the quantities carefully.";
-      el.style.pointerEvents="none";
-    }else{
-      reveal("Incorrect after two attempts.");
+
+
+    el.classList.add(
+      "wrong"
+    );
+
+
+    safePlay(
+      "wrongSound"
+    );
+
+
+    if(attempts < 2){
+
+
+      $("feedback").textContent =
+        "Try once more. Compare the quantities carefully.";
+
+
+      el.style.pointerEvents =
+        "none";
+
     }
+
+
+    else{
+
+
+      reveal(
+        "Incorrect after two attempts."
+      );
+
+    }
+
   }
+
 }
+
+
+
+/* ==================================================
+   REVEAL CORRECT ANSWER
+================================================== */
+
 function reveal(msg){
-  locked=true; clearInterval(tick);
-  const q=questions[order[current]];
-  document.querySelectorAll(".option").forEach((opt,i)=>{
-    opt.style.pointerEvents="none";
-    if(i===q.answer) opt.classList.add("correct");
-  });
-  $("feedback").textContent=msg;
-  $("explainBox").innerHTML=`<div class="explain"><b>Reason:</b> ${q.exp}</div>`;
-  $("nextRow").classList.remove("hidden");
+
+  locked = true;
+
+
+  clearInterval(
+    tick
+  );
+
+
+  const q =
+    questions[
+      order[current]
+    ];
+
+
+  document
+    .querySelectorAll(
+      ".option"
+    )
+    .forEach(
+      (opt,i) => {
+
+
+        opt.style.pointerEvents =
+          "none";
+
+
+        if(i === q.answer){
+
+          opt
+            .classList
+            .add(
+              "correct"
+            );
+
+        }
+
+      }
+    );
+
+
+  $("feedback").textContent =
+    msg;
+
+
+  $("explainBox").innerHTML =
+
+    `
+      <div class="explain">
+
+        <b>Reason:</b>
+
+        ${q.exp}
+
+      </div>
+    `;
+
+
+  $("nextRow")
+    .classList
+    .remove(
+      "hidden"
+    );
+
 }
+
+
+
+/* ==================================================
+   NEXT QUESTION
+================================================== */
+
 function nextQuestion(){
-  clearInterval(tick);
+
+  clearInterval(
+    tick
+  );
+
+
   current++;
-  if(current<questions.length) loadQuestion(); else showResult();
+
+
+  if(
+    current <
+    questions.length
+  ){
+
+    loadQuestion();
+
+  }
+
+  else{
+
+    showResult();
+
+  }
+
 }
+
+
+
+/* ==================================================
+   SHOW RESULT
+================================================== */
+
 function showResult(){
-  $("quiz").classList.add("hidden");
-  $("result").classList.remove("hidden");
-  $("finalScore").textContent=score;
-  if(score>=9){
-    $("resultEmoji").textContent="🏆";
-    $("resultText").textContent="Excellent! You compared quantities like a smart decision-maker.";
-  }else if(score>=6){
-    $("resultEmoji").textContent="🌟";
-    $("resultText").textContent="Good work! Keep practising percentages, discounts, profit, loss and interest.";
-  }else{
-    $("resultEmoji").textContent="🛒";
-    $("resultText").textContent="Nice effort! Replay and focus on the quantity being compared in each situation.";
+
+  $("quiz")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  $("result")
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  $("finalScore").textContent =
+    score;
+
+
+  if(score >= 9){
+
+
+    $("resultEmoji").textContent =
+      "🏆";
+
+
+    $("resultText").textContent =
+      "Excellent! You compared quantities like a smart decision-maker.";
+
   }
+
+
+  else if(score >= 6){
+
+
+    $("resultEmoji").textContent =
+      "🌟";
+
+
+    $("resultText").textContent =
+      "Good work! Keep practising percentages, discounts, profit, loss and interest.";
+
+  }
+
+
+  else{
+
+
+    $("resultEmoji").textContent =
+      "🛒";
+
+
+    $("resultText").textContent =
+      "Nice effort! Replay and focus on the quantity being compared in each situation.";
+
+  }
+
 }
+
+
+
+/* ==================================================
+   RESTART GAME
+================================================== */
+
 function restartGame(){
-  $("result").classList.add("hidden");
-  $("intro").classList.remove("hidden");
+
+  clearInterval(
+    tick
+  );
+
+
+  $("result")
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  $("intro")
+    .classList
+    .remove(
+      "hidden"
+    );
+
 }
+
+
+
+/* ==================================================
+   CONFETTI
+================================================== */
+
 function confetti(){
-  for(let i=0;i<24;i++){
-    const c=document.createElement("span");
-    c.className="confetti";
-    c.style.left=Math.random()*100+"vw";
-    c.style.background=`hsl(${Math.random()*360},90%,58%)`;
-    c.style.animationDuration=(1.8+Math.random()*1.5)+"s";
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),3300);
+
+  for(
+    let i=0;
+    i<24;
+    i++
+  ){
+
+
+    const c =
+      document.createElement(
+        "span"
+      );
+
+
+    c.className =
+      "confetti";
+
+
+    c.style.left =
+      Math.random() *
+      100 +
+      "vw";
+
+
+    c.style.background =
+      `hsl(
+        ${Math.random()*360},
+        90%,
+        58%
+      )`;
+
+
+    c.style.animationDuration =
+
+      (
+        1.8 +
+        Math.random() *
+        1.5
+      ) +
+      "s";
+
+
+    document.body.appendChild(
+      c
+    );
+
+
+    setTimeout(
+      () =>
+        c.remove(),
+      3300
+    );
+
   }
+
 }
+
 </script>
+
 </body>
 </html>
