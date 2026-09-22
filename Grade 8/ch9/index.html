@@ -413,6 +413,74 @@ html,body{
 }
 </style>
 
+
+<style>
+/* ===== Reliable Next Question control ===== */
+.quizCard{
+  position:relative!important;
+  padding-bottom:82px!important;
+}
+
+.nextBtn{
+  display:none;
+  position:absolute!important;
+  left:18px!important;
+  right:18px!important;
+  bottom:14px!important;
+  width:auto!important;
+  min-height:50px!important;
+  margin:0!important;
+  z-index:100!important;
+  background:#d95f18!important;
+  color:#fff!important;
+  border:2px solid #fff!important;
+  border-radius:14px!important;
+  padding:11px 18px!important;
+  font-size:16px!important;
+  font-weight:900!important;
+  box-shadow:0 5px 0 #8d3510,0 0 0 3px rgba(217,95,24,.18)!important;
+}
+
+.nextBtn:active{
+  transform:translateY(3px)!important;
+  box-shadow:0 2px 0 #8d3510,0 0 0 3px rgba(217,95,24,.18)!important;
+}
+
+@media(max-width:650px){
+  .quizCard{
+    padding-bottom:74px!important;
+  }
+
+  .nextBtn{
+    left:10px!important;
+    right:10px!important;
+    bottom:8px!important;
+    min-height:48px!important;
+    font-size:15px!important;
+    padding:10px 14px!important;
+  }
+
+  /* Leave enough room above the fixed-in-card button */
+  .feedback{
+    margin-bottom:4px!important;
+  }
+}
+
+@media(max-width:390px){
+  .quizCard{
+    padding-bottom:68px!important;
+  }
+
+  .nextBtn{
+    left:8px!important;
+    right:8px!important;
+    bottom:7px!important;
+    min-height:45px!important;
+    font-size:14px!important;
+  }
+}
+</style>
+
 </head>
 <body>
 <audio id="correctSound" src="assets/correct.mp3"></audio>
@@ -455,7 +523,7 @@ html,body{
     </div>
     <div id="optionsBox" class="options"></div>
     <div id="feedback" class="feedback"></div>
-    <button id="nextBtn" class="nextBtn" onclick="nextQuestion()">Next Bill</button>
+    <button id="nextBtn" class="nextBtn" onclick="nextQuestion()">Next Question →</button>
   </div>
 </section>
 
@@ -487,7 +555,7 @@ const questions=[
 {customer:"👩‍💻",q:"An investment of ₹5,000 grows at 10% compound interest per year for 2 years. What maturity amount should appear?",options:["₹6,050","₹6,000","₹5,500","₹6,500"],answer:"₹6,050",explain:"After 1 year: ₹5500. After 2 years: ₹6050."}
 ];
 
-let shuffledQuestions=[],current=0,score=0,attempts=2,answered=false,autoNextTimer=null;
+let shuffledQuestions=[],current=0,score=0,attempts=2,answered=false;
 const splash=document.getElementById("splash"),intro=document.getElementById("intro"),game=document.getElementById("game"),result=document.getElementById("result");
 const quizCard=document.getElementById("quizCard"),customer=document.getElementById("customer"),questionText=document.getElementById("questionText"),optionsBox=document.getElementById("optionsBox"),feedback=document.getElementById("feedback"),nextBtn=document.getElementById("nextBtn");
 const scoreBadge=document.getElementById("scoreBadge"),progressBadge=document.getElementById("progressBadge"),attemptBadge=document.getElementById("attemptBadge"),moneyBurst=document.getElementById("moneyBurst"),cashDrawer=document.getElementById("cashDrawer");
@@ -498,7 +566,7 @@ function showScreen(screen){[splash,intro,game,result].forEach(s=>s.classList.re
 function shuffleArray(arr){return[...arr].sort(()=>Math.random()-.5)}
 function startGame(){shuffledQuestions=shuffleArray(questions);current=0;score=0;showScreen(game);loadQuestion()}
 function loadQuestion(){
-clearTimeout(autoNextTimer);attempts=2;answered=false;feedback.textContent="";nextBtn.style.display="none";optionsBox.innerHTML="";
+attempts=2;answered=false;feedback.textContent="";nextBtn.style.display="none";optionsBox.innerHTML="";
 quizCard.classList.remove("shake");if(cashDrawer)cashDrawer.classList.remove("open");
 const item=shuffledQuestions[current];customer.textContent=item.customer;questionText.textContent=item.q;
 shuffleArray(item.options).forEach(option=>{
@@ -515,26 +583,23 @@ if(selectedOption===item.answer){
 answered=true;score++;selectedDiv.classList.add("correct");
 feedback.textContent="Correct! Bill completed successfully.";
 playSound(correctSound);setTimeout(()=>playSound(clapSound),350);
-disableOptions();nextBtn.style.display="inline-block";scheduleAutoNext();
+disableOptions();showNextButton();
 }else{
 attempts--;selectedDiv.classList.add("wrong");playSound(wrongSound);
 quizCard.classList.add("shake");setTimeout(()=>quizCard.classList.remove("shake"),450);
 if(attempts>0){feedback.textContent="Try once more. Check the bill carefully.";selectedDiv.classList.add("disabled")}
-else{answered=true;feedback.textContent="Correct answer: "+item.answer+". "+item.explain;showCorrectAnswer(item.answer);disableOptions();nextBtn.style.display="inline-block"}
+else{answered=true;feedback.textContent="Correct answer: "+item.answer+". "+item.explain;showCorrectAnswer(item.answer);disableOptions();showNextButton()}
 }
 updateBadges();
+}
+function showNextButton(){
+  nextBtn.style.display="block";
 }
 function showCorrectAnswer(answer){document.querySelectorAll(".option").forEach(opt=>{if(opt.textContent===answer)opt.classList.add("correct")})}
 function disableOptions(){document.querySelectorAll(".option").forEach(opt=>opt.classList.add("disabled"))}
 function updateBadges(){scoreBadge.textContent="⭐ Score: "+score;progressBadge.textContent="🧾 Bill: "+(current+1)+"/10";attemptBadge.textContent="Attempts: "+attempts}
-function scheduleAutoNext(){
-  clearTimeout(autoNextTimer);
-  autoNextTimer=setTimeout(()=>{
-    if(answered) nextQuestion();
-  },1400);
-}
 function nextQuestion(){
-  clearTimeout(autoNextTimer);
+  
   current++;
   current>=shuffledQuestions.length?endGame():loadQuestion();
 }
