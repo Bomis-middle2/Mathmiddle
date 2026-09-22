@@ -8,7 +8,6 @@
   *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
   body{
     min-height:100vh;
-    overflow:hidden;
     color:#1d2440;
     background:
       radial-gradient(circle at 12% 15%, rgba(255,229,109,.75) 0 9%, transparent 10%),
@@ -28,15 +27,22 @@
     opacity:.55;
     pointer-events:none;
   }
-  .screen{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:18px}
+  .screen{
+    position:absolute;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:14px;
+  }
   .active{display:flex}
   .card{
     width:min(940px,96vw);
-    border-radius:30px;
-    background:rgba(255,255,255,.82);
-    box-shadow:0 20px 48px rgba(53,58,137,.25);
-    border:3px solid rgba(255,255,255,.9);
-    padding:28px;
+    border-radius:26px;
+    background:rgba(255,255,255,.86);
+    box-shadow:0 18px 42px rgba(53,58,137,.22);
+    border:3px solid rgba(255,255,255,.92);
+    padding:22px;
     text-align:center;
     position:relative;
     overflow:hidden;
@@ -44,114 +50,199 @@
   .card:before{
     content:"";
     position:absolute;
-    inset:0;
-    background:
-      linear-gradient(90deg, #ffd86b 0 18%, #65e6ff 18% 36%, #9d8cff 36% 54%, #ff8bd7 54% 72%, #8bffa6 72% 100%);
-    height:12px;
+    top:0;
+    left:0;
+    right:0;
+    height:10px;
+    background:linear-gradient(90deg,#ffd86b 0 18%,#65e6ff 18% 36%,#9d8cff 36% 54%,#ff8bd7 54% 72%,#8bffa6 72% 100%);
   }
-  .logo{width:min(280px,72vw)}
-  h1{font-size:clamp(28px,5vw,48px);margin:18px 0 16px;color:#26306b}
-  p{font-size:clamp(17px,3vw,23px);line-height:1.5;margin:14px auto;max-width:760px}
+  .logo{width:min(260px,70vw)}
+  h1{font-size:clamp(26px,5vw,46px);margin:16px 0 14px;color:#26306b}
+  p{font-size:clamp(16px,3vw,22px);line-height:1.45;margin:12px auto;max-width:760px}
   button{
     border:0;
-    border-radius:18px;
-    padding:14px 26px;
+    border-radius:16px;
+    padding:12px 22px;
     font-weight:900;
-    font-size:18px;
+    font-size:17px;
     cursor:pointer;
     background:linear-gradient(135deg,#26306b,#7357ff);
     color:white;
-    box-shadow:0 7px 0 #171b50;
+    box-shadow:0 6px 0 #171b50;
     transition:.12s;
   }
-  button:active{transform:translateY(5px);box-shadow:0 2px 0 #171b50}
-  .hud{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0 14px;font-weight:900}
+  button:active{transform:translateY(4px);box-shadow:0 2px 0 #171b50}
+
+  .hud{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:8px;
+    margin:6px 0 10px;
+  }
   .pill{
-    padding:12px;
+    padding:8px 10px;
     border-radius:999px;
     color:#26306b;
+    font-weight:900;
+    font-size:clamp(12px,1.8vw,15px);
     background:#fff4c9;
     border:2px solid #ffe17a;
+    white-space:nowrap;
   }
   .pill:nth-child(2){background:#dff8ff;border-color:#8feeff}
   .pill:nth-child(3){background:#ffe1f5;border-color:#ff9ddc}
-  .bar{height:16px;background:#e9e6ff;border-radius:999px;overflow:hidden;margin:8px 0 18px;border:2px solid rgba(255,255,255,.9)}
-  .bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffcf4a,#62e6ff,#8b6dff,#ff78cc);border-radius:999px;transition:.3s}
+
+  .bar{
+    height:12px;
+    background:#e9e6ff;
+    border-radius:999px;
+    overflow:hidden;
+    margin:6px 0 14px;
+    border:2px solid rgba(255,255,255,.95);
+  }
+  .bar span{
+    display:block;
+    height:100%;
+    width:0;
+    background:linear-gradient(90deg,#ffcf4a,#62e6ff,#8b6dff,#ff78cc);
+    border-radius:999px;
+    transition:.3s;
+  }
+
   .question-wrap{
     background:linear-gradient(135deg,#fff7d7,#e8fbff,#f3eaff);
-    padding:8px;
-    border-radius:26px;
-    box-shadow:0 10px 24px rgba(80,90,160,.12);
+    padding:7px;
+    border-radius:22px;
+    box-shadow:0 8px 20px rgba(80,90,160,.10);
   }
   .question{
-    background:#ffffff;
-    padding:22px;
-    border-radius:20px;
-    font-size:clamp(17px,2.7vw,24px);
+    background:#fff;
+    padding:18px;
+    border-radius:18px;
+    font-size:clamp(17px,2.5vw,23px);
     font-weight:800;
-    line-height:1.38;
-    min-height:145px;
+    line-height:1.36;
+    min-height:120px;
     display:flex;
     align-items:center;
     justify-content:center;
     border:2px dashed #b7b2ff;
   }
-  .options{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+  .options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:14px;
+  }
   .option{
-    background:#ffffff;
+    background:#fff;
     border:3px solid transparent;
     color:#26306b;
-    border-radius:20px;
-    padding:16px;
-    min-height:74px;
-    font-size:clamp(15px,2.3vw,20px);
+    border-radius:18px;
+    padding:14px;
+    min-height:68px;
+    font-size:clamp(15px,2.2vw,19px);
     font-weight:900;
     cursor:pointer;
     display:flex;
     align-items:center;
     justify-content:center;
+    text-align:center;
     transition:.12s;
-    box-shadow:0 7px 18px rgba(64,68,150,.13);
+    box-shadow:0 6px 16px rgba(64,68,150,.11);
   }
   .option:nth-child(1){background:#fff3c6}
   .option:nth-child(2){background:#dff8ff}
   .option:nth-child(3){background:#f0e8ff}
   .option:nth-child(4){background:#ffe1f5}
   .option:hover{transform:translateY(-2px)}
-  .option.selected{border-color:#26306b;transform:scale(1.015)}
+  .option.selected{border-color:#26306b;transform:scale(1.01)}
   .option.correct{background:#c9ffd9!important;border-color:#19a96b;color:#0d7045}
   .option.wrong{background:#ffd4d4!important;border-color:#dc3f3f;color:#922222}
+
   .feedback{
-    min-height:60px;
-    margin-top:14px;
-    font-size:18px;
+    min-height:56px;
+    margin-top:12px;
+    font-size:16px;
     font-weight:900;
     color:#26306b;
-    background:rgba(255,255,255,.55);
-    border-radius:16px;
-    padding:10px;
+    background:rgba(255,255,255,.66);
+    border-radius:14px;
+    padding:10px 12px;
+    line-height:1.35;
   }
   .hidden{display:none}
-  .result-score{font-size:28px;font-weight:900;color:#26306b;margin:18px 0}
+  .result-score{font-size:28px;font-weight:900;color:#26306b;margin:16px 0}
   .fade-in{animation:fade .25s ease}
   @keyframes fade{from{opacity:.5;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
   .mini-badge{
     display:inline-block;
     margin-bottom:8px;
-    padding:9px 15px;
+    padding:8px 14px;
     border-radius:999px;
     background:linear-gradient(90deg,#fff3bd,#dff8ff,#ffe1f5);
     color:#26306b;
     font-weight:900;
     border:2px solid rgba(255,255,255,.9);
   }
+
+  @media(max-width:900px){
+    .card{padding:18px}
+    .question{min-height:110px}
+  }
+
   @media(max-width:650px){
     body{overflow:auto}
-    .screen{position:relative;min-height:100vh}
-    .options{grid-template-columns:1fr}
-    .hud{grid-template-columns:1fr;font-size:14px}
-    .question{min-height:165px}
-    .card{padding:18px}
+    .screen{
+      position:relative;
+      min-height:100vh;
+      padding:10px;
+      align-items:flex-start;
+    }
+    .card{
+      width:100%;
+      border-radius:22px;
+      padding:14px;
+      margin:6px 0;
+    }
+    .hud{
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:7px;
+      margin-bottom:8px;
+    }
+    .pill{
+      font-size:13px;
+      padding:7px 8px;
+    }
+    .bar{
+      height:10px;
+      margin:4px 0 10px;
+    }
+    .question{
+      min-height:auto;
+      padding:16px 14px;
+      font-size:18px;
+    }
+    .options{grid-template-columns:1fr;gap:10px;margin-top:12px}
+    .option{
+      min-height:60px;
+      padding:12px;
+      font-size:16px;
+      border-radius:16px;
+    }
+    .feedback{
+      min-height:48px;
+      font-size:14px;
+      padding:9px 10px;
+      margin-top:10px;
+    }
+    button{
+      font-size:16px;
+      padding:11px 18px;
+    }
+    h1{font-size:30px}
+    p{font-size:16px}
+    .logo{width:min(220px,62vw)}
   }
 </style>
 </head>
@@ -171,8 +262,8 @@
   <div class="card">
     <span class="mini-badge">Grade 8 Mathematics</span>
     <h1>Rational Numbers Quest</h1>
-    <p>Answer 10 real-life Rational Numbers situations carefully.</p>
-    <p>You get <b>2 attempts</b> for every question. After the second wrong attempt, the correct answer will be shown.</p>
+    <p>Answer 10 real-life rational number questions.</p>
+    <p><b>2 chances</b> for each question. If both are wrong, the answer is shown.</p>
     <button onclick="startGame()">Start</button>
   </div>
 </section>
@@ -181,7 +272,7 @@
   <div class="card fade-in" id="gameCard">
     <div class="hud">
       <div class="pill">Score: <span id="score">0</span></div>
-      <div class="pill">Question: <span id="qno">1</span>/10</div>
+      <div class="pill">Q: <span id="qno">1</span>/10</div>
       <div class="pill">Time: <span id="time">45</span>s</div>
     </div>
     <div class="bar"><span id="progress"></span></div>
@@ -219,7 +310,7 @@ const questions = [
 ];
 
 let order=[], current=0, score=0, attempts=0, timer, timeLeft=45, locked=false;
-setTimeout(()=>showScreen("intro"),5000);
+setTimeout(()=>showScreen("intro"),3000);
 
 function showScreen(id){
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
@@ -259,7 +350,10 @@ function loadQuestion(){
   timer=setInterval(()=>{
     timeLeft--;
     document.getElementById("time").textContent=timeLeft;
-    if(timeLeft<=0){clearInterval(timer);revealAnswer("Time is up. The correct answer is shown below.");}
+    if(timeLeft<=0){
+      clearInterval(timer);
+      revealAnswer("Time is up. The correct answer is shown below.");
+    }
   },1000);
 }
 function selectOption(el,index){
@@ -278,12 +372,12 @@ function selectOption(el,index){
     setTimeout(()=>document.getElementById("nextBtn").classList.remove("hidden"),500);
   }else{
     attempts++;
-    el.classList.add("wrong");
+      el.classList.add("wrong");
     play("wrongSound");
     if(attempts<2){
       document.getElementById("feedback").textContent="Try again. One more chance!";
     }else{
-      revealAnswer("Second attempt over. The correct answer is shown below.");
+      revealAnswer("Second chance over. The correct answer is shown below.");
     }
   }
 }
