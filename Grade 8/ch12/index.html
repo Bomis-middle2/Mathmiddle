@@ -334,12 +334,203 @@ p{
   .option{min-height:42px;font-size:13px}
 }
 </style>
+
+<style>
+/* ===== Minimal competency-based presentation ===== */
+body{
+  background:#f3f6f8!important;
+}
+#splash,#game{
+  background:#f3f6f8!important;
+}
+.logoBox,.introCard,.resultCard,.quizCard{
+  box-shadow:none!important;
+}
+.logoBox{
+  border:1px solid #d9e1e5!important;
+}
+.introCard,.resultCard{
+  border:1px solid #d9e1e5!important;
+}
+.topbar{
+  background:#24485b!important;
+  border-bottom:0!important;
+}
+.stat{
+  background:#ffffff!important;
+  border:1px solid #cfd9df!important;
+}
+.quizCard{
+  border:1px solid #ccd7dd!important;
+}
+.topicTag{
+  background:#24485b!important;
+}
+.questionBox{
+  background:#ffffff!important;
+  border:1.5px solid #9fb5c1!important;
+}
+.option{
+  box-shadow:none!important;
+  background:#ffffff!important;
+  border:1.5px solid #cbd6dc!important;
+}
+.option.selected{
+  background:#fff8e6!important;
+  border-color:#d2a23c!important;
+}
+.option.correct{
+  background:#e5f6ec!important;
+  border-color:#259768!important;
+}
+.option.wrong{
+  background:#fde8e8!important;
+  border-color:#d25757!important;
+}
+.feedback{
+  background:#f5f7f8!important;
+}
+.primaryBtn,.nextBtn{
+  box-shadow:none!important;
+  background:#246b86!important;
+}
+
+/* No animation or motion anywhere */
+*,*::before,*::after{
+  animation:none!important;
+  transition:none!important;
+}
+</style>
+
+
+<style>
+/* ===== Colorful but distraction-free competency theme ===== */
+body{
+  background:
+    linear-gradient(135deg,#dff7ff 0%,#efe7ff 45%,#fff2cc 100%)!important;
+}
+
+#splash{
+  background:
+    linear-gradient(135deg,#dff7ff 0%,#efe7ff 55%,#fff2cc 100%)!important;
+}
+
+#game{
+  background:
+    linear-gradient(135deg,#e7f8ff 0%,#f4edff 50%,#fff7d9 100%)!important;
+}
+
+.logoBox{
+  background:#ffffff!important;
+  border:2px solid #8fd7ee!important;
+  box-shadow:0 10px 24px rgba(62,116,145,.14)!important;
+}
+
+.introCard,.resultCard{
+  background:linear-gradient(135deg,#ffffff,#fffaf0)!important;
+  border:2px solid #9ed9ec!important;
+  box-shadow:0 12px 28px rgba(72,111,136,.12)!important;
+}
+
+h1{
+  color:#295f88!important;
+}
+
+.topbar{
+  background:linear-gradient(90deg,#4b7bec,#6c5ce7,#ff9f43)!important;
+}
+
+.stat:nth-child(1){
+  background:#fff3c4!important;
+  border-color:#f1c453!important;
+}
+.stat:nth-child(2){
+  background:#dff6ff!important;
+  border-color:#7dcfe9!important;
+}
+.stat:nth-child(3){
+  background:#f3e5ff!important;
+  border-color:#be8de3!important;
+}
+
+.quizCard{
+  background:rgba(255,255,255,.97)!important;
+  border:2px solid #91c9da!important;
+  box-shadow:0 10px 26px rgba(61,103,127,.12)!important;
+}
+
+.topicTag{
+  background:linear-gradient(90deg,#4b7bec,#6c5ce7)!important;
+  color:#fff!important;
+}
+
+.questionBox{
+  background:linear-gradient(135deg,#fffdf2,#ffffff,#eefaff)!important;
+  border:2px solid #7dbfd6!important;
+  color:#18384d!important;
+}
+
+.option{
+  background:#ffffff!important;
+  border-width:2px!important;
+  box-shadow:none!important;
+}
+
+.option:nth-child(1){
+  background:#fff1f5!important;
+  border-color:#f1a6bd!important;
+}
+.option:nth-child(2){
+  background:#eaf9ff!important;
+  border-color:#87cbe3!important;
+}
+.option:nth-child(3){
+  background:#f2ecff!important;
+  border-color:#b9a2ea!important;
+}
+.option:nth-child(4){
+  background:#fff6dc!important;
+  border-color:#e8c56e!important;
+}
+
+.option.selected{
+  outline:3px solid #f0b93f!important;
+}
+
+.option.correct{
+  background:#dff7e9!important;
+  border-color:#2ba16d!important;
+  color:#0c6b45!important;
+}
+
+.option.wrong{
+  background:#ffe2e2!important;
+  border-color:#d45757!important;
+  color:#8f2d2d!important;
+}
+
+.feedback{
+  background:linear-gradient(90deg,#eef8fb,#f7f2ff)!important;
+  border:1px solid #d2e0e6!important;
+  color:#2d4858!important;
+}
+
+.primaryBtn,.nextBtn{
+  background:linear-gradient(90deg,#4b7bec,#6c5ce7)!important;
+  color:white!important;
+  box-shadow:none!important;
+}
+
+/* Keep the activity colourful but completely static */
+*,*::before,*::after{
+  animation:none!important;
+  transition:none!important;
+}
+</style>
+
 </head>
 <body>
 
-<audio id="correctSound" src="assets/correct.mp3"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3"></audio>
-<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
 <section id="splash" class="screen active">
   <div class="logoBox">
@@ -349,9 +540,9 @@ p{
 
 <section id="intro" class="screen">
   <div class="introCard">
-    <h1>Mensuration Challenge</h1>
-    <p>Read each real-life situation carefully and choose the mathematically correct answer.</p>
-    <p style="margin-top:10px;">You get two attempts for each question.</p>
+    <h1>Mensuration</h1>
+    <p>Read each question carefully and choose the correct answer.</p>
+    <p style="margin-top:10px;">You have two attempts for each question.</p>
     <button class="primaryBtn" onclick="startGame()">Start Quiz</button>
   </div>
 </section>
@@ -386,16 +577,16 @@ p{
 
 <script>
 const questions=[
-{q:"A rectangular classroom floor is 12 m long and 8 m wide. The school wants to cover the entire floor with carpet. What area of carpet is required?",options:["96 m²","40 m²","80 m²","192 m²"],answer:"96 m²",explain:"Area of rectangle = length × breadth = 12 × 8 = 96 m²."},
-{q:"A square garden has side 15 m. The gardener wants to place fencing all around it. What length of fencing is required?",options:["60 m","225 m","45 m","30 m"],answer:"60 m",explain:"Perimeter of square = 4 × side = 4 × 15 = 60 m."},
-{q:"A cuboidal water tank is 4 m long, 3 m wide and 2 m high. What is its capacity in cubic metres?",options:["24 m³","9 m³","14 m³","48 m³"],answer:"24 m³",explain:"Volume of cuboid = l × b × h = 4 × 3 × 2 = 24 m³."},
-{q:"A cube-shaped storage box has edge 6 cm. If all six outer faces are to be painted, what total area will be painted?",options:["216 cm²","36 cm²","144 cm²","72 cm²"],answer:"216 cm²",explain:"Total surface area of cube = 6a² = 6 × 6² = 216 cm²."},
-{q:"A rectangular park is 25 m long and 16 m wide. A fence is to be placed along its boundary. What total length of fencing is needed?",options:["82 m","400 m","41 m","66 m"],answer:"82 m",explain:"Perimeter = 2(l + b) = 2(25 + 16) = 82 m."},
-{q:"A cylindrical drum has radius 7 cm and height 10 cm. Only its curved side is to be covered with a label. Using π = 22/7, what area of label is needed?",options:["440 cm²","1540 cm²","220 cm²","770 cm²"],answer:"440 cm²",explain:"Curved surface area = 2πrh = 2 × 22/7 × 7 × 10 = 440 cm²."},
-{q:"A cuboidal gift box is 20 cm long, 10 cm wide and 8 cm high. What volume of space is available inside the box?",options:["1600 cm³","760 cm³","38 cm³","400 cm³"],answer:"1600 cm³",explain:"Volume = l × b × h = 20 × 10 × 8 = 1600 cm³."},
-{q:"A square tile has side 30 cm. What floor area does one tile cover?",options:["900 cm²","120 cm²","60 cm²","300 cm²"],answer:"900 cm²",explain:"Area of square = side² = 30² = 900 cm²."},
-{q:"A rectangular notice board has area 1800 cm² and length 60 cm. What must its breadth be?",options:["30 cm","40 cm","20 cm","45 cm"],answer:"30 cm",explain:"Breadth = area ÷ length = 1800 ÷ 60 = 30 cm."},
-{q:"A cube-shaped dice has edge 3 cm. What is the volume of the dice?",options:["27 cm³","18 cm³","9 cm³","36 cm³"],answer:"27 cm³",explain:"Volume of cube = side³ = 3³ = 27 cm³."}
+{q:"A rectangular room is 10 m long and 6 m wide. A 1 m wide border is left uncovered along all four sides. What area will be carpeted?",options:["24 m²","32 m²","40 m²","48 m²"],answer:"32 m²",explain:"Inner dimensions are 8 m and 4 m. Carpeted area = 8 × 4 = 32 m²."},
+{q:"A square garden has side 10 m. A 1 m wide path is made inside along the boundary. What is the area of the path?",options:["32 m²","36 m²","40 m²","64 m²"],answer:"36 m²",explain:"Outer area = 10² = 100 m² and inner area = 8² = 64 m². Path area = 100 − 64 = 36 m²."},
+{q:"A cuboidal tank is 2 m long, 1 m wide and 1.5 m high. How much water can it hold?",options:["300 L","3,000 L","1,500 L","30,000 L"],answer:"3,000 L",explain:"Volume = 2 × 1 × 1.5 = 3 m³. Since 1 m³ = 1000 L, capacity = 3000 L."},
+{q:"A cube has edge 5 cm. Only five of its faces are painted. What area is painted?",options:["25 cm²","100 cm²","125 cm²","150 cm²"],answer:"125 cm²",explain:"Area of one face = 5² = 25 cm². For five faces, area = 5 × 25 = 125 cm²."},
+{q:"A trapezium has parallel sides 10 m and 6 m, and height 5 m. What is its area?",options:["30 m²","40 m²","50 m²","80 m²"],answer:"40 m²",explain:"Area of trapezium = 1/2 × (10 + 6) × 5 = 1/2 × 16 × 5 = 40 m²."},
+{q:"A cylindrical can has radius 7 cm and height 5 cm. A label covers only its curved surface. Using π = 22/7, what area of label is required?",options:["110 cm²","220 cm²","440 cm²","770 cm²"],answer:"220 cm²",explain:"Curved surface area = 2πrh = 2 × 22/7 × 7 × 5 = 220 cm²."},
+{q:"A box measures 30 cm × 20 cm × 10 cm. Cubes of edge 10 cm are packed inside it. How many cubes fit exactly?",options:["5","6","10","12"],answer:"6",explain:"Number of cubes = (30 ÷ 10) × (20 ÷ 10) × (10 ÷ 10) = 3 × 2 × 1 = 6."},
+{q:"A rectangular floor is 4 m long and 3 m wide. Square tiles of side 1 m are used. How many tiles are required?",options:["7","12","14","16"],answer:"12",explain:"Floor area = 4 × 3 = 12 m². Each tile covers 1 m², so 12 tiles are required."},
+{q:"A cuboid has volume 120 cm³. Its length is 6 cm and breadth is 4 cm. What is its height?",options:["4 cm","5 cm","6 cm","10 cm"],answer:"5 cm",explain:"Height = 120 ÷ (6 × 4) = 120 ÷ 24 = 5 cm."},
+{q:"A cube has edge 3 cm. Another cube has edge 6 cm. How many times greater is the volume of the larger cube?",options:["2 times","4 times","6 times","8 times"],answer:"8 times",explain:"The edge is doubled, so the volume becomes 2³ = 8 times."}
 ];
 
 let shuffledQuestions=[],current=0,score=0,attempts=2,answered=false;
@@ -410,11 +601,8 @@ const nextBtn=document.getElementById("nextBtn");
 const scoreBadge=document.getElementById("scoreBadge");
 const progressBadge=document.getElementById("progressBadge");
 const attemptBadge=document.getElementById("attemptBadge");
-const correctSound=document.getElementById("correctSound");
-const wrongSound=document.getElementById("wrongSound");
-const clapSound=document.getElementById("clapSound");
 
-setTimeout(()=>showScreen(intro),3000);
+setTimeout(()=>showScreen(intro),1800);
 
 function showScreen(screen){
   [splash,intro,game,result].forEach(s=>s.classList.remove("active"));
@@ -467,16 +655,14 @@ function checkAnswer(selectedDiv,selectedOption){
     score++;
     selectedDiv.classList.add("correct");
     feedback.textContent="Correct. "+item.explain;
-    playSound(correctSound);
     disableOptions();
     nextBtn.style.display="block";
   }else{
     attempts--;
     selectedDiv.classList.add("wrong");
-    playSound(wrongSound);
 
     if(attempts>0){
-      feedback.textContent="Try once more. Check which mensuration measure is required.";
+      feedback.textContent="Try once more. Check your calculation carefully.";
       selectedDiv.classList.add("disabled");
     }else{
       answered=true;
@@ -526,18 +712,12 @@ function endGame(){
     score>=5?"Keep practising. Focus on identifying what the situation asks you to measure before choosing a formula.":
     "Review area, perimeter, surface area and volume, then try the situations again.";
   document.getElementById("finalMessage").textContent=msg;
-  playSound(clapSound);
 }
 
 function restartGame(){
   startGame();
 }
 
-function playSound(audio){
-  if(!audio)return;
-  audio.currentTime=0;
-  audio.play().catch(()=>{});
-}
 </script>
 </body>
 </html>
