@@ -8,20 +8,22 @@
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
 body{
   min-height:100vh;
+  min-height:100dvh;
   overflow:hidden;
-  color:#ffffff;
-  background:
-    linear-gradient(180deg,#080b35 0%,#17155e 48%,#321779 100%);
+  color:#17324d;
+  background:linear-gradient(145deg,#fff8df 0%,#eefcf4 45%,#dff3ff 100%);
 }
 body:before{
   content:"";
   position:fixed;
   inset:0;
   background:
-    linear-gradient(90deg,rgba(100,225,255,.10) 1px,transparent 1px),
-    linear-gradient(rgba(100,225,255,.10) 1px,transparent 1px),
-    radial-gradient(circle at 50% 110%,rgba(0,255,200,.18),transparent 38%);
-  background-size:44px 44px,44px 44px,100% 100%;
+    radial-gradient(circle at 12% 14%,rgba(255,196,87,.30) 0 10%,transparent 11%),
+    radial-gradient(circle at 88% 18%,rgba(82,196,164,.20) 0 12%,transparent 13%),
+    radial-gradient(circle at 80% 86%,rgba(90,145,255,.18) 0 12%,transparent 13%),
+    linear-gradient(90deg,rgba(38,103,118,.055) 1px,transparent 1px),
+    linear-gradient(rgba(38,103,118,.055) 1px,transparent 1px);
+  background-size:auto,auto,auto,36px 36px,36px 36px;
   pointer-events:none;
 }
 .screen{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:16px}
@@ -29,16 +31,16 @@ body:before{
 .card{
   width:min(1040px,96vw);
   border-radius:30px;
-  background:rgba(15,20,70,.92);
-  border:3px solid rgba(95,224,255,.75);
-  box-shadow:0 0 35px rgba(82,215,255,.28), inset 0 0 24px rgba(255,255,255,.05);
+  background:rgba(255,255,255,.90);
+  border:3px solid #2f8f83;
+  box-shadow:0 16px 38px rgba(35,86,100,.18);
   padding:26px;
   text-align:center;
   position:relative;
 }
 .logo{width:min(280px,72vw)}
-h1{font-size:clamp(28px,5vw,50px);margin:15px 0;color:#8ff4ff;text-shadow:0 0 12px rgba(80,230,255,.55)}
-p{font-size:clamp(17px,3vw,23px);line-height:1.5;margin:14px auto;max-width:790px;color:#eefbff}
+h1{font-size:clamp(28px,5vw,50px);margin:15px 0;color:#176b67}
+p{font-size:clamp(17px,3vw,23px);line-height:1.5;margin:14px auto;max-width:790px;color:#294a5e}
 button{
   border:0;
   border-radius:16px;
@@ -46,37 +48,37 @@ button{
   font-weight:900;
   font-size:18px;
   cursor:pointer;
-  background:linear-gradient(135deg,#00d9ff,#7b52ff);
+  background:linear-gradient(135deg,#197a70,#4aa8a0);
   color:#fff;
-  box-shadow:0 7px 0 #061349;
+  box-shadow:0 7px 0 #10564f;
   transition:.12s;
 }
-button:active{transform:translateY(5px);box-shadow:0 2px 0 #061349}
+button:active{transform:translateY(5px);box-shadow:0 2px 0 #10564f}
 .badge{
   display:inline-block;
   padding:9px 16px;
   border-radius:999px;
-  background:rgba(0,226,255,.18);
-  border:2px solid rgba(122,241,255,.8);
-  color:#b8faff;
+  background:#fff0b8;
+  border:2px solid #f0be54;
+  color:#75500a;
   font-weight:900;
 }
 .topbar{
   position:absolute;
   top:0;left:0;right:0;
   height:92px;
-  background:linear-gradient(180deg,#11106c,#08092d);
+  background:linear-gradient(90deg,#176b67,#2d8b80);
   display:grid;
   grid-template-columns:1fr 1.35fr 1fr;
   gap:16px;
   padding:13px 22px;
   z-index:2;
-  border-bottom:3px solid rgba(95,224,255,.35);
+  border-bottom:3px solid rgba(255,255,255,.45);
 }
 .hudbox{
   border-radius:24px;
-  background:rgba(22,26,94,.82);
-  border:3px solid rgba(131,105,255,.75);
+  background:rgba(255,255,255,.18);
+  border:2px solid rgba(255,255,255,.62);
   color:#fff;
   display:flex;
   align-items:center;
@@ -85,21 +87,21 @@ button:active{transform:translateY(5px);box-shadow:0 2px 0 #061349}
   font-weight:900;
   font-size:clamp(14px,2vw,20px);
 }
-.hudbox span.value{color:#fff052;font-size:clamp(24px,4vw,38px)}
+.hudbox span.value{color:#fff7b5;font-size:clamp(22px,3.5vw,34px)}
 .progress-mini{
   width:75%;
   height:17px;
   border-radius:999px;
-  background:#dffaff;
+  background:rgba(255,255,255,.55);
   overflow:hidden;
   margin-top:7px;
-  border:2px solid #9ff4ff;
+  border:1px solid rgba(255,255,255,.75);
 }
 .progress-mini span{
   display:block;
   height:100%;
   width:0;
-  background:linear-gradient(90deg,#5bff5b,#f4ff42);
+  background:linear-gradient(90deg,#ffd66e,#fff3a6);
   border-radius:999px;
   transition:.25s;
 }
@@ -115,29 +117,29 @@ button:active{transform:translateY(5px);box-shadow:0 2px 0 #061349}
 .game-panel{
   width:min(960px,94vw);
   border-radius:30px;
-  background:rgba(255,255,255,.10);
-  border:3px solid rgba(114,236,255,.75);
-  box-shadow:0 0 34px rgba(0,221,255,.22);
+  background:rgba(255,255,255,.84);
+  border:3px solid #68b9aa;
+  box-shadow:0 12px 28px rgba(49,101,109,.16);
   padding:18px;
   text-align:center;
-  backdrop-filter:blur(8px);
+  backdrop-filter:blur(5px);
 }
 .topic-board{
   display:inline-block;
-  background:linear-gradient(135deg,#24137c,#007eff);
-  color:#ffffff;
+  background:linear-gradient(135deg,#efb64b,#ffd976);
+  color:#5a3b00;
   padding:10px 20px;
   border-radius:999px;
-  border:2px solid rgba(164,246,255,.9);
+  border:2px solid #dfa532;
   font-weight:900;
   font-size:clamp(15px,2.4vw,20px);
   margin-bottom:12px;
-  box-shadow:0 0 18px rgba(0,230,255,.35);
+  box-shadow:0 5px 12px rgba(157,112,22,.18);
 }
 .question-card{
   background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(225,248,255,.95));
   color:#0c1558;
-  border:4px solid #6deeff;
+  border:3px solid #62ad9f;
   border-radius:26px;
   padding:22px;
   min-height:178px;
@@ -148,7 +150,7 @@ button:active{transform:translateY(5px);box-shadow:0 2px 0 #061349}
   font-weight:900;
   line-height:1.45;
   text-align:left;
-  box-shadow:inset 0 0 18px rgba(121,85,255,.12);
+  box-shadow:inset 0 0 14px rgba(43,132,119,.08);
 }
 .options{
   display:grid;
@@ -198,8 +200,8 @@ button:active{transform:translateY(5px);box-shadow:0 2px 0 #061349}
   margin:14px auto 0;
   max-width:790px;
   color:#ffffff;
-  background:rgba(5,11,48,.88);
-  border:2px solid rgba(107,238,255,.6);
+  background:#255f5a;
+  border:2px solid #4aa89c;
   border-radius:20px;
   padding:12px 18px;
   font-size:17px;
@@ -207,18 +209,76 @@ button:active{transform:translateY(5px);box-shadow:0 2px 0 #061349}
   line-height:1.35;
 }
 .hidden{display:none!important}
-.result-score{font-size:30px;font-weight:900;color:#fff052;margin:18px 0}
+.result-score{font-size:30px;font-weight:900;color:#176b67;margin:18px 0}
 .fade-in{animation:fade .25s ease}
 @keyframes fade{from{opacity:.45;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:720px){
-  body{overflow:auto}
-  .screen{position:relative;min-height:100vh}
-  .topbar{position:relative;height:auto;grid-template-columns:1fr;padding:10px;gap:8px}
-  .game-area{margin-top:0;min-height:auto}
-  .options{grid-template-columns:1fr}
-  .option{justify-content:flex-start}
-  .question-card{min-height:200px}
-  .card{padding:18px}
+  html,body{width:100%;max-width:100%;overflow-x:hidden}
+  body{overflow-y:auto}
+  .screen{position:relative;min-height:100dvh;padding:0;align-items:flex-start}
+  #game.active{display:flex;flex-direction:column;width:100%;min-height:100dvh}
+  .topbar{
+    position:relative;width:100%;height:48px;flex:0 0 48px;
+    grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;
+    padding:5px 7px;border-bottom-width:2px;
+  }
+  .hudbox{
+    min-width:0;border-radius:14px;border-width:1.5px;gap:4px;
+    padding:3px 4px;font-size:10px;line-height:1;white-space:nowrap;overflow:hidden;
+  }
+  .hudbox span.value{font-size:15px;line-height:1}
+  .topbar .hudbox:nth-child(2){flex-direction:row!important}
+  .topbar .hudbox:nth-child(2)>span{display:flex;align-items:center;gap:2px}
+  .progress-mini{display:none}
+  .game-area{
+    width:100%;flex:1 1 auto;min-height:0;margin-top:0;padding:6px;
+    align-items:flex-start;justify-content:center;
+  }
+  .game-panel{
+    width:100%;max-width:100%;margin:0 auto;border-radius:18px;
+    border-width:2px;padding:7px;box-shadow:0 8px 18px rgba(49,101,109,.13);
+  }
+  .topic-board{
+    padding:5px 11px;border-radius:999px;border-width:1.5px;
+    font-size:12px;margin-bottom:6px;box-shadow:0 3px 8px rgba(157,112,22,.15);
+  }
+  .question-card{
+    min-height:0;padding:10px 11px;border-width:2px;border-radius:14px;
+    font-size:14px;line-height:1.28;text-align:left;
+  }
+  .options{grid-template-columns:1fr;gap:6px;margin-top:7px}
+  .option{
+    min-height:42px;border-radius:12px;border-width:2px;gap:8px;
+    padding:6px 9px;font-size:13px;line-height:1.2;box-shadow:0 3px 8px rgba(49,101,109,.10);
+  }
+  .option .letter{
+    width:28px;height:28px;font-size:15px;box-shadow:inset 0 -2px rgba(0,0,0,.16);
+  }
+  .feedback{
+    min-height:0;margin:7px auto 0;border-radius:12px;padding:7px 9px;
+    font-size:12px;line-height:1.25;
+  }
+  #nextBtn{
+    margin-top:7px;padding:8px 16px;border-radius:12px;font-size:14px;box-shadow:0 4px 0 #10564f;
+  }
+  .card{width:96%;padding:15px;border-radius:20px}
+  .logo{width:min(210px,62vw)}
+  h1{font-size:28px;margin:10px 0}
+  p{font-size:15px;line-height:1.35;margin:9px auto}
+  .badge{padding:6px 11px;font-size:13px}
+}
+@media(max-width:380px){
+  .topbar{height:44px;flex-basis:44px;padding:4px 5px;gap:4px}
+  .hudbox{font-size:9px;padding:2px 3px}
+  .hudbox span.value{font-size:14px}
+  .game-area{padding:4px}
+  .game-panel{padding:6px}
+  .topic-board{font-size:11px;margin-bottom:5px}
+  .question-card{font-size:13px;padding:8px 9px}
+  .options{gap:5px;margin-top:6px}
+  .option{min-height:39px;font-size:12.5px;padding:5px 8px}
+  .option .letter{width:25px;height:25px;font-size:14px}
+  .feedback{font-size:11.5px;padding:6px 8px}
 }
 </style>
 </head>
@@ -246,9 +306,9 @@ button:active{transform:translateY(5px);box-shadow:0 2px 0 #061349}
 
 <section class="screen" id="game">
   <div class="topbar">
-    <div class="hudbox">🏆 SCORE <span class="value" id="score">0</span></div>
-    <div class="hudbox" style="flex-direction:column">QUESTION <span><span class="value" id="qno">1</span> OF 10</span><div class="progress-mini"><span id="progress"></span></div></div>
-    <div class="hudbox">⏱ TIME <span class="value" id="time">60</span></div>
+    <div class="hudbox">SCORE <span class="value" id="score">0</span></div>
+    <div class="hudbox" style="flex-direction:column">Q <span><span class="value" id="qno">1</span>/10</span><div class="progress-mini"><span id="progress"></span></div></div>
+    <div class="hudbox">TIME <span class="value" id="time">60</span>s</div>
   </div>
 
   <div class="game-area">
