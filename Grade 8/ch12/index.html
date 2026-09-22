@@ -528,6 +528,193 @@ h1{
 }
 </style>
 
+
+<style>
+/* ===== Mobile full-screen content distribution fix ===== */
+@media(max-width:520px){
+
+  #game.active{
+    height:100vh!important;
+    height:100dvh!important;
+    min-height:100vh!important;
+    min-height:100dvh!important;
+    overflow:hidden!important;
+  }
+
+  .topbar{
+    flex:0 0 52px!important;
+    height:52px!important;
+    padding:6px!important;
+    gap:5px!important;
+  }
+
+  .stat{
+    font-size:12px!important;
+    padding:5px 4px!important;
+    border-radius:11px!important;
+  }
+
+  .gameArea{
+    flex:1 1 auto!important;
+    min-height:0!important;
+    height:auto!important;
+    padding:6px!important;
+    display:flex!important;
+    align-items:stretch!important;
+  }
+
+  .quizCard{
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    padding:8px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    overflow-y:auto!important;
+  }
+
+  .topicTag{
+    flex:0 0 auto!important;
+    font-size:14px!important;
+    padding:5px 12px!important;
+    margin-bottom:7px!important;
+  }
+
+  /* Give the question a larger, readable area */
+  .questionBox{
+    flex:0 0 clamp(145px,24dvh,210px)!important;
+    min-height:0!important;
+    padding:14px 12px!important;
+    font-size:clamp(17px,4.7vw,21px)!important;
+    line-height:1.30!important;
+    border-radius:15px!important;
+  }
+
+  /* Make the four answer choices fill the remaining screen */
+  .options{
+    flex:1 1 auto!important;
+    min-height:0!important;
+    width:100%!important;
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    grid-template-rows:repeat(4,minmax(62px,1fr))!important;
+    gap:8px!important;
+    margin-top:8px!important;
+  }
+
+  .option{
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    padding:10px 12px!important;
+    font-size:clamp(16px,4.4vw,20px)!important;
+    line-height:1.20!important;
+    border-radius:14px!important;
+  }
+
+  /* Do not waste screen space when no feedback is being shown */
+  .feedback:empty{
+    display:none!important;
+  }
+
+  .feedback:not(:empty){
+    display:block!important;
+    flex:0 0 auto!important;
+    min-height:0!important;
+    margin-top:8px!important;
+    padding:8px 10px!important;
+    font-size:13px!important;
+    line-height:1.25!important;
+  }
+
+  .nextBtn{
+    flex:0 0 auto!important;
+    position:sticky!important;
+    bottom:4px!important;
+    z-index:20!important;
+    width:min(230px,82%)!important;
+    min-height:46px!important;
+    margin:8px auto 2px!important;
+    padding:10px 18px!important;
+    font-size:15px!important;
+  }
+}
+
+/* Narrow phones */
+@media(max-width:390px){
+  .topbar{
+    height:48px!important;
+    flex-basis:48px!important;
+    padding:5px!important;
+    gap:4px!important;
+  }
+
+  .stat{
+    font-size:10.5px!important;
+  }
+
+  .gameArea{
+    padding:5px!important;
+  }
+
+  .quizCard{
+    padding:7px!important;
+  }
+
+  .topicTag{
+    font-size:13px!important;
+    padding:4px 10px!important;
+    margin-bottom:6px!important;
+  }
+
+  .questionBox{
+    flex-basis:clamp(135px,23dvh,190px)!important;
+    font-size:clamp(16px,4.6vw,18.5px)!important;
+    padding:12px 10px!important;
+  }
+
+  .options{
+    grid-template-rows:repeat(4,minmax(58px,1fr))!important;
+    gap:7px!important;
+  }
+
+  .option{
+    font-size:clamp(15px,4.3vw,18px)!important;
+    padding:9px 10px!important;
+  }
+}
+
+/* Very short displays: scroll rather than shrinking text */
+@media(max-width:520px) and (max-height:650px){
+  #game.active{
+    height:auto!important;
+    min-height:100dvh!important;
+    overflow:auto!important;
+  }
+
+  .gameArea{
+    min-height:calc(100dvh - 52px)!important;
+    overflow:visible!important;
+  }
+
+  .quizCard{
+    height:auto!important;
+    min-height:calc(100dvh - 64px)!important;
+    overflow:visible!important;
+  }
+
+  .questionBox{
+    flex:0 0 auto!important;
+    min-height:120px!important;
+  }
+
+  .options{
+    flex:0 0 auto!important;
+    grid-template-rows:repeat(4,minmax(56px,auto))!important;
+  }
+}
+</style>
+
 </head>
 <body>
 
