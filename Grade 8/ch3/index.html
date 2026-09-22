@@ -319,6 +319,50 @@ button:active{transform:translateY(5px);box-shadow:0 2px 0 #19145a}
   .option{font-size:14px;padding:7px 8px}
   .option .letter{width:32px;height:32px;font-size:17px}
 }
+
+
+/* Mobile alignment fix: keep HUD above the game panel, never beside it */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+
+@media(max-width:720px){
+  #game.screen.active{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    justify-content:flex-start;
+    width:100%;
+    min-height:100vh;
+  }
+  #game .topbar{
+    position:relative;
+    top:auto;
+    left:auto;
+    right:auto;
+    width:100%;
+    flex:0 0 auto;
+  }
+  #game .game-area{
+    width:100%;
+    max-width:100%;
+    margin:0;
+    padding:8px;
+    flex:1 0 auto;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+  }
+  #game .game-panel{
+    width:100%;
+    max-width:520px;
+    margin:0 auto;
+  }
+}
+
+@media(max-width:390px){
+  #game .game-area{padding:6px}
+  #game .game-panel{padding:9px}
+}
+
 </style>
 </head>
 <body>
