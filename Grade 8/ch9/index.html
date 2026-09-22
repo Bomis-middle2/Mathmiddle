@@ -392,6 +392,27 @@ html,body{
 }
 </style>
 
+
+<style>
+@media(max-width:650px){
+  .nextBtn{
+    display:none;
+    position:sticky;
+    bottom:6px;
+    z-index:50;
+    width:min(220px,80%);
+    align-self:center;
+    margin:8px auto 4px;
+    padding:12px 20px!important;
+    font-size:16px!important;
+    border-radius:14px!important;
+    background:#d95f18!important;
+    color:#fff!important;
+    box-shadow:0 5px 0 #8d3510,0 0 0 4px rgba(255,255,255,.96)!important;
+  }
+}
+</style>
+
 </head>
 <body>
 <audio id="correctSound" src="assets/correct.mp3"></audio>
@@ -466,7 +487,7 @@ const questions=[
 {customer:"👩‍💻",q:"An investment of ₹5,000 grows at 10% compound interest per year for 2 years. What maturity amount should appear?",options:["₹6,050","₹6,000","₹5,500","₹6,500"],answer:"₹6,050",explain:"After 1 year: ₹5500. After 2 years: ₹6050."}
 ];
 
-let shuffledQuestions=[],current=0,score=0,attempts=2,answered=false;
+let shuffledQuestions=[],current=0,score=0,attempts=2,answered=false,autoNextTimer=null;
 const splash=document.getElementById("splash"),intro=document.getElementById("intro"),game=document.getElementById("game"),result=document.getElementById("result");
 const quizCard=document.getElementById("quizCard"),customer=document.getElementById("customer"),questionText=document.getElementById("questionText"),optionsBox=document.getElementById("optionsBox"),feedback=document.getElementById("feedback"),nextBtn=document.getElementById("nextBtn");
 const scoreBadge=document.getElementById("scoreBadge"),progressBadge=document.getElementById("progressBadge"),attemptBadge=document.getElementById("attemptBadge"),moneyBurst=document.getElementById("moneyBurst"),cashDrawer=document.getElementById("cashDrawer");
@@ -477,8 +498,8 @@ function showScreen(screen){[splash,intro,game,result].forEach(s=>s.classList.re
 function shuffleArray(arr){return[...arr].sort(()=>Math.random()-.5)}
 function startGame(){shuffledQuestions=shuffleArray(questions);current=0;score=0;showScreen(game);loadQuestion()}
 function loadQuestion(){
-attempts=2;answered=false;feedback.textContent="";nextBtn.style.display="none";optionsBox.innerHTML="";
-quizCard.classList.remove("shake");cashDrawer.classList.remove("open");
+clearTimeout(autoNextTimer);attempts=2;answered=false;feedback.textContent="";nextBtn.style.display="none";optionsBox.innerHTML="";
+quizCard.classList.remove("shake");if(cashDrawer)cashDrawer.classList.remove("open");
 const item=shuffledQuestions[current];customer.textContent=item.customer;questionText.textContent=item.q;
 shuffleArray(item.options).forEach(option=>{
 const div=document.createElement("div");div.className="option";div.textContent=option;div.onclick=()=>checkAnswer(div,option);optionsBox.appendChild(div);
@@ -494,7 +515,7 @@ if(selectedOption===item.answer){
 answered=true;score++;selectedDiv.classList.add("correct");
 feedback.textContent="Correct! Bill completed successfully.";
 playSound(correctSound);setTimeout(()=>playSound(clapSound),350);
-cashDrawer.classList.add("open");createMoneyBurst();disableOptions();nextBtn.style.display="inline-block";
+disableOptions();nextBtn.style.display="inline-block";scheduleAutoNext();
 }else{
 attempts--;selectedDiv.classList.add("wrong");playSound(wrongSound);
 quizCard.classList.add("shake");setTimeout(()=>quizCard.classList.remove("shake"),450);
@@ -506,7 +527,17 @@ updateBadges();
 function showCorrectAnswer(answer){document.querySelectorAll(".option").forEach(opt=>{if(opt.textContent===answer)opt.classList.add("correct")})}
 function disableOptions(){document.querySelectorAll(".option").forEach(opt=>opt.classList.add("disabled"))}
 function updateBadges(){scoreBadge.textContent="⭐ Score: "+score;progressBadge.textContent="🧾 Bill: "+(current+1)+"/10";attemptBadge.textContent="Attempts: "+attempts}
-function nextQuestion(){current++;current>=shuffledQuestions.length?endGame():loadQuestion()}
+function scheduleAutoNext(){
+  clearTimeout(autoNextTimer);
+  autoNextTimer=setTimeout(()=>{
+    if(answered) nextQuestion();
+  },1400);
+}
+function nextQuestion(){
+  clearTimeout(autoNextTimer);
+  current++;
+  current>=shuffledQuestions.length?endGame():loadQuestion();
+}
 function endGame(){
 showScreen(result);document.getElementById("finalScore").textContent=score+" / 10";
 let msg=score>=9?"Excellent! You are a smart financial decision-maker.":score>=7?"Great work! You handled most bills accurately.":score>=5?"Good attempt! Revise discounts, profit/loss and interest.":"Keep practising. Focus on percentages and whether the amount increases or decreases.";
