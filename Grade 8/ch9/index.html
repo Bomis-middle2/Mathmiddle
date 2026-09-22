@@ -339,6 +339,59 @@ html,body{
 }
 </style>
 
+
+<style>
+/* ===== Clean competency-based visual treatment ===== */
+
+/* Replace fluorescent logo splash with a calm professional background */
+#splash{
+  background:linear-gradient(135deg,#e8f1f5 0%,#dce8ef 50%,#f3eee4 100%)!important;
+}
+#splash .logoBox{
+  background:#ffffff!important;
+  border:2px solid #c9d7df;
+  box-shadow:0 10px 28px rgba(37,62,78,.16)!important;
+  animation:none!important;
+}
+
+/* Remove all decorative mall/background animation from assessment screens */
+.mallBg{
+  display:none!important;
+}
+.store,.counter,.scanner,.coin,.drawer{
+  display:none!important;
+  animation:none!important;
+}
+
+/* Use a calm static background for competency-based questions */
+#intro,#game,#result{
+  background:
+    linear-gradient(rgba(255,255,255,.72),rgba(255,255,255,.72)),
+    linear-gradient(135deg,#dceaf0 0%,#f4ead9 100%)!important;
+}
+
+/* Keep interaction feedback simple and non-distracting */
+.customer{
+  animation:none!important;
+}
+.moneyBurst{
+  display:none!important;
+}
+.receipt:before{
+  display:none!important;
+}
+.quizCard{
+  box-shadow:0 12px 30px rgba(35,55,70,.16)!important;
+}
+.card{
+  border-color:#d7e1e6!important;
+}
+.challengeLabel{
+  background:#f0c96b!important;
+  color:#4b3a12!important;
+}
+</style>
+
 </head>
 <body>
 <audio id="correctSound" src="assets/correct.mp3"></audio>
@@ -350,8 +403,7 @@ html,body{
 </section>
 
 <section id="intro" class="screen">
-  <div class="mallBg">
-    <div class="store s1"></div><div class="store s2"></div><div class="counter"></div><div class="scanner"></div>
+<div class="store s2"></div><div class="counter"></div><div class="scanner"></div>
     <div class="coin c1">🪙</div><div class="coin c2">💰</div><div class="coin c3">💵</div><div class="coin c4">🪙</div>
   </div>
   <div class="card">
@@ -363,8 +415,7 @@ html,body{
 </section>
 
 <section id="game" class="screen">
-  <div class="mallBg">
-    <div class="store s1"></div><div class="store s2"></div><div class="counter"></div><div class="scanner"></div>
+<div class="store s2"></div><div class="counter"></div><div class="scanner"></div>
     <div class="coin c1">🪙</div><div class="coin c2">💰</div><div class="coin c3">💵</div><div class="coin c4">🪙</div>
     <div id="cashDrawer" class="drawer"></div>
   </div>
@@ -385,13 +436,10 @@ html,body{
     <div id="feedback" class="feedback"></div>
     <button id="nextBtn" class="nextBtn" onclick="nextQuestion()">Next Bill</button>
   </div>
-
-  <div id="moneyBurst" class="moneyBurst"></div>
 </section>
 
 <section id="result" class="screen">
-  <div class="mallBg">
-    <div class="store s1"></div><div class="store s2"></div><div class="counter"></div>
+<div class="store s2"></div><div class="counter"></div>
     <div class="coin c1">🪙</div><div class="coin c2">💰</div><div class="coin c3">💵</div><div class="coin c4">🪙</div>
   </div>
   <div class="card">
