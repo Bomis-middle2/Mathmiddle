@@ -745,7 +745,6 @@ const questions = [
 ];
 
 let order=[], answerPositions=[], current=0, score=0, attempts=0, timer, timeLeft=60, locked=false;
-const letters=["A","B","C","D"];
 
 setTimeout(()=>showScreen("intro"),5000);
 
@@ -795,7 +794,7 @@ function loadQuestion(){
     const div=document.createElement("div");
     div.className="option";
     div.dataset.correct=op.isCorrect ? "true" : "false";
-    div.innerHTML=`<span class="letter">${letters[i]}</span><span>${op.text}</span>`;
+    div.innerHTML=`<span>${op.text}</span>`;
     div.onclick=()=>selectOption(div);
     box.appendChild(div);
   });
