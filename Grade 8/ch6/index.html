@@ -39,6 +39,21 @@ body:before{
 }
 .active{display:flex}
 
+/* Light background only for the Innovine logo splash screen */
+#splash{
+  z-index:10;
+  background:#fff7e6 !important;
+}
+#splash .card{
+  background:#fff7e6;
+  border-color:transparent;
+  box-shadow:none;
+}
+#splash .logo{
+  display:block;
+  margin:auto;
+}
+
 .card{
   width:min(980px,96vw);
   border-radius:24px;
@@ -729,7 +744,7 @@ const questions = [
   }
 ];
 
-let order=[], current=0, score=0, attempts=0, timer, timeLeft=60, locked=false;
+let order=[], answerPositions=[], current=0, score=0, attempts=0, timer, timeLeft=60, locked=false;
 const letters=["A","B","C","D"];
 
 setTimeout(()=>showScreen("intro"),5000);
@@ -741,6 +756,9 @@ function showScreen(id){
 function shuffle(a){return a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);}
 function startGame(){
   order=shuffle([...Array(questions.length).keys()]);
+  // Balance the correct option across A, B, C and D, then randomise the sequence.
+  // For 10 questions this gives a near-even spread instead of repeatedly placing it first.
+  answerPositions=shuffle([...Array(questions.length)].map((_,i)=>i%4));
   current=0; score=0;
   document.getElementById("score").textContent=score;
   showScreen("game");
@@ -760,11 +778,25 @@ function loadQuestion(){
   document.getElementById("question").textContent=data.q;
   const box=document.getElementById("options");
   box.innerHTML="";
-  data.options.forEach((op,i)=>{
+
+  // Put the correct answer at a balanced random position (A/B/C/D),
+  // and independently shuffle the three distractors.
+  const correctOption={text:data.options[data.answer],isCorrect:true};
+  const distractors=shuffle(
+    data.options
+      .map((text,originalIndex)=>({text,isCorrect:false,originalIndex}))
+      .filter(op=>op.originalIndex!==data.answer)
+  );
+  const targetPosition=answerPositions[current];
+  const shuffledOptions=[...distractors];
+  shuffledOptions.splice(targetPosition,0,correctOption);
+
+  shuffledOptions.forEach((op,i)=>{
     const div=document.createElement("div");
     div.className="option";
-    div.innerHTML=`<span class="letter">${letters[i]}</span><span>${op}</span>`;
-    div.onclick=()=>selectOption(div,i);
+    div.dataset.correct=op.isCorrect ? "true" : "false";
+    div.innerHTML=`<span class="letter">${letters[i]}</span><span>${op.text}</span>`;
+    div.onclick=()=>selectOption(div);
     box.appendChild(div);
   });
   const panel=document.getElementById("gamePanel");
@@ -774,14 +806,14 @@ function loadQuestion(){
     if(timeLeft<=0){clearInterval(timer);revealAnswer("Time is up. The correct answer is shown below.");}
   },1000);
 }
-function selectOption(el,index){
+function selectOption(el){
   if(locked)return;
   document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
   el.classList.add("selected");
   const data=questions[order[current]];
   const fb=document.getElementById("feedback");
   fb.classList.remove("hidden");
-  if(index===data.answer){
+  if(el.dataset.correct==="true"){
     locked=true; clearInterval(timer);
     el.classList.add("correct");
     score+=10;
@@ -801,7 +833,7 @@ function selectOption(el,index){
 function revealAnswer(msg){
   locked=true; clearInterval(timer);
   const data=questions[order[current]];
-  document.querySelectorAll(".option").forEach((o,i)=>{if(i===data.answer)o.classList.add("correct");});
+  document.querySelectorAll(".option").forEach(o=>{if(o.dataset.correct==="true")o.classList.add("correct");});
   const fb=document.getElementById("feedback");
   fb.classList.remove("hidden");
   fb.textContent=msg+" "+data.exp;
